@@ -1,5 +1,6 @@
-package Input;
+package GameScene;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
@@ -25,8 +26,12 @@ public class GameSceneInput implements InputProcessor
 	}
 
 	@Override
-	public boolean keyUp(int keycode) 
+	public boolean keyUp(int keycode)
 	{
+		if(keycode == Input.Keys.NUM_1)
+		{
+			mScene.gameManager.swapGun();
+		}
 		return false;
 	}
 
