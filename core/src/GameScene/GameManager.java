@@ -4,15 +4,20 @@ package GameScene;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 
+import javax.security.auth.login.LoginException;
+
+import Misc.Log;
 import WeaponBase.BaseGun;
+import WeaponBase.BulletFactory;
 import Weapons.Pistol;
 import Weapons.RocketLauncher;
 
 public class GameManager
 {
 	public GameSceneNormal gameScene;
+	public BulletFactory bulletFactory;
 
-	BaseGun selectedGun;
+	public BaseGun selectedGun;
 	RocketLauncher rocketLauncher;
 	Pistol pistol;
 
@@ -21,28 +26,30 @@ public class GameManager
 	GameManager(GameSceneNormal mScene)
 	{
 		gameScene = mScene;
-
 		initGuns();
-
 		selectedGun = pistol;
+		loadResources();
+		bulletFactory = new BulletFactory(gameScene.act, gameScene);
 	}
 
 	public void loadResources(){}
 
 	public void initGuns()
 	{
-		rocketLauncher = new RocketLauncher(gameScene.act);
-		pistol = new Pistol(gameScene.act);
+		rocketLauncher = new RocketLauncher(gameScene.act, this);
+		pistol = new Pistol(gameScene.act, this);
 	}
 
 	public void run()
 	{
 		selectedGun.run();
+		bulletFactory.run();
 	}
 
 	public void draw()
 	{
 		selectedGun.draw(gameScene.getBatch());
+		bulletFactory.draw(gameScene.getBatch());
 	}
 
 	public void swapGun()

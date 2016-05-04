@@ -1,6 +1,7 @@
 package Physics;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,6 +26,16 @@ public class CzakBody
 		
 		if(pSprite != null)
 			mSprite.add(pSprite);
+	}
+
+	public CzakBody(Body pBody, Texture pTexture)
+	{
+		mBody = pBody;
+
+		mSprite = new ArrayList<Sprite>();
+
+		if(pTexture != null)
+			mSprite.add(new Sprite(pTexture));
 	}
 
 	public void draw(Batch batch)

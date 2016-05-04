@@ -32,6 +32,12 @@ public class GameSceneInput implements InputProcessor
 		{
 			mScene.gameManager.swapGun();
 		}
+
+		if(keycode == Input.Keys.CONTROL_LEFT)
+		{
+			mScene.gameManager.selectedGun.shoot();
+		}
+
 		return false;
 	}
 
@@ -44,14 +50,15 @@ public class GameSceneInput implements InputProcessor
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
 	{
 		Vector2 touchPos = GUI.convertTouchPos(mScene.getCamera(), screenX, screenY);
-		if(button == Buttons.LEFT)
+		/*if(button == Buttons.LEFT)
 		{
-			ObjectCreator.createBox(mScene.world, touchPos.x, touchPos.y);
+			//ObjectCreator.createBox(mScene.world, touchPos.x, touchPos.y);
 		}
 
 		if(button == Buttons.RIGHT)
 		{
 		}
+		*/
 
 		return false;
 	}

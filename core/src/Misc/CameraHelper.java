@@ -1,6 +1,7 @@
 package Misc;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class CameraHelper 
@@ -53,5 +54,30 @@ public class CameraHelper
 		float y = cam.position.y;
 		
 		cam.translate(-(x - toX), -(y - toY));
+	}
+
+	public static Vector2 rotatePoint(float cx,float cy,float angle,Vector2 p)
+	{
+		angle = (float)Math.toRadians(angle);
+		float s = (float)Math.sin(angle);
+		float c = (float)Math.cos(angle);
+
+		// translate point back to origin:
+		p.x -= cx;
+		p.y -= cy;
+
+		// rotate point
+		float xNew = p.x * c - p.y * s;
+		float yNew = p.x * s + p.y * c;
+
+		// translate point back:
+		p.x = xNew + cx;
+		p.y = yNew + cy;
+		return p;
+	}
+
+	public static float distance(float x1, float y1, float x2, float y2)
+	{
+		return (float) Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 	}
 }

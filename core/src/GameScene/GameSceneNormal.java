@@ -22,7 +22,7 @@ import SceneManager.SceneManager;
 public class GameSceneNormal extends BaseScene
 {
 	
-	public boolean isDebugRender = true;
+	public boolean isDebugRender = false;
 
 	SceneManager mSceneManager;
 	public GameSceneNormal(SceneManager sceneManager, Viewport v){super(sceneManager.act, v); mSceneManager = sceneManager;}
@@ -30,13 +30,14 @@ public class GameSceneNormal extends BaseScene
 	public OrthographicCamera camera;
 	public Box2DDebugRenderer debugRenderer;
 	public World world;
+	public GameSceneContactManager GSCM;
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
 	Batch spriteBatch;
 	public float gameSpeed = 60f;
 	
 	GAME_STAT gameStat;
-	GameManager gameManager;
+	public GameManager gameManager;
 	
 	@Override
 	public void loadResources() 
@@ -50,14 +51,16 @@ public class GameSceneNormal extends BaseScene
 			debugRenderer = new Box2DDebugRenderer(true, true, false, true, true, false);
 
 		gameManager = new GameManager(this);
-		gameManager.loadResources();
+
+		GSCM = new GameSceneContactManager(act, this);
+		world = new World(new Vector2(0, -9.8f), false);
+		world.setContactListener(GSCM.makeContact());
 	}
 
 	Entity tx;
 	@Override
 	public void create()
 	{
-		world = new World(new Vector2(0, -9.8f), false);
 		PhysicsFactory.createBoxBody(world, 0, 0, 800, 50, BodyDef.BodyType.StaticBody);
 
 		gameStat = GAME_STAT.PLAY;
