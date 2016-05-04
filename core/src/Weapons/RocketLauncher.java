@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import Bullets.RocketBullet;
+import Entity.AnimatedSprite;
 import Entity.Entity;
 import GameScene.GameManager;
 import Misc.TextureHelper;
@@ -20,6 +21,7 @@ public class RocketLauncher extends BaseGun
 
 		setPosition(100, 200);
 		shootingPoint.set(200, 42);
+
 	}
 	
 	@Override
@@ -44,5 +46,11 @@ public class RocketLauncher extends BaseGun
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		shoot();
 		return super.touchUp(screenX, screenY, pointer, button);
+	}
+
+	@Override
+	public void draw(Batch batch)
+	{
+		super.draw(batch);
 	}
 }

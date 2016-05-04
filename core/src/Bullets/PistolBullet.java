@@ -3,6 +3,7 @@ package Bullets;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
 
+import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Physics.CzakBody;
@@ -14,19 +15,23 @@ import heshmat.MainActivity;
 public class PistolBullet extends ThrowBullet
 {
 
-	public PistolBullet(MainActivity activity, int sz, float shootingSpeed)
+	public PistolBullet(int id, MainActivity activity, int sz, float shootingSpeed)
 	{
-		super(activity, sz, shootingSpeed);
+		super(id, activity, sz, shootingSpeed);
 
 		body = new CzakBody(PhysicsFactory.createBoxBody(bulletFactory.mScene.world, 0, 0, size, size, BodyDef.BodyType.DynamicBody),
 				bulletFactory.PistolBulletTexture);
 		body.getmSprite().get(0).setSize(size, size);
+		body.setUserData(BodyStrings.BulletPistolString + " " + id);
+
+		mGun = gameManager.pistol;
 	}
 
 
 	@Override
 	public void create()
 	{
+		shouldRelease = false;
 		isFree = false;
 		bulletType = BulletType.PISTOL;
 		body.getmBody().setGravityScale(0);
@@ -48,6 +53,12 @@ public class PistolBullet extends ThrowBullet
 	@Override
 	public void run()
 	{
+		if(shouldRelease)
+		{
+			release();
+			return;
+		}
+
 		if(body != null)
 		{
 			float x1 = startingPoint.x;
@@ -61,4 +72,9 @@ public class PistolBullet extends ThrowBullet
 			Log.e("PistolBullet run"," body is null");
 	}
 
+	@Override
+	public void release() {
+//		Log.e("PistolBullet", "release Pistol!");
+		super.release();
+	}
 }

@@ -20,20 +20,22 @@ public abstract class BaseBullet
 
 
 	public CzakBody body;
+	public boolean shouldRelease;
 	public boolean isFree;
 
 	public float mDamage;
 	public float shootingRange = 100;
 	public BulletType bulletType;
 	public Vector2 startingPoint = new Vector2();
+	public int index;
 
 
-	BaseBullet(MainActivity act)
+	BaseBullet(MainActivity act, int id)
 	{
 		this.act = act;
 		gameManager = act.sceneManager.gameScene.gameManager;
 		bulletFactory = gameManager.bulletFactory;
-
+		index = id;
 	}
 
 	public enum BulletType

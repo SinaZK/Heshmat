@@ -2,29 +2,27 @@ package WeaponBase;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.utils.compression.lzma.Base;
 
 import java.util.ArrayList;
 
 import Bullets.PistolBullet;
 import Bullets.RocketBullet;
-import GameScene.GameSceneNormal;
+import GameScene.GameScene;
 import Misc.Log;
 import Misc.TextureHelper;
-import Weapons.RocketLauncher;
 import heshmat.MainActivity;
 
 public class BulletFactory
 {
 	public MainActivity act;
-	public GameSceneNormal mScene;
+	public GameScene mScene;
 
 	public Texture PistolBulletTexture;
 	public Texture RocketBulletTexture;
 
-	ArrayList <BaseBullet> bullets = new ArrayList<BaseBullet>();
+	public ArrayList <BaseBullet> bullets = new ArrayList<BaseBullet>();
 
-	public BulletFactory(MainActivity a, GameSceneNormal pSceneNormal)
+	public BulletFactory(MainActivity a, GameScene pSceneNormal)
 	{
 		act = a;
 		mScene = pSceneNormal;
@@ -35,7 +33,6 @@ public class BulletFactory
 
 	public void run()
 	{
-		Log.e("Tag", "pool size = " + bullets.size());
 		for(int i = 0;i < bullets.size();i++)
 			if(!bullets.get(i).isFree)
 			{
@@ -57,10 +54,7 @@ public class BulletFactory
 	{
 		for(int i = 0;i < bullets.size();i++)
 			if(!bullets.get(i).isFree)
-			{
-//				Log.e("Tag", "Drawing bullet! id = " + i);
 				bullets.get(i).draw(batch);
-			}
 	}
 
 	public PistolBullet getPistolBullet()
@@ -72,7 +66,7 @@ public class BulletFactory
 				return (PistolBullet)bullets.get(i);
 			}
 
-		PistolBullet pistolBullet = new PistolBullet(act, 5, 10);
+		PistolBullet pistolBullet = new PistolBullet(bullets.size(), act, 5, 10);
 		pistolBullet.create();
 		bullets.add(pistolBullet);
 
@@ -88,11 +82,10 @@ public class BulletFactory
 				return (RocketBullet)bullets.get(i);
 			}
 
-		RocketBullet rocketBullet = new RocketBullet(act, 10, 8, 7);
+		RocketBullet rocketBullet = new RocketBullet(bullets.size(), act, 10, 8, 5);
 		rocketBullet.create();
 		bullets.add(rocketBullet);
 
 		return  rocketBullet;
 	}
-
 }

@@ -2,14 +2,15 @@ package SceneManager;
 
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import GameScene.GameScene;
 import PurchaseIAB.purchaseIAB;
 import Scene.BaseScene;
-import GameScene.GameSceneNormal;
 import Scene.MainMenuScene;
 import heshmat.MainActivity;
 
 public class SceneManager 
 {
+
 	public static int WORLD_X = 800;
 	public static int WORLD_Y = 480;
 
@@ -43,14 +44,13 @@ public class SceneManager
 
 	BaseScene blankScene;
 	MainMenuScene mainMenuScene;
-	public GameSceneNormal gameScene;
+	public GameScene gameScene;
 
 	public SCENES getCurrentScene(){return currentScene;}
 	public void setCurrentScene(SCENES currentScene)
 	{
 		this.currentScene = currentScene;
-
-		switch (currentScene) 
+		switch (currentScene)
 		{
 		case BLANK:
 			blankScene = new BaseScene(act, new ExtendViewport(WORLD_X, WORLD_Y));
@@ -67,7 +67,7 @@ public class SceneManager
 			break;
 			
 		case GAME_SCENE:
-			gameScene = new GameSceneNormal(this, new ExtendViewport(WORLD_X, WORLD_Y));
+			gameScene = new GameScene(this, new ExtendViewport(WORLD_X, WORLD_Y));
 			createAndStuff(gameScene);
 			currentBaseScene = gameScene;
 			break;

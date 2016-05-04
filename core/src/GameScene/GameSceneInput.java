@@ -1,19 +1,16 @@
 package GameScene;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
 import Misc.GUI;
-import Misc.ObjectCreator;
-import GameScene.GameSceneNormal;
 
 public class GameSceneInput implements InputProcessor 
 {
-	GameSceneNormal mScene;
-	
-	public GameSceneInput(GameSceneNormal gs) 
+	GameScene mScene;
+
+	public GameSceneInput(GameScene gs)
 	{
 		mScene = gs;
 	}

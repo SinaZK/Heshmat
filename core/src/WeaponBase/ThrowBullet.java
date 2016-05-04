@@ -14,9 +14,9 @@ public class ThrowBullet extends BaseBullet
 	public int size;
 	public float shootingSpeed;
 
-	public ThrowBullet(MainActivity act, int sz, float shootingSpeed)
+	public ThrowBullet(int id, MainActivity act, int sz, float shootingSpeed)
 	{
-		super(act);
+		super(act, id);
 
 		this.shootingSpeed = shootingSpeed;
 		size = sz;
@@ -57,7 +57,8 @@ public class ThrowBullet extends BaseBullet
 	}
 
 	@Override
-	public void hitByGround() {
-
+	public void hitByGround()
+	{
+		shouldRelease = true;
 	}
 }

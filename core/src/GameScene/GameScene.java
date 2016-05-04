@@ -13,19 +13,20 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import Entity.Entity;
+import Entity.*;
+import Misc.BodyStrings;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
 import Scene.BaseScene;
 import SceneManager.SceneManager;
 
-public class GameSceneNormal extends BaseScene
+public class GameScene extends BaseScene
 {
 	
 	public boolean isDebugRender = false;
 
 	SceneManager mSceneManager;
-	public GameSceneNormal(SceneManager sceneManager, Viewport v){super(sceneManager.act, v); mSceneManager = sceneManager;}
+	public GameScene(SceneManager sceneManager, Viewport v){super(sceneManager.act, v); mSceneManager = sceneManager;}
 	
 	public OrthographicCamera camera;
 	public Box2DDebugRenderer debugRenderer;
@@ -38,6 +39,9 @@ public class GameSceneNormal extends BaseScene
 	
 	GAME_STAT gameStat;
 	public GameManager gameManager;
+
+	AnimatedSprite animatedSprite;
+
 	
 	@Override
 	public void loadResources() 
@@ -61,7 +65,7 @@ public class GameSceneNormal extends BaseScene
 	@Override
 	public void create()
 	{
-		PhysicsFactory.createBoxBody(world, 0, 0, 800, 50, BodyDef.BodyType.StaticBody);
+		PhysicsFactory.createBoxBody(world, 0, 0, 800, 50, BodyDef.BodyType.StaticBody).setUserData(BodyStrings.GroundString);
 
 		gameStat = GAME_STAT.PLAY;
 
@@ -121,12 +125,10 @@ public class GameSceneNormal extends BaseScene
 	{
 		spriteBatch.begin();
 
-
 		gameManager.draw();
 
 
 		drawFPS();
-
 		spriteBatch.end();
 		
 		if(isDebugRender)
