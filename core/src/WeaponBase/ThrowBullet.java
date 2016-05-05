@@ -26,6 +26,11 @@ public class ThrowBullet extends BaseBullet
 	@Override
 	public void create()
 	{
+		isFree = false;
+		body.getmBody().getFixtureList().get(0).setSensor(false);
+		body.getmBody().setBullet(true);
+		body.getmBody().setActive(true);
+		shouldRelease = false;
 	}
 
 	@Override
@@ -43,7 +48,7 @@ public class ThrowBullet extends BaseBullet
 	@Override
 	public void release() {
 
-		body.getmBody().setGravityScale(0);
+		body.getmBody().setActive(false);
 		body.getmBody().setLinearVelocity(0, 0);
 		body.getmBody().getFixtureList().get(0).setSensor(true);
 		body.setPosition(10 / PhysicsConstant.PIXEL_TO_METER, 10 / PhysicsConstant.PIXEL_TO_METER);

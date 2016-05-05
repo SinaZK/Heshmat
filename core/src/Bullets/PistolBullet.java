@@ -14,6 +14,7 @@ import heshmat.MainActivity;
 
 public class PistolBullet extends ThrowBullet
 {
+	private static int SHOOTING_RANGE = 850;
 
 	public PistolBullet(int id, MainActivity activity, int sz, float shootingSpeed)
 	{
@@ -31,20 +32,17 @@ public class PistolBullet extends ThrowBullet
 	@Override
 	public void create()
 	{
-		shouldRelease = false;
-		isFree = false;
+		super.create();
+
 		bulletType = BulletType.PISTOL;
 		body.getmBody().setGravityScale(0);
-		body.getmBody().getFixtureList().get(0).setSensor(false);
-		body.getmBody().setBullet(true);
-		shootingRange = 350;
+		shootingRange = SHOOTING_RANGE;
 	}
 
 	@Override
 	public void shoot(float x, float y, float teta)
 	{
 		super.shoot(x, y, teta);
-
 
 		float V = shootingSpeed;
 		body.getmBody().setLinearVelocity(V * (float)Math.cos(Math.toRadians(teta)), V * (float)Math.sin(Math.toRadians(teta)));
@@ -74,7 +72,6 @@ public class PistolBullet extends ThrowBullet
 
 	@Override
 	public void release() {
-//		Log.e("PistolBullet", "release Pistol!");
 		super.release();
 	}
 }

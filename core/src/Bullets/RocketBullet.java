@@ -44,14 +44,12 @@ public class RocketBullet extends ThrowBullet
 	@Override
 	public void create()
 	{
-		waitForExplosion = false;
-		shouldRelease = false;
-		isFree = false;
+		super.create();
+
 		bulletType = BulletType.ROCKET_LAUNCHER;
-		body.getmBody().setGravityScale(1);
-		body.getmBody().getFixtureList().get(0).setSensor(false);
-		body.getmBody().setBullet(true);
-		shootingRange = 150;
+		waitForExplosion = false;
+		shootingRange = 550;
+
 	}
 
 	@Override
@@ -106,6 +104,7 @@ public class RocketBullet extends ThrowBullet
 		explode();
 		super.release();
 		isFree = false;
+		body.getmBody().setActive(false);
 	}
 
 	@Override

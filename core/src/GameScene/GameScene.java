@@ -23,7 +23,7 @@ import SceneManager.SceneManager;
 public class GameScene extends BaseScene
 {
 	
-	public boolean isDebugRender = false;
+	public boolean isDebugRender = true;
 
 	SceneManager mSceneManager;
 	public GameScene(SceneManager sceneManager, Viewport v){super(sceneManager.act, v); mSceneManager = sceneManager;}
@@ -52,7 +52,7 @@ public class GameScene extends BaseScene
 		spriteBatch = getBatch();
 		
 		if(isDebugRender)
-			debugRenderer = new Box2DDebugRenderer(true, true, false, true, true, false);
+			debugRenderer = new Box2DDebugRenderer(true, true, false, true, false, false);
 
 		gameManager = new GameManager(this);
 
