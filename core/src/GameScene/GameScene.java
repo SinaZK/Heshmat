@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import Enemy.Pigeon;
 import Entity.*;
 import Misc.BodyStrings;
 import PhysicsFactory.PhysicsConstant;
@@ -70,6 +71,7 @@ public class GameScene extends BaseScene
 		gameStat = GAME_STAT.PLAY;
 
 		setInput();
+
 	}
 	
 	@Override

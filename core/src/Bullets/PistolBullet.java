@@ -23,7 +23,7 @@ public class PistolBullet extends ThrowBullet
 		body = new CzakBody(PhysicsFactory.createBoxBody(bulletFactory.mScene.world, 0, 0, size, size, BodyDef.BodyType.DynamicBody),
 				bulletFactory.PistolBulletTexture);
 		body.getmSprite().get(0).setSize(size, size);
-		body.setUserData(BodyStrings.BulletPistolString + " " + id);
+		body.setUserData(BodyStrings.BULLET_STRING + " " + BodyStrings.BulletPistolString + " " + id);
 
 		mGun = gameManager.pistol;
 	}
@@ -37,6 +37,7 @@ public class PistolBullet extends ThrowBullet
 		bulletType = BulletType.PISTOL;
 		body.getmBody().setGravityScale(0);
 		shootingRange = SHOOTING_RANGE;
+		mDamage = 4;
 	}
 
 	@Override

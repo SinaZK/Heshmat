@@ -1,6 +1,10 @@
 package GameScene;
 
 
+import Enemy.Pigeon;
+import EnemyBase.EnemyFactory;
+import Entity.HPBarSprite;
+import Misc.Log;
 import WeaponBase.BaseGun;
 import WeaponBase.BulletFactory;
 import Weapons.Pistol;
@@ -10,10 +14,13 @@ public class GameManager
 {
 	public GameScene gameScene;
 	public BulletFactory bulletFactory;
+	public EnemyFactory enemyFactory;
 
 	public BaseGun selectedGun;
 	public RocketLauncher rocketLauncher;
 	public Pistol pistol;
+
+	public HPBarSprite hpBarSprite;
 
 	int selectedGunNumber = 0;
 
@@ -24,6 +31,8 @@ public class GameManager
 		selectedGun = pistol;
 		loadResources();
 		bulletFactory = new BulletFactory(gameScene.act, gameScene);
+		enemyFactory = new EnemyFactory(gameScene.act, gameScene);
+		hpBarSprite = new HPBarSprite("gfx/hpbar.png", 7, 1, gameScene.disposeTextureArray);
 	}
 
 	public void loadResources(){}
@@ -38,11 +47,13 @@ public class GameManager
 	{
 		selectedGun.run();
 		bulletFactory.run();
+		enemyFactory.run();
 	}
 
 	public void draw()
 	{
 		selectedGun.draw(gameScene.getBatch());
+		enemyFactory.draw(gameScene.getBatch());
 		bulletFactory.draw(gameScene.getBatch());
 	}
 

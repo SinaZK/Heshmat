@@ -62,6 +62,12 @@ public class ThrowBullet extends BaseBullet
 	}
 
 	@Override
+	public void hitByEnemy(String enemyData)
+	{
+		shouldRelease = true;
+	}
+
+	@Override
 	public void hitByGround()
 	{
 		shouldRelease = true;

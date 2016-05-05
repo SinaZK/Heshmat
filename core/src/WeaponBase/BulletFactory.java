@@ -50,7 +50,7 @@ public class BulletFactory
 			}
 	}
 
-	public void  draw(Batch batch)
+	public void draw(Batch batch)
 	{
 		for(int i = 0;i < bullets.size();i++)
 			if(!bullets.get(i).isFree)
@@ -88,4 +88,5 @@ public class BulletFactory
 
 		return  rocketBullet;
 	}
+
 }

@@ -5,9 +5,13 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.utils.compression.lzma.Base;
 
+import EnemyBase.BaseEnemy;
+import EnemyBase.EnemyFactory;
 import Misc.BodyStrings;
 import Misc.Log;
+import WeaponBase.BaseBullet;
 import WeaponBase.BulletFactory;
 import heshmat.MainActivity;
 
@@ -17,6 +21,7 @@ public class GameSceneContactManager
 	MainActivity act;
 	GameManager gameManager;
 	BulletFactory bulletFactory;
+	EnemyFactory enemyFactory;
 
 	GameSceneContactManager(MainActivity act, GameScene gs)
 	{
@@ -24,6 +29,7 @@ public class GameSceneContactManager
 		mScene = gs;
 		gameManager = mScene.gameManager;
 		bulletFactory = gameManager.bulletFactory;
+		enemyFactory = gameManager.enemyFactory;
 	}
 
 	public ContactListener makeContact()
@@ -32,6 +38,24 @@ public class GameSceneContactManager
 			@Override
 			public void beginContact(Contact contact)
 			{
+				String s1 = (String)contact.getFixtureA().getBody().getUserData();
+				String s2 = (String)contact.getFixtureB().getBody().getUserData();
+
+				if(BodyStrings.isBullet(s1) && BodyStrings.isBullet(s2))
+					handleBulletToBullet(contact, s1, s2);
+
+				if(BodyStrings.isBullet(s1) && s2.equals(BodyStrings.GroundString))
+					handleBulletToGround(contact, BaseBullet.getBulletID(s1));
+
+				if(BodyStrings.isBullet(s2) && s1.equals(BodyStrings.GroundString))
+					handleBulletToGround(contact, BaseBullet.getBulletID(s2));
+
+				if(BodyStrings.isBullet(s1) && BodyStrings.isEnemy(s2))
+					handleBulletToEnemy(contact, s1, s2);
+
+				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
+					handleBulletToEnemy(contact, s2, s1);
+
 			}
 
 			@Override
@@ -48,17 +72,6 @@ public class GameSceneContactManager
 			@Override
 			public void postSolve(Contact contact, ContactImpulse impulse)
 			{
-				String s1 = (String)contact.getFixtureA().getBody().getUserData();
-				String s2 = (String)contact.getFixtureB().getBody().getUserData();
-
-				if(BodyStrings.FullStringIsBullet(s1) && BodyStrings.FullStringIsBullet(s2))
-					handleBulletToBullet(contact, s1, s2);
-
-				if(BodyStrings.FullStringIsBullet(s1) && s2.equals(BodyStrings.GroundString))
-					handleBulletToGround(contact, BodyStrings.getIndexOf(s1));
-
-				if(BodyStrings.FullStringIsBullet(s2) && s1.equals(BodyStrings.GroundString))
-					handleBulletToGround(contact, BodyStrings.getIndexOf(s2));
 			}
 		};
 
@@ -67,9 +80,8 @@ public class GameSceneContactManager
 
 	public void handleBulletToBullet(Contact contact, String data1, String data2)
 	{
-//		Log.e("GameSceneContactManager", "collision : " + data1 + " and " + data2);
-		int i1 = BodyStrings.getIndexOf(data1);
-		int i2 = BodyStrings.getIndexOf(data2);
+		int i1 = BaseBullet.getBulletID(data1);
+		int i2 = BaseBullet.getBulletID(data2);
 
 		bulletFactory.bullets.get(i1).shouldRelease = true;
 		bulletFactory.bullets.get(i2).shouldRelease = true;
@@ -78,5 +90,16 @@ public class GameSceneContactManager
 	public void handleBulletToGround(Contact contact, int bulletID)
 	{
 		bulletFactory.bullets.get(bulletID).hitByGround();
+	}
+
+	public void handleBulletToEnemy(Contact contact, String bulletData, String enemyData)
+	{
+		int bulletID = BaseBullet.getBulletID(bulletData);
+		int enemyID = BaseEnemy.getEnemyID(enemyData);
+
+		bulletFactory.bullets.get(bulletID).hitByEnemy(enemyData);
+		enemyFactory.enemies.get(enemyID).hitByBullet(bulletData);
+
+		contact.setEnabled(false);
 	}
 }

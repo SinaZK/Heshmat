@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+import Enemy.Pigeon;
 import Misc.GUI;
 
 public class GameSceneInput implements InputProcessor 
@@ -28,6 +29,12 @@ public class GameSceneInput implements InputProcessor
 		if(keycode == Input.Keys.NUM_1)
 		{
 			mScene.gameManager.swapGun();
+		}
+
+		if(keycode == Input.Keys.NUM_2)
+		{
+			Pigeon p = mScene.gameManager.enemyFactory.getPigeon();
+			p.setPosition(400, 200);
 		}
 
 		if(keycode == Input.Keys.CONTROL_LEFT)
