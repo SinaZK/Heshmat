@@ -15,6 +15,7 @@ public class CzakBody
 {
 	Body mBody;
 	ArrayList<Sprite> mSprite;
+	public String bodyName;
 
 	public CzakBody() {mSprite = new ArrayList<Sprite>();}
 

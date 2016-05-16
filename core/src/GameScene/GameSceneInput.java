@@ -56,7 +56,7 @@ public class GameSceneInput implements InputProcessor
 		Vector2 touchPos = GUI.convertTouchPos(mScene.getCamera(), screenX, screenY);
 		/*if(button == Buttons.LEFT)
 		{
-			//ObjectCreator.createBox(mScene.world, touchPos.x, touchPos.y);
+			//ObjectCreator.createBox(polygonSpriteBatch.world, touchPos.x, touchPos.y);
 		}
 
 		if(button == Buttons.RIGHT)

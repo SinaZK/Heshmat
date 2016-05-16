@@ -1,6 +1,8 @@
 package GameScene;
 
 
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+
 import Enemy.Pigeon;
 import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
@@ -13,6 +15,7 @@ import Weapons.RocketLauncher;
 public class GameManager
 {
 	public GameScene gameScene;
+	public LevelManager levelManager;
 	public BulletFactory bulletFactory;
 	public EnemyFactory enemyFactory;
 
@@ -33,6 +36,9 @@ public class GameManager
 		bulletFactory = new BulletFactory(gameScene.act, gameScene);
 		enemyFactory = new EnemyFactory(gameScene.act, gameScene);
 		hpBarSprite = new HPBarSprite("gfx/hpbar.png", 7, 1, gameScene.disposeTextureArray);
+
+		levelManager = new LevelManager(this);
+		levelManager.createTestLVL();
 	}
 
 	public void loadResources(){}
@@ -48,13 +54,20 @@ public class GameManager
 		selectedGun.run();
 		bulletFactory.run();
 		enemyFactory.run();
+		levelManager.run();
 	}
 
 	public void draw()
 	{
+		levelManager.drawOnBatch(gameScene.getBatch());
 		selectedGun.draw(gameScene.getBatch());
 		enemyFactory.draw(gameScene.getBatch());
 		bulletFactory.draw(gameScene.getBatch());
+	}
+
+	public void drawOnPolygonBatch(PolygonSpriteBatch polygonSpriteBatch)
+	{
+		levelManager.drawOnPolygonSpriteBatch(polygonSpriteBatch);
 	}
 
 	public void swapGun()
