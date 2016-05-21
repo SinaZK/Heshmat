@@ -51,7 +51,7 @@ public class Button extends Entity
 			}
 		});
 	}
-	
+
 	@Override
 	protected void positionChanged() 
 	{
@@ -92,7 +92,7 @@ public class Button extends Entity
 		clickedSprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		normalSprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		setOrigin(getWidth() / 2, getHeight() / 2);
-		Sprite toDraw = null;
+		Sprite toDraw;
 		
 		if(isClicked)
 			toDraw = clickedSprite;

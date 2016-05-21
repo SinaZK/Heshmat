@@ -11,13 +11,15 @@ import heshmat.MainActivity;
  * 17:26
  */
 
-public class LevelManager {
+public class LevelManager
+{
 	MainActivity act;
 	GameScene gameScene;
 	GameManager gameManager;
 	BaseLevel currentLevel;
 
-	public LevelManager(GameManager gameManager) {
+	public LevelManager(GameManager gameManager)
+	{
 		this.gameManager = gameManager;
 		gameScene = gameManager.gameScene;
 		act = this.gameManager.gameScene.act;
@@ -29,11 +31,13 @@ public class LevelManager {
 		currentLevel.load("gfx/lvl/test/");
 	}
 
-	public void drawOnBatch(Batch batch) {
+	public void drawOnBatch(Batch batch)
+	{
 		currentLevel.drawOnBatch(batch);
 	}
 
-	public void drawOnPolygonSpriteBatch(PolygonSpriteBatch polygonSpriteBatch) {
+	public void drawOnPolygonSpriteBatch(PolygonSpriteBatch polygonSpriteBatch)
+	{
 		currentLevel.drawOnPolygonBatch(polygonSpriteBatch);
 	}
 
@@ -41,7 +45,6 @@ public class LevelManager {
 	{
 		currentLevel.run();
 	}
-
 
 
 	public enum LevelMode

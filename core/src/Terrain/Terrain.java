@@ -201,7 +201,6 @@ public class Terrain
 	{
 		float lastVisible = CameraHelper.getXMax(mCamera, mCamera.zoom * 1.5f);
 
-//		Log.e("Terrain.java", "lastVisible = " + lastVisible + " lastX = " + Points.getLast().x);
 		while (lastVisible >= Points.getLast().x)
 		{
 			Vector2 prevPoint = Points.get(Points.size() - 2);
@@ -211,7 +210,6 @@ public class Terrain
 			float height = getHeight((int) ((int) lastPoint.x / xSize + 1));
 			Points.add(new Vector2(lastPoint.x + xSize, height));
 
-			Log.e("Terrain.java", "ADDING ");
 			addLastPiece();
 		}
 
@@ -242,7 +240,6 @@ public class Terrain
 
 	public void addLastPiece()
 	{
-		//		Log.e("Tag", "Ct = " + ct++);
 		int sz = Points.size();
 
 		float x1 = Points.get(sz - 2).x;
@@ -328,7 +325,6 @@ public class Terrain
 		stoneDist = terrainLoader.stoneDist;
 		bumperDist = terrainLoader.bumperDist;
 		bridgeDist = terrainLoader.bridgeDist;
-//		Log.e("Tag", "att1 = " + sandDist + " att2 = " + stoneDist + " maxA = " + bumperDist + " maxB2 = " + bridgeDist);
 	}
 
 	private float getHeight(int pPosition)

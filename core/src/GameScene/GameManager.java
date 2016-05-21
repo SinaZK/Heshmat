@@ -1,7 +1,11 @@
 package GameScene;
 
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import java.util.ArrayList;
 
 import Enemy.Pigeon;
 import EnemyBase.EnemyFactory;
@@ -41,7 +45,10 @@ public class GameManager
 		levelManager.createTestLVL();
 	}
 
-	public void loadResources(){}
+	public void loadResources()
+	{
+
+	}
 
 	public void initGuns()
 	{

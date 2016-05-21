@@ -4,28 +4,49 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
+
 import Enemy.Pigeon;
 import Misc.GUI;
+import Misc.Log;
 
 public class GameSceneInput implements InputProcessor 
 {
 	GameScene mScene;
 
+	public ArrayList<Integer> doAbleKeys = new ArrayList<Integer>();
+	public ArrayList<Boolean> isKeypressed = new ArrayList<Boolean>();
+
 	public GameSceneInput(GameScene gs)
 	{
 		mScene = gs;
+		for(int i = 0;i < 100;i++)
+			isKeypressed.add(false);
+
+		doAbleKeys.add(Input.Keys.UP);
+		doAbleKeys.add(Input.Keys.DOWN);
 	}
 	
 	@Override
 	public boolean keyDown(int keycode) 
 	{
-		//if(keycode == Keys.DOWN)
+		for(int i = 0;i < doAbleKeys.size();i++)
+			if(doAbleKeys.get(i) == keycode)
+				isKeypressed.set(i, true);
+
+		if(keycode == Input.Keys.T)
+			mScene.train.shouldCollapsed = true;
+
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int keycode)
 	{
+		for(int i = 0;i < doAbleKeys.size();i++)
+			if(doAbleKeys.get(i) == keycode)
+				isKeypressed.set(i, false);
+
 		if(keycode == Input.Keys.NUM_1)
 		{
 			mScene.gameManager.swapGun();
@@ -87,6 +108,15 @@ public class GameSceneInput implements InputProcessor
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	public boolean isKeyPressed(int keycode)
+	{
+		for(int i = 0;i < doAbleKeys.size();i++)
+			if(doAbleKeys.get(i) == keycode)
+				return isKeypressed.get(i);
+
 		return false;
 	}
 
