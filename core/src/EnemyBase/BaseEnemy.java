@@ -2,11 +2,13 @@ package EnemyBase;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import BaseLevel.ShootingMode;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
+import WeaponBase.BaseBullet;
 import heshmat.MainActivity;
 
 /*
@@ -21,6 +23,7 @@ public abstract class BaseEnemy
 	MainActivity act;
 	public GameManager gameManager;
 	public EnemyFactory enemyFactory;
+	public ShootingMode shootingMode;
 
 	public CzakBody mainBody;
 	public boolean shouldRelease;
@@ -40,19 +43,28 @@ public abstract class BaseEnemy
 	{
 		this.act = act;
 		gameManager = act.sceneManager.gameScene.gameManager;
-//		if(gameManager == null)
-//			Log.e("BaseEnemy.java", "game manager is null");
-//		if(this.act.sceneManager.gameScene.gameManager == null)
-//			Log.e("BaseEnemy.java", "act is null");
 		enemyFactory = gameManager.enemyFactory;
 		index = id;
 	}
 
-	public abstract void create();
-	public abstract void hitByBullet(String bulletData);
+	public void create(ShootingMode shootingMode)
+	{
+		this.shootingMode = shootingMode;
+	}
+	public void hitByBullet(String bulletData)
+	{
+		int bulletID = BaseBullet.getBulletID(bulletData);
+		damage(gameManager.bulletFactory.bullets.get(bulletID).mDamage);
+	}
+	public void hitByCar()
+	{
+	}
 	public abstract void move();
 	public abstract void attack();
-	public abstract void release();
+	public void release()
+	{
+		shootingMode.enemyDied++;
+	};
 
 	public void setPosition(float X, float Y)
 	{

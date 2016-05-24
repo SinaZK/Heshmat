@@ -39,7 +39,7 @@ public class RocketBullet extends ThrowBullet
 		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 12, 12, 0.95f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
 
-		mGun = gameManager.rocketLauncher;
+		mGun = gameManager.gunManager.rocketLauncher;
 
 		explosionDamageLength = 150;
 		mDamage = 50;

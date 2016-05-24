@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import BaseLevel.BaseLevel;
+import BaseLevel.DrivingMode;
+import BaseLevel.ShootingMode;
+import Misc.Log;
 import heshmat.MainActivity;
+
 
 /**
  * Created by sinazk on 5/14/16.
@@ -13,10 +17,11 @@ import heshmat.MainActivity;
 
 public class LevelManager
 {
-	MainActivity act;
-	GameScene gameScene;
-	GameManager gameManager;
-	BaseLevel currentLevel;
+	public MainActivity act;
+	public GameScene gameScene;
+	public GameManager gameManager;
+	public BaseLevel currentLevel;
+	public GameScene.LevelMode levelMode;
 
 	public LevelManager(GameManager gameManager)
 	{
@@ -25,10 +30,12 @@ public class LevelManager
 		act = this.gameManager.gameScene.act;
 	}
 
-	public void createTestLVL()
+	public void create(String add)
 	{
 		currentLevel = new BaseLevel(gameManager);
 		currentLevel.load("gfx/lvl/test/");
+
+		currentLevel.levelParts.get(0).start();
 	}
 
 	public void drawOnBatch(Batch batch)
@@ -44,11 +51,12 @@ public class LevelManager
 	public void run()
 	{
 		currentLevel.run();
-	}
 
+		if(currentLevel.currentPart >= currentLevel.levelParts.size())
+			return;
 
-	public enum LevelMode
-	{
-		Shooting, Driving
+		currentLevel.levelParts.get(currentLevel.currentPart).run();
+
+//		Log.e("LevelManager.java", "Mode = " + levelMode);
 	}
 }

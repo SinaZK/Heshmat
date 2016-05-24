@@ -1,22 +1,24 @@
 package HUD;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Entity.Button;
-import GameScene.GameScene;
+import GameScene.*;
 import Misc.TextureHelper;
 
 /**
  * Created by sinazk on 5/21/16.
  * 6:03
  */
-public class DrivingHUD extends HUD
+public class ShootingHUD extends HUD
 {
-	public DrivingHUD(GameScene gameScene, Viewport viewport)
+
+	public ShootingHUD(final GameScene gameScene, Viewport viewport)
 	{
 		super(gameScene, viewport);
+
+
 	}
 
 	@Override
@@ -29,7 +31,5 @@ public class DrivingHUD extends HUD
 	public void draw()
 	{
 		super.draw();
-
-
 	}
 }

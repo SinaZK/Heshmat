@@ -56,6 +56,14 @@ public class GameSceneContactManager
 				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
 					handleBulletToEnemy(contact, s2, s1);
 
+//				if(s1.equals(BodyStrings.FINISH_MODE_STRING) || s2.equals(BodyStrings.FINISH_MODE_STRING))
+//					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " collided");
+
+				if(BodyStrings.isCar(s1) && s2.equals(BodyStrings.FINISH_MODE_STRING))
+					handleFinishBody(contact, s1);
+
+				if(BodyStrings.isCar(s2) && s1.equals(BodyStrings.FINISH_MODE_STRING))
+					handleFinishBody(contact, s2);
 			}
 
 			@Override
@@ -83,8 +91,8 @@ public class GameSceneContactManager
 		int i1 = BaseBullet.getBulletID(data1);
 		int i2 = BaseBullet.getBulletID(data2);
 
-		bulletFactory.bullets.get(i1).shouldRelease = true;
-		bulletFactory.bullets.get(i2).shouldRelease = true;
+		bulletFactory.bullets.get(i1).hitByBullet(data2);
+		bulletFactory.bullets.get(i2).hitByBullet(data1);
 	}
 
 	public void handleBulletToGround(Contact contact, int bulletID)
@@ -99,6 +107,15 @@ public class GameSceneContactManager
 
 		bulletFactory.bullets.get(bulletID).hitByEnemy(enemyData);
 		enemyFactory.enemies.get(enemyID).hitByBullet(bulletData);
+
+		contact.setEnabled(false);
+	}
+
+	public void handleFinishBody(Contact contact, String carData)
+	{
+//		Log.e("GameSceneContactManager.java", "Handling finish Body");
+
+		gameManager.levelManager.currentLevel.getCurrentPart().isFinished = true;
 
 		contact.setEnabled(false);
 	}

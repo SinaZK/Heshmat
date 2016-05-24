@@ -10,7 +10,6 @@ import heshmat.MainActivity;
 
 public class ThrowBullet extends BaseBullet
 {
-	public CzakBody body;
 	public int size;
 	public float shootingSpeed;
 
@@ -46,7 +45,8 @@ public class ThrowBullet extends BaseBullet
 	}
 
 	@Override
-	public void release() {
+	public void release()
+	{
 
 		body.getmBody().setActive(false);
 		body.getmBody().setLinearVelocity(0, 0);
@@ -72,4 +72,17 @@ public class ThrowBullet extends BaseBullet
 	{
 		shouldRelease = true;
 	}
+
+	@Override
+	public void hitByCar(String CarData)
+	{
+		shouldRelease = true;
+	}
+
+	@Override
+	public void hitByBullet(String BulletData)
+	{
+		shouldRelease = true;
+	}
+
 }

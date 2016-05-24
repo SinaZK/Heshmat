@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.Joint;
 
 import java.util.ArrayList;
 
+import Misc.BodyStrings;
 import Misc.Log;
 
 /**
@@ -75,6 +76,12 @@ public class SizakBody
 				return i;
 
 		return -1;
+	}
+
+	public void setCar()
+	{
+		for(int i = 0;i < bodies.size();i++)
+			bodies.get(i).setUserData(BodyStrings.CAR_STRING + " " + bodies.get(i).getmBody().getUserData());
 	}
 
 }

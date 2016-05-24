@@ -4,9 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
+import java.util.ArrayList;
+
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.Log;
 import Misc.TextureHelper;
 import Terrain.Terrain;
 import heshmat.MainActivity;
@@ -21,6 +24,8 @@ public class BaseLevel
 	GameScene gameScene;
 	GameManager gameManager;
 	LevelManager levelManager;
+	public int currentPart;
+	public ArrayList <LevelMode> levelParts = new ArrayList<LevelMode>();
 
 	public Terrain terrain;
 	Texture terrainUpTexture, terrainDownTexture;
@@ -35,24 +40,38 @@ public class BaseLevel
 
 	public void load(String add)
 	{
-		terrainUpTexture   = TextureHelper.loadTexture(add + "up.png", gameScene.disposeTextureArray);
-		terrainDownTexture = TextureHelper.loadTexture(add + "rep.jpg", gameScene.disposeTextureArray);
-		terrainDownTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		loadTerrain(add);
 
-		terrain = new Terrain(act, add);
-		terrain.loadResources(terrainUpTexture, terrainDownTexture);
-		terrain.create(gameScene.spriteBatch, gameScene.polygonSpriteBatch);
+		LevelLoader.loadLVLFile(this, gameManager, add, gameScene.world, gameScene.disposeTextureArray);
 	}
 
-	public void create()
+	public void start()
 	{
-
+		levelParts.get(0).start();
 	}
 
 
 	public void run()
 	{
 		terrain.run();
+
+		if(currentPart >= levelParts.size())
+			return;
+
+		if(levelParts.get(currentPart).isFinished)
+		{
+			currentPart++;
+			Log.e("BaseLevel.java", "CurrentPart = " + currentPart);
+			if(currentPart < levelParts.size())
+				levelParts.get(currentPart).start();
+			else
+			{
+				finishTheLevel();
+			}
+		}
+
+		if(currentPart < levelParts.size())
+			levelParts.get(currentPart).run();
 	}
 
 	public void drawOnBatch(Batch batch)
@@ -63,5 +82,27 @@ public class BaseLevel
 	{
 		terrain.drawFirstLayer();
 		terrain.drawSecondLayer();
+	}
+
+	public void loadTerrain(String add)
+	{
+		terrainUpTexture   = TextureHelper.loadTexture(add + "up.png", gameScene.disposeTextureArray);
+		terrainDownTexture = TextureHelper.loadTexture(add + "rep.jpg", gameScene.disposeTextureArray);
+		terrainDownTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		terrain = new Terrain(act, add);
+		terrain.loadResources(terrainUpTexture, terrainDownTexture);
+		terrain.create(gameScene.spriteBatch, gameScene.polygonSpriteBatch);
+	}
+
+	public void finishTheLevel()
+	{
+		Log.e("BaseLevel.Java", "LEVEL Parts Finished!!!");
+	}
+
+	public LevelMode getCurrentPart()
+	{
+		if(currentPart >= levelParts.size())
+			return levelParts.get(0);
+		return levelParts.get(currentPart);
 	}
 }

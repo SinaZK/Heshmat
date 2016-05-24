@@ -2,6 +2,7 @@ package EnemyBase;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import BaseLevel.ShootingMode;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import WeaponBase.BaseBullet;
@@ -20,8 +21,9 @@ public class AirEnemy extends BaseEnemy
 	}
 
 	@Override
-	public void create()
+	public void create(ShootingMode shootingMode)
 	{
+		super.create(shootingMode);
 		hitPoint = MAX_HP;
 		isFree = false;
 		mainBody.getmBody().setActive(true);
@@ -32,8 +34,7 @@ public class AirEnemy extends BaseEnemy
 	@Override
 	public void hitByBullet(String bulletData)
 	{
-		int bulletID = BaseBullet.getBulletID(bulletData);
-		damage(gameManager.bulletFactory.bullets.get(bulletID).mDamage);
+		super.hitByBullet(bulletData);
 	}
 
 	@Override
@@ -67,6 +68,7 @@ public class AirEnemy extends BaseEnemy
 	@Override
 	public void release()
 	{
+		super.release();
 		mainBody.getmBody().setActive(false);
 		mainBody.getmBody().setLinearVelocity(0, 0);
 		mainBody.setPosition(10 / PhysicsConstant.PIXEL_TO_METER, 10 / PhysicsConstant.PIXEL_TO_METER);

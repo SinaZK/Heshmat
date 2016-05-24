@@ -17,7 +17,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import BaseCar.CarLoader;
 import Cars.Train;
 import Entity.AnimatedSprite;
-import HUD.*;
+import HUD.DrivingHUD;
+import HUD.ShootingHUD;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import Scene.BaseScene;
 import SceneManager.SceneManager;
@@ -49,6 +51,7 @@ public class GameScene extends BaseScene
 	public GAME_STAT gameStat;
 	public GameManager gameManager;
 	public DrivingHUD drivingModeHUD;
+	public ShootingHUD shootingModeHUD;
 	public boolean isGas, isBrake;
 	AnimatedSprite animatedSprite;
 
@@ -59,6 +62,7 @@ public class GameScene extends BaseScene
 		DX = (getCamera().viewportWidth - SceneManager.WORLD_X) / 2;
 		DY = (getCamera().viewportHeight - SceneManager.WORLD_Y) / 2;
 		drivingModeHUD = new DrivingHUD(this, new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
+		shootingModeHUD = new ShootingHUD(this, new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 
 		camera = (OrthographicCamera) getCamera();
 		spriteBatch = getBatch();
@@ -70,24 +74,18 @@ public class GameScene extends BaseScene
 		world = new World(new Vector2(0, -9.8f), false);
 
 		gameManager = new GameManager(this);
+		gameManager.create();
 
 		GSCM = new GameSceneContactManager(act, this);
 		world.setContactListener(GSCM.makeContact());
 	}
 
-	public Train train;
 	@Override
 	public void create()
 	{
-//		PhysicsFactory.createBoxBody(world, 0, 0, 800, 50, BodyDef.BodyType.StaticBody).setUserData(BodyStrings.GroundString);
-
 		gameStat = GAME_STAT.PLAY;
 
 		setInput();
-
-//		testCar = CarLoader.loadCarFile(gameManager, "gfx/car/test/test.car", world, disposeTextureArray);
-		train = CarLoader.loadTrainFile(gameManager, "gfx/car/train/train.car", world, disposeTextureArray);
-		camera.zoom = 1;
 	}
 
 	@Override
@@ -119,21 +117,13 @@ public class GameScene extends BaseScene
 		{
 			inputMultiplexer = new InputMultiplexer();
 			inputMultiplexer.addProcessor(gameSceneInput);
-			inputMultiplexer.addProcessor(gameManager.selectedGun);
-			inputMultiplexer.addProcessor(drivingModeHUD);
+			gameManager.setInput(inputMultiplexer);
 			Gdx.input.setInputProcessor(inputMultiplexer);
 		}
 	}
 
-	public BitmapFont font16 = new BitmapFont(Gdx.files.internal("font/16w.fnt"));
-	public BitmapFont font22 = new BitmapFont(Gdx.files.internal("font/22w.fnt"));
-	public BitmapFont font24 = new BitmapFont(Gdx.files.internal("font/24w.fnt"));
-	public BitmapFont font24Gold = new BitmapFont(Gdx.files.internal("font/24gold.fnt"));
-
 	public void update()
 	{
-		camera.position.x = train.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 0;
-		camera.position.y = train.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 0;
 		camera.update();
 		spriteBatch.setProjectionMatrix(camera.combined);
 		world.step(1 / gameSpeed, 6, 2);
@@ -146,7 +136,6 @@ public class GameScene extends BaseScene
 		spriteBatch.setProjectionMatrix(camera.combined);
 		spriteBatch.begin();
 		gameManager.draw();
-		train.draw(getBatch());
 		spriteBatch.end();
 
 		polygonSpriteBatch.setProjectionMatrix(camera.combined);
@@ -160,9 +149,7 @@ public class GameScene extends BaseScene
 			debugRenderer.render(world, debugMatrix.scl(1 * PhysicsConstant.PIXEL_TO_METER));
 		}
 
-		spriteBatch.begin();
-		drivingModeHUD.draw();
-		spriteBatch.end();
+		gameManager.drawHUD();
 	}
 
 	@Override
@@ -186,5 +173,15 @@ public class GameScene extends BaseScene
 		PAUSE,
 		PLAY,
 	}
+
+	public enum LevelMode
+	{
+		Shooting, Driving, Finish
+	}
+
+	public BitmapFont font16 = new BitmapFont(Gdx.files.internal("font/16w.fnt"));
+	public BitmapFont font22 = new BitmapFont(Gdx.files.internal("font/22w.fnt"));
+	public BitmapFont font24 = new BitmapFont(Gdx.files.internal("font/24w.fnt"));
+	public BitmapFont font24Gold = new BitmapFont(Gdx.files.internal("font/24gold.fnt"));
 
 }//class

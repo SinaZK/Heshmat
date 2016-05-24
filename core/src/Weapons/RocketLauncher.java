@@ -7,6 +7,7 @@ import Bullets.RocketBullet;
 import Entity.AnimatedSprite;
 import Entity.Entity;
 import GameScene.GameManager;
+import HUD.ShootingHUD;
 import Misc.TextureHelper;
 import WeaponBase.BaseGun;
 import heshmat.MainActivity;

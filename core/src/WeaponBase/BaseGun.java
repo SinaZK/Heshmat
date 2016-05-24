@@ -74,6 +74,11 @@ public abstract class BaseGun implements InputProcessor
 		this.y = y;
 		image.setPosition(x, y);
 	}
+
+	public void rePosition(float carX, float carY)
+	{
+		setPosition(carX, carY);
+	}
 	
 	@Override
 	public boolean keyDown(int keycode) {
@@ -87,7 +92,7 @@ public abstract class BaseGun implements InputProcessor
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean keyUp(int keycode) {
 

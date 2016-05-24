@@ -34,9 +34,6 @@ public class GameSceneInput implements InputProcessor
 			if(doAbleKeys.get(i) == keycode)
 				isKeypressed.set(i, true);
 
-		if(keycode == Input.Keys.T)
-			mScene.train.shouldCollapsed = true;
-
 		return false;
 	}
 
@@ -49,7 +46,7 @@ public class GameSceneInput implements InputProcessor
 
 		if(keycode == Input.Keys.NUM_1)
 		{
-			mScene.gameManager.swapGun();
+			mScene.gameManager.gunManager.swapGun();
 		}
 
 		if(keycode == Input.Keys.NUM_2)
@@ -60,7 +57,7 @@ public class GameSceneInput implements InputProcessor
 
 		if(keycode == Input.Keys.CONTROL_LEFT)
 		{
-			mScene.gameManager.selectedGun.shoot();
+			mScene.gameManager.gunManager.getSelectedGun().shoot();
 		}
 
 		return false;

@@ -7,6 +7,7 @@ package Misc;
 
 public class BodyStrings
 {
+	public static String CAR_STRING = "CAR";
 	public static String BULLET_STRING = "BULLET";
 	public static String ENEMY_STRING = "ENEMY";
 
@@ -15,12 +16,17 @@ public class BodyStrings
 
 	public static String EnemyPigeon = "Pigeon";
 
+	public static String FINISH_MODE_STRING = "FINISH";
 	public static String GroundString = "Ground";
 
 	public static boolean isBullet(String s)
 	{
-		String tmp = getPartOf(s, 0);
-		return tmp.equals(BULLET_STRING);
+		return getPartOf(s, 0).equals(BULLET_STRING);
+	}
+
+	public static boolean isCar(String s)
+	{
+		return getPartOf(s, 0).equals(CAR_STRING);
 	}
 
 	public static boolean isGround(String s)

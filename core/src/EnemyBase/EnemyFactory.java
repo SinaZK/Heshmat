@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
+import BaseLevel.BaseLevel;
+import BaseLevel.ShootingMode;
 import Bullets.PistolBullet;
 import Bullets.RocketBullet;
 import Enemy.Pigeon;
@@ -24,6 +26,8 @@ public class EnemyFactory
 {
 	public MainActivity act;
 	public GameScene mScene;
+	public ShootingMode shootingMode;
+	public BaseLevel level;
 
 	public Texture PigeonEnemyTexture;
 
@@ -33,7 +37,6 @@ public class EnemyFactory
 	{
 		act = a;
 		mScene = pSceneNormal;
-
 		PigeonEnemyTexture = TextureHelper.loadTexture("gfx/pigeon.png", mScene.disposeTextureArray);
 	}
 
@@ -59,15 +62,18 @@ public class EnemyFactory
 
 	public Pigeon getPigeon()
 	{
+		level = mScene.gameManager.levelManager.currentLevel;
+		shootingMode = (ShootingMode)level.levelParts.get(level.currentPart);//necessary
+
 		for(int i = 0;i < enemies.size();i++)
 			if(enemies.get(i).enemyType == BaseEnemy.EnemyType.Pigeon && enemies.get(i).isFree)
 			{
-				enemies.get(i).create();
+				enemies.get(i).create(shootingMode);
 				return (Pigeon)enemies.get(i);
 			}
 
 		Pigeon pigeon = new Pigeon(act, enemies.size());
-		pigeon.create();
+		pigeon.create(shootingMode);
 		enemies.add(pigeon);
 
 		return  pigeon;

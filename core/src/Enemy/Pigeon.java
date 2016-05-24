@@ -1,16 +1,15 @@
 package Enemy;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
+import BaseLevel.ShootingMode;
 import EnemyBase.AirEnemy;
-import EnemyBase.BaseEnemy;
-import EnemyBase.EnemyFactory;
 import Misc.BodyStrings;
+import Misc.CameraHelper;
 import Misc.Log;
 import Physics.CzakBody;
-import PhysicsFactory.PhysicsFactory;
-import WeaponBase.BaseBullet;
+import PhysicsFactory.*;
+import SceneManager.SceneManager;
 import heshmat.MainActivity;
 
 /**
@@ -38,9 +37,9 @@ public class Pigeon extends AirEnemy
 	}
 
 	@Override
-	public void draw(Batch batch)
+	public void attack()
 	{
-		super.draw(batch);
+		super.attack();
 	}
 
 	@Override
@@ -48,13 +47,28 @@ public class Pigeon extends AirEnemy
 	{
 		super.run();
 
-//		Log.e("Tag","hp = " + hitPoint);
+		if(mainBody != null)
+			if(mainBody.getmBody().getWorldCenter().x * ratio + 100 < CameraHelper.getXMin(gameManager.gameScene.camera))
+				shouldRelease = true;
 	}
 
+	float ratio = PhysicsConstant.PIXEL_TO_METER;
 	@Override
-	public void create()
+	public void create(ShootingMode shootingMode)
 	{
-		super.create();
+		super.create(shootingMode);
+
+		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
+		float originY = CameraHelper.getYMin(gameManager.gameScene.camera);
+		float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
+		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
+
+//		Log.e("Pigeon.java", "Origin : " + originX + ", " + originY);
+//		Log.e("Pigeon.java", "CarPos : " + shootingMode.firstCarX * ratio + ", " + shootingMode.firstCarY * ratio);
+//		Log.e("Pigeon.java", "Creating at : " + (originX + 00) + ", " + (originY + 800));
+
+		setPosition(originX + width + 100, originY + height - 200);
+		mainBody.getmBody().setLinearVelocity(-2, 0);
 	}
 
 	@Override

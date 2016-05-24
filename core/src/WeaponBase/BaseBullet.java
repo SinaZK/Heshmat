@@ -64,6 +64,8 @@ public abstract class BaseBullet
 	public abstract void draw(Batch batch);
 	public abstract void hitByEnemy(String EnemyData);
 	public abstract void hitByGround();
+	public abstract void hitByCar(String CarData);
+	public abstract void hitByBullet(String BulletData);
 
 	public static String getBulletType(String fullString)
 	{

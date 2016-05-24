@@ -1,15 +1,16 @@
 package HUD;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
-import Entity.Entity;
+import Entity.Button;
 import GameScene.GameScene;
-import SceneManager.SceneManager;
+import GameScene.LevelManager;
+import Misc.TextureHelper;
 import heshmat.MainActivity;
 
 /**
@@ -22,11 +23,20 @@ public class HUD extends Stage
 	GameScene gameScene;
 	ArrayList <Texture> textureQ;
 
-	public HUD(GameScene gameScene, Viewport viewport)
+
+	public HUD(final GameScene gameScene, Viewport viewport)
 	{
 		super(viewport);
 		this.gameScene = gameScene;
 		textureQ = gameScene.disposeTextureArray;
 	}
 
+	@Override
+	public void draw()
+	{
+		super.draw();
+		getBatch().begin();
+		gameScene.font16.draw(getBatch(), "" + Gdx.graphics.getFramesPerSecond(), 10, 30);
+		getBatch().end();
+	}
 }

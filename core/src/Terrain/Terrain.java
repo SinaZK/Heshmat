@@ -16,10 +16,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import GameScene.GameManager;
-import GameScene.GameScene;
+import BaseLevel.BaseLevel;
+import BaseLevel.DrivingMode;
+import GameScene.*;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 import heshmat.MainActivity;
@@ -30,6 +30,8 @@ public class Terrain
 
 	GameScene gameScene;
 	GameManager gameManager;
+	LevelManager levelManager;
+	BaseLevel level;
 	public PolygonSpriteBatch polygonSpriteBatch;
 	public Batch spriteBatch;
 	OrthographicCamera mCamera;
@@ -96,6 +98,8 @@ public class Terrain
 		act = a;
 		gameScene = a.sceneManager.gameScene;
 		gameManager = gameScene.gameManager;
+		levelManager = gameManager.levelManager;
+		level = levelManager.currentLevel;
 		mCamera = gameScene.camera;
 		mPhysicsWorld = gameScene.world;
 		address = add;
@@ -103,13 +107,15 @@ public class Terrain
 		Points = new LinkedList<Vector2>();
 		Pieces = new LinkedList<TerrainPiece>();
 
-		terrainLoader = new TerrainLoader(add + "map.lvl", true);
+		terrainLoader = new TerrainLoader(add + "map.terrain", true);
 
 		setAtt();
 
 		random = new Random(terrainLoader.randSeed);
 		mCamera.zoom = terrainLoader.zoom;
+		cameraZoom = terrainLoader.zoom;
 	}
+	public float cameraZoom;
 
 	public void loadResources(Texture tUp, Texture tDown)
 	{
@@ -203,18 +209,39 @@ public class Terrain
 
 		while (lastVisible >= Points.getLast().x)
 		{
-			Vector2 prevPoint = Points.get(Points.size() - 2);
-			Vector2 lastPoint = Points.getLast();
-			float slope = prevPoint.angle(lastPoint);
+			if(gameManager.levelManager.levelMode == GameScene.LevelMode.Driving)
+				if(!handleTheLastPartOfDrivingMode())
+				{
+					Vector2 prevPoint = Points.get(Points.size() - 2);
+					Vector2 lastPoint = Points.getLast();
+					float slope = prevPoint.angle(lastPoint);
 
-			float height = getHeight((int) ((int) lastPoint.x / xSize + 1));
-			Points.add(new Vector2(lastPoint.x + xSize, height));
+					float height = getHeight((int) ((int) lastPoint.x / xSize + 1));
+					Points.add(new Vector2(lastPoint.x + xSize, height));
 
-			addLastPiece();
+					addLastPiece();
+				}
 		}
 
 		while (Points.size() > 3 * removeSize)
 			removeFirstPiece();
+	}
+
+	public static float sightArea = 2000;
+	public boolean handleTheLastPartOfDrivingMode()
+	{
+		DrivingMode drivingMode = (DrivingMode) level.getCurrentPart();
+
+		Vector2 lastPoint = Points.getLast();
+		if(lastPoint.x + sightArea > drivingMode.getEndDistance())
+		{
+			Points.add(new Vector2(lastPoint.x + xSize, lastPoint.y));
+			addLastPiece();
+
+			return true;
+		}
+
+		return false;
 	}
 
 	public void addFirstPiece()

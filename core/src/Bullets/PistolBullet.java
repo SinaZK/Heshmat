@@ -25,7 +25,7 @@ public class PistolBullet extends ThrowBullet
 		body.getmSprite().get(0).setSize(size, size);
 		body.setUserData(BodyStrings.BULLET_STRING + " " + BodyStrings.BulletPistolString + " " + id);
 
-		mGun = gameManager.pistol;
+		mGun = gameManager.gunManager.pistol;
 	}
 
 

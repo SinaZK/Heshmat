@@ -1,19 +1,14 @@
 package BaseCar;
 
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
-import Physics.CzakBody;
 import Physics.SizakBody;
 import heshmat.MainActivity;
 
@@ -75,6 +70,22 @@ public abstract class BaseCar
 
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
+		if(!isLabeled)
+		{
+			label();
+		}
+
+		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+			shouldStop = true;
+
+		if(shouldStop)
+		{
+			if(isStopped())
+				shouldStop = false;
+
+			brake(1);
+			return;
+		}
 		if(isGas)
 			gas(1f);
 
@@ -85,5 +96,34 @@ public abstract class BaseCar
 			relax();
 	}
 
+	boolean shouldStop;
+	public void stop()
+	{
+		shouldStop = true;
+	}
+
+	public boolean isStopped()
+	{
+		for(int i = 0;i < body.bodies.size();i++)
+		{
+			if(!isBodyStopped(body.bodies.get(i).getmBody()))
+				return  false;
+		}
+
+		return true;
+	}
+
+	public boolean isBodyStopped(Body body)
+	{
+		return body.getLinearVelocity().len2() < 0.1f;
+	}
+
 	public void dispose(){}
+
+	boolean isLabeled = false;
+	public void label()
+	{
+		body.setCar();
+		isLabeled = true;
+	}
 }
