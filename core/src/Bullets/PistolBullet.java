@@ -14,7 +14,7 @@ import heshmat.MainActivity;
 
 public class PistolBullet extends ThrowBullet
 {
-	private static int SHOOTING_RANGE = 850;
+	private static int SHOOTING_RANGE = 1500;
 
 	public PistolBullet(int id, MainActivity activity, int sz, float shootingSpeed)
 	{

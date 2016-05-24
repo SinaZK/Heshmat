@@ -66,7 +66,7 @@ public class BulletFactory
 				return (PistolBullet)bullets.get(i);
 			}
 
-		PistolBullet pistolBullet = new PistolBullet(bullets.size(), act, 5, 10);
+		PistolBullet pistolBullet = new PistolBullet(bullets.size(), act, 5, 25);
 		pistolBullet.create();
 		bullets.add(pistolBullet);
 
@@ -82,7 +82,7 @@ public class BulletFactory
 				return (RocketBullet)bullets.get(i);
 			}
 
-		RocketBullet rocketBullet = new RocketBullet(bullets.size(), act, 10, 8, 5);
+		RocketBullet rocketBullet = new RocketBullet(bullets.size(), act, 10, 8, 7);
 		rocketBullet.create();
 		bullets.add(rocketBullet);
 

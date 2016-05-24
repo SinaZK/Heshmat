@@ -2,6 +2,7 @@ package Weapons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector3;
 
 import Bullets.PistolBullet;
 import Entity.Entity;
@@ -20,18 +21,21 @@ public class Pistol extends BaseGun
 
 		setPosition(100, 250);
 		shootingPoint.set(169, 100);
-	}
-
-	@Override
-	public void run() {
-
+		rateOfFire = 5;
 	}
 
 	@Override
 	public void shoot()
 	{
+		super.shoot();
+
+		if(!isShootingEnabled)
+			return;
+
 		PistolBullet p = gameManager.bulletFactory.getPistolBullet();
 		p.shoot(getShootingX(), getShootingY(), image.getRotation());
+
+		isShootingEnabled = false;
 	}
 
 	@Override
@@ -40,9 +44,4 @@ public class Pistol extends BaseGun
 		image = new Entity(TextureHelper.loadTexture("gfx/pistol.png", act.sceneManager.gameScene.disposeTextureArray));
 	}
 
-	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		shoot();
-		return super.touchDown(screenX, screenY, pointer, button);
-	}
 }

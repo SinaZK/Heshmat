@@ -35,6 +35,7 @@ public class RocketBullet extends ThrowBullet
 				bulletFactory.RocketBulletTexture);
 		body.getmSprite().get(0).setSize(sizeX, sizeY);
 		body.setUserData(BodyStrings.BULLET_STRING + " " + BodyStrings.BulletRocketString + " " + id);
+		body.getmBody().setGravityScale(0.6f);
 
 		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 12, 12, 0.95f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
@@ -53,7 +54,7 @@ public class RocketBullet extends ThrowBullet
 
 		bulletType = BulletType.ROCKET_LAUNCHER;
 		waitForExplosion = false;
-		shootingRange = 550;
+		shootingRange = 1500;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package Physics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Joint;
 
 import java.util.ArrayList;
@@ -82,6 +83,18 @@ public class SizakBody
 	{
 		for(int i = 0;i < bodies.size();i++)
 			bodies.get(i).setUserData(BodyStrings.CAR_STRING + " " + bodies.get(i).getmBody().getUserData());
+	}
+
+	public void setCenterPosition(float worldX, float worldY)
+	{
+		Vector2 position = bodies.get(0).getmBody().getWorldCenter();
+		Vector2 diffVector = new Vector2(worldX - position.x, worldY - position.y);
+
+		for(int i = 0;i < bodies.size();i++)
+		{
+			position = bodies.get(i).getmBody().getWorldCenter();
+			bodies.get(i).setPosition(position.x + diffVector.x, position.y + diffVector.y);
+		}
 	}
 
 }

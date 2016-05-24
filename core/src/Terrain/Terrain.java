@@ -227,7 +227,7 @@ public class Terrain
 			removeFirstPiece();
 	}
 
-	public static float sightArea = 2000;
+	public static float sightArea = 500;
 	public boolean handleTheLastPartOfDrivingMode()
 	{
 		DrivingMode drivingMode = (DrivingMode) level.getCurrentPart();

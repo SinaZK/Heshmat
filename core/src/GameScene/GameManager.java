@@ -91,8 +91,8 @@ public class GameManager
 	{
 		if(levelManager.levelMode == GameScene.LevelMode.Shooting)
 		{
-			gunManager.setInput(inputMultiplexer);
 			inputMultiplexer.addProcessor(gameScene.shootingModeHUD);
+			gunManager.setInput(inputMultiplexer);
 		}
 
 		if(levelManager.levelMode == GameScene.LevelMode.Driving || levelManager.levelMode == GameScene.LevelMode.Finish)

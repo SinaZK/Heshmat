@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import Enemy.Pigeon;
 import Misc.GUI;
 import Misc.Log;
+import PhysicsFactory.PhysicsConstant;
 
 public class GameSceneInput implements InputProcessor 
 {
@@ -55,9 +56,10 @@ public class GameSceneInput implements InputProcessor
 			p.setPosition(400, 200);
 		}
 
-		if(keycode == Input.Keys.CONTROL_LEFT)
+		if(keycode == Input.Keys.NUM_3)
 		{
-			mScene.gameManager.gunManager.getSelectedGun().shoot();
+			float ratio = PhysicsConstant.PIXEL_TO_METER;
+			mScene.gameManager.selectedCar.body.setCenterPosition(mScene.camera.position.x / ratio, mScene.camera.position.y / ratio);
 		}
 
 		return false;

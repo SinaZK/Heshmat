@@ -41,7 +41,10 @@ public class GunManager
 
 	public void run()
 	{
-		getSelectedGun().run();
+		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+			getSelectedGun().run();
+		else
+			getSelectedGun().isTouched = false;
 	}
 
 	public void draw(Batch batch)

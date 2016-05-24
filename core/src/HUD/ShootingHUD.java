@@ -14,11 +14,26 @@ import Misc.TextureHelper;
 public class ShootingHUD extends HUD
 {
 
+	Button switchGunButton;
 	public ShootingHUD(final GameScene gameScene, Viewport viewport)
 	{
 		super(gameScene, viewport);
 
 
+		switchGunButton = new Button(TextureHelper.loadTexture("gfx/scene/game/restart1.png", gameScene.disposeTextureArray),
+				TextureHelper.loadTexture("gfx/scene/game/restart2.png", gameScene.disposeTextureArray));
+		switchGunButton.setPosition(300, 10);
+		switchGunButton.setSize(70, 70);
+		addActor(switchGunButton);
+
+		switchGunButton.setRunnable(gameScene.act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				ShootingHUD.this.gameScene.gameManager.gunManager.swapGun();
+			}
+		});
 	}
 
 	@Override

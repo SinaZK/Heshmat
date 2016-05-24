@@ -8,6 +8,7 @@ import Entity.AnimatedSprite;
 import Entity.Entity;
 import GameScene.GameManager;
 import HUD.ShootingHUD;
+import Misc.Log;
 import Misc.TextureHelper;
 import WeaponBase.BaseGun;
 import heshmat.MainActivity;
@@ -22,31 +23,29 @@ public class RocketLauncher extends BaseGun
 
 		setPosition(100, 200);
 		shootingPoint.set(200, 42);
-
+		rateOfFire = 1.5f;
 	}
 	
 	@Override
-	public void run()
+	public void shoot()
 	{
-	}
+		super.shoot();
 
-	@Override
-	public void shoot() 
-	{
+		if(isShootingEnabled == false)
+			return;
+
+//		Log.e("RocketLauncher.java", "shooting and : " + isShootingEnabled);
 		RocketBullet r = gameManager.bulletFactory.getRocketBullet();
 		r.shoot(getShootingX(), getShootingY(), image.getRotation());
+
+		isShootingEnabled = false;
+//		Log.e("BaseGun.java", "isShootingEnabled = " + isShootingEnabled);
 	}
 
 	@Override
 	public void loadResources()
 	{
 		image = new Entity(TextureHelper.loadTexture("gfx/rl.png", act.sceneManager.gameScene.disposeTextureArray));
-	}
-
-	@Override
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		shoot();
-		return super.touchUp(screenX, screenY, pointer, button);
 	}
 
 	@Override
