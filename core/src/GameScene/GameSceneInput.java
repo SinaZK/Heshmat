@@ -52,8 +52,8 @@ public class GameSceneInput implements InputProcessor
 
 		if(keycode == Input.Keys.NUM_2)
 		{
-			Pigeon p = mScene.gameManager.enemyFactory.getPigeon();
-			p.setPosition(400, 200);
+//			Pigeon p = mScene.gameManager.enemyFactory.getPigeon();
+//			p.setPosition(400, 200);
 		}
 
 		if(keycode == Input.Keys.NUM_3)

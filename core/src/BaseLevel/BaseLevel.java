@@ -97,6 +97,7 @@ public class BaseLevel
 	public void finishTheLevel()
 	{
 		Log.e("BaseLevel.Java", "LEVEL Parts Finished!!!");
+		levelManager.isLevelCompleted = true;
 	}
 
 	public LevelMode getCurrentPart()

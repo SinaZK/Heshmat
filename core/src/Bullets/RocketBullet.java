@@ -28,6 +28,7 @@ public class RocketBullet extends ThrowBullet
 	{
 		super(id, activity, szX, shootingSpeed);
 
+		//////salam
 		sizeX = szX;
 		sizeY = szY;
 
@@ -37,7 +38,7 @@ public class RocketBullet extends ThrowBullet
 		body.setUserData(BodyStrings.BULLET_STRING + " " + BodyStrings.BulletRocketString + " " + id);
 		body.getmBody().setGravityScale(0.6f);
 
-		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 12, 12, 0.95f, gameManager.gameScene.disposeTextureArray);
+		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 4, 16, 0.23f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
 
 		mGun = gameManager.gunManager.rocketLauncher;

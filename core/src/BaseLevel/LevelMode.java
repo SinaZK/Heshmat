@@ -14,6 +14,7 @@ public abstract class LevelMode
 	public boolean isFinished;
 	public float firstCarX, firstCarY;
 	public BaseCar car;
+
 	public LevelMode(LevelManager levelManager)
 	{
 		this.levelManager = levelManager;

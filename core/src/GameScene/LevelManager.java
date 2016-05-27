@@ -23,6 +23,9 @@ public class LevelManager
 	public BaseLevel currentLevel;
 	public GameScene.LevelMode levelMode;
 
+	public boolean isLost;
+	public boolean isLevelCompleted;
+
 	public LevelManager(GameManager gameManager)
 	{
 		this.gameManager = gameManager;
@@ -50,13 +53,28 @@ public class LevelManager
 
 	public void run()
 	{
+		if(isLost)
+			lost();
+
+		if(isLevelCompleted)
+			levelCompleted();
+
+
 		currentLevel.run();
 
 		if(currentLevel.currentPart >= currentLevel.levelParts.size())
 			return;
 
 		currentLevel.levelParts.get(currentLevel.currentPart).run();
+	}
 
-//		Log.e("LevelManager.java", "Mode = " + levelMode);
+	public void lost()
+	{
+		Log.e("LevelManager.java", "You Lost");
+	}
+
+	public void levelCompleted()
+	{
+		Log.e("LevelManager.java", "You Win");
 	}
 }

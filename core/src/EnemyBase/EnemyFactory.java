@@ -24,8 +24,8 @@ import heshmat.MainActivity;
 
 public class EnemyFactory
 {
-	public MainActivity act;
-	public GameScene mScene;
+	public GameScene gameScene;
+	public GameManager gameManager;
 	public ShootingMode shootingMode;
 	public BaseLevel level;
 
@@ -33,11 +33,19 @@ public class EnemyFactory
 
 	public ArrayList<BaseEnemy> enemies = new ArrayList<BaseEnemy>();
 
-	public EnemyFactory(MainActivity a, GameScene pSceneNormal)
+	public EnemyFactory(GameManager gameManager)
 	{
-		act = a;
-		mScene = pSceneNormal;
-		PigeonEnemyTexture = TextureHelper.loadTexture("gfx/pigeon.png", mScene.disposeTextureArray);
+		gameScene = gameManager.gameScene;
+		this.gameManager = gameManager;
+		PigeonEnemyTexture = TextureHelper.loadTexture("gfx/pigeon.png", gameScene.disposeTextureArray);
+	}
+
+	public void create()
+	{
+		level = gameManager.levelManager.currentLevel;
+
+		if(level == null)
+			Log.e("EnemyFactory.java", "NULL");
 	}
 
 	public void run()
@@ -60,23 +68,28 @@ public class EnemyFactory
 				enemies.get(i).draw(batch);
 	}
 
-	public Pigeon getPigeon()
+	public BaseEnemy getEnemyByType(BaseEnemy.EnemyType enemyType, ArrayList<String> attr)
 	{
-		level = mScene.gameManager.levelManager.currentLevel;
-		shootingMode = (ShootingMode)level.levelParts.get(level.currentPart);//necessary
+		shootingMode = (ShootingMode)level.getCurrentPart(); //necessary
 
 		for(int i = 0;i < enemies.size();i++)
-			if(enemies.get(i).enemyType == BaseEnemy.EnemyType.Pigeon && enemies.get(i).isFree)
+			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
 			{
-				enemies.get(i).create(shootingMode);
-				return (Pigeon)enemies.get(i);
+				enemies.get(i).create(shootingMode, attr);
+				return enemies.get(i);
 			}
 
-		Pigeon pigeon = new Pigeon(act, enemies.size());
-		pigeon.create(shootingMode);
-		enemies.add(pigeon);
+		return null;
+	}
 
-		return  pigeon;
+	public boolean haveEnemy(BaseEnemy.EnemyType enemyType)
+	{
+		shootingMode = (ShootingMode)level.getCurrentPart(); //necessary
+		for(int i = 0;i < enemies.size();i++)
+			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
+				return true;
+
+		return false;
 	}
 
 	public void damageArea(Vector2 centreOfExplosion, float length, float damage)
@@ -87,5 +100,28 @@ public class EnemyFactory
 				if(CameraHelper.distance(centreOfExplosion.x, centreOfExplosion.y, enemies.get(i).x, enemies.get(i).y) <= length)
 					enemies.get(i).damage(damage);
 			}
+	}
+
+	public Pigeon getPigeon(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.Pigeon))
+			return (Pigeon) getEnemyByType(BaseEnemy.EnemyType.Pigeon, attr);
+
+		Pigeon pigeon = new Pigeon(gameManager, enemies.size());
+		pigeon.create(shootingMode, attr);
+		enemies.add(pigeon);
+
+		return  pigeon;
+	}
+
+	public static String PIGEON = "PIGEON";
+
+	public BaseEnemy getEnemy(String type, ArrayList<String> attr)
+	{
+		if(type.equals(PIGEON))
+		{
+			getPigeon(attr);
+		}
+		return null;
 	}
 }

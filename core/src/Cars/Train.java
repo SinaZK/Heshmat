@@ -49,4 +49,10 @@ public class Train extends NormalCar
 		if(collapseButton.isClicked)
 			shouldCollapsed = true;
 	}
+
+	@Override
+	public boolean isStopped()
+	{
+		return super.isStopped();
+	}
 }

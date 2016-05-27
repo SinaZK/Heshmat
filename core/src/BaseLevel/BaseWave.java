@@ -97,18 +97,10 @@ public class BaseWave
 
 	}
 
-	public static String PIGEON = "PIGEON";
-
 	public void createEnemy()
 	{
 		parentMode.enemyCount ++;
-		if(enemyType.equals(PIGEON))
-		{
-			Pigeon p = gameManager.enemyFactory.getPigeon();
-			enemies.add(p);
-		}
-
-
+		enemies.add(gameManager.enemyFactory.getEnemy(enemyType, attr));
 	}
 
 }

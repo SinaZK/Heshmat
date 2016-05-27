@@ -41,6 +41,8 @@ public class GameSceneContactManager
 				String s1 = (String)contact.getFixtureA().getBody().getUserData();
 				String s2 = (String)contact.getFixtureB().getBody().getUserData();
 
+//				Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted ");
+
 				if(BodyStrings.isBullet(s1) && BodyStrings.isBullet(s2))
 					handleBulletToBullet(contact, s1, s2);
 

@@ -32,20 +32,22 @@ public class GameManager
 	{
 		gameScene = mScene;
 
+	}
+
+	public void create()
+	{
 		bulletFactory = new BulletFactory(gameScene.act, gameScene);
-		enemyFactory = new EnemyFactory(gameScene.act, gameScene);
+		enemyFactory = new EnemyFactory(this);
 		gunManager = new GunManager(this);
 		hpBarSprite = new HPBarSprite("gfx/hpbar.png", 7, 1, gameScene.disposeTextureArray);
 
 		selectedCar = CarLoader.loadTrainFile(this, "gfx/car/train/train.car", gameScene.world, gameScene.disposeTextureArray);
 
 		levelManager = new LevelManager(this);
-	}
 
-	public void create()
-	{
 		gunManager.create();
 		levelManager.create("gfx/lvl/test/");
+		enemyFactory.create();
 	}
 
 

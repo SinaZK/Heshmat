@@ -1,11 +1,14 @@
 package BaseLevel;
 
 
+import com.badlogic.gdx.utils.Timer;
+
 import java.util.Random;
 
 import BaseCar.BaseCar;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.CameraHelper;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
@@ -16,19 +19,30 @@ import PhysicsFactory.PhysicsConstant;
 public class DrivingMode extends LevelMode
 {
 	public float distance;
+	public float time;
 
 	boolean isEnding;
+	Timer timer;
 
 	public DrivingMode(LevelManager levelManager)
 	{
 		super(levelManager);
+
+		timer = new Timer();
 	}
 
 	@Override
 	public void run()
 	{
 		if(isFinished)
+		{
+			timer.clear();
 			return;
+		}
+
+		if(time <= 0)
+			levelManager.isLost = true;
+
 //		if(Math.abs(random.nextInt() % 1000) < 30)
 //			Log.e("DrivingMode.java", "Pos = " + getCurrentPos() + " max = " + distance);
 
@@ -44,12 +58,23 @@ public class DrivingMode extends LevelMode
 			else
 				isFinished = true;
 		}
+
+		levelManager.gameScene.drivingModeHUD.getBatch().begin();
+		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 400);
+		levelManager.gameScene.drivingModeHUD.getBatch().end();
 	}
 
 	@Override
 	public void start()
 	{
-//		Log.e("DrivingMode.java", "Starting Driving mode");
+		timer.scheduleTask(new Timer.Task()
+		{
+			@Override
+			public void run()
+			{
+				time-=0.1f;
+			}
+		}, 0, 0.1f);
 		levelManager.levelMode = GameScene.LevelMode.Driving;
 		super.start();
 	}

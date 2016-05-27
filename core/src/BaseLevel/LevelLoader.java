@@ -63,6 +63,9 @@ public class LevelLoader
 
 					drivingModePart.distance = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
+					read = dis.readLine();
+					drivingModePart.time = Float.valueOf(BodyStrings.getPartOf(read, 1));
+
 					normalLevel.levelParts.add(drivingModePart);
 					dis.readLine();//ignoring blank line
 				}//Driving Tag
