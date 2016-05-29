@@ -66,6 +66,9 @@ public class GameSceneContactManager
 
 				if(BodyStrings.isCar(s2) && s1.equals(BodyStrings.FINISH_MODE_STRING))
 					handleFinishBody(contact, s2);
+
+				if(BodyStrings.isEnemy(s1) && BodyStrings.isEnemy(s2))
+					contact.setEnabled(false);
 			}
 
 			@Override
@@ -77,6 +80,11 @@ public class GameSceneContactManager
 			@Override
 			public void preSolve(Contact contact, Manifold oldManifold) {
 
+				String s1 = (String)contact.getFixtureA().getBody().getUserData();
+				String s2 = (String)contact.getFixtureB().getBody().getUserData();
+
+				if(BodyStrings.isEnemy(s1) && BodyStrings.isEnemy(s2))
+					contact.setEnabled(false);
 			}
 
 			@Override

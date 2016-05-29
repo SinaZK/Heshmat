@@ -1,40 +1,32 @@
 package Enemy;
 
-import com.badlogic.gdx.physics.box2d.BodyDef;
-
 import java.util.ArrayList;
 
 import BaseLevel.ShootingMode;
 import EnemyBase.BaseEnemy;
-import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
-import Physics.CzakBody;
-import PhysicsFactory.*;
 import SceneManager.SceneManager;
-import WeaponBase.BulletFactory;
-import heshmat.MainActivity;
 
 /**
  * Created by sinazk on 5/6/16.
  * Hi 1:19
  */
-public class Pigeon extends BaseEnemy
+public class Wasp extends BaseEnemy
 {
-	public Pigeon(GameManager gameManager, int id)
+	public Wasp(GameManager gameManager, int id)
 	{
 		super(gameManager, id);
 
-		enemyType = EnemyType.Pigeon;
+		enemyType = EnemyType.WASP;
 
-		fullImageWidth = 100;
-		fullImageHeight = 40;
+		fullImageWidth = 200;
+		fullImageHeight = 133;
 
 		MAX_HP = 10;
 
-		init(BodyStrings.EnemyPigeon, id, enemyFactory.PigeonEnemyTexture);
+		init(BodyStrings.EnemyPigeon, id, enemyFactory.WaspEnemyAnimation);
 	}
 
 	@Override

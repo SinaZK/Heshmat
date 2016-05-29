@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-import Enemy.Pigeon;
 import Misc.GUI;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
@@ -48,12 +47,6 @@ public class GameSceneInput implements InputProcessor
 		if(keycode == Input.Keys.NUM_1)
 		{
 			mScene.gameManager.gunManager.swapGun();
-		}
-
-		if(keycode == Input.Keys.NUM_2)
-		{
-//			Pigeon p = mScene.gameManager.enemyFactory.getPigeon();
-//			p.setPosition(400, 200);
 		}
 
 		if(keycode == Input.Keys.NUM_3)

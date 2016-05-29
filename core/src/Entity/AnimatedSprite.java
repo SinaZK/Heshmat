@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
 import Misc.Log;
+import Misc.TextureHelper;
 
 public class AnimatedSprite
 {
@@ -34,7 +35,7 @@ public class AnimatedSprite
 		FRAME_COLS = col;
 		TTL = ttl;
 
-		textureSheet = new Texture(Gdx.files.internal(add));
+		textureSheet = TextureHelper.loadTexture(add, disposal);
 		TextureRegion[][] tmp = TextureRegion.split(textureSheet, textureSheet.getWidth() / FRAME_COLS, textureSheet.getHeight() / FRAME_ROWS);
 		textureFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
 
@@ -61,10 +62,8 @@ public class AnimatedSprite
 
 		stateTime += Gdx.graphics.getDeltaTime();
 		if(stateTime >= TTL)
-		{
-//			Log.e("AnimatedSprite.java", "stateTime > TTL!");
 			isDisabled = true;
-		}
+
 		currentFrame = animation.getKeyFrame(stateTime, true);
 
 		batch.draw(currentFrame, x, y);

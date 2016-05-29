@@ -1,6 +1,5 @@
 package EnemyBase;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
@@ -8,19 +7,23 @@ import java.util.ArrayList;
 
 import BaseLevel.BaseLevel;
 import BaseLevel.ShootingMode;
-import Bullets.PistolBullet;
-import Bullets.RocketBullet;
-import Enemy.Pigeon;
+import Enemy.Bat;
+import Enemy.Bomb;
+import Enemy.BossBird;
+import Enemy.FireBird;
+import Enemy.Fly;
+import Enemy.FurryBird;
+import Enemy.HattyBird;
+import Enemy.MaskBird;
+import Enemy.Mosquito;
+import Enemy.RedBird;
+import Enemy.Wasp;
+import Enemy.Worm;
+import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import Misc.CameraHelper;
 import Misc.Log;
-import Misc.TextureHelper;
-import Physics.CzakBody;
-import WeaponBase.BaseBullet;
-import WeaponBase.BaseGun;
-import WeaponBase.BulletFactory;
-import heshmat.MainActivity;
 
 public class EnemyFactory
 {
@@ -29,15 +32,12 @@ public class EnemyFactory
 	public ShootingMode shootingMode;
 	public BaseLevel level;
 
-	public Texture PigeonEnemyTexture;
-
 	public ArrayList<BaseEnemy> enemies = new ArrayList<BaseEnemy>();
 
 	public EnemyFactory(GameManager gameManager)
 	{
 		gameScene = gameManager.gameScene;
 		this.gameManager = gameManager;
-		PigeonEnemyTexture = TextureHelper.loadTexture("gfx/pigeon.png", gameScene.disposeTextureArray);
 	}
 
 	public void create()
@@ -46,19 +46,15 @@ public class EnemyFactory
 
 		if(level == null)
 			Log.e("EnemyFactory.java", "NULL");
+
+		loadAnimations();
 	}
 
 	public void run()
 	{
 		for(int i = 0;i < enemies.size();i++)
 			if(!enemies.get(i).isFree)
-			{
-				if(enemies.get(i).enemyType == BaseEnemy.EnemyType.Pigeon)
-				{
-					Pigeon pigeon = (Pigeon) enemies.get(i);
-					pigeon.run();
-				}
-			}
+				enemies.get(i).run();
 	}
 
 	public void draw(Batch batch)
@@ -102,26 +98,253 @@ public class EnemyFactory
 			}
 	}
 
-	public Pigeon getPigeon(ArrayList<String> attr)
+//	public Pigeon getPigeon(ArrayList<String> attr)
+//	{
+//		if(haveEnemy(BaseEnemy.EnemyType.Pigeon))
+//			return (Pigeon) getEnemyByType(BaseEnemy.EnemyType.Pigeon, attr);
+//
+//		Pigeon pigeon = new Pigeon(gameManager, enemies.size());
+//		pigeon.create(shootingMode, attr);
+//		enemies.add(pigeon);
+//
+//		return  pigeon;
+//	}
+
+	public Bat getBat(ArrayList<String> attr)
 	{
-		if(haveEnemy(BaseEnemy.EnemyType.Pigeon))
-			return (Pigeon) getEnemyByType(BaseEnemy.EnemyType.Pigeon, attr);
-
-		Pigeon pigeon = new Pigeon(gameManager, enemies.size());
-		pigeon.create(shootingMode, attr);
-		enemies.add(pigeon);
-
-		return  pigeon;
+		if(haveEnemy(BaseEnemy.EnemyType.BAT))
+			return (Bat) getEnemyByType(BaseEnemy.EnemyType.BAT, attr);
+		Bat enemy = new Bat(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
 	}
 
-	public static String PIGEON = "PIGEON";
+	public Bomb getBomb(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.BOMB))
+			return (Bomb) getEnemyByType(BaseEnemy.EnemyType.BOMB, attr);
+		Bomb enemy = new Bomb(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public BossBird getBossBird(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.BOSS_BIRD))
+			return (BossBird) getEnemyByType(BaseEnemy.EnemyType.BOSS_BIRD, attr);
+		BossBird enemy = new BossBird(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public FireBird getFireBird(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.FIRE_BIRD))
+			return (FireBird) getEnemyByType(BaseEnemy.EnemyType.FIRE_BIRD, attr);
+		FireBird enemy = new FireBird(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public Fly getFly(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.FLY))
+			return (Fly) getEnemyByType(BaseEnemy.EnemyType.FLY, attr);
+		Fly enemy = new Fly(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public FurryBird getFuryBird(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.FURRY_BIRD))
+			return (FurryBird) getEnemyByType(BaseEnemy.EnemyType.FURRY_BIRD, attr);
+		FurryBird enemy = new FurryBird(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public HattyBird getHattyBird(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.HATTY_BIRD))
+			return (HattyBird) getEnemyByType(BaseEnemy.EnemyType.HATTY_BIRD, attr);
+		HattyBird enemy = new HattyBird(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public MaskBird getMaskBird(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.MASK_BIRD))
+			return (MaskBird) getEnemyByType(BaseEnemy.EnemyType.MASK_BIRD, attr);
+		MaskBird enemy = new MaskBird(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public RedBird getRedBird(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.RED_BIRD))
+			return (RedBird) getEnemyByType(BaseEnemy.EnemyType.RED_BIRD, attr);
+		RedBird enemy = new RedBird(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public Mosquito getMosquito(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.MOSQUITO))
+			return (Mosquito) getEnemyByType(BaseEnemy.EnemyType.MOSQUITO, attr);
+		Mosquito enemy = new Mosquito(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public Wasp getWasp(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.WASP))
+			return (Wasp) getEnemyByType(BaseEnemy.EnemyType.WASP, attr);
+		Wasp enemy = new Wasp(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public Worm getWorm(ArrayList<String> attr)
+	{
+		if(haveEnemy(BaseEnemy.EnemyType.WORM))
+			return (Worm) getEnemyByType(BaseEnemy.EnemyType.WORM, attr);
+		Worm enemy = new Worm(gameManager, enemies.size());
+		enemy.create(shootingMode, attr);
+		enemies.add(enemy);
+		return  enemy;
+	}
+
+	public static String MOSQUITO = "MOSQUITO";
+	public static String FLY = "FLY";
+	public static String WASP = "WASP";
+	public static String RED_BIRD = "RED_BIRD";
+	public static String HATTY_BIRD = "HATTY_BIRD";
+	public static String MASK_BIRD = "MASK_BIRD";
+	public static String FURRY_BIRD = "FURRY_BIRD";
+	public static String FIRE_BIRD = "FIRE_BIRD";
+	public static String BAT = "BAT";
+	public static String BOSS_BIRD = "BOSS_BIRD";
+	public static String WORM = "WORM";
+	public static String BOMB = "BOMB";
+
+
 
 	public BaseEnemy getEnemy(String type, ArrayList<String> attr)
 	{
-		if(type.equals(PIGEON))
-		{
-			getPigeon(attr);
-		}
+		if(type.equals(BAT))
+			return getBat(attr);
+
+		if(type.equals(BOMB))
+			return getBomb(attr);
+
+		if(type.equals(BOSS_BIRD))
+			return getBossBird(attr);
+
+		if(type.equals(FIRE_BIRD))
+			return getFireBird(attr);
+
+		if(type.equals(FLY))
+			return getFly(attr);
+
+		if(type.equals(FURRY_BIRD))
+			return getFuryBird(attr);
+
+		if(type.equals(HATTY_BIRD))
+			return getHattyBird(attr);
+
+		if(type.equals(MASK_BIRD))
+			return getMaskBird(attr);
+
+		if(type.equals(MOSQUITO))
+			return getMosquito(attr);
+
+		if(type.equals(RED_BIRD))
+			return getRedBird(attr);
+
+		if(type.equals(WASP))
+			return getWasp(attr);
+
+		if(type.equals(WORM))
+			return getWorm(attr);
+
 		return null;
+
+	}
+
+	public AnimatedSpriteSheet MosquitoEnemyAnimation, FlyEnemyAnimation, WaspEnemyAnimation, RedBirdEnemyAnimation, HattyBirdEnemyAnimation, MaskBirdEnemyAnimation;
+	public AnimatedSpriteSheet FurryBirdEnemyAnimation, FireBirdEnemyAnimation, BatEnemyAnimation, BossBirdEnemyAnimation, WormEnemyAnimation, BombEnemyAnimation;
+
+	public void loadAnimations()
+	{
+		MosquitoEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/1/mosquito.png", gameScene.disposeTextureArray);
+		MosquitoEnemyAnimation.addAnimation("fly", 0, 0, 2490, 375, 1, 4, 8);
+		MosquitoEnemyAnimation.addAnimation("die", 714, 459, 2412, 993, 1, 3, 8);
+
+		FlyEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/2/fly.png", gameScene.disposeTextureArray);
+		FlyEnemyAnimation.addAnimation("fly", 254, 10, 1362, 214, 1, 4, 8);
+		FlyEnemyAnimation.addAnimation("attack", 274, 382, 1974, 576, 1, 6, 8);
+		FlyEnemyAnimation.addAnimation("die", 258, 652, 1658, 962, 1, 4, 8);
+
+		WaspEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/3/wasp.png", gameScene.disposeTextureArray);
+		WaspEnemyAnimation.addAnimation("fly", 354, 117, 2826, 408, 1, 5, 8);
+		WaspEnemyAnimation.addAnimation("attack", 339, 597, 2889, 1017, 1, 5, 8);
+		WaspEnemyAnimation.addAnimation("die", 360, 1173, 2994, 1695, 1, 5, 8);
+
+		RedBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/4/bird.png", gameScene.disposeTextureArray);
+		RedBirdEnemyAnimation.addAnimation("fly", 0, 0, 2190, 396, 1, 4, 8);
+		RedBirdEnemyAnimation.addAnimation("die", 0, 456, 2492, 950, 1, 4, 8);
+
+		HattyBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/5/bird.png", gameScene.disposeTextureArray);
+		HattyBirdEnemyAnimation.addAnimation("fly", 0, 0, 2866, 470, 1, 4, 8);
+		HattyBirdEnemyAnimation.addAnimation("die", 0, 590, 2608, 1078, 1, 4, 8);
+
+		MaskBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/6/bird.png", gameScene.disposeTextureArray);
+		MaskBirdEnemyAnimation.addAnimation("fly", 446, 0, 2036, 288, 1, 4, 8);
+		MaskBirdEnemyAnimation.addAnimation("die", 0, 370, 2456, 880, 1, 4, 8);
+
+		FurryBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/7/bird.png", gameScene.disposeTextureArray);
+		FurryBirdEnemyAnimation.addAnimation("fly", 0, 0, 2196, 382, 1, 4, 8);
+		FurryBirdEnemyAnimation.addAnimation("die", 0, 436, 2486, 940, 1, 4, 8);
+
+		FireBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/8/bird.png", gameScene.disposeTextureArray);
+		FireBirdEnemyAnimation.addAnimation("fly", 250, 0 , 2158, 372, 1, 4, 8);
+		FireBirdEnemyAnimation.addAnimation("die", 0, 428, 2454, 920, 1, 4, 8);
+
+		BatEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/9/bat.png", gameScene.disposeTextureArray);
+		BatEnemyAnimation.addAnimation("fly", 164, 0, 2296, 364, 1, 4, 8);
+		BatEnemyAnimation.addAnimation("die", 0, 438, 2454, 932, 1, 4, 8);
+
+		BossBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/10/boss.png", gameScene.disposeTextureArray);
+		BossBirdEnemyAnimation.addAnimation("fly", 732, 0, 2493, 366, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation("attackBlow", 807, 432, 2535, 807, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation("attackFire", 801, 879, 2550, 1242, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation("lowHealth", 735, 1300, 2481, 1782, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation("die", 264, 1911, 2700, 2367, 1, 3, 8);
+
+		WormEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/11/worm.png", gameScene.disposeTextureArray);
+		WormEnemyAnimation.addAnimation("fall", 0, 0, 327, 232, 1, 1, 8);
+		WormEnemyAnimation.addAnimation("move", 27, 807, 1449, 1095, 1, 4, 8);
+		WormEnemyAnimation.addAnimation("wakeUp", 27, 807, 1449, 1095, 1, 4, 8);
+		WormEnemyAnimation.addAnimation("die", 0, 1308, 2496, 1671, 1, 6, 8);
+
+		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
+		BombEnemyAnimation.addAnimation("fall", 34, 4, 1266, 274, 1, 7, 8);
+		BombEnemyAnimation.addAnimation("explode", 34, 4, 1266, 274, 1, 5, 8);
 	}
 }

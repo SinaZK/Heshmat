@@ -1,12 +1,15 @@
 package EnemyBase;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
 import BaseLevel.ShootingMode;
+import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
@@ -15,7 +18,6 @@ import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
 import WeaponBase.BaseBullet;
-import heshmat.MainActivity;
 
 /*
 	Body User String Protocol:
@@ -26,6 +28,11 @@ import heshmat.MainActivity;
 
 public abstract class BaseEnemy
 {
+	public enum EnemyType
+	{
+		MOSQUITO, FLY, WASP, RED_BIRD, HATTY_BIRD, MASK_BIRD, FURRY_BIRD, FIRE_BIRD, BAT, BOSS_BIRD, WORM, BOMB
+	}
+
 	public GameManager gameManager;
 	public EnemyFactory enemyFactory;
 	public ShootingMode shootingMode;
@@ -41,6 +48,11 @@ public abstract class BaseEnemy
 
 	public float fullImageWidth, fullImageHeight;
 	public float x, y;
+
+	public boolean isDying;
+	public float animationStateTime;
+	public int selectedAnimation;
+	public AnimatedSpriteSheet animatedSpriteSheet;
 
 	public EnemyType enemyType;
 
@@ -58,6 +70,7 @@ public abstract class BaseEnemy
 		hitPoint = MAX_HP;
 		mainBody.getmBody().setActive(true);
 		shouldRelease = false;
+		selectedAnimation = 0;
 	}
 	public void hitByBullet(String bulletData)
 	{
@@ -93,8 +106,33 @@ public abstract class BaseEnemy
 			release();
 			return;
 		}
+
+		if(isDying)
+			return;
+
 		if(hitPoint <= 0)
-			shouldRelease = true;
+		{
+			if(animatedSpriteSheet.getAnimation("die") != null)
+			{
+				isDying = true;
+				mainBody.getmBody().setLinearVelocity(0, 0);
+				mainBody.getmBody().setActive(false);
+				selectedAnimation = animatedSpriteSheet.getAnimationID("die");
+				Timer t = new Timer();
+				t.scheduleTask(new Timer.Task()
+				{
+					@Override
+					public void run()
+					{
+						isDying = false;
+						shouldRelease = true;
+					}
+				}, animatedSpriteSheet.getAnimation("die").animDuration * 2);
+
+			}
+			else
+				shouldRelease = true;
+		}
 
 		x = mainBody.getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER;
 		y = mainBody.getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER;
@@ -110,20 +148,21 @@ public abstract class BaseEnemy
 	public void draw(Batch batch)
 	{
 		if(mainBody != null)
-			mainBody.draw(batch);
+		{
+			animationStateTime += Gdx.graphics.getDeltaTime();
+			mainBody.draw(batch, animationStateTime, selectedAnimation);
+		}
 
-		float paddingX = 5;
-		gameManager.hpBarSprite.draw(batch, x - fullImageWidth / 2 + paddingX, y + fullImageHeight / 2 + 6, hitPoint, MAX_HP, fullImageWidth - paddingX * 2, 10);
+		if(!isDying)
+		{
+			float paddingX = 5;
+			gameManager.hpBarSprite.draw(batch, x - fullImageWidth / 2 + paddingX, y + fullImageHeight / 2 + 6, hitPoint, MAX_HP, fullImageWidth - paddingX * 2, 10);
+		}
 	}
 
 	public void damage(float damage)
 	{
 		hitPoint -= damage;
-	}
-
-	public enum EnemyType
-	{
-		Pigeon, Rat;
 	}
 
 	public static String getEnemyType(String fullString)
@@ -141,6 +180,16 @@ public abstract class BaseEnemy
 		mainBody = new CzakBody(PhysicsFactory.createBoxBody(enemyFactory.gameScene.world, 0, 0, fullImageWidth, fullImageHeight, BodyDef.BodyType.DynamicBody),
 				texture);
 		mainBody.getmSprite().get(0).setSize(fullImageWidth, fullImageHeight);
+		mainBody.getmBody().setGravityScale(0);
+		mainBody.setUserData(BodyStrings.ENEMY_STRING + " " + userData + " " + id);
+	}
+
+	public void init(String userData, int id, AnimatedSpriteSheet texture)
+	{
+		mainBody = new CzakBody(PhysicsFactory.createBoxBody(enemyFactory.gameScene.world, 0, 0, fullImageWidth, fullImageHeight, BodyDef.BodyType.DynamicBody),
+				texture);
+		animatedSpriteSheet = texture;
+		animatedSpriteSheet.setSize(fullImageWidth, fullImageHeight);
 		mainBody.getmBody().setGravityScale(0);
 		mainBody.setUserData(BodyStrings.ENEMY_STRING + " " + userData + " " + id);
 	}

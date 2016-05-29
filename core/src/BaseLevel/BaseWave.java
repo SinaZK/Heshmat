@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import Enemy.Pigeon;
 import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;
