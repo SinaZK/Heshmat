@@ -47,12 +47,6 @@ public class GunManager
 			getSelectedGun().isTouched = false;
 	}
 
-	public void draw(Batch batch)
-	{
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
-			getSelectedGun().draw(gameScene.getBatch());
-	}
-
 	public void initGuns()
 	{
 		rocketLauncher = new RocketLauncher(gameScene.act, gameManager);
@@ -81,11 +75,12 @@ public class GunManager
 	}
 
 	float ratio = PhysicsConstant.PIXEL_TO_METER;
-	public void reposition(ShootingMode shootingMode)
-	{
-		for(int i = 0;i < MAX_GUNS;i++)
+//	public void reposition(ShootingMode shootingMode)
+//	{
+		/*for(int i = 0;i < MAX_GUNS;i++)
 		{
 			guns.get(i).rePosition(shootingMode.firstCarX * ratio, shootingMode.firstCarY * ratio);
 		}
-	}
+		*/
+//	}
 }

@@ -85,6 +85,12 @@ public class SizakBody
 			bodies.get(i).setUserData(BodyStrings.CAR_STRING + " " + bodies.get(i).getmBody().getUserData());
 	}
 
+	public void setPrefixToUserData(String type)
+	{
+		for(int i = 0;i < bodies.size();i++)
+			bodies.get(i).setUserData(type + " " + bodies.get(i).getmBody().getUserData());
+	}
+
 	public void setCenterPosition(float worldX, float worldY)
 	{
 		Vector2 position = bodies.get(0).getmBody().getWorldCenter();

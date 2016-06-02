@@ -28,15 +28,12 @@ public class Entity  extends Actor
 	@Override
 	public void draw(Batch batch, float parentAlpha) 
 	{
-//		img.setOrigin(getWidth() / 2, getHeight() / 2);
-//		setOrigin(getWidth() / 2, getHeight() / 2);
 		Color color = getColor();
 		batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
 		
 		img.setRotation(getRotation());
 		
 		GUI.draw(batch, img);
-		
 	}
 	
 	@Override

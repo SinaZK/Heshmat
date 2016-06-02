@@ -7,9 +7,8 @@ import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 
+import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
-import PhysicsFactory.BodyUserStrings;
 import PhysicsFactory.PhysicsFactory;
 import heshmat.MainActivity;
 
@@ -45,7 +44,7 @@ public class TerrainPiece
 
 		mBody = PhysicsFactory.createLineBody(mPhysicsWorld, x1, y1, x2, y2,
 				PhysicsFactory.createFixtureDef(1, 0.2f, 0.7f));
-		mBody.setUserData(BodyUserStrings.GroundString);
+		mBody.setUserData(BodyStrings.GroundString);
 
 		float [] VX = new float[4];
 		float [] VY = new float[4];

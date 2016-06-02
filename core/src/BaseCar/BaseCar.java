@@ -2,6 +2,7 @@ package BaseCar;
 
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
@@ -41,6 +42,8 @@ public abstract class BaseCar
 	public Float CAR_DOWN_FORCE;
 	public Float CAR_BRAKE_FORCE;
 	public boolean isDead;
+
+	public float gunPosX, gunPosY;
 
 	public GameSceneInput gameSceneInput;
 	public DrivingHUD HUD;
@@ -126,4 +129,5 @@ public abstract class BaseCar
 		body.setCar();
 		isLabeled = true;
 	}
+
 }

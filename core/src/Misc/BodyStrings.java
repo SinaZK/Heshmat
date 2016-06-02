@@ -11,6 +11,13 @@ public class BodyStrings
 	public static String BULLET_STRING = "BULLET";
 	public static String ENEMY_STRING = "ENEMY";
 
+	public static String HUMAN_STRING = "HUMAN";
+	public static String Human_HeadString = "Head";
+	public static String Human_HandString = "Hand";
+	public static String Human_LegString = "Hand";
+	public static String Human_NeckString = "Head";
+	public static String Human_MainBodyString = "Head";
+
 	public static String BulletPistolString = "Pistol";
 	public static String BulletRocketString = "Rocket";
 
@@ -18,6 +25,11 @@ public class BodyStrings
 
 	public static String FINISH_MODE_STRING = "FINISH";
 	public static String GroundString = "Ground";
+
+	public static boolean isHuman(String s)
+	{
+		return getPartOf(s, 0).equals(HUMAN_STRING);
+	}
 
 	public static boolean isBullet(String s)
 	{

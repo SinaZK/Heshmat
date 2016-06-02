@@ -2,12 +2,15 @@ package GameScene;
 
 
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 
 import BaseCar.BaseCar;
 import BaseCar.CarLoader;
 import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
+import Human.*;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 import WeaponBase.BaseGun;
@@ -25,13 +28,13 @@ public class GameManager
 
 
 	public BaseCar selectedCar;
+	SimpleHuman shooterHuman;
 
 	public HPBarSprite hpBarSprite;
 
 	GameManager(GameScene mScene)
 	{
 		gameScene = mScene;
-
 	}
 
 	public void create()
@@ -48,6 +51,10 @@ public class GameManager
 		gunManager.create();
 		levelManager.create("gfx/lvl/test/");
 		enemyFactory.create();
+
+		shooterHuman = new SimpleHuman(this);
+		shooterHuman.create(50, 200);
+		shooterHuman.setPosition(220, 160);
 	}
 
 
@@ -58,6 +65,7 @@ public class GameManager
 		enemyFactory.run();
 		levelManager.run();
 		gunManager.run();
+		shooterHuman.run();
 
 		if(levelManager.levelMode == GameScene.LevelMode.Shooting)
 			gameScene.camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
@@ -76,18 +84,16 @@ public class GameManager
 	public void draw()
 	{
 		levelManager.drawOnBatch(gameScene.getBatch());
-		gunManager.draw(gameScene.getBatch());
 		selectedCar.draw(gameScene.getBatch());
 		enemyFactory.draw(gameScene.getBatch());
 		bulletFactory.draw(gameScene.getBatch());
+		shooterHuman.draw(gameScene.getBatch());
 	}
 
 	public void drawOnPolygonBatch(PolygonSpriteBatch polygonSpriteBatch)
 	{
 		levelManager.drawOnPolygonSpriteBatch(polygonSpriteBatch);
 	}
-
-
 
 	public void setInput(InputMultiplexer inputMultiplexer)
 	{

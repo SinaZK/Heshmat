@@ -19,11 +19,7 @@ public class RocketLauncher extends BaseGun
 	{
 		super(a, gm);
 
-		loadResources();
-
-		setPosition(100, 200);
-		shootingPoint.set(200, 42);
-		rateOfFire = 1.5f;
+		loadResources("gfx/weapons/rocketlauncher/");
 	}
 	
 	@Override
@@ -40,12 +36,6 @@ public class RocketLauncher extends BaseGun
 
 		isShootingEnabled = false;
 //		Log.e("BaseGun.java", "isShootingEnabled = " + isShootingEnabled);
-	}
-
-	@Override
-	public void loadResources()
-	{
-		image = new Entity(TextureHelper.loadTexture("gfx/rl.png", act.sceneManager.gameScene.disposeTextureArray));
 	}
 
 	@Override

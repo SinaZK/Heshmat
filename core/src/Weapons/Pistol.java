@@ -17,11 +17,7 @@ public class Pistol extends BaseGun
 	public Pistol(MainActivity a, GameManager gm) {
 		super(a, gm);
 
-		loadResources();
-
-		setPosition(100, 250);
-		shootingPoint.set(169, 100);
-		rateOfFire = 5;
+		loadResources("gfx/weapons/pistol/");
 	}
 
 	@Override
@@ -36,12 +32,6 @@ public class Pistol extends BaseGun
 		p.shoot(getShootingX(), getShootingY(), image.getRotation());
 
 		isShootingEnabled = false;
-	}
-
-	@Override
-	public void loadResources()
-	{
-		image = new Entity(TextureHelper.loadTexture("gfx/pistol.png", act.sceneManager.gameScene.disposeTextureArray));
 	}
 
 }

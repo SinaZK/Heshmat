@@ -3,13 +3,22 @@ package WeaponBase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import Entity.Entity;
 import GameScene.GameManager;
+import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
@@ -18,7 +27,7 @@ import heshmat.MainActivity;
 public abstract class BaseGun implements InputProcessor
 {
 	public MainActivity act;
-	public Entity image;
+	public Sprite image;
 	public float rateOfFire;//numberOfBulletsPerSecond
 	public boolean isShootingEnabled = true;
 	public float shootingTimeCounter = 0;
@@ -28,6 +37,7 @@ public abstract class BaseGun implements InputProcessor
 	
 	public float x, y;
 	public Vector2 shootingPoint = new Vector2(0, 0);
+	public Vector2 humanPos = new Vector2(0, 0);
 	
 	public BaseGun(MainActivity a, GameManager gm)
 	{
@@ -36,14 +46,68 @@ public abstract class BaseGun implements InputProcessor
 
 		//debugTest = new Entity(TextureHelper.loadTexture("gfx/pistolbullet.png", gameManager.gameScene.disposeTextureArray));
 	}
-	
+
 	public void draw(Batch batch)
 	{
-		image.draw(batch, 1);
-		//batch.draw(debugTest.getImg().getTexture(), getShootingX(), getShootingY());
+		if(image.getRotation() >= -90 && image.getRotation() <= 90)
+		{
+			image.draw(batch, 1);
+		}
+		else
+		{
+			image.setFlip(false, true);
+			image.draw(batch);
+			image.setFlip(false, false);
+		}
 	};
 	
-	public abstract void loadResources();
+	public void loadResources(String path)
+	{
+		image = new Sprite(TextureHelper.loadTexture(path + "image.png", act.sceneManager.gameScene.disposeTextureArray));
+
+		FileHandle f = Gdx.files.internal(path + "gun.gun");
+		InputStream inputStream = f.read();
+		BufferedReader dis = new BufferedReader(new InputStreamReader(inputStream));
+
+		try {
+
+			String [] val;
+			String in;
+
+			in = dis.readLine();//size
+			float width = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			float height = Float.valueOf(BodyStrings.getPartOf(in, 2));
+
+			in = dis.readLine();//HumanPos
+			float hX = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			float hY = Float.valueOf(BodyStrings.getPartOf(in, 2));
+			humanPos.set(hX, hY);
+
+			in = dis.readLine();//origin
+			float oX = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			float oY = Float.valueOf(BodyStrings.getPartOf(in, 2));
+
+			in = dis.readLine();//shootingPos
+			float shootX = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			float shootY = Float.valueOf(BodyStrings.getPartOf(in, 2));
+
+			in = dis.readLine();
+			rateOfFire = Float.valueOf(BodyStrings.getPartOf(in, 1));
+
+			float scaleX = image.getWidth() / width;
+			float scaleY = image.getHeight() / height;
+
+			image.setSize(width, height);
+			image.setOrigin(oX / scaleX, oY / scaleY);
+
+			shootingPoint.set(shootX / scaleX, shootY / scaleY);
+		}
+		catch (IOException e)
+		{
+			Log.e("Tag", e.toString());
+		}//catch
+
+	}
 
 	public float getShootingX()
 	{
@@ -51,10 +115,10 @@ public abstract class BaseGun implements InputProcessor
 			return 0;
 
 		Vector2 tmp = new Vector2(shootingPoint.x + x, shootingPoint.y + y);
-		Vector2 shootingPointAfterRotate = CameraHelper.rotatePoint(x + image.getWidth() / 2, y + image.getHeight() / 2, image.getRotation(), tmp);
-		//shootingPointAfterRotate.add(image.getWidth() / 2, image.getHeight() / 2);
+		Vector2 shootingPointAfterRotate = CameraHelper.rotatePoint(x + image.getOriginX(), y + image.getOriginY(), image.getRotation(), tmp);
 
 		return shootingPointAfterRotate.x;
+
 	}
 
 	public float getShootingY()
@@ -62,9 +126,20 @@ public abstract class BaseGun implements InputProcessor
 		if(image == null)
 			return 0;
 
-		Vector2 tmp = new Vector2(shootingPoint.x + x, shootingPoint.y + y);
-		Vector2 shootingPointAfterRotate = CameraHelper.rotatePoint(x + image.getWidth() / 2, y + image.getHeight() / 2, image.getRotation(), tmp);
-		//shootingPointAfterRotate.add(image.getWidth() / 2, image.getHeight() / 2);
+		Vector2 tmp = new Vector2(0, 0);
+		tmp.set(shootingPoint.x + x, shootingPoint.y + y);
+
+		float rotation = image.getRotation();
+		float originY = image.getOriginY();
+
+		if(rotation >= 90 && rotation <= 270)
+		{
+			tmp.set(shootingPoint.x + x, -image.getHeight() + shootingPoint.y + y);
+			originY = image.getHeight() - originY;
+		}
+
+
+		Vector2 shootingPointAfterRotate = CameraHelper.rotatePoint(x + image.getOriginX(), y + originY, rotation, tmp);
 
 		return shootingPointAfterRotate.y;
 	}
@@ -74,6 +149,17 @@ public abstract class BaseGun implements InputProcessor
 		this.x = x;
 		this.y = y;
 		image.setPosition(x, y);
+	}
+
+	public void setX(float x)
+	{
+		this.x = x;
+		image.setPosition(x, image.getY());
+	}
+
+	public void setSize(float w, float h)
+	{
+		image.setSize(w, h);
 	}
 
 	public void rePosition(float carX, float carY)
