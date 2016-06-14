@@ -3,11 +3,12 @@ package Physics;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Joint;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 import java.util.ArrayList;
 
 import Misc.BodyStrings;
-import Misc.Log;
 
 /**
  * Created by sinazk on 5/16/16.
@@ -101,6 +102,18 @@ public class SizakBody
 			position = bodies.get(i).getmBody().getWorldCenter();
 			bodies.get(i).setPosition(position.x + diffVector.x, position.y + diffVector.y);
 		}
+	}
+
+	public void addBodyWithWeld(CzakBody body, String attachedBodyName, World world)
+	{
+		bodies.add(body);
+
+		CzakBody attachedBody = getBodyByName(attachedBodyName);
+
+		WeldJointDef weldJointDef = new WeldJointDef();
+		weldJointDef.initialize(body.getmBody(), attachedBody.getmBody(), body.getmBody().getWorldCenter());
+
+		world.createJoint(weldJointDef);
 	}
 
 }

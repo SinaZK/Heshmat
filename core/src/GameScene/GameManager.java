@@ -2,24 +2,21 @@ package GameScene;
 
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 
 import BaseCar.BaseCar;
-import BaseCar.CarLoader;
 import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
-import Human.*;
+import Human.SimpleHuman;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
-import SceneManager.SceneManager;
-import WeaponBase.BaseGun;
+import Sorter.CarSorter;
 import WeaponBase.BulletFactory;
-import Weapons.Pistol;
-import Weapons.RocketLauncher;
+import heshmat.MainActivity;
 
 public class GameManager
 {
+	public MainActivity activity;
 	public GameScene gameScene;
 	public LevelManager levelManager;
 	public BulletFactory bulletFactory;
@@ -35,6 +32,7 @@ public class GameManager
 	GameManager(GameScene mScene)
 	{
 		gameScene = mScene;
+		activity = gameScene.act;
 	}
 
 	public void create()
@@ -44,19 +42,21 @@ public class GameManager
 		gunManager = new GunManager(this);
 		hpBarSprite = new HPBarSprite("gfx/hpbar.png", 7, 1, gameScene.disposeTextureArray);
 
-		selectedCar = CarLoader.loadTrainFile(this, "gfx/car/train/train.car", gameScene.world, gameScene.disposeTextureArray);
+		selectedCar = CarSorter.createSelectedCar(this, gameScene.world, gameScene.disposeTextureArray, gameScene.act.selectorStatData.selectedCar);
+		assert selectedCar != null;
+		selectedCar.body.setCenterPosition(200 / PhysicsConstant.PIXEL_TO_METER, 300 / PhysicsConstant.PIXEL_TO_METER);
+		selectedCar.setFromCarModel(gameScene.carModel);
 
 		levelManager = new LevelManager(this);
 
 		gunManager.create();
-		levelManager.create("gfx/lvl/test/");
+		levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/");
 		enemyFactory.create();
 
 		shooterHuman = new SimpleHuman(this);
 		shooterHuman.create(50, 200);
 		shooterHuman.setPosition(220, 160);
 	}
-
 
 
 	public void run()

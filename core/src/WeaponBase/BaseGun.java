@@ -15,29 +15,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import Entity.Entity;
 import GameScene.GameManager;
+import GameScene.GameScene;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
 import heshmat.MainActivity;
 
-public abstract class BaseGun implements InputProcessor
+public class BaseGun implements InputProcessor
 {
 	public MainActivity act;
-	public Sprite image;
+	public Sprite image, showSprite;
 	public float rateOfFire;//numberOfBulletsPerSecond
 	public boolean isShootingEnabled = true;
 	public float shootingTimeCounter = 0;
 	//public Entity debugTest;
 
 	public GameManager gameManager;
-	
+
 	public float x, y;
 	public Vector2 shootingPoint = new Vector2(0, 0);
 	public Vector2 humanPos = new Vector2(0, 0);
+
+	public float bodyDensity, bodyElasticity, bodyFriction;
 	
 	public BaseGun(MainActivity a, GameManager gm)
 	{
@@ -60,10 +64,22 @@ public abstract class BaseGun implements InputProcessor
 			image.setFlip(false, false);
 		}
 	};
-	
-	public void loadResources(String path)
+
+	public void drawShow(Batch batch)
 	{
-		image = new Sprite(TextureHelper.loadTexture(path + "image.png", act.sceneManager.gameScene.disposeTextureArray));
+		showSprite.draw(batch);
+	}
+	
+	public void loadResources(String path, ArrayList<Texture> disposalArray)
+	{
+		ArrayList<Texture> use;
+		if(act.sceneManager.gameScene == null)
+			use = disposalArray;
+		else
+			use = act.sceneManager.gameScene.disposeTextureArray;
+
+		image = new Sprite(TextureHelper.loadTexture(path + "image.png", use));
+		showSprite = new Sprite(TextureHelper.loadTexture(path + "show.png", use));
 
 		FileHandle f = Gdx.files.internal(path + "gun.gun");
 		InputStream inputStream = f.read();
@@ -101,6 +117,11 @@ public abstract class BaseGun implements InputProcessor
 			image.setOrigin(oX / scaleX, oY / scaleY);
 
 			shootingPoint.set(shootX / scaleX, shootY / scaleY);
+
+			in = dis.readLine();
+			bodyDensity = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			bodyElasticity = Float.valueOf(BodyStrings.getPartOf(in, 2));
+			bodyFriction = Float.valueOf(BodyStrings.getPartOf(in, 3));
 		}
 		catch (IOException e)
 		{
@@ -149,17 +170,20 @@ public abstract class BaseGun implements InputProcessor
 		this.x = x;
 		this.y = y;
 		image.setPosition(x, y);
+		showSprite.setPosition(x, y);
 	}
 
 	public void setX(float x)
 	{
 		this.x = x;
 		image.setPosition(x, image.getY());
+		showSprite.setPosition(x, image.getY());
 	}
 
 	public void setSize(float w, float h)
 	{
 		image.setSize(w, h);
+		showSprite.setSize(w, h);
 	}
 
 	public void rePosition(float carX, float carY)
@@ -197,6 +221,11 @@ public abstract class BaseGun implements InputProcessor
 
 		if(isTouched)
 			shoot();
+	}
+
+	public void slotGunInitOnAttachCar()
+	{
+		gameManager = act.sceneManager.gameScene.gameManager;
 	}
 	
 	@Override

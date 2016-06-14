@@ -63,8 +63,10 @@ public class SimpleHuman
 	{
 		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
 		{
+			float rat = PhysicsConstant.PIXEL_TO_METER;
 			setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x,
-					gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().y);
+					gameManager.levelManager.currentLevel.terrain.Points.getLast().y / rat + bodySprite.getHeight() / 2 / rat);
+
 		}
 
 		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Driving)

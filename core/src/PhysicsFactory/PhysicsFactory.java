@@ -1,5 +1,6 @@
 package PhysicsFactory;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -120,14 +121,7 @@ public class PhysicsFactory
 		return PhysicsFactory.createFixtureDef(pDensity, pElasticity, pFriction, false);
 	}
 
-	/**
-	 * create FixtureDef based on parameters given
-	 * @param pDensity
-	 * @param pElasticity
-	 * @param pFriction
-	 * @param pSensor
-	 * @return
-	 */
+
 	public static FixtureDef createFixtureDef(final float pDensity, final float pElasticity, final float pFriction, final boolean pSensor) {
 		final FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.density = pDensity;
@@ -136,8 +130,14 @@ public class PhysicsFactory
 		fixtureDef.isSensor = pSensor;
 		return fixtureDef;
 	}
-	
-	
+
+	public static Body createBoxBody(World world, Sprite s, float density, float elasticity, float friction)
+	{
+		float rat = PhysicsConstant.PIXEL_TO_METER;
+		return createBoxBody(world, s.getX(), s.getY(), s.getWidth(), s.getHeight(), BodyType.DynamicBody, 1, 1, 1);
+
+	}
+
 	public static Body createBoxBody(final World pPhysicsWorld, final float pCenterX, final float pCenterY,
 			final float pWidth, final float pHeight, final float pRotation, final BodyType pBodyType, final FixtureDef pFixtureDef, final float pPixelToMeterRatio) 
 	{

@@ -17,7 +17,7 @@ public class Pistol extends BaseGun
 	public Pistol(MainActivity a, GameManager gm) {
 		super(a, gm);
 
-		loadResources("gfx/weapons/pistol/");
+		loadResources("gfx/weapons/pistol/", null);
 	}
 
 	@Override

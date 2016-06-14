@@ -14,12 +14,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import BaseCar.CarLoader;
-import Cars.Train;
 import Entity.AnimatedSprite;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
-import Misc.Log;
+import BaseCar.SizakCarModel;
 import PhysicsFactory.PhysicsConstant;
 import Scene.BaseScene;
 import SceneManager.SceneManager;
@@ -30,11 +28,13 @@ public class GameScene extends BaseScene
 	public boolean isDebugRender = false;
 
 	SceneManager mSceneManager;
+	SizakCarModel carModel;//giving it from garageScene
 
-	public GameScene(SceneManager sceneManager, Viewport v)
+	public GameScene(SceneManager sceneManager, Viewport v, SizakCarModel carModel)
 	{
 		super(sceneManager.act, v);
 		mSceneManager = sceneManager;
+		this.carModel = carModel;
 	}
 
 	public OrthographicCamera camera;

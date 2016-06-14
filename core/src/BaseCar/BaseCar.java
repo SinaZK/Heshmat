@@ -2,10 +2,12 @@ package BaseCar;
 
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
+import java.util.ArrayList;
+
+import DataStore.CarStatData;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.GameSceneInput;
@@ -24,6 +26,8 @@ public abstract class BaseCar
 	public GameScene gameScene;
 	public GameManager gameManager;
 	public SizakBody body;
+
+	public ArrayList<CarSlot> slots = new ArrayList<CarSlot>();
 
 	public float rotationFlipTorque;
 
@@ -47,19 +51,24 @@ public abstract class BaseCar
 
 	public GameSceneInput gameSceneInput;
 	public DrivingHUD HUD;
+	public CarStatData carStatData;
 
-	public BaseCar(GameManager gm)
+	public BaseCar(GameManager gm, CarStatData carStatData)
 	{
 		gameManager = gm;
 		gameScene = gm.gameScene;
 		act = gm.gameScene.act;
 		gameSceneInput = gm.gameScene.gameSceneInput;
 		HUD = gameScene.drivingModeHUD;
+		this.carStatData = carStatData;
 	}
 
 	public void draw(Batch spriteBatch)
 	{
 		body.draw(spriteBatch);
+
+		for(int i = 0;i < slots.size();i++)
+			slots.get(i).draw(spriteBatch);
 	}
 
 	public abstract void gas(float rate);
@@ -97,6 +106,9 @@ public abstract class BaseCar
 
 		if(!isGas && !isBrake)
 			relax();
+
+		for(int i = 0;i < slots.size();i++)
+			slots.get(i).run();
 	}
 
 	boolean shouldStop;
@@ -128,6 +140,25 @@ public abstract class BaseCar
 	{
 		body.setCar();
 		isLabeled = true;
+	}
+
+	public void addSlot(CarSlot slot)
+	{
+		slots.add(slot);
+	}
+
+	public void setFromCarModel(SizakCarModel carModel)
+	{
+		if(carModel == null)
+			return;
+
+		for(int i = 0;i < carModel.slots.size();i++)
+		{
+			CarSlot slot = carModel.slots.get(i);
+
+			slot.createOnGameScene(gameScene.world, this);
+			addSlot(slot);
+		}
 	}
 
 }

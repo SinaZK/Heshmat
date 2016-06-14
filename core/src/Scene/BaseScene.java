@@ -4,10 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+import SceneManager.SceneManager;
 import heshmat.MainActivity;
 
 public class BaseScene extends Stage
@@ -16,11 +18,14 @@ public class BaseScene extends Stage
 	public MainActivity act;
 	public float DX;
 	public float DY;
+
+	public Stage HUD;
 	
 	public BaseScene(MainActivity act) 
 	{
 		super();
 		this.act = act;
+		HUD = new Stage();
 		Gdx.input.setInputProcessor(this);
 	}
 	
@@ -28,6 +33,7 @@ public class BaseScene extends Stage
 	{
 		super(v);
 		this.act = act;
+		HUD = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 		Gdx.input.setInputProcessor(this);
 	}
 	
@@ -48,7 +54,13 @@ public class BaseScene extends Stage
 		act(Gdx.graphics.getDeltaTime());
 		draw();
 	}
-	
+
+	@Override
+	public void draw()
+	{
+		super.draw();
+	}
+
 	@Override
 	public void dispose() 
 	{
@@ -57,5 +69,10 @@ public class BaseScene extends Stage
 		
 		super.dispose();
 	}
-	
+
+	public void createHUD()
+	{
+
+	}
+
 }

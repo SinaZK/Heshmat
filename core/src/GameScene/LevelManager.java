@@ -3,9 +3,7 @@ package GameScene;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-import BaseLevel.BaseLevel;
-import BaseLevel.DrivingMode;
-import BaseLevel.ShootingMode;
+import BaseLevel.*;
 import Misc.Log;
 import heshmat.MainActivity;
 
@@ -36,7 +34,7 @@ public class LevelManager
 	public void create(String add)
 	{
 		currentLevel = new BaseLevel(gameManager);
-		currentLevel.load("gfx/lvl/test/");
+		currentLevel.load(add);
 
 		currentLevel.levelParts.get(0).start();
 	}

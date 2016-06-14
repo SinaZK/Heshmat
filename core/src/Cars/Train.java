@@ -1,6 +1,7 @@
 package Cars;
 
 import BaseCar.NormalCar;
+import DataStore.CarStatData;
 import Entity.Button;
 import GameScene.GameManager;
 import GameScene.GameScene;
@@ -14,9 +15,9 @@ import Misc.TextureHelper;
 public class Train extends NormalCar
 {
 	Button collapseButton;
-	public Train(GameManager gm)
+	public Train(GameManager gm, CarStatData carStatData)
 	{
-		super(gm);
+		super(gm, carStatData);
 
 		collapseButton = new Button(TextureHelper.loadTexture("gfx/scene/game/exit1.png", gameScene.disposeTextureArray),
 				TextureHelper.loadTexture("gfx/scene/game/exit2.png", gameScene.disposeTextureArray));

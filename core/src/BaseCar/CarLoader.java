@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import Cars.Train;
+import DataStore.CarStatData;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.Log;
@@ -42,21 +43,22 @@ import PhysicsFactory.PhysicsFactory;
  */
 public class CarLoader
 {
-	static String EOF = "end";
+	public static String EOF = "END";
 	static String WheelTagString = "wheel";
-	static String TRUE = "true";
-	static String FALSE = "false";
+	public static String GUN_SLOT = "GUN";
+	public static String UPGRADE_ENGINE   = "ENGINE";
+	public static String UPGRADE_HIT_POINT = "HITPOINT";
 
 
 	float ratio = PhysicsConstant.PIXEL_TO_METER;
-	public static NormalCar loadCarFile(GameManager gameManager, String path, World world, ArrayList<Texture> disposableArray)
+	public static NormalCar loadCarFile(GameManager gameManager, String path, World world, ArrayList<Texture> disposableArray, CarStatData carStatData)
 	{
 
 		FileHandle f = Gdx.files.internal(path);
 		InputStream inputStream = f.read();
 		BufferedReader dis = new BufferedReader(new InputStreamReader(inputStream));
 
-		NormalCar retCar = new NormalCar(gameManager);
+		NormalCar retCar = new NormalCar(gameManager, carStatData);
 
 		try
 		{
@@ -93,19 +95,21 @@ public class CarLoader
 		return retCar;
 	}
 
-	public static Train loadTrainFile(GameManager gameManager, String path, World world, ArrayList<Texture> disposableArray)
+	public static Train loadTrainFile(GameManager gameManager, String path, World world, ArrayList<Texture> disposableArray, CarStatData carStatData)
 	{
 
 		FileHandle f = Gdx.files.internal(path);
 		InputStream inputStream = f.read();
 		BufferedReader dis = new BufferedReader(new InputStreamReader(inputStream));
 
-		Train retCar = new Train(gameManager);
+		Train retCar = new Train(gameManager, carStatData);
 
 		try
 		{
 			String read = dis.readLine();
 			retCar.body = SizakBodyLoader.loadBodyFile(BodyStrings.getPartOf(read, 1), world, disposableArray);
+
+//			Log.e("Carloader.java", "sizakBodyLoaded : " + retCar.body.joints.size() + " bodyCount = " + retCar.body.bodies.size());
 
 			read = dis.readLine();
 			retCar.wheelNum = Integer.valueOf(BodyStrings.getPartOf(read, 1));

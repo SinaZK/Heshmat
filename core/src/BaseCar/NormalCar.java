@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.compression.lzma.Base;
 
 import java.util.ArrayList;
 
+import DataStore.CarStatData;
 import Entity.Button;
 import GameScene.GameManager;
 import HUD.DrivingHUD;
@@ -27,9 +28,9 @@ import heshmat.MainActivity;
 public class NormalCar extends BaseCar
 {
 	Button gasButton, brakeButton;
-	public NormalCar(GameManager gm)
+	public NormalCar(GameManager gm, CarStatData carStatData)
 	{
-		super(gm);
+		super(gm, carStatData);
 
 		gasButton = new Button(TextureHelper.loadTexture("gfx/scene/game/gas1.png", gameScene.disposeTextureArray),
 				TextureHelper.loadTexture("gfx/scene/game/gas2.png", gameScene.disposeTextureArray));
@@ -45,12 +46,14 @@ public class NormalCar extends BaseCar
 	@Override
 	public void gas(float rate)
 	{
+		float additionalSpeed = carStatData.engineLVL * 20f;
+//		Log.e("NormalCar.java", "add = " + additionalSpeed);
 		for(int i = 0;i < wheelNum;i++)
 		{
 			if(isWheelDrive[i])
 			{
 				wheelJoints[i].enableMotor(true);
-				wheelJoints[i].setMotorSpeed(-wheelSpeed[i]);
+				wheelJoints[i].setMotorSpeed(-(wheelSpeed[i] + additionalSpeed));
 				wheelJoints[i].setMaxMotorTorque(wheelTorque[i]);
 			}
 		}

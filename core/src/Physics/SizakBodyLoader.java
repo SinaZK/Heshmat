@@ -36,18 +36,18 @@ import PhysicsFactory.PhysicsFactory;
  */
 public class SizakBodyLoader
 {
-	static String EOF = "end";
-	static String BodyTagString = "body";
-	static String BodyTypeDynamicString = "dynamic";
-	static String BodyTypeStaticString = "static";
-	static String CircleBody = "circle";
-	static String PolygonBody = "polygon";
-	static String JointTagString = "joint";
-	static String WeldJointString = "weld";
-	static String WheelJointString = "wheel";
-	static String RevoluteJointString = "revolute";
-	static String TRUE = "true";
-	static String FALSE = "false";
+	public static String EOF = "end";
+	public static String BodyTagString = "body";
+	public static String BodyTypeDynamicString = "dynamic";
+	public static String BodyTypeStaticString = "static";
+	public static String CircleBody = "circle";
+	public static String PolygonBody = "polygon";
+	public static String JointTagString = "joint";
+	public static String WeldJointString = "weld";
+	public static String WheelJointString = "wheel";
+	public static String RevoluteJointString = "revolute";
+	public static String TRUE = "true";
+	public static String FALSE = "false";
 
 
 	public static SizakBody loadBodyFile(String path, World world, ArrayList<Texture> disposableArray)
@@ -115,6 +115,9 @@ public class SizakBodyLoader
 
 					if(jointType.equals(WheelJointString))
 					{
+//						dis.readLine();
+//						dis.readLine();
+//						dis.readLine();
 						WheelJoint wheelJoint = createWheelJoint(world, retBody.getBodyByName(body1Name).getmBody(), retBody.getBodyByName(body2Name).getmBody(),
 								collideConnected, dis);
 						wheelJoint.setUserData(jointName);
@@ -130,6 +133,7 @@ public class SizakBodyLoader
 
 					if(jointType.equals(RevoluteJointString))
 					{
+//						dis.readLine();
 						RevoluteJoint wheelJoint = createRevoluteJoint(world, retBody.getBodyByName(body1Name).getmBody(), retBody.getBodyByName(body2Name).getmBody(),
 								collideConnected, dis);
 						wheelJoint.setUserData(jointName);
