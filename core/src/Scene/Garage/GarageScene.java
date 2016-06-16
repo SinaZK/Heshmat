@@ -9,10 +9,12 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import DataStore.CarStatData;
 import DataStore.DataKeyStrings;
 import Entity.Button;
+import Misc.Log;
 import Misc.TextureHelper;
 import Scene.BaseScene;
 import SceneManager.SceneManager;
@@ -30,51 +32,42 @@ public class GarageScene extends BaseScene
 	public float DY;
 	String add = "gfx/scene/garage/";
 
-	int selectedCar;
-	public CarSelectEntity [] carSelectEntities = new CarSelectEntity[SceneManager.CAR_NUM + 1];//1base
+	public CarSelectorTab carSelectorTab;
+	public GunSelectorTab gunSelectorTab;
 
-	public BaseGun [] gunSlots = new BaseGun[SceneManager.GUN_SLOT_NUM + 1];//1Base
+	public enum CurrentTab
+	{
+		CAR_SELECT, GUN_SELECT;
+	}
 
-	public Stage carUpgradeHUD;
+	CurrentTab currentTab;
 
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
-
-	public static float CAR_SHOW_WIDTH = 300;
-	public static float CAR_SHOW_PADDING = 500;
 
 	@Override
 	public void loadResources()
 	{
-		loadButtonTextures();
+		loadCarButtonTextures();
+		loadGunButtonTextures();
 		DX = (getCamera().viewportWidth - SceneManager.WORLD_X) / 2;
 		DY = (getCamera().viewportHeight - SceneManager.WORLD_Y) / 2;
 
-		carUpgradeHUD = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
-
-		for(int i = 1;i <= SceneManager.CAR_NUM;i++)
-		{
-			carSelectEntities[i] = new CarSelectEntity(this, (CarStatData) act.saveManager.loadDataValue(DataKeyStrings.CarStatData[CarSorter.carPos[i]], CarStatData.class), i);
-			carSelectEntities[i].setPosition(i * CAR_SHOW_WIDTH + (i - 1) * CAR_SHOW_PADDING, 200);
-		}
-
-		loadGunSlots();
-
 		((OrthographicCamera)getCamera()).zoom = 1;
 
-		inputMultiplexer.addProcessor(this);
-		inputMultiplexer.addProcessor(HUD);
-		inputMultiplexer.addProcessor(carUpgradeHUD);
-		Gdx.input.setInputProcessor(inputMultiplexer);
+		carSelectorTab = new CarSelectorTab(this);
+		carSelectorTab.loadResources();
+		carSelectorTab.create();
+		gunSelectorTab = new GunSelectorTab(this);
+		gunSelectorTab.loadResources();
+		gunSelectorTab.create();
+
+		createHUD();
 	}
 
 	@Override
 	public void create()
 	{
-		selectedCar = act.selectorStatData.selectedCar;
-		((OrthographicCamera)getCamera()).position.x = getCameraDistX();
-		carSelectEntities[selectedCar].select();
-
-		createHUD();
+		selectTab(CurrentTab.CAR_SELECT);
 	}
 
 	@Override
@@ -82,26 +75,78 @@ public class GarageScene extends BaseScene
 	{
 		super.run();
 
-		carUpgradeHUD.act();
+		switch (currentTab)
+		{
+			case CAR_SELECT:
+				carSelectorTab.run();
+				break;
+
+			case GUN_SELECT:
+				gunSelectorTab.run();
+				break;
+		}
+
+		HUD.act();
+
+		Random r = new Random();
+		int a = Math.abs(r.nextInt()) % 1000;
+
+		if(a < 10)
+			Log.e("GarageScene.java", "money = " + act.playerStatData.getMoney());
+
 	}
 
 	@Override
 	public void draw()
 	{
-		moveCamera();
 		super.draw();
 
-		for(int i = 1;i <= SceneManager.CAR_NUM;i++)
-			carSelectEntities[i].draw(getBatch());
-		carUpgradeHUD.draw();
+		switch (currentTab)
+		{
+			case CAR_SELECT:
+				carSelectorTab.draw();
+				break;
+
+			case GUN_SELECT:
+				gunSelectorTab.draw();
+				break;
+		}
+
 		HUD.draw();
+	}
+
+	public void selectTab(CurrentTab currentTab)
+	{
+		this.currentTab = currentTab;
+		inputMultiplexer.clear();
+
+		switch (currentTab)
+		{
+			case CAR_SELECT:
+				inputMultiplexer.addProcessor(this);
+				inputMultiplexer.addProcessor(HUD);
+				inputMultiplexer.addProcessor(carSelectorTab.inputMultiplexer);
+				carSelectorTab.getCamera().position.x = carSelectorTab.getCameraDistX();
+				break;
+
+			case GUN_SELECT:
+				inputMultiplexer.addProcessor(this);
+				inputMultiplexer.addProcessor(HUD);
+				inputMultiplexer.addProcessor(gunSelectorTab.inputMultiplexer);
+				gunSelectorTab.getCamera().position.x = gunSelectorTab.getCameraDistX();
+				break;
+		}
+
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	public Texture GunSlotButtonTexture1, GunSlotButtonTexture2;
 	public Texture EngineUpgradeButtonTexture1, EngineUpgradeButtonTexture2;
 	public Texture HitPointUpgradeButtonTexture1, HitPointUpgradeButtonTexture2;
-	public void loadButtonTextures()
+	public void loadCarButtonTextures()//CarSelectorTab Textures
 	{
+		String add = this.add + "cartab/";
+
 		GunSlotButtonTexture1 = TextureHelper.loadTexture("gfx/car/slots/slot.png", disposeTextureArray);
 		GunSlotButtonTexture2 = TextureHelper.loadTexture("gfx/car/slots/slot.png", disposeTextureArray);
 
@@ -112,47 +157,55 @@ public class GarageScene extends BaseScene
 		HitPointUpgradeButtonTexture2 = TextureHelper.loadTexture(add + "hitpointupgrade2.png", disposeTextureArray);
 	}
 
+
+	public Texture FireRateUpgradeButtonTexture1, FireRateUpgradeButtonTexture2;
+	public void loadGunButtonTextures()//GunSelectorTab Textures
+	{
+		String add = this.add + "guntab/";
+		FireRateUpgradeButtonTexture1 = TextureHelper.loadTexture(add + "firerateupgrade1.png", disposeTextureArray);
+		FireRateUpgradeButtonTexture2 = TextureHelper.loadTexture(add + "firerateupgrade2.png", disposeTextureArray);
+	}
+
+	Texture gunTabTexture1, gunTabTexture2;
+	Texture carTabTexture1, carTabTexture2;
 	@Override
 	public void createHUD()
 	{
-		Button nextCarButton = new Button(TextureHelper.loadTexture(add + "nextbutton1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "nextbutton2.png", disposeTextureArray));
-		nextCarButton.setSize(50, 250);
-		nextCarButton.setPosition(DX + SceneManager.WORLD_X - 50 - 10, DY + 120);
+		String add = this.add + "garagehud/";
+		gunTabTexture1 = TextureHelper.loadTexture(add + "gunselect1.png", disposeTextureArray);
+		gunTabTexture2 = TextureHelper.loadTexture(add + "gunselect2.png", disposeTextureArray);
 
-		Button prevCarButton = new Button(TextureHelper.loadTexture(add + "prevbutton1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "prevbutton2.png", disposeTextureArray));
-		prevCarButton.setSize(50, 250);
-		prevCarButton.setPosition(DX + 10, DY + 120);
+		carTabTexture1 = TextureHelper.loadTexture(add + "carselect1.png", disposeTextureArray);
+		carTabTexture2 = TextureHelper.loadTexture(add + "carselect2.png", disposeTextureArray);
 
-		nextCarButton.setRunnable(act, new Runnable()
+		Button gunSelectButton = new Button(gunTabTexture1, gunTabTexture2);
+		gunSelectButton.setPosition(DX + 0, DY + 400);
+		gunSelectButton.setSize(80, 20);
+
+		gunSelectButton.setRunnable(act, new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				selectedCar++;
-				if(selectedCar > SceneManager.CAR_NUM)
-					selectedCar = SceneManager.CAR_NUM;
-
-				carSelectEntities[selectedCar].select();
+				selectTab(CurrentTab.GUN_SELECT);
 			}
 		});
 
-		prevCarButton.setRunnable(act, new Runnable()
+		Button carSelectButton = new Button(carTabTexture1, carTabTexture2);
+		carSelectButton.setPosition(DX + 85, DY + 400);
+		carSelectButton.setSize(80, 20);
+
+		carSelectButton.setRunnable(act, new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				selectedCar--;
-				if(selectedCar < 1)
-					selectedCar = 1;
-
-				carSelectEntities[selectedCar].select();
+				selectTab(CurrentTab.CAR_SELECT);
 			}
 		});
 
-		Button startGameButton = new Button(TextureHelper.loadTexture(add + "next1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "next2.png", disposeTextureArray));
+		Button startGameButton = new Button(TextureHelper.loadTexture(add + "start1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "start2.png", disposeTextureArray));
 		startGameButton.setSize(150, 50);
 		startGameButton.setPosition(DX + 300, 400);
 
@@ -161,45 +214,15 @@ public class GarageScene extends BaseScene
 			@Override
 			public void run()
 			{
-				act.selectorStatData.selectedCar = selectedCar;
+				act.selectorStatData.selectedCar = carSelectorTab.selectedCar;
 				act.saveBeforeGameScene();
-				mSceneManager.setCurrentScene(SceneManager.SCENES.GAME_SCENE, carSelectEntities[selectedCar].sizakCarModel);
+				mSceneManager.setCurrentScene(SceneManager.SCENES.GAME_SCENE, carSelectorTab.carSelectEntities[carSelectorTab.selectedCar].sizakCarModel);
 				dispose();
 			}
 		});
 
-		HUD.addActor(nextCarButton);
-		HUD.addActor(prevCarButton);
+		HUD.addActor(gunSelectButton);
+		HUD.addActor(carSelectButton);
 		HUD.addActor(startGameButton);
-	}
-
-	public float getCameraDistX()
-	{
-		return selectedCar * CAR_SHOW_WIDTH + (selectedCar - 1) * CAR_SHOW_PADDING + carSelectEntities[selectedCar].sizakCarModel.sprites.get(0).getWidth() / 2;
-	}
-
-	private static float CAMERA_SPEED = 10;
-	private void moveCamera()
-	{
-		float distX = getCameraDistX();
-
-		OrthographicCamera camera = (OrthographicCamera)getCamera();
-
-		if(Math.abs(camera.position.x - distX) >= CAMERA_SPEED)
-		{
-			if(camera.position.x > distX)
-				camera.position.x -= CAMERA_SPEED;
-
-			if(camera.position.x < distX)
-				camera.position.x += CAMERA_SPEED;
-		}
-
-	}
-
-
-	private void loadGunSlots()
-	{
-		for(int i = 1;i <= SceneManager.GUN_SLOT_NUM;i++)
-			gunSlots[i] = GunSlotSorter.getGunSlot(act, i);
 	}
 }

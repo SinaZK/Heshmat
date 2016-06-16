@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import DataStore.CarStatData;
 import BaseCar.SizakCarModel;
+import Misc.Log;
 import Sorter.CarSorter;
 
 /**
@@ -13,18 +14,20 @@ import Sorter.CarSorter;
 public class CarSelectEntity
 {
 	GarageScene garageScene;
+	CarSelectorTab carSelectorTab;
 
 	public CarStatData carStatData;
 	public SizakCarModel sizakCarModel;
 	public int carID;//the position of this in the garageScene //1Base
 
-	public CarSelectEntity(GarageScene gs, CarStatData carStatData, int id)
+	public CarSelectEntity(CarSelectorTab carSelectorTab, CarStatData carStatData, int id)
 	{
-		garageScene = gs;
+		this.carSelectorTab = carSelectorTab;
+		garageScene = carSelectorTab.garageScene;
 		this.carStatData = carStatData;
 		carID = id;
 
-		sizakCarModel = new SizakCarModel(gs.act, this);
+		sizakCarModel = new SizakCarModel(garageScene.act, this);
 		sizakCarModel.loadFromCarFile(garageScene, "gfx/car/" + CarSorter.carPos[carID] + "/car.car", garageScene.disposeTextureArray);
 		sizakCarModel.initUpgradeButtons(carStatData);
 
@@ -49,10 +52,10 @@ public class CarSelectEntity
 
 	public void select()
 	{
-		garageScene.carUpgradeHUD.getActors().clear();
+		carSelectorTab.carUpgradeHUD.getActors().clear();
 
 		for(int i = 0;i < sizakCarModel.upgradeButtons.size();i++)
-			garageScene.carUpgradeHUD.addActor(sizakCarModel.upgradeButtons.get(i));
+			carSelectorTab.carUpgradeHUD.addActor(sizakCarModel.upgradeButtons.get(i));
 	}
 
 }

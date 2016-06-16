@@ -25,10 +25,12 @@ public class SceneManager
 	public static int LVL_PACK_MAX_NUM = 2;
 	public static int LVL_MAX_NUM = 12;
 	public static int CAR_MAX_NUM = 2;
+	public static int GUN_MAX_NUM = 2;
 
 	public static int LVL_PACK_NUM = 2;
 	public static int CAR_NUM = 2;
 	public static int GUN_SLOT_NUM = 1;
+	public static int GUN_NUM = 2;
 
 	public MainActivity act;
 	public DialogManager dialogManager;

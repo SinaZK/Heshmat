@@ -56,8 +56,8 @@ public class GunSlotButton extends Button
 			super.draw(batch, parentAlpha);
 		else
 		{
-			garageScene.gunSlots[slot.selectedGunSlot].setPosition(getX(), getY());
-			garageScene.gunSlots[slot.selectedGunSlot].draw(batch);
+			garageScene.carSelectorTab.gunSlots[slot.selectedGunSlot].setPosition(getX(), getY());
+			garageScene.carSelectorTab.gunSlots[slot.selectedGunSlot].draw(batch);
 		}
 	}
 }

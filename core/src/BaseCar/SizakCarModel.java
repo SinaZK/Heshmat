@@ -38,11 +38,13 @@ public class SizakCarModel extends SizakBodyModel
 	public ArrayList <CarSlot> slots = new ArrayList<CarSlot>();
 
 	public ArrayList <CarUpgradeButton> upgradeButtons = new ArrayList<CarUpgradeButton>();
+	public CarStatData carStatData;
 
 	public SizakCarModel(MainActivity activity, CarSelectEntity carSelectEntity)
 	{
 		super(activity);
 		this.carSelectEntity = carSelectEntity;
+		carStatData = carSelectEntity.carStatData;
 	}
 
 	public void loadFromCarFile(GarageScene garageScene, String path, ArrayList<Texture> disposableArray)
@@ -84,7 +86,7 @@ public class SizakCarModel extends SizakBodyModel
 					float h = Float.parseFloat(BodyStrings.getPartOf(read, 4));
 					String bodyName = BodyStrings.getPartOf(read, 5);
 
-					Log.e("SizakCarModel.java", "selected = " + carSelectEntity.carStatData.selectedGunSLots[slotCT + 1] + " slotCt = " + slotCT);
+//					Log.e("SizakCarModel.java", "selected = " + carSelectEntity.carStatData.selectedGunSLots[slotCT + 1] + " slotCt = " + slotCT);
 					slots.get(slotCT).set(garageScene, x1, y1, w, h, CarSlot.SlotType.GUN, carSelectEntity.carStatData.selectedGunSLots[slotCT],
 							sprites.get(0).getX(), sprites.get(0).getY(), this);
 					slots.get(slotCT).setParentPositionID(carSelectEntity.carID, slotCT);
@@ -97,8 +99,10 @@ public class SizakCarModel extends SizakBodyModel
 						if(read.equals(CarLoader.EOF))
 							break;
 
-						slots.get(slotCT).availableGunSlots.add(read);
+						slots.get(slotCT).availableGunSlots.add(BodyStrings.getPartOf(read, 0));
+						slots.get(slotCT).slotPrices.add(Long.valueOf(BodyStrings.getPartOf(read, 1)));
 
+//						Log.e("SizakCarModel.java", "read ct = " + slotCT + " price = " + slots.get(slotCT).slotPrices.get(slots.get(slotCT).slotPrices.size() - 1));
 					}//reading availableGunSlots
 				}
 			}

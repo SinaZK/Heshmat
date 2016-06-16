@@ -27,14 +27,13 @@ public class DialogManager
 	ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
 	ArrayList<Texture> disposalTexture = new ArrayList<Texture>();
 
-	private InputProcessor inputProcessorCPY;
-
-
 	public DialogManager(MainActivity act)
 	{
 		this.activity = act;
 		dialogScene = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 		loadResources();
+
+		int a = 10;
 	}
 
 	String add = "gfx/scene/dialog/";
@@ -65,21 +64,33 @@ public class DialogManager
 		gunSlotSelectorDialog.create(garageScene, carID, slotID, arrayList);
 		gunSlotSelectorDialog.setIsActive(true);
 		dialogs.add(gunSlotSelectorDialog);
-		inputProcessorCPY = Gdx.input.getInputProcessor();
+		gunSlotSelectorDialog.inputProcessorCPY = Gdx.input.getInputProcessor();
 
 		Gdx.input.setInputProcessor(gunSlotSelectorDialog.scene);
 	}
 
+	public void addBuyDialog(float DX, float DY, long price)
+	{
+		buyDialog.create(DX, DY, price);
+		buyDialog.setIsActive(true);
+		dialogs.add(buyDialog);
+		buyDialog.inputProcessorCPY = Gdx.input.getInputProcessor();
+
+		Gdx.input.setInputProcessor(buyDialog.scene);
+	}
+
 	public void popQ()
 	{
+		Gdx.input.setInputProcessor(dialogs.get(dialogs.size() - 1).inputProcessorCPY);
 		dialogs.remove(dialogs.size() - 1);
-		Gdx.input.setInputProcessor(inputProcessorCPY);
 	}
 
 	GunSlotSelectorDialog gunSlotSelectorDialog;
+	public BuyDialog buyDialog;
 	private void loadDialogs()
 	{
 		gunSlotSelectorDialog = new GunSlotSelectorDialog(this);
+		buyDialog = new BuyDialog(this);
 	}
 
 	Texture backGroundTexture;

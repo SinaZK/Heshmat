@@ -21,18 +21,15 @@ public class GunSlotSelectorDialog extends Dialog
 {
 	GarageScene garageScene;
 
-	ArrayList<CarGunSlotSelectorButton> [] selectorButtons = new ArrayList[SceneManager.CAR_NUM + 1];//1base
+	ArrayList<CarGunSlotSelectorButton> [][] selectorButtons = new ArrayList[SceneManager.CAR_NUM + 1][5];//1base
 
 	public GunSlotSelectorDialog(DialogManager dialogManager)
 	{
 		super(dialogManager);
-
-		loadResources();
 	}
 
 	public void loadResources()
 	{
-
 	}
 
 	public void create(GarageScene garageScene, int carID, int slotID, ArrayList <String> availableGunSlots)
@@ -40,13 +37,21 @@ public class GunSlotSelectorDialog extends Dialog
 		this.garageScene = garageScene;
 		backSprite = new Sprite(dialogManager.backGroundTexture);
 
-		if(selectorButtons[carID] == null)
-			selectorButtons[carID] = new ArrayList<CarGunSlotSelectorButton>();
+		scene.getActors().clear();
+		super.create();
 
-		if(selectorButtons[carID].size() != 0)
+		if(selectorButtons[carID][slotID] == null)
+			selectorButtons[carID][slotID] = new ArrayList<CarGunSlotSelectorButton>();
+
+		Log.e("GunSlotSelectorDialog.java", "1selectorButtons sz = " + selectorButtons[carID][slotID].size());
+
+		if(selectorButtons[carID][slotID].size() != 0)
 		{
-			for(int i = 0;i < selectorButtons[carID].size();i++)
-				selectorButtons[carID].get(i).setCarID(carID, slotID);
+			for(int i = 0;i < selectorButtons[carID][slotID].size();i++)
+			{
+				selectorButtons[carID][slotID].get(i).setCarID(carID, slotID);
+				scene.addActor(selectorButtons[carID][slotID].get(i));
+			}
 
 			return;
 		}
@@ -59,14 +64,21 @@ public class GunSlotSelectorDialog extends Dialog
 
 		for(int i = 0;i < availableGunSlots.size();i++)
 		{
-			CarGunSlotSelectorButton button = new CarGunSlotSelectorButton(garageScene, this, GunSlotSorter.getGunSLotID(availableGunSlots.get(i)));
+			CarGunSlotSelectorButton button = new CarGunSlotSelectorButton(garageScene, this, carID,
+					GunSlotSorter.getGunSLotID(availableGunSlots.get(i)), slotID,
+					garageScene.carSelectorTab.carSelectEntities[carID].sizakCarModel.slots.get(slotID).slotPrices.get(i));
+
+			Log.e("GunSlotSelectorDialog.java", "passing price : " + garageScene.carSelectorTab.carSelectEntities[carID].sizakCarModel.slots.get(slotID).slotPrices.get(i));
+
 			button.setCarID(carID, slotID);
 			button.setSize(width, height);
 			button.setPosition(startX + (i - 1) * (width + padding), 200);
 
-			attachChild(button);
-			selectorButtons[carID].add(button);
+			selectorButtons[carID][slotID].add(button);
+			scene.addActor(button);
 		}
+
+		Log.e("GunSlotSelectorDialog.java", "2selectorButtons sz = " + selectorButtons[carID][slotID].size());
 
 	}
 

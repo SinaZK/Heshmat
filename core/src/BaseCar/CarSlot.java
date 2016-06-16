@@ -27,6 +27,7 @@ public class CarSlot
 {
 	MainActivity activity;
 	public ArrayList<String> availableGunSlots = new ArrayList<String>();
+	public ArrayList<Long>   slotPrices = new ArrayList<Long>();
 
 	BaseCar car;
 	public float startX, startY, width, height;
@@ -52,6 +53,9 @@ public class CarSlot
 		startY = sY;
 		width = w;
 		height = h;
+
+		slotButton.setPosition(startX, startY);
+		slotButton.setSize(width, height);
 	}
 
 	public void set(GarageScene garageScene, float sX, float sY, float w, float h, SlotType type, int selectedGunSlot, float firstSpriteX, float firstSpriteY,
@@ -67,7 +71,8 @@ public class CarSlot
 		this.selectedGunSlot = selectedGunSlot;
 
 		slotButton = new GunSlotButton(garageScene, this);
-		garageScene.attachChild(slotButton);
+		garageScene.carSelectorTab.attachChild(slotButton);
+//		garageScene.attachChild(slotButton);
 	}
 
 //	public void set(float sX, float sY, float w, float h, SlotType type)

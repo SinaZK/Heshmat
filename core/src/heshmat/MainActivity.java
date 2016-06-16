@@ -3,6 +3,7 @@ package heshmat;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.compression.lzma.Base;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import Cars.Train;
 import DataStore.CarStatData;
 import DataStore.DataKeyStrings;
 import DataStore.GameStatData;
+import DataStore.GunStatData;
 import DataStore.LevelPackageStatData;
 import DataStore.LevelStatData;
 import DataStore.PlayerStatData;
@@ -29,7 +31,8 @@ import SceneManager.SceneManager;
 
 public class MainActivity extends ApplicationAdapter 
 {
-	
+	public static boolean isMoneyInf = true;
+
 	public AudioManager audioManager;
 	public SceneManager sceneManager;
 	public SaveManager saveManager;
@@ -47,6 +50,8 @@ public class MainActivity extends ApplicationAdapter
 	public void create () 
 	{
 //		Gdx.input.setCatchBackKey(true);
+		//fonts are for debug
+		font22 = new BitmapFont(Gdx.files.internal("font/22w.fnt"));
 
 		saveManager = new SaveManager(false);
 		loadSaveAtt();
@@ -56,6 +61,9 @@ public class MainActivity extends ApplicationAdapter
 		sceneManager = new SceneManager(this, purchaseHelper);
 //		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
 		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+
+		if(isMoneyInf)
+			playerStatData.setMoney(1000 * 1000);
 	}
 
 	@Override
@@ -73,6 +81,7 @@ public class MainActivity extends ApplicationAdapter
 	public CarStatData [] carStatDatas;
 	public SelectorStatData selectorStatData;
 	public SettingStatData settingStatData;
+	public GunStatData [] gunStatDatas;
 
 	public ArrayList<LevelStatData> levelStatDatas;//load after level Pack Selection
 
@@ -88,6 +97,10 @@ public class MainActivity extends ApplicationAdapter
 		carStatDatas = new CarStatData[SceneManager.CAR_NUM + 1];
 		for(int i = 1;i <= SceneManager.CAR_NUM;i++)
 			carStatDatas[i] = saveManager.loadDataValue(DataKeyStrings.CarStatData[i], CarStatData.class);
+
+		gunStatDatas = new GunStatData[SceneManager.GUN_NUM + 1];
+		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
+			gunStatDatas[i] = saveManager.loadDataValue(DataKeyStrings.GunStatData[i], GunStatData.class);
 
 		selectorStatData = saveManager.loadDataValue(DataKeyStrings.SelectorStatData, SelectorStatData.class);
 		settingStatData  = saveManager.loadDataValue(DataKeyStrings.SettingStatData, SettingStatData.class);
@@ -132,4 +145,11 @@ public class MainActivity extends ApplicationAdapter
 		saveCarDatas();
 		saveSelector();
 	}
+
+	public void savePlayerStatData()
+	{
+		saveManager.saveDataValue(DataKeyStrings.PlayerStatData, playerStatData);
+	}
+
+	public BitmapFont font22;
 }

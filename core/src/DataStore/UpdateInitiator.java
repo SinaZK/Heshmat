@@ -26,6 +26,10 @@ public class UpdateInitiator
 		for(int i = 2;i <= SceneManager.CAR_MAX_NUM;i++)
 			saveManager.saveDataValue(DataKeyStrings.CarStatData[i], createCar(Enums.LOCKSTAT.LOCK));
 
+		saveManager.saveDataValue(DataKeyStrings.GunStatData[1], createGun(Enums.LOCKSTAT.UNLOCK));
+		for(int i = 2;i <= SceneManager.GUN_MAX_NUM;i++)
+			saveManager.saveDataValue(DataKeyStrings.GunStatData[i], createGun(Enums.LOCKSTAT.LOCK));
+
 		saveManager.saveDataValue(DataKeyStrings.LVLPackStatData[1], createLevelPackage(Enums.LOCKSTAT.UNLOCK));
 		for(int i = 2;i <= SceneManager.LVL_PACK_MAX_NUM;i++)
 			saveManager.saveDataValue(DataKeyStrings.LVLPackStatData[i], createLevelPackage(Enums.LOCKSTAT.LOCK));
@@ -45,6 +49,7 @@ public class UpdateInitiator
 		
 		SelectorStatData selector = new SelectorStatData();
 		selector.selectedCar = 1;
+		selector.selectedGun = 1;
 		selector.selectedLevelPack = 1;
 		saveManager.saveDataValue(DataKeyStrings.SelectorStatData, selector);
 		
@@ -52,6 +57,16 @@ public class UpdateInitiator
 		pp.setMoney(0);
 		saveManager.saveDataValue(DataKeyStrings.PlayerStatData, pp);
 	}
+
+	public GunStatData createGun(Enums.LOCKSTAT lockStat)
+	{
+		GunStatData ret = new GunStatData();
+
+		ret.lockStat = lockStat;
+
+		return ret;
+	}
+
 	public LevelStatData createLVL(Enums.LOCKSTAT lockStat)
 	{
 		LevelStatData ret = new LevelStatData();
@@ -73,6 +88,10 @@ public class UpdateInitiator
 	public CarStatData createCar(Enums.LOCKSTAT lockStat)
 	{
 		CarStatData ret = new CarStatData();
+
+		for(int i = 0;i < 10;i++)
+			for(int j = 0;j < 4;j++)
+				ret.gunSlotLockStats[i][j] = Enums.LOCKSTAT.LOCK;
 		
 		ret.lockStat = lockStat;
 		
