@@ -14,6 +14,7 @@ import java.util.Random;
 import DataStore.CarStatData;
 import DataStore.DataKeyStrings;
 import Entity.Button;
+import Enums.Enums;
 import Misc.Log;
 import Misc.TextureHelper;
 import Scene.BaseScene;
@@ -91,8 +92,8 @@ public class GarageScene extends BaseScene
 		Random r = new Random();
 		int a = Math.abs(r.nextInt()) % 1000;
 
-		if(a < 10)
-			Log.e("GarageScene.java", "money = " + act.playerStatData.getMoney());
+//		if(a < 50)
+//			Log.e("GarageScene.java", "money = " + act.playerStatData.getMoney());
 
 	}
 
@@ -143,6 +144,7 @@ public class GarageScene extends BaseScene
 	public Texture GunSlotButtonTexture1, GunSlotButtonTexture2;
 	public Texture EngineUpgradeButtonTexture1, EngineUpgradeButtonTexture2;
 	public Texture HitPointUpgradeButtonTexture1, HitPointUpgradeButtonTexture2;
+	public Texture BuyButtonTexture1, BuyButtonTexture2;
 	public void loadCarButtonTextures()//CarSelectorTab Textures
 	{
 		String add = this.add + "cartab/";
@@ -155,6 +157,9 @@ public class GarageScene extends BaseScene
 
 		HitPointUpgradeButtonTexture1 = TextureHelper.loadTexture(add + "hitpointupgrade1.png", disposeTextureArray);
 		HitPointUpgradeButtonTexture2 = TextureHelper.loadTexture(add + "hitpointupgrade2.png", disposeTextureArray);
+
+		BuyButtonTexture1 = TextureHelper.loadTexture(this.add + "buy1.png", disposeTextureArray);
+		BuyButtonTexture2 = TextureHelper.loadTexture(this.add + "buy2.png", disposeTextureArray);
 	}
 
 
@@ -214,7 +219,9 @@ public class GarageScene extends BaseScene
 			@Override
 			public void run()
 			{
-				act.selectorStatData.selectedCar = carSelectorTab.selectedCar;
+				if(act.carStatDatas[CarSorter.carPos[carSelectorTab.selectedCar]].lockStat == Enums.LOCKSTAT.UNLOCK)
+					act.selectorStatData.selectedCar = carSelectorTab.selectedCar;
+
 				act.saveBeforeGameScene();
 				mSceneManager.setCurrentScene(SceneManager.SCENES.GAME_SCENE, carSelectorTab.carSelectEntities[carSelectorTab.selectedCar].sizakCarModel);
 				dispose();

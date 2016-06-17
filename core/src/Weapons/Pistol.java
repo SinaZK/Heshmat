@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 
 import Bullets.PistolBullet;
+import DataStore.GunStatData;
 import Entity.Entity;
 import GameScene.GameManager;
 import Misc.Log;
@@ -17,7 +18,7 @@ public class Pistol extends BaseGun
 	public Pistol(MainActivity a, GameManager gm) {
 		super(a, gm);
 
-		loadResources("gfx/weapons/pistol/", null);
+		loadResources("gfx/weapons/1/", null);
 	}
 
 	@Override
@@ -34,4 +35,8 @@ public class Pistol extends BaseGun
 		isShootingEnabled = false;
 	}
 
+	@Override
+	public void setUpgrade(GunStatData gunStatData)
+	{
+	}
 }

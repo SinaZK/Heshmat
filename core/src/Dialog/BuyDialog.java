@@ -1,5 +1,7 @@
 package Dialog;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import DataStore.PlayerStatData;
 import Entity.Button;
 import Misc.Log;
@@ -23,6 +25,7 @@ public class BuyDialog extends Dialog
 	Button cantOkButton;
 
 	public boolean isFinished = false;
+	public boolean isBought = false;
 
 	public BuyDialog(DialogManager dialogManager)
 	{
@@ -36,14 +39,12 @@ public class BuyDialog extends Dialog
 	static float buttonHeight = 30;
 	public void loadResources()
 	{
-		Log.e("BuyDialog.java", "loading res");
 		canOkButton = new Button(TextureHelper.loadTexture(add + "canok1.png", dialogManager.disposalTexture),
 				TextureHelper.loadTexture(add + "canok2.png", dialogManager.disposalTexture));
 		cantOkButton = new Button(TextureHelper.loadTexture(add + "cantok1.png", dialogManager.disposalTexture),
 				TextureHelper.loadTexture(add + "cantok2.png", dialogManager.disposalTexture));
 		canCancelButton = new Button(TextureHelper.loadTexture(add + "cantcancel1.png", dialogManager.disposalTexture),
 				TextureHelper.loadTexture(add + "cancancel2.png", dialogManager.disposalTexture));
-
 
 		canOkButton.setRunnable(dialogManager.activity, new Runnable()
 		{
@@ -56,6 +57,7 @@ public class BuyDialog extends Dialog
 				dialogManager.activity.savePlayerStatData();
 				Log.e("BuyDialog.java", "Purchase Completed : " + playerStatData.getMoney());
 				isFinished = true;
+				isBought = true;
 			}
 		});
 
@@ -64,6 +66,7 @@ public class BuyDialog extends Dialog
 			@Override
 			public void run()
 			{
+				isFinished = true;
 				dialogManager.popQ();
 			}
 		});
@@ -72,16 +75,19 @@ public class BuyDialog extends Dialog
 		cantOkButton.setSize(buttonWidth, buttonHeight);
 		canCancelButton.setSize(buttonWidth, buttonHeight);
 
+		backSprite = new Sprite(dialogManager.backGroundTexture);
+		backSprite.setSize(300, 300);
+
 		super.create();//adding exitButton
 	}
 
 	public void create(float DXx, float DYy, long price)
 	{
-		Log.e("BuyDialog.java" ,"Buying price = " + price + " money = " + playerStatData.getMoney());
 		DX = DXx;
 		DY = DYy;
 		this.price = price;
 		isFinished = false;
+		isBought = false;
 
 		scene.getActors().clear();
 
@@ -107,9 +113,11 @@ public class BuyDialog extends Dialog
 
 	public void setButtonPositions()
 	{
-		canOkButton.setPosition(DX + 400, DY + 100);
-		cantOkButton.setPosition(DX + 400, DY + 100);
+		backSprite.setPosition(DX + (SceneManager.WORLD_X - backSprite.getWidth()) / 2, DY + (SceneManager.WORLD_Y - backSprite.getHeight()) / 2);
 
-		canCancelButton.setPosition(DX + 200, DY + 100);
+		exitButton.setPosition(DX + 520, DY + 350);
+		canOkButton.setPosition(DX + 450, DY + 100);
+		cantOkButton.setPosition(DX + 450, DY + 100);
+		canCancelButton.setPosition(DX + 250, DY + 100);
 	}
 }

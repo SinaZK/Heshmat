@@ -23,8 +23,8 @@ public class CarSorter
 			{
 					0,//   NULL
 
-					2,//  Neysan
 					1,//  Train
+					2,//  Neysan
 
 
 			};

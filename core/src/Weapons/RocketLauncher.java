@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import Bullets.RocketBullet;
+import DataStore.GunStatData;
 import Entity.AnimatedSprite;
 import Entity.Entity;
 import GameScene.GameManager;
@@ -19,7 +20,7 @@ public class RocketLauncher extends BaseGun
 	{
 		super(a, gm);
 
-		loadResources("gfx/weapons/rocketlauncher/", null);
+		loadResources("gfx/weapons/2/", null);
 	}
 	
 	@Override
@@ -39,8 +40,8 @@ public class RocketLauncher extends BaseGun
 	}
 
 	@Override
-	public void draw(Batch batch)
+	public void setUpgrade(GunStatData gunStatData)
 	{
-		super.draw(batch);
+
 	}
 }

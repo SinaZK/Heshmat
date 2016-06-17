@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import DataStore.GunStatData;
 import Entity.Entity;
 import GameScene.GameManager;
 import GameScene.GameScene;
@@ -89,6 +90,8 @@ public class BaseGun implements InputProcessor
 
 			String [] val;
 			String in;
+
+			dis.readLine();//price
 
 			in = dis.readLine();//size
 			float width = Float.valueOf(BodyStrings.getPartOf(in, 1));
@@ -293,5 +296,7 @@ public class BaseGun implements InputProcessor
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public void setUpgrade(GunStatData gunStatData){}
 	
 }

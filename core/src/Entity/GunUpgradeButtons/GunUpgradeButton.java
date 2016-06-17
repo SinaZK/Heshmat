@@ -1,10 +1,12 @@
 package Entity.GunUpgradeButtons;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 import DataStore.CarStatData;
 import DataStore.GunStatData;
 import Entity.Button;
+import Enums.Enums;
 import Scene.Garage.GarageScene;
 import Scene.Garage.GunSelectorTab;
 
@@ -29,5 +31,16 @@ public class GunUpgradeButton extends Button
 	public void setGunStatData(GunStatData gunStatData)
 	{
 		this.gunStatData = gunStatData;
+	}
+
+	@Override
+	public void act(float delta)
+	{
+		super.act(delta);
+
+		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
+			setVisible(false);
+		else
+			setVisible(true);
 	}
 }

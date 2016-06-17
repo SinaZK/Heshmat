@@ -40,6 +40,8 @@ public class SizakCarModel extends SizakBodyModel
 	public ArrayList <CarUpgradeButton> upgradeButtons = new ArrayList<CarUpgradeButton>();
 	public CarStatData carStatData;
 
+	public long price;
+
 	public SizakCarModel(MainActivity activity, CarSelectEntity carSelectEntity)
 	{
 		super(activity);
@@ -57,6 +59,10 @@ public class SizakCarModel extends SizakBodyModel
 		String read;
 		try
 		{
+			read = dis.readLine();//price
+			price = Long.valueOf(BodyStrings.getPartOf(read, 1));
+
+
 			read = dis.readLine();
 
 			loadSpritesFromBodyFile(BodyStrings.getPartOf(read, 1), disposableArray);

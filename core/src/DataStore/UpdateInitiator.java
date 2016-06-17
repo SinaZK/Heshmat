@@ -51,6 +51,7 @@ public class UpdateInitiator
 		selector.selectedCar = 1;
 		selector.selectedGun = 1;
 		selector.selectedLevelPack = 1;
+		selector.selectedLevel = 1;
 		saveManager.saveDataValue(DataKeyStrings.SelectorStatData, selector);
 		
 		PlayerStatData pp = new PlayerStatData();

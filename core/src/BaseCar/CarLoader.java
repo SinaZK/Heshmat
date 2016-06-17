@@ -62,6 +62,8 @@ public class CarLoader
 
 		try
 		{
+			dis.readLine();//price
+
 			String read = dis.readLine();
 			retCar.body = SizakBodyLoader.loadBodyFile(BodyStrings.getPartOf(read, 1), world, disposableArray);
 
@@ -106,6 +108,8 @@ public class CarLoader
 
 		try
 		{
+			dis.readLine();//price
+
 			String read = dis.readLine();
 			retCar.body = SizakBodyLoader.loadBodyFile(BodyStrings.getPartOf(read, 1), world, disposableArray);
 

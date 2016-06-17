@@ -6,7 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import java.util.ArrayList;
 
 import BaseLevel.ShootingMode;
+import DataStore.GunStatData;
+import Enums.Enums;
 import PhysicsFactory.PhysicsConstant;
+import SceneManager.SceneManager;
+import Sorter.GunSorter;
 import WeaponBase.BaseGun;
 import Weapons.Pistol;
 import Weapons.RocketLauncher;
@@ -21,10 +25,7 @@ public class GunManager
 	GameScene gameScene;
 	GameManager gameManager;
 
-	public RocketLauncher rocketLauncher;
-	public Pistol pistol;
-
-	public static int MAX_GUNS = 2;
+	public static int MAX_GUNS = 0;
 	int selectedGunNumber = 0;
 	ArrayList<BaseGun> guns = new ArrayList<BaseGun>();
 
@@ -49,11 +50,18 @@ public class GunManager
 
 	public void initGuns()
 	{
-		rocketLauncher = new RocketLauncher(gameScene.act, gameManager);
-		pistol = new Pistol(gameScene.act, gameManager);
-
-		guns.add(rocketLauncher);
-		guns.add(pistol);
+		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
+		{
+			GunStatData gunStatData = gameScene.act.gunStatDatas[GunSorter.gunPos[i]];
+			if(gunStatData.lockStat == Enums.LOCKSTAT.UNLOCK)
+			{
+				MAX_GUNS++;
+				BaseGun gun = GunSorter.createSelectedGun(gameManager, i);
+				assert gun != null;
+				gun.setUpgrade(gunStatData);
+				guns.add(gun);
+			}
+		}
 	}
 
 	public void swapGun()

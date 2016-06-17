@@ -26,6 +26,7 @@ public class GunSlotSelectorDialog extends Dialog
 	public GunSlotSelectorDialog(DialogManager dialogManager)
 	{
 		super(dialogManager);
+		backSprite = new Sprite(dialogManager.backGroundTexture);
 	}
 
 	public void loadResources()
@@ -35,7 +36,6 @@ public class GunSlotSelectorDialog extends Dialog
 	public void create(GarageScene garageScene, int carID, int slotID, ArrayList <String> availableGunSlots)
 	{
 		this.garageScene = garageScene;
-		backSprite = new Sprite(dialogManager.backGroundTexture);
 
 		scene.getActors().clear();
 		super.create();
@@ -43,7 +43,20 @@ public class GunSlotSelectorDialog extends Dialog
 		if(selectorButtons[carID][slotID] == null)
 			selectorButtons[carID][slotID] = new ArrayList<CarGunSlotSelectorButton>();
 
-		Log.e("GunSlotSelectorDialog.java", "1selectorButtons sz = " + selectorButtons[carID][slotID].size());
+		float DX = garageScene.DX;
+		float DY = garageScene.DY;
+		int padding = 50;
+		int width = 50, height = 200;
+		int startX = (int) (DX + (SceneManager.WORLD_X - (availableGunSlots.size() * width) - (availableGunSlots.size() - 1) * padding) / 2);
+		int endX = startX + availableGunSlots.size() * (width + padding) - padding;
+
+		int edgeW = 20, edgeH = 50;
+		int backSpriteWidth = (endX - startX) + 2 * edgeW;
+
+		backSprite.setSize(backSpriteWidth, height + 2 * edgeH);
+		backSprite.setPosition(DX + (SceneManager.WORLD_X - backSprite.getWidth()) / 2, DY + (SceneManager.WORLD_Y - backSprite.getHeight()) / 2);
+
+		exitButton.setPosition(backSprite.getX() + backSprite.getWidth() - exitButton.getWidth() - 10, backSprite.getY() + backSprite.getHeight() - exitButton.getHeight() - 10);
 
 		if(selectorButtons[carID][slotID].size() != 0)
 		{
@@ -56,11 +69,6 @@ public class GunSlotSelectorDialog extends Dialog
 			return;
 		}
 
-		float DX = garageScene.DX;
-		float DY = garageScene.DY;
-		int padding = 50;
-		int width = 50, height = 200;
-		int startX = (SceneManager.WORLD_X - (SceneManager.GUN_SLOT_NUM * width) - (SceneManager.GUN_SLOT_NUM - 1) * padding) / 2;
 
 		for(int i = 0;i < availableGunSlots.size();i++)
 		{
@@ -68,18 +76,16 @@ public class GunSlotSelectorDialog extends Dialog
 					GunSlotSorter.getGunSLotID(availableGunSlots.get(i)), slotID,
 					garageScene.carSelectorTab.carSelectEntities[carID].sizakCarModel.slots.get(slotID).slotPrices.get(i));
 
-			Log.e("GunSlotSelectorDialog.java", "passing price : " + garageScene.carSelectorTab.carSelectEntities[carID].sizakCarModel.slots.get(slotID).slotPrices.get(i));
-
 			button.setCarID(carID, slotID);
 			button.setSize(width, height);
-			button.setPosition(startX + (i - 1) * (width + padding), 200);
+			button.setPosition(startX + (i) * (width + padding), DY + (SceneManager.WORLD_Y - height) / 2);
 
 			selectorButtons[carID][slotID].add(button);
 			scene.addActor(button);
 		}
 
-		Log.e("GunSlotSelectorDialog.java", "2selectorButtons sz = " + selectorButtons[carID][slotID].size());
 
+//		Log.e("GunSlotSelectorDialog.java", "lastButtonEnd = " + lastButtonEnd + "startX = " + startX + " and Width = " + backSpriteWidth);
 	}
 
 }

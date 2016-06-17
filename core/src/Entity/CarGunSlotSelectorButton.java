@@ -2,9 +2,9 @@ package Entity;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import DataStore.CarStatData;
 import Dialog.GunSlotSelectorDialog;
 import Enums.Enums;
-import Misc.Log;
 import Scene.Garage.GarageScene;
 
 /**
@@ -21,6 +21,7 @@ public class CarGunSlotSelectorButton extends Button
 	int carID;
 	int carSlotID;
 	long price;
+	CarStatData carStatData;
 
 	public boolean isWaitingForBuyDialog;
 
@@ -36,6 +37,7 @@ public class CarGunSlotSelectorButton extends Button
 		this.gunID = gunId;
 		this.carID = carId;
 		act = garageScene.act;
+		carStatData = CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].carStatData;
 
 		setRunnable(act, new Runnable()
 		{
@@ -64,14 +66,17 @@ public class CarGunSlotSelectorButton extends Button
 		dialog.dialogManager.buyDialog.isFinished = false;
 		isWaitingForBuyDialog = false;
 
-		Log.e("CarGunSlotSelectorButton.java", "Buy completed: carID = " + carID + "SlotID = " + carSlotID + " gunID = " + gunID);
+//		Log.e("CarGunSlotSelectorButton.java", "Buy completed: carID = " + carID + "SlotID = " + carSlotID + " gunID = " + gunID);
 
-		CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].sizakCarModel.slots.get(carSlotID).selectedGunSlot = gunID;
-		CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].carStatData.selectedGunSLots[carSlotID] = gunID;
-		CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].carStatData.gunSlotLockStats[carSlotID][gunID] = Enums.LOCKSTAT.UNLOCK;
-		act.saveCarDatas();
-		dialog.dialogManager.popQ();
-		dialog.dialogManager.popQ();
+		if(dialog.dialogManager.buyDialog.isBought)
+		{
+			CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].sizakCarModel.slots.get(carSlotID).selectedGunSlot = gunID;
+			CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].carStatData.selectedGunSLots[carSlotID] = gunID;
+			CarGunSlotSelectorButton.this.garageScene.carSelectorTab.carSelectEntities[carID].carStatData.gunSlotLockStats[carSlotID][gunID] = Enums.LOCKSTAT.UNLOCK;
+			act.saveCarDatas();
+			dialog.dialogManager.popQ();
+			dialog.dialogManager.popQ();
+		}
 	}
 
 	@Override

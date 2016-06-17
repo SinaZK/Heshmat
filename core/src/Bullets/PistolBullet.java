@@ -9,7 +9,9 @@ import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
+import Sorter.GunSorter;
 import WeaponBase.ThrowBullet;
+import Weapons.Pistol;
 import heshmat.MainActivity;
 
 public class PistolBullet extends ThrowBullet
@@ -25,7 +27,7 @@ public class PistolBullet extends ThrowBullet
 		body.getmSprite().get(0).setSize(size, size);
 		body.setUserData(BodyStrings.BULLET_STRING + " " + BodyStrings.BulletPistolString + " " + id);
 
-		mGun = gameManager.gunManager.pistol;
+		mGun = GunSorter.createGunByType(activity.sceneManager.gameScene.gameManager, GunSorter.GunType.Pistol);
 	}
 
 

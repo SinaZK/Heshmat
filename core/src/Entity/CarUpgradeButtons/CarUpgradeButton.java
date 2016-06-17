@@ -1,9 +1,11 @@
 package Entity.CarUpgradeButtons;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 import DataStore.CarStatData;
 import Entity.*;
+import Enums.Enums;
 import Scene.Garage.GarageScene;
 
 /**
@@ -25,5 +27,16 @@ public class CarUpgradeButton extends Button
 	public void setCarStatData(CarStatData carStatData)
 	{
 		this.carStatData = carStatData;
+	}
+
+	@Override
+	public void act(float delta)
+	{
+		super.act(delta);
+
+		if(carStatData.lockStat == Enums.LOCKSTAT.LOCK)
+			setVisible(false);
+		else
+			setVisible(true);
 	}
 }

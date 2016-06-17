@@ -63,9 +63,6 @@ public class CarSelectorTab extends BaseScene
 			carSelectEntities[i] = new CarSelectEntity(this,
 					(CarStatData) act.saveManager.loadDataValue(DataKeyStrings.CarStatData[CarSorter.carPos[i]], CarStatData.class), i);
 			carSelectEntities[i].setPosition(i * CAR_SHOW_WIDTH + (i - 1) * CAR_SHOW_PADDING, 200);
-
-			for(int j = 0;j < carSelectEntities[i].sizakCarModel.slots.size();j++)
-				Log.e("CarSelectorTab.java", "sz = " + carSelectEntities[i].sizakCarModel.slots.get(j).availableGunSlots.size());
 		}
 
 		loadGunSlots();
@@ -102,7 +99,7 @@ public class CarSelectorTab extends BaseScene
 	@Override
 	public void run()
 	{
-
+		super.run();
 //		Log.e("CarSelectorTab.java", "camPos : " + carUpgradeHUD.getCamera().position);
 
 		carUpgradeHUD.act();

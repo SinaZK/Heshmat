@@ -11,6 +11,7 @@ import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
+import Sorter.GunSorter;
 import WeaponBase.ThrowBullet;
 import Weapons.RocketLauncher;
 import heshmat.MainActivity;
@@ -41,7 +42,7 @@ public class RocketBullet extends ThrowBullet
 		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 4, 16, 0.23f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
 
-		mGun = gameManager.gunManager.rocketLauncher;
+		mGun = GunSorter.createGunByType(activity.sceneManager.gameScene.gameManager, GunSorter.GunType.RocketLauncher);
 
 		explosionDamageLength = 150;
 		mDamage = 50;

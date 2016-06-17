@@ -3,9 +3,9 @@ package Entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import BaseCar.CarSlot;
-import BaseCar.SizakCarModel;
+import DataStore.CarStatData;
 import Dialog.DialogManager;
-import Misc.Log;
+import Enums.Enums;
 import Scene.Garage.GarageScene;
 
 /**
@@ -18,12 +18,14 @@ public class GunSlotButton extends Button
 	GarageScene garageScene;
 	DialogManager dialogManager;
 	CarSlot slot;
+	CarStatData carStatData;
 
-	public GunSlotButton(final GarageScene garageScene, final CarSlot slott)
+	public GunSlotButton(final GarageScene garageScene, final CarSlot slott, CarStatData carStatData1)
 	{
 		super(garageScene.GunSlotButtonTexture1, garageScene.GunSlotButtonTexture2);
 		this.garageScene = garageScene;
 		this.slot = slott;
+		this.carStatData = carStatData1;
 
 		setPosition(slot.startX, slot.startY);
 		setSize(slot.width, slot.height);
@@ -35,6 +37,8 @@ public class GunSlotButton extends Button
 			@Override
 			public void run()
 			{
+				if(carStatData.lockStat == Enums.LOCKSTAT.LOCK)
+					return;
 				dialogManager.addGunSlotSelectorDialog(GunSlotButton.this.garageScene, slot.carID, slot.slotID, GunSlotButton.this.slot.availableGunSlots);
 			}
 		});

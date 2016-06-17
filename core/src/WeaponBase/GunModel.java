@@ -37,6 +37,7 @@ public class GunModel
 	MainActivity act;
 	GunSelectorTab gunSelectorTab;
 	public Sprite showSprite;
+	public long price;
 
 	public ArrayList <GunUpgradeButton> upgradeButtons = new ArrayList<GunUpgradeButton>();
 
@@ -82,6 +83,8 @@ public class GunModel
 			String [] val;
 			String in;
 
+			in = dis.readLine();//price
+			price = Long.valueOf(BodyStrings.getPartOf(in, 1));
 			dis.readLine();//size
 			dis.readLine();//HumanPos
 			dis.readLine();//origin

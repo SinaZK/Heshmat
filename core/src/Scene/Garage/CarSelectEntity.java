@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import DataStore.CarStatData;
 import BaseCar.SizakCarModel;
+import Entity.BuyButtons.CarBuyButton;
 import Misc.Log;
 import Sorter.CarSorter;
 
@@ -18,6 +19,7 @@ public class CarSelectEntity
 
 	public CarStatData carStatData;
 	public SizakCarModel sizakCarModel;
+	CarBuyButton carBuyButton;
 	public int carID;//the position of this in the garageScene //1Base
 
 	public CarSelectEntity(CarSelectorTab carSelectorTab, CarStatData carStatData, int id)
@@ -31,11 +33,14 @@ public class CarSelectEntity
 		sizakCarModel.loadFromCarFile(garageScene, "gfx/car/" + CarSorter.carPos[carID] + "/car.car", garageScene.disposeTextureArray);
 		sizakCarModel.initUpgradeButtons(carStatData);
 
+		carBuyButton = new CarBuyButton(garageScene, this, sizakCarModel.price);
+		carSelectorTab.attachChild(carBuyButton);
 	}
 
 	public void setPosition(float x, float y)
 	{
 		sizakCarModel.setPosition(x, y);
+		carBuyButton.setPosition(x - 50, y);
 	}
 
 	public void run()

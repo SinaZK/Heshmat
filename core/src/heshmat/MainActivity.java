@@ -124,6 +124,13 @@ public class MainActivity extends ApplicationAdapter
 			saveManager.saveDataValue(DataKeyStrings.CarStatData[i], carStatDatas[i]);
 	}
 
+	public void saveGunDatas()
+	{
+		Log.e("MainActivity.java", "saveGunDatas");
+		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
+			saveManager.saveDataValue(DataKeyStrings.GunStatData[i], gunStatDatas[i]);
+	}
+
 	public void saveAllLevelDatas(int levels)
 	{
 		saveManager.saveDataValue(DataKeyStrings.LVLPackStatData[selectorStatData.selectedLevelPack], levelPackageStatDatas[selectorStatData.selectedLevelPack]);

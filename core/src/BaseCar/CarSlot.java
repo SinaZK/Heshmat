@@ -70,9 +70,8 @@ public class CarSlot
 		firstStartY = sY - firstSpriteY;
 		this.selectedGunSlot = selectedGunSlot;
 
-		slotButton = new GunSlotButton(garageScene, this);
+		slotButton = new GunSlotButton(garageScene, this, carModel.carStatData);
 		garageScene.carSelectorTab.attachChild(slotButton);
-//		garageScene.attachChild(slotButton);
 	}
 
 //	public void set(float sX, float sY, float w, float h, SlotType type)

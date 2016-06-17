@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import BaseCar.SizakCarModel;
 import DataStore.CarStatData;
 import DataStore.GunStatData;
+import Entity.BuyButtons.GunBuyButton;
+import Enums.Enums;
 import Misc.Log;
 import Sorter.CarSorter;
 import WeaponBase.BaseGun;
@@ -23,7 +25,7 @@ public class GunSelectEntity
 
 	public GunStatData gunStatData;
 	public GunModel gunModel;
-
+	public GunBuyButton gunBuyButton;
 	public int gunID;//the position of this in the garageScene //1Base
 
 	public GunSelectEntity(GunSelectorTab gunSelectorTab, GunStatData gunStatData, int id)
@@ -35,11 +37,15 @@ public class GunSelectEntity
 
 		gunModel = new GunModel(gunSelectorTab, id);
 		gunModel.initUpgradeButtons(gunStatData);
+
+		gunBuyButton = new GunBuyButton(garageScene, this, gunModel.price);
+		this.gunSelectorTab.attachChild(gunBuyButton);
 	}
 
 	public void setPosition(float x, float y)
 	{
 		gunModel.setPosition(x, y);
+		gunBuyButton.setPosition(x - 50, y + 20);
 	}
 
 	public void setSize(float w, float h) { gunModel.setSize(w, h);}
@@ -52,6 +58,12 @@ public class GunSelectEntity
 	public void draw(Batch batch)
 	{
 		batch.begin();
+
+		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
+			gunModel.showSprite.setAlpha(0.5f);
+		else
+			gunModel.showSprite.setAlpha(1.0f);
+
 		gunModel.draw(batch);
 		batch.end();
 	}

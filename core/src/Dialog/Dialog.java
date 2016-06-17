@@ -66,6 +66,13 @@ public class Dialog
 		if(!isActive)
 			return;
 
+		if(backSprite != null)
+		{
+//			Log.e("Dialog.java", "Drawing backSprite");
+			scene.getBatch().begin();
+			backSprite.draw(scene.getBatch());
+			scene.getBatch().end();
+		}
 		scene.draw();
 	}
 
