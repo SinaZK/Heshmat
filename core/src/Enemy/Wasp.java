@@ -21,12 +21,9 @@ public class Wasp extends BaseEnemy
 
 		enemyType = EnemyType.WASP;
 
-		fullImageWidth = 200;
-		fullImageHeight = 133;
+		load("gfx/enemy/3/");
 
-		MAX_HP = 10;
-
-		init(BodyStrings.EnemyPigeon, id, enemyFactory.WaspEnemyAnimation);
+		init(BodyStrings.EnemyFly, id, enemyFactory.WaspEnemyAnimation);
 	}
 
 	@Override
@@ -43,9 +40,9 @@ public class Wasp extends BaseEnemy
 	}
 
 	@Override
-	public void create(ShootingMode shootingMode, ArrayList<String> attr)
+	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
-		super.create(shootingMode, attr);
+		super.create(shootingMode, level, attr);
 
 		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
 		float originY = CameraHelper.getYMin(gameManager.gameScene.camera);
@@ -53,13 +50,6 @@ public class Wasp extends BaseEnemy
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
 		setPosition(originX + width + 100, originY + height - 200);
-		mainBody.getmBody().setLinearVelocity(-2, 0);
-	}
-
-	@Override
-	public void move()
-	{
-
 	}
 
 	@Override

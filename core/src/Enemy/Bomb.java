@@ -21,12 +21,9 @@ public class Bomb extends BaseEnemy
 
 		enemyType = EnemyType.BOMB;
 
-		fullImageWidth = 200;
-		fullImageHeight = 133;
+		load("gfx/enemy/12/");
 
-		MAX_HP = 10;
-
-		init(BodyStrings.EnemyPigeon, id, enemyFactory.BombEnemyAnimation);
+		init(BodyStrings.EnemyFly, id, enemyFactory.BombEnemyAnimation);
 	}
 
 	@Override
@@ -39,21 +36,21 @@ public class Bomb extends BaseEnemy
 	public void run()
 	{
 		super.run();
-
 	}
 
 	@Override
-	public void create(ShootingMode shootingMode, ArrayList<String> attr)
+	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
-		super.create(shootingMode, attr);
+		super.create(shootingMode, level, attr);
+
+		shootingMode.enemyMax++;
 
 		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
 		float originY = CameraHelper.getYMin(gameManager.gameScene.camera);
 		float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
-		setPosition(originX + width + 100, originY + height - 200);
-		mainBody.getmBody().setLinearVelocity(-2, 0);
+		mainBody.getmBody().setLinearVelocity(0, -1);
 	}
 
 	@Override

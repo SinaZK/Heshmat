@@ -99,6 +99,15 @@ public class AnimatedSpriteSheet
 		return null;
 	}
 
+	public boolean haveAnimation(String name)
+	{
+		for(int i = 0;i < animations.size();i++)
+			if(animations.get(i).name.equals(name))
+				return true;
+
+		return false;
+	}
+
 	public int getAnimationID(String name)
 	{
 		for(int i = 0;i < animations.size();i++)

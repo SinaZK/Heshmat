@@ -66,7 +66,5 @@ public class ShootingMode extends LevelMode
 		levelManager.levelMode = GameScene.LevelMode.Shooting;
 
 		super.start();
-
-//		levelManager.gameManager.gunManager.reposition(this);
 	}
 }

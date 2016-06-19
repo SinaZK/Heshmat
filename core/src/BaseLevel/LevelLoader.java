@@ -85,6 +85,7 @@ public class LevelLoader
 						shootingModePart.waves.get(shootingModePart.waves.size() - 1).create(
 								BodyStrings.getPartOf(read, 0),
 								Integer.valueOf(BodyStrings.getPartOf(read, 1)),
+								Integer.valueOf(BodyStrings.getPartOf(read, 2)),
 								dis);
 					}
 

@@ -184,4 +184,9 @@ public class GameScene extends BaseScene
 	public BitmapFont font24 = new BitmapFont(Gdx.files.internal("font/24w.fnt"));
 	public BitmapFont font24Gold = new BitmapFont(Gdx.files.internal("font/24gold.fnt"));
 
+	public float getDeltaTime()
+	{
+		return Gdx.graphics.getDeltaTime();
+	}
+
 }//class

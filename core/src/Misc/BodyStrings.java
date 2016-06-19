@@ -22,7 +22,7 @@ public class BodyStrings
 	public static String BulletPistolString = "Pistol";
 	public static String BulletRocketString = "Rocket";
 
-	public static String EnemyPigeon = "Pigeon";
+	public static String EnemyFly = "Pigeon";
 
 	public static String FINISH_MODE_STRING = "FINISH";
 	public static String GroundString = "Ground";

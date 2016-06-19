@@ -21,12 +21,9 @@ public class BossBird extends BaseEnemy
 
 		enemyType = EnemyType.BOSS_BIRD;
 
-		fullImageWidth = 200;
-		fullImageHeight = 133;
+		load("gfx/enemy/10/");
 
-		MAX_HP = 10;
-
-		init(BodyStrings.EnemyPigeon, id, enemyFactory.BossBirdEnemyAnimation);
+		init(BodyStrings.EnemyFly, id, enemyFactory.BossBirdEnemyAnimation);
 	}
 
 	@Override
@@ -36,16 +33,9 @@ public class BossBird extends BaseEnemy
 	}
 
 	@Override
-	public void run()
+	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
-		super.run();
-
-	}
-
-	@Override
-	public void create(ShootingMode shootingMode, ArrayList<String> attr)
-	{
-		super.create(shootingMode, attr);
+		super.create(shootingMode, level, attr);
 
 		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
 		float originY = CameraHelper.getYMin(gameManager.gameScene.camera);
@@ -53,14 +43,8 @@ public class BossBird extends BaseEnemy
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
 		setPosition(originX + width + 100, originY + height - 200);
-		mainBody.getmBody().setLinearVelocity(-2, 0);
 	}
 
-	@Override
-	public void move()
-	{
-
-	}
 
 	@Override
 	public void release()

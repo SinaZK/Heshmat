@@ -23,6 +23,7 @@ public class BaseWave
 	ShootingMode parentMode;
 
 	public int numberOfEnemies;
+	public int enemyLevel;
 
 	ArrayList<String> attr = new ArrayList<String>();
 	String enemyType = new String();
@@ -40,10 +41,11 @@ public class BaseWave
 		this.gameManager = gameManager;
 	}
 
-	public void create(String type, int count, BufferedReader dis)
+	public void create(String type, int level, int count, BufferedReader dis)
 	{
 		enemyType = type;
 		numberOfEnemies = count;
+		enemyLevel = level;
 
 		try
 		{
@@ -99,7 +101,7 @@ public class BaseWave
 	public void createEnemy()
 	{
 		parentMode.enemyCount ++;
-		enemies.add(gameManager.enemyFactory.getEnemy(enemyType, attr));
+		enemies.add(gameManager.enemyFactory.getEnemy(enemyType, enemyLevel, attr));
 	}
 
 }
