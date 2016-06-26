@@ -1,12 +1,13 @@
 package Weapons.GunSlots;
 
-import Bullets.PistolBullet;
 import Entity.Button;
 import GameScene.GameScene;
 import HUD.ShootingHUD;
 import Misc.Log;
 import Misc.TextureHelper;
+import Sorter.GunSorter;
 import WeaponBase.BaseGun;
+import WeaponBase.NormalBullet;
 import heshmat.MainActivity;
 
 /**
@@ -27,10 +28,10 @@ public class Dooshka extends BaseGun
 	{
 		super.shoot();
 
-		if(!isShootingEnabled)
+		if(!isShootingEnabled || isReloading)
 			return;
 
-		PistolBullet p = gameManager.bulletFactory.getPistolBullet();
+		NormalBullet p = gameManager.bulletFactory.getNormalBullet(this, GunSorter.GunType.Pistol);
 		p.shoot(getShootingX(), getShootingY(), image.getRotation());
 
 		isShootingEnabled = false;

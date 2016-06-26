@@ -99,7 +99,7 @@ public abstract class BaseEnemy
 	public void hitByBullet(String bulletData)
 	{
 		int bulletID = BaseBullet.getBulletID(bulletData);
-		damage(gameManager.bulletFactory.bullets.get(bulletID).mDamage);
+		damage(gameManager.bulletFactory.bullets.get(bulletID).damage);
 
 		if(getHIT_RAGE() > 0)
 			rage();

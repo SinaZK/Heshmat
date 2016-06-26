@@ -52,6 +52,8 @@ public class Fly extends BaseEnemy
 		setPosition(originX + width + 100, originY + height - 200);
 	}
 
+
+
 	@Override
 	public void release()
 	{

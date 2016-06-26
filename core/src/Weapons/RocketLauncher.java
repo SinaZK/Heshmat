@@ -28,20 +28,18 @@ public class RocketLauncher extends BaseGun
 	{
 		super.shoot();
 
-		if(isShootingEnabled == false)
+		if(isShootingEnabled == false || isReloading)
 			return;
 
 //		Log.e("RocketLauncher.java", "shooting and : " + isShootingEnabled);
-		RocketBullet r = gameManager.bulletFactory.getRocketBullet();
+		RocketBullet r = gameManager.bulletFactory.getRocketBullet(this);
 		r.shoot(getShootingX(), getShootingY(), image.getRotation());
 
 		isShootingEnabled = false;
+
+		reload();
 //		Log.e("BaseGun.java", "isShootingEnabled = " + isShootingEnabled);
 	}
 
-	@Override
-	public void setUpgrade(GunStatData gunStatData)
-	{
 
-	}
 }

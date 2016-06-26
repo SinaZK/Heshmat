@@ -25,15 +25,27 @@ import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
+import Sorter.GunSorter;
 import heshmat.MainActivity;
 
 public class BaseGun implements InputProcessor
 {
 	public MainActivity act;
 	public Sprite image, showSprite;
+
 	public float rateOfFire;//numberOfBulletsPerSecond
+	public float bulletHP;
+	public float clipSize;
+	public float reloadTime;
+	public float bulletSpeed;
+	public float bulletDamage;
+	public Vector2 bulletSize;
 	public boolean isShootingEnabled = true;
 	public float shootingTimeCounter = 0;
+	public float ammo;//numberOfRemaining ammo in clip
+	public float reloadCounter;
+	public boolean isReloading;
+	public GunSorter.GunType gunType;
 	//public Entity debugTest;
 
 	public GameManager gameManager;
@@ -43,6 +55,8 @@ public class BaseGun implements InputProcessor
 	public Vector2 humanPos = new Vector2(0, 0);
 
 	public float bodyDensity, bodyElasticity, bodyFriction;
+
+	public Texture bulletTexture;
 	
 	public BaseGun(MainActivity a, GameManager gm)
 	{
@@ -64,6 +78,11 @@ public class BaseGun implements InputProcessor
 			image.draw(batch);
 			image.setFlip(false, false);
 		}
+
+		if(isReloading)
+		{
+			gameManager.gunManager.drawReloadBar(batch, x, y, reloadCounter, reloadTime);
+		}
 	};
 
 	public void drawShow(Batch batch)
@@ -81,6 +100,7 @@ public class BaseGun implements InputProcessor
 
 		image = new Sprite(TextureHelper.loadTexture(path + "image.png", use));
 		showSprite = new Sprite(TextureHelper.loadTexture(path + "show.png", use));
+		bulletTexture = TextureHelper.loadTexture(path + "bullet.png", use);
 
 		FileHandle f = Gdx.files.internal(path + "gun.gun");
 		InputStream inputStream = f.read();
@@ -112,6 +132,25 @@ public class BaseGun implements InputProcessor
 
 			in = dis.readLine();
 			rateOfFire = Float.valueOf(BodyStrings.getPartOf(in, 1));
+
+			in = dis.readLine();
+			bulletHP = Float.valueOf(BodyStrings.getPartOf(in, 1));
+
+			in = dis.readLine();
+			bulletDamage = Float.valueOf(BodyStrings.getPartOf(in, 1));
+
+			in = dis.readLine();
+			bulletSpeed = Float.valueOf(BodyStrings.getPartOf(in, 1));
+
+			in = dis.readLine();
+			bulletSize = new Vector2(Float.valueOf(BodyStrings.getPartOf(in, 1)), Float.valueOf(BodyStrings.getPartOf(in, 2)));
+
+			in = dis.readLine();
+			clipSize = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			ammo = clipSize;
+
+			in = dis.readLine();
+			reloadTime = Float.valueOf(BodyStrings.getPartOf(in, 1));
 
 			float scaleX = image.getWidth() / width;
 			float scaleY = image.getHeight() / height;
@@ -207,23 +246,51 @@ public class BaseGun implements InputProcessor
 
 	public void shoot()
 	{
-		if(isShootingEnabled == false)
+		if(isShootingEnabled == false || isReloading)
 			return;
 
+		if(ammo == 0)
+			reload();
+		else ammo--;
+
+		Log.e("BaseGun.java", "Shoot : " + ammo);
 	};
 
 	public void run()
 	{
-		shootingTimeCounter += Gdx.graphics.getDeltaTime();
-
-		if(shootingTimeCounter > 1 / rateOfFire)
+		if(isReloading)
 		{
-			shootingTimeCounter = 0;
-			isShootingEnabled = true;
+			reloadCounter += gameManager.gameScene.getDeltaTime();
+			if(reloadCounter >= reloadTime)
+			{
+				isReloading = false;
+				ammo = clipSize;
+			}
 		}
+		else
+		{
+			if(isShootingEnabled == false)
+			{
+				shootingTimeCounter += gameManager.gameScene.getDeltaTime();
+				if(shootingTimeCounter >= (1 / rateOfFire))
+				{
+					shootingTimeCounter = 0;
+					isShootingEnabled = true;
+				}
+			}
 
-		if(isTouched)
-			shoot();
+			if(isTouched)
+				shoot();
+		}
+	}
+
+	public void reload()
+	{
+		if(isReloading)
+			return;
+
+		isReloading = true;
+		reloadCounter = 0;
 	}
 
 	public void slotGunInitOnAttachCar()
@@ -297,6 +364,10 @@ public class BaseGun implements InputProcessor
 		return false;
 	}
 
-	public void setUpgrade(GunStatData gunStatData){}
+	private GunStatData gunStatData;
+	public void setUpgrade(GunStatData gunStatData)
+	{
+		this.gunStatData = gunStatData;
+	}
 	
 }

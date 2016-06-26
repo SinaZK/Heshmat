@@ -90,6 +90,12 @@ public class GunModel
 			dis.readLine();//origin
 			dis.readLine();//shootingPos
 			dis.readLine();//rateOfFire
+			dis.readLine();//BulletHP
+			dis.readLine();//BulletDamage
+			dis.readLine();//BulletSpeed
+			dis.readLine();//BulletSize
+			dis.readLine();//ClipSize
+			dis.readLine();//ReloadTime
 			dis.readLine();//physic
 
 			dis.readLine();//blank line

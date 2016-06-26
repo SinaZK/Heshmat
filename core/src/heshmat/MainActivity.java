@@ -59,7 +59,7 @@ public class MainActivity extends ApplicationAdapter
 		gameStatData.numberOfAppRun++;
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-//		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
+//		sceneManager.setCurrentScene(SceneManager.SCENES.SPLASH, null);
 		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		if(isMoneyInf)
@@ -74,6 +74,7 @@ public class MainActivity extends ApplicationAdapter
 		
 		sceneManager.run();
 	}
+
 
 	public GameStatData gameStatData;
 	public PlayerStatData playerStatData;

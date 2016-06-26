@@ -19,9 +19,6 @@ public class BodyStrings
 	public static String Human_NeckString = "Head";
 	public static String Human_MainBodyString = "Head";
 
-	public static String BulletPistolString = "Pistol";
-	public static String BulletRocketString = "Rocket";
-
 	public static String EnemyFly = "Pigeon";
 
 	public static String FINISH_MODE_STRING = "FINISH";

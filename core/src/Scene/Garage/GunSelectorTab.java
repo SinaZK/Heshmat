@@ -147,8 +147,8 @@ public class GunSelectorTab extends BaseScene
 			public void run()
 			{
 				selectedGun++;
-				if(selectedGun > SceneManager.CAR_NUM)
-					selectedGun = SceneManager.CAR_NUM;
+				if(selectedGun > SceneManager.GUN_NUM)
+					selectedGun = SceneManager.GUN_NUM;
 
 				gunSelectEntities[selectedGun].select();
 			}

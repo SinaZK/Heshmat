@@ -1,5 +1,6 @@
 package WeaponBase;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,6 +11,7 @@ import Misc.CameraHelper;
 import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsFactory;
+import Sorter.GunSorter;
 import heshmat.MainActivity;
 
 /*
@@ -21,7 +23,7 @@ public abstract class BaseBullet
 {
 	MainActivity act;
 	public GameManager gameManager;
-	public BaseGun mGun;
+	public BaseGun gun;
 	public BulletFactory bulletFactory;
 
 	public CzakBody body;
@@ -29,11 +31,13 @@ public abstract class BaseBullet
 	public boolean isFree;
 	public int index;
 
-	public float mDamage;
-	public float shootingRange = 100;
-	public BulletType bulletType;
+	public float hitPoint;
+	public float damage;
+	public float shootingRange, shootingSpeed;
+	public GunSorter.GunType bulletType;
 	public Vector2 startingPoint = new Vector2();
 
+	public Texture bulletTexture;
 
 
 	BaseBullet(MainActivity act, int id)
@@ -42,11 +46,6 @@ public abstract class BaseBullet
 		gameManager = act.sceneManager.gameScene.gameManager;
 		bulletFactory = gameManager.bulletFactory;
 		index = id;
-	}
-
-	public enum BulletType
-	{
-		PISTOL, ROCKET_LAUNCHER;
 	}
 
 	public void create(){};

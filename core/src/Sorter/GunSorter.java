@@ -3,9 +3,11 @@ package Sorter;
 import com.badlogic.gdx.Game;
 
 import GameScene.GameManager;
+import Misc.Log;
 import SceneManager.SceneManager;
+import WeaponBase.BaseBullet;
 import WeaponBase.BaseGun;
-import Weapons.Pistol;
+import Weapons.NormalGun;
 import Weapons.RocketLauncher;
 import heshmat.MainActivity;
 
@@ -21,21 +23,49 @@ public class GunSorter
 					0,//   NULL
 
 					1,//  Pistol
+					3,//  MP5
+					4,//  AK47
+					5,//  SNIPER
 					2,//  Rocket Launcher
 
 
-			};//tayin konande tartib ine! gunPosByType daghighan bayad be hamun tartibe too file ha bian va bara jabajeyayi too garageScene (nabayad) avaz she meghdaesh
+			};//tayin konande tartib ine! gunPosByType daghighan bayad be hamun tartibe too file ha bian va bara jabajeyayi too garageScene (nabayad) avaz she meghdaresh
 
 	public static GunType gunPosByType [] =
 			{
 					null,
 					GunType.Pistol,
+					GunType.MP5,
+					GunType.AK47,
+					GunType.SNIPER,
 					GunType.RocketLauncher,
 			};
 
+	public static String [] BulletBodyStrings =
+			{
+					"NULL",
+					"Pistol",
+					"MP5",
+					"AK47",
+					"Sniper",
+					"Rocket",
+			};
+
+	public static String getBulletBodyString(GunType gunType)
+	{
+		int id = getIDFromGunType(gunType);
+		if(id == -1)
+			return "NULL";
+
+		return BulletBodyStrings[id];
+	}
+
 	public enum  GunType
 	{
-		Pistol, RocketLauncher
+		Pistol, RocketLauncher, MP5, AK47, SNIPER,
+
+		//GunSlots:
+		DOOSHKA,
 	}
 
 	public static int getFromGunPos(int id)
@@ -64,14 +94,25 @@ public class GunSorter
 	public static BaseGun createSelectedGun(GameManager gameManager, int pos)
 	{
 		int selectedGun = gunPos[pos];
-		GunType gunType = gunPosByType[selectedGun];
+		GunType gunType = gunPosByType[pos];
 
 		switch (gunType)
 		{
-			case RocketLauncher:
-				return new RocketLauncher(gameManager.gameScene.act, gameManager);
 			case Pistol:
-				return new Pistol(gameManager.gameScene.act, gameManager);
+//				Log.e("GunSorter.java", "Creating Pistol");
+				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.Pistol);
+			case MP5:
+//				Log.e("GunSorter.java", "Creating MP5");
+				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.MP5);
+			case AK47:
+//				Log.e("GunSorter.java", "Creating AK47");
+				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.AK47);
+			case SNIPER:
+//				Log.e("GunSorter.java", "Creating SNIPER");
+				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.SNIPER);
+			case RocketLauncher:
+//				Log.e("GunSorter.java", "Creating ROCKET Launcher");
+				return new RocketLauncher(gameManager.gameScene.act, gameManager);
 		}
 
 		return null;

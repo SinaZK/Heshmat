@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import java.util.ArrayList;
 
-import Bullets.PistolBullet;
 import Bullets.RocketBullet;
 import GameScene.GameScene;
 import Misc.Log;
 import Misc.TextureHelper;
+import Sorter.GunSorter;
+import Weapons.RocketLauncher;
 import heshmat.MainActivity;
 
 public class BulletFactory
@@ -36,17 +37,7 @@ public class BulletFactory
 		for(int i = 0;i < bullets.size();i++)
 			if(!bullets.get(i).isFree)
 			{
-				if(bullets.get(i).bulletType == BaseBullet.BulletType.PISTOL)
-				{
-					PistolBullet pistolBullet = (PistolBullet) bullets.get(i);
-					pistolBullet.run();
-				}
-				else
-				if(bullets.get(i).bulletType == BaseBullet.BulletType.ROCKET_LAUNCHER)
-				{
-					RocketBullet rocketBullet = (RocketBullet) bullets.get(i);
-					rocketBullet.run();
-				}
+				bullets.get(i).run();
 			}
 	}
 
@@ -57,32 +48,31 @@ public class BulletFactory
 				bullets.get(i).draw(batch);
 	}
 
-	public PistolBullet getPistolBullet()
+	public NormalBullet getNormalBullet(BaseGun gun, GunSorter.GunType gunType)
 	{
 		for(int i = 0;i < bullets.size();i++)
-			if(bullets.get(i).bulletType == BaseBullet.BulletType.PISTOL && bullets.get(i).isFree)
+			if(bullets.get(i).bulletType == gunType && bullets.get(i).isFree)
 			{
 				bullets.get(i).create();
-				return (PistolBullet)bullets.get(i);
+				return (NormalBullet)bullets.get(i);
 			}
 
-		PistolBullet pistolBullet = new PistolBullet(bullets.size(), act, 5, 25);
-		pistolBullet.create();
-		bullets.add(pistolBullet);
-
-		return  pistolBullet;
+		NormalBullet normalBullet = new NormalBullet(bullets.size(), act, gun, gunType);
+		normalBullet.create();
+		bullets.add(normalBullet);
+		return normalBullet;
 	}
 
-	public RocketBullet getRocketBullet()
+	public RocketBullet getRocketBullet(RocketLauncher rocketLauncher)
 	{
 		for(int i = 0;i < bullets.size();i++)
-			if(bullets.get(i).bulletType == BaseBullet.BulletType.ROCKET_LAUNCHER && bullets.get(i).isFree)
+			if(bullets.get(i).bulletType == GunSorter.GunType.RocketLauncher && bullets.get(i).isFree)
 			{
 				bullets.get(i).create();
 				return (RocketBullet)bullets.get(i);
 			}
 
-		RocketBullet rocketBullet = new RocketBullet(bullets.size(), act, 10, 8, 7);
+		RocketBullet rocketBullet = new RocketBullet(bullets.size(), act, rocketLauncher);
 		rocketBullet.create();
 		bullets.add(rocketBullet);
 

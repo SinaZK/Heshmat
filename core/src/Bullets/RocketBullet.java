@@ -7,16 +7,16 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import Entity.AnimatedSprite;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
 import Sorter.GunSorter;
-import WeaponBase.ThrowBullet;
+import WeaponBase.BaseGun;
+import WeaponBase.NormalBullet;
 import Weapons.RocketLauncher;
 import heshmat.MainActivity;
 
-public class RocketBullet extends ThrowBullet
+public class RocketBullet extends NormalBullet
 {
 
 	float sizeX, sizeY;
@@ -25,27 +25,13 @@ public class RocketBullet extends ThrowBullet
 	boolean waitForExplosion;
 	public float explosionDamageLength;
 
-	public RocketBullet(int id, MainActivity activity, int szX, int szY, float shootingSpeed)
+	public RocketBullet(int id, MainActivity activity, RocketLauncher rocketLauncher)
 	{
-		super(id, activity, szX, shootingSpeed);
-
-		//////salam
-		sizeX = szX;
-		sizeY = szY;
-
-		body = new CzakBody(PhysicsFactory.createBoxBody(bulletFactory.mScene.world, 0, 0, sizeX, sizeY, BodyDef.BodyType.DynamicBody),
-				bulletFactory.RocketBulletTexture);
-		body.getmSprite().get(0).setSize(sizeX, sizeY);
-		body.setUserData(BodyStrings.BULLET_STRING + " " + BodyStrings.BulletRocketString + " " + id);
-		body.getmBody().setGravityScale(0.6f);
+		super(id, activity, rocketLauncher, GunSorter.GunType.RocketLauncher);
 
 		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 4, 16, 0.23f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
-
-		mGun = GunSorter.createGunByType(activity.sceneManager.gameScene.gameManager, GunSorter.GunType.RocketLauncher);
-
 		explosionDamageLength = 150;
-		mDamage = 50;
 	}
 
 
@@ -54,9 +40,9 @@ public class RocketBullet extends ThrowBullet
 	{
 		super.create();
 
-		bulletType = BulletType.ROCKET_LAUNCHER;
+		bulletType = GunSorter.GunType.RocketLauncher;
 		waitForExplosion = false;
-		shootingRange = 1500;
+		body.getmBody().setGravityScale(0.6f);
 	}
 
 	@Override
@@ -102,7 +88,7 @@ public class RocketBullet extends ThrowBullet
 		waitForExplosion = true;
 		explosionSprite.reset();
 		explosionSprite.setPosition(body.getmSprite().get(0).getX() - 30, body.getmSprite().get(0).getY() - 10);
-		gameManager.enemyFactory.damageArea(new Vector2(body.getmSprite().get(0).getX(), body.getmSprite().get(0).getY()), explosionDamageLength, mDamage);
+		gameManager.enemyFactory.damageArea(new Vector2(body.getmSprite().get(0).getX(), body.getmSprite().get(0).getY()), explosionDamageLength, damage);
 	}
 
 	@Override
@@ -121,5 +107,17 @@ public class RocketBullet extends ThrowBullet
 		if(!waitForExplosion)
 			super.draw(batch);
 		explosionSprite.draw(batch);
+	}
+
+	@Override
+	public void hitByBullet(String BulletData)
+	{
+		shouldRelease = true;
+	}
+
+	@Override
+	public void hitByEnemy(String enemyData)
+	{
+		shouldRelease = true;
 	}
 }
