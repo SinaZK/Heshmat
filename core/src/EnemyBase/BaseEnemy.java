@@ -95,6 +95,8 @@ public abstract class BaseEnemy
 		selectedAnimation = 0;
 		isStun = false;
 		isRage = false;
+
+//        Log.e("BaseEnemy.java", "enemy create : " + enemyType);
 	}
 	public void hitByBullet(String bulletData)
 	{
@@ -161,6 +163,7 @@ public abstract class BaseEnemy
 					break;
 				case ATTACK:
 					attack();
+                    break;
 				case MOVE:
 					move();
 					break;
@@ -275,6 +278,7 @@ public abstract class BaseEnemy
 			case ATTACK:
 				if(animatedSpriteSheet.haveAnimation(EnemyFactory.ENEMY_ANIMATION_ATTACK_STRING))
 					selectedAnimation = animatedSpriteSheet.getAnimationID(EnemyFactory.ENEMY_ANIMATION_ATTACK_STRING);
+                break;
 			case MOVE:
 				if(animatedSpriteSheet.haveAnimation(EnemyFactory.ENEMY_ANIMATION_MOVE_STRING))
 					selectedAnimation = animatedSpriteSheet.getAnimationID(EnemyFactory.ENEMY_ANIMATION_MOVE_STRING);

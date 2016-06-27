@@ -7,6 +7,8 @@ import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
+import Misc.Log;
+import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 
 /**
@@ -45,11 +47,13 @@ public class Mosquito extends BaseEnemy
 		super.create(shootingMode, level, attr);
 
 		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
-		float originY = CameraHelper.getYMin(gameManager.gameScene.camera);
 		float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
-		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
-		setPosition(originX + width + 100, originY + height - 200);
+        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y *
+                PhysicsConstant.PIXEL_TO_METER;
+        float myHeight = (float) (groundHeight + (Math.random() * 0.25 + 0.5) * SceneManager.WORLD_Y);
+
+		setPosition(originX + width + 100, myHeight);
 	}
 
 	@Override

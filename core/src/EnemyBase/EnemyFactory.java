@@ -293,45 +293,45 @@ public class EnemyFactory
 	public void loadAnimations()
 	{
 		MosquitoEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/1/mosquito.png", gameScene.disposeTextureArray);
-		MosquitoEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 0, 0, 2490, 375, 1, 4, 8);
+		MosquitoEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2490, 375, 1, 4, 8);
 		MosquitoEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 714, 459, 2412, 993, 1, 3, 8);
 
 		FlyEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/2/fly.png", gameScene.disposeTextureArray);
-		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 254, 10, 1362, 214, 1, 4, 8);
+		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 254, 10, 1362, 214, 1, 4, 8);
 		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACK_STRING, 274, 382, 1974, 576, 1, 6, 8);
 		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 258, 652, 1658, 962, 1, 4, 8);
 
 		WaspEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/3/wasp.png", gameScene.disposeTextureArray);
-		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 354, 117, 2826, 408, 1, 5, 8);
+		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 354, 117, 2826, 408, 1, 5, 8);
 		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACK_STRING, 339, 597, 2889, 1017, 1, 5, 8);
 		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 360, 1173, 2994, 1695, 1, 5, 8);
 
 		RedBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/4/bird.png", gameScene.disposeTextureArray);
-		RedBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 0, 0, 2190, 396, 1, 4, 8);
+		RedBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2190, 396, 1, 4, 8);
 		RedBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 456, 2492, 950, 1, 4, 8);
 
 		HattyBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/5/bird.png", gameScene.disposeTextureArray);
-		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 0, 0, 2866, 470, 1, 4, 8);
+		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2866, 470, 1, 4, 8);
 		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 590, 2608, 1078, 1, 4, 8);
 
 		MaskBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/6/bird.png", gameScene.disposeTextureArray);
-		MaskBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 446, 0, 2036, 288, 1, 4, 8);
+		MaskBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 446, 0, 2036, 288, 1, 4, 8);
 		MaskBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 370, 2456, 880, 1, 4, 8);
 
 		FurryBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/7/bird.png", gameScene.disposeTextureArray);
-		FurryBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 0, 0, 2196, 382, 1, 4, 8);
+		FurryBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2196, 382, 1, 4, 8);
 		FurryBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 436, 2486, 940, 1, 4, 8);
 
 		FireBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/8/bird.png", gameScene.disposeTextureArray);
-		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 250, 0 , 2158, 372, 1, 4, 8);
+		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 250, 0 , 2158, 372, 1, 4, 8);
 		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 428, 2454, 920, 1, 4, 8);
 
 		BatEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/9/bat.png", gameScene.disposeTextureArray);
-		BatEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 164, 0, 2296, 364, 1, 4, 8);
+		BatEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 164, 0, 2296, 364, 1, 4, 8);
 		BatEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 438, 2454, 932, 1, 4, 8);
 
 		BossBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/10/boss.png", gameScene.disposeTextureArray);
-		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_FLY_STRING, 732, 0, 2493, 366, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 732, 0, 2493, 366, 1, 3, 8);
 		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACKBLOW_STRING, 807, 432, 2535, 807, 1, 3, 8);
 		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACKFIRE_STRING, 801, 879, 2550, 1242, 1, 3, 8);
 		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_LOWHEALTH_STRING, 735, 1300, 2481, 1782, 1, 3, 8);
@@ -357,7 +357,6 @@ public class EnemyFactory
 	public static String ENEMY_ANIMATION_ATTACK_STRING = "attack";
 	public static String ENEMY_ANIMATION_ATTACKFIRE_STRING = "attackFire";
 	public static String ENEMY_ANIMATION_ATTACKBLOW_STRING = "attackBlow";
-	public static String ENEMY_ANIMATION_FLY_STRING = "fly";
 
 
 	public void pause()

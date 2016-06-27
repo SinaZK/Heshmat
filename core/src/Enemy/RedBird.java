@@ -7,6 +7,7 @@ import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
+import Misc.Log;
 import SceneManager.SceneManager;
 
 /**
@@ -50,9 +51,11 @@ public class RedBird extends BaseEnemy
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
 		setPosition(originX + width + 100, originY + height - 200);
+
+//        Log.e("RED_BIRD.java", "create");
 	}
 
-	@Override
+    @Override
 	public void release()
 	{
 		super.release();
