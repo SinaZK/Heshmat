@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
 import Misc.TextureHelper;
+import Scene.BaseScene;
 
 public class AnimatedSpriteSheet
 {
@@ -32,6 +33,11 @@ public class AnimatedSpriteSheet
 	public void addAnimation(String name, int startX, int startY, int endX, int endY, int row, int col, float fps)
 	{
 		animations.add(new SizakAnimation(textureSheet, startX, startY, endX, endY, row, col, fps, name));
+	}
+
+	public TextureRegion getTextureFromSheet(int startX, int startY, int endX, int endY)
+	{
+		return new TextureRegion(textureSheet, startX, startY, endX - startX, endY - startY);
 	}
 
 	public void setPosition(float X, float Y)

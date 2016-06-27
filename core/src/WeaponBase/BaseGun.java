@@ -57,6 +57,8 @@ public class BaseGun implements InputProcessor
 	public float bodyDensity, bodyElasticity, bodyFriction;
 
 	public Texture bulletTexture;
+
+	public String shooterString = BodyStrings.Shooter_HUMAN;//Default
 	
 	public BaseGun(MainActivity a, GameManager gm)
 	{
@@ -64,6 +66,11 @@ public class BaseGun implements InputProcessor
 		gameManager = gm;
 
 		//debugTest = new Entity(TextureHelper.loadTexture("gfx/pistolbullet.png", gameManager.gameScene.disposeTextureArray));
+	}
+
+	public void setShooter(String shooter)
+	{
+		shooterString = shooter;
 	}
 
 	public void draw(Batch batch)

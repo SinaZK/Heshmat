@@ -36,9 +36,9 @@ public class RocketBullet extends NormalBullet
 
 
 	@Override
-	public void create()
+	public void create(BaseGun gun)
 	{
-		super.create();
+		super.create(gun);
 
 		bulletType = GunSorter.GunType.RocketLauncher;
 		waitForExplosion = false;

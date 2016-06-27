@@ -19,6 +19,9 @@ public class BodyStrings
 	public static String Human_NeckString = "Head";
 	public static String Human_MainBodyString = "Head";
 
+	public static String Shooter_HUMAN = "shooterH";
+	public static String Shooter_ENEMY = "shooterE";
+
 	public static String EnemyFly = "Pigeon";
 
 	public static String FINISH_MODE_STRING = "FINISH";

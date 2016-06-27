@@ -48,22 +48,24 @@ public class GameSceneContactManager
 
 				if(BodyStrings.isBullet(s1) && s2.equals(BodyStrings.GroundString))
 					handleBulletToGround(contact, BaseBullet.getBulletID(s1));
-
 				if(BodyStrings.isBullet(s2) && s1.equals(BodyStrings.GroundString))
 					handleBulletToGround(contact, BaseBullet.getBulletID(s2));
 
 				if(BodyStrings.isBullet(s1) && BodyStrings.isEnemy(s2))
 					handleBulletToEnemy(contact, s1, s2);
-
 				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
 					handleBulletToEnemy(contact, s2, s1);
 
 //				if(s1.equals(BodyStrings.FINISH_MODE_STRING) || s2.equals(BodyStrings.FINISH_MODE_STRING))
 //					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " collided");
 
+				if(BodyStrings.isCar(s1) && BodyStrings.isBullet(s2))
+					handleBulletToCarBeginContact(contact, s1, s2);
+				if(BodyStrings.isCar(s2) && BodyStrings.isBullet(s1))
+					handleBulletToCarBeginContact(contact, s2, s1);
+
 				if(BodyStrings.isCar(s1) && s2.equals(BodyStrings.FINISH_MODE_STRING))
 					handleFinishBody(contact, s1);
-
 				if(BodyStrings.isCar(s2) && s1.equals(BodyStrings.FINISH_MODE_STRING))
 					handleFinishBody(contact, s2);
 
@@ -85,6 +87,14 @@ public class GameSceneContactManager
 
 				if(BodyStrings.isEnemy(s1) || BodyStrings.isEnemy(s2))
 					contact.setEnabled(false);
+
+				if(BodyStrings.isCar(s1) && BodyStrings.isBullet(s2))
+					handleBulletToCarPreSolve(contact, s1, s2);
+				if(BodyStrings.isCar(s2) && BodyStrings.isBullet(s1))
+					handleBulletToCarPreSolve(contact, s2, s1);
+
+				if(BodyStrings.isBullet(s1) && BodyStrings.isBullet(s2))
+					handleBulletToBulletPreSolve(contact, s1, s2);
 			}
 
 			@Override
@@ -96,8 +106,42 @@ public class GameSceneContactManager
 		return  cl;
 	}
 
+	private void handleBulletToCarBeginContact(Contact contact, String carString, String bulletString)
+	{
+		if(BaseBullet.getBulletShooter(bulletString).equals(BodyStrings.Shooter_HUMAN))
+			return;
+
+		int bulletID = BaseBullet.getBulletID(bulletString);
+		bulletFactory.bullets.get(bulletID).hitByCar(carString);
+
+		gameManager.selectedCar.hitByBullet(bulletString);
+	}
+
+	private void handleBulletToCarPreSolve(Contact contact, String carString, String bulletString)
+	{
+//		if(BaseBullet.getBulletShooter(bulletString).equals(BodyStrings.Shooter_HUMAN))
+		{
+			contact.setEnabled(false);
+			return;
+		}
+	}
+
+	public void handleBulletToBulletPreSolve(Contact contact, String data1, String data2)
+	{
+		if(BaseBullet.getBulletShooter(data1).equals(BaseBullet.getBulletShooter(data2)))
+		{
+			contact.setEnabled(false);
+			return;
+		}
+	}
+
 	public void handleBulletToBullet(Contact contact, String data1, String data2)
 	{
+		if(BaseBullet.getBulletShooter(data1).equals(BaseBullet.getBulletShooter(data2)))
+		{
+			return;
+		}
+
 		int i1 = BaseBullet.getBulletID(data1);
 		int i2 = BaseBullet.getBulletID(data2);
 
@@ -112,6 +156,9 @@ public class GameSceneContactManager
 
 	public void handleBulletToEnemy(Contact contact, String bulletData, String enemyData)
 	{
+		if(BaseBullet.getBulletShooter(bulletData).equals(BodyStrings.Shooter_ENEMY))
+			return;
+
 		int bulletID = BaseBullet.getBulletID(bulletData);
 		int enemyID = BaseEnemy.getEnemyID(enemyData);
 

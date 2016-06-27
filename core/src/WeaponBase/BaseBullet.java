@@ -16,7 +16,7 @@ import heshmat.MainActivity;
 
 /*
 	Body User String Protocol:
-	**Bullet + BulletType + BulletID
+	**Bullet + BulletType + BulletID + SHOOTER
  */
 
 public abstract class BaseBullet
@@ -39,7 +39,6 @@ public abstract class BaseBullet
 
 	public Texture bulletTexture;
 
-
 	BaseBullet(MainActivity act, int id)
 	{
 		this.act = act;
@@ -48,7 +47,8 @@ public abstract class BaseBullet
 		index = id;
 	}
 
-	public void create(){};
+	public String userPrefixString;
+	public void create(BaseGun gun){this.gun = gun;};
 	public void shoot(float x, float y, float teta)
 	{
 		startingPoint.set(x, y);
@@ -65,6 +65,11 @@ public abstract class BaseBullet
 	public abstract void hitByGround();
 	public abstract void hitByCar(String CarData);
 	public abstract void hitByBullet(String BulletData);
+
+	public static String getBulletShooter(String fullString)
+	{
+		return BodyStrings.getPartOf(fullString, 3);
+	}
 
 	public static String getBulletType(String fullString)
 	{

@@ -14,6 +14,7 @@ import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
 import Misc.Log;
 import Physics.SizakBody;
+import WeaponBase.BaseBullet;
 import heshmat.MainActivity;
 
 public abstract class BaseCar
@@ -30,6 +31,7 @@ public abstract class BaseCar
 
 	public ArrayList<CarSlot> slots = new ArrayList<CarSlot>();
 
+	public float hitpoint;
 	public float rotationFlipTorque;
 
 	public int wheelNum;
@@ -175,5 +177,17 @@ public abstract class BaseCar
 //		Log.e("BaseCar.java", "Reset");
 		body.setCenterPosition(firstPosX, firstPosY);
 		body.setAllBodiesV(0, 0);
+	}
+
+	public void hitByBullet(String bulletData)
+	{
+		int bulletID = BaseBullet.getBulletID(bulletData);
+		damage(gameManager.bulletFactory.bullets.get(bulletID).damage);
+	}
+
+	private void damage(float damage)
+	{
+		hitpoint -= damage;
+		Log.e("BaseCar.java", "Hit damage = " + damage);
 	}
 }

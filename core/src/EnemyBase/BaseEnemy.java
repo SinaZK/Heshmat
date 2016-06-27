@@ -25,7 +25,9 @@ import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
+import Sorter.GunSorter;
 import WeaponBase.BaseBullet;
+import WeaponBase.BaseGun;
 
 import static java.lang.StrictMath.max;
 
@@ -75,11 +77,23 @@ public abstract class BaseEnemy
 
 	public EnemyType enemyType;
 
+	public BaseGun gun;
+	public float gunX = 0, gunY = 0;
+	public float gunTeta = 235;
 	public BaseEnemy(GameManager gameManager, int id)
 	{
 		this.gameManager = gameManager;
 		enemyFactory = gameManager.enemyFactory;
 		index = id;
+	}
+
+	public void loadGun()
+	{
+		gun = GunSorter.createEnemyGun(gameManager);
+		gun.rateOfFire = getFIRE_RATE();
+		gun.ammo = 100;
+		gun.bulletDamage = getDamage();
+		gun.setShooter(BodyStrings.Shooter_ENEMY);
 	}
 
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
@@ -124,7 +138,10 @@ public abstract class BaseEnemy
 		mainBody.getmBody().setTransform(x, y, mainBody.getmBody().getAngle());
 	}
 
-	public abstract void attack();
+	public void attack()
+	{
+		gun.shoot();
+	}
 	public void release()
 	{
 		shootingMode.enemyDied++;
@@ -144,6 +161,13 @@ public abstract class BaseEnemy
 
 	public void run()
 	{
+		if(gun != null)
+		{
+			gun.setPosition(x - fullImageWidth / 2 + gunX, y - fullImageHeight / 2 + gunY);
+			gun.image.setRotation(gunTeta);
+			gun.run();
+		}
+
 		if(shouldRelease)
 		{
 			release();

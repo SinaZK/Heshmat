@@ -29,21 +29,33 @@ public class NormalBullet extends BaseBullet
 		body = new CzakBody(PhysicsFactory.createBoxBody(bulletFactory.mScene.world, 0, 0, gun.bulletSize.x, gun.bulletSize.y, BodyDef.BodyType.DynamicBody),
 				gun.bulletTexture);
 		body.getmSprite().get(0).setSize(gun.bulletSize.x, gun.bulletSize.y);
-		body.setUserData(BodyStrings.BULLET_STRING + " " + GunSorter.getBulletBodyString(type) + " " + BulletFactoryQid);
+		userPrefixString = BodyStrings.BULLET_STRING + " " + GunSorter.getBulletBodyString(type) + " " + BulletFactoryQid;
+		body.setUserData(userPrefixString + " " + gun.shooterString);
 
 		shootingRange = 1000;
 	}
 
 	@Override
-	public void create()
+	public void create(BaseGun gun)
 	{
+		super.create(gun);
+
 		isFree = false;
 		body.getmBody().getFixtureList().get(0).setSensor(false);
 		body.getmBody().setBullet(true);
 		body.getmBody().setActive(true);
 		body.getmBody().setGravityScale(0);
 		shouldRelease = false;
+
+		this.shootingSpeed = gun.bulletSpeed;
+		this.damage = gun.bulletDamage;
 		this.hitPoint = gun.bulletHP;
+
+		bulletTexture = gun.bulletTexture;
+		body.setUserData(userPrefixString + " " + gun.shooterString);
+		body.getmSprite().get(0).setTexture(bulletTexture);
+		body.getmSprite().get(0).setSize(gun.bulletSize.x, gun.bulletSize.y);
+//		Log.e("NormalBullet.java", "creating : " + gun.shooterString + " gunType = " + gun.gunType);
 	}
 
 	@Override

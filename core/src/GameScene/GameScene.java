@@ -107,6 +107,7 @@ public class GameScene extends BaseScene
 
 	public void pause()
 	{
+		Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size() + " EnemyQSize = " + gameManager.enemyFactory.enemies.size());
 		gameStat = GAME_STAT.PAUSE;
 		gameManager.pause();
 		mSceneManager.dialogManager.addPauseDialog();

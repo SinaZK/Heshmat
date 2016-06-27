@@ -1,6 +1,8 @@
 package EnemyBase;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import Misc.CameraHelper;
 import Misc.Log;
+import Misc.TextureHelper;
 
 public class EnemyFactory
 {
@@ -290,6 +293,7 @@ public class EnemyFactory
 	public AnimatedSpriteSheet MosquitoEnemyAnimation, FlyEnemyAnimation, WaspEnemyAnimation, RedBirdEnemyAnimation, HattyBirdEnemyAnimation, MaskBirdEnemyAnimation;
 	public AnimatedSpriteSheet FurryBirdEnemyAnimation, FireBirdEnemyAnimation, BatEnemyAnimation, BossBirdEnemyAnimation, WormEnemyAnimation, BombEnemyAnimation;
 
+	public Texture FlyBulletTexture;
 	public void loadAnimations()
 	{
 		MosquitoEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/1/mosquito.png", gameScene.disposeTextureArray);
@@ -298,8 +302,10 @@ public class EnemyFactory
 
 		FlyEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/2/fly.png", gameScene.disposeTextureArray);
 		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 254, 10, 1362, 214, 1, 4, 8);
-		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACK_STRING, 274, 382, 1974, 576, 1, 6, 8);
+		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACK_STRING, 274, 382, 1974, 576, 1, 6, 6);
 		FlyEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 258, 652, 1658, 962, 1, 4, 8);
+		FlyBulletTexture = TextureHelper.loadTexture("gfx/enemy/2/bullet.png", gameScene.disposeTextureArray);
+
 
 		WaspEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/3/wasp.png", gameScene.disposeTextureArray);
 		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 354, 117, 2826, 408, 1, 5, 8);

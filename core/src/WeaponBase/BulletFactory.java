@@ -53,12 +53,12 @@ public class BulletFactory
 		for(int i = 0;i < bullets.size();i++)
 			if(bullets.get(i).bulletType == gunType && bullets.get(i).isFree)
 			{
-				bullets.get(i).create();
+				bullets.get(i).create(gun);
 				return (NormalBullet)bullets.get(i);
 			}
 
 		NormalBullet normalBullet = new NormalBullet(bullets.size(), act, gun, gunType);
-		normalBullet.create();
+		normalBullet.create(gun);
 		bullets.add(normalBullet);
 		return normalBullet;
 	}
@@ -68,12 +68,12 @@ public class BulletFactory
 		for(int i = 0;i < bullets.size();i++)
 			if(bullets.get(i).bulletType == GunSorter.GunType.RocketLauncher && bullets.get(i).isFree)
 			{
-				bullets.get(i).create();
+				bullets.get(i).create(rocketLauncher);
 				return (RocketBullet)bullets.get(i);
 			}
 
 		RocketBullet rocketBullet = new RocketBullet(bullets.size(), act, rocketLauncher);
-		rocketBullet.create();
+		rocketBullet.create(rocketLauncher);
 		bullets.add(rocketBullet);
 
 		return  rocketBullet;

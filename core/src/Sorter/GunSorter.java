@@ -28,7 +28,6 @@ public class GunSorter
 					5,//  SNIPER
 					2,//  Rocket Launcher
 
-
 			};//tayin konande tartib ine! gunPosByType daghighan bayad be hamun tartibe too file ha bian va bara jabajeyayi too garageScene (nabayad) avaz she meghdaresh
 
 	public static GunType gunPosByType [] =
@@ -66,6 +65,9 @@ public class GunSorter
 
 		//GunSlots:
 		DOOSHKA,
+
+		//EnemyGuns:
+		NormalEnemyGun,
 	}
 
 	public static int getFromGunPos(int id)
@@ -116,6 +118,11 @@ public class GunSorter
 		}
 
 		return null;
+	}
+
+	public static BaseGun createEnemyGun(GameManager gameManager)
+	{
+		return new NormalGun(gameManager.gameScene.act, gameManager, 1, GunType.NormalEnemyGun);
 	}
 
 }
