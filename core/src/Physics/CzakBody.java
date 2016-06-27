@@ -1,5 +1,6 @@
 package Physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,7 +10,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import java.util.ArrayList;
 
 import Entity.AnimatedSpriteSheet;
+import Enums.Enums;
 import Misc.GUI;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 public class CzakBody 
@@ -71,7 +74,7 @@ public class CzakBody
 		{
 			spriteSheet.setPosition(mBody.getPosition().x * PhysicsConstant.PIXEL_TO_METER - spriteSheet.getWidth() / 2,
 					mBody.getPosition().y * PhysicsConstant.PIXEL_TO_METER - spriteSheet.getHeight() / 2);
-			spriteSheet.draw(batch);
+			spriteSheet.draw(batch, Gdx.graphics.getDeltaTime());
 		}
 	}
 

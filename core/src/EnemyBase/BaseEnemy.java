@@ -291,7 +291,7 @@ public abstract class BaseEnemy
 	{
 		if(mainBody != null)
 		{
-			animationStateTime += Gdx.graphics.getDeltaTime();
+			animationStateTime += gameManager.gameScene.getDeltaTime();
 			mainBody.draw(batch, animationStateTime, selectedAnimation);
 		}
 

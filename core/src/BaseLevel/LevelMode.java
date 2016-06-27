@@ -2,6 +2,7 @@ package BaseLevel;
 
 
 import BaseCar.BaseCar;
+import GameScene.GameScene;
 import GameScene.LevelManager;
 
 /**
@@ -14,6 +15,7 @@ public abstract class LevelMode
 	public boolean isFinished;
 	public float firstCarX, firstCarY;
 	public BaseCar car;
+	GameScene.LevelMode mode;
 
 	public LevelMode(LevelManager levelManager)
 	{
@@ -24,8 +26,18 @@ public abstract class LevelMode
 	public abstract void run();
 	public void start()
 	{
+		levelManager.levelMode = mode;
 		levelManager.gameScene.setInput();
 		firstCarX = car.body.bodies.get(0).getmBody().getWorldCenter().x;
 		firstCarY = car.body.bodies.get(0).getmBody().getWorldCenter().y;
 	}
+
+	public void reset()
+	{
+		isFinished = false;
+	}
+
+	public void pause(){}
+	public void resume(){}
+
 }

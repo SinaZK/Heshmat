@@ -61,13 +61,10 @@ public class BaseLevel
 		if(levelParts.get(currentPart).isFinished)
 		{
 			currentPart++;
-			Log.e("BaseLevel.java", "CurrentPart = " + currentPart);
 			if(currentPart < levelParts.size())
 				levelParts.get(currentPart).start();
 			else
-			{
 				finishTheLevel();
-			}
 		}
 
 		if(currentPart < levelParts.size())
@@ -105,5 +102,24 @@ public class BaseLevel
 		if(currentPart >= levelParts.size())
 			return levelParts.get(0);
 		return levelParts.get(currentPart);
+	}
+
+	public void pause()
+	{
+		getCurrentPart().pause();
+	}
+
+	public void restart()
+	{
+		for(int i = 0;i < levelParts.size();i++)
+			levelParts.get(i).reset();
+
+		currentPart = 0;
+		levelParts.get(0).start();
+	}
+
+	public void resume()
+	{
+		getCurrentPart().resume();
 	}
 }

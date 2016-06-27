@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import java.util.ArrayList;
 
+import GameScene.GameScene;
 import Misc.TextureHelper;
 import Scene.Garage.GarageScene;
 import SceneManager.SceneManager;
@@ -79,6 +80,16 @@ public class DialogManager
 		Gdx.input.setInputProcessor(buyDialog.scene);
 	}
 
+	public void addPauseDialog()
+	{
+		pauseMenuDialog.setIsActive(true);
+		dialogs.add(pauseMenuDialog);
+
+		pauseMenuDialog.inputProcessorCPY = Gdx.input.getInputProcessor();
+
+		Gdx.input.setInputProcessor(pauseMenuDialog.scene);
+	}
+
 	public void popQ()
 	{
 		Gdx.input.setInputProcessor(dialogs.get(dialogs.size() - 1).inputProcessorCPY);
@@ -87,10 +98,17 @@ public class DialogManager
 
 	GunSlotSelectorDialog gunSlotSelectorDialog;
 	public BuyDialog buyDialog;
+	public PauseMenuDialog pauseMenuDialog;
 	private void loadDialogs()
 	{
 		gunSlotSelectorDialog = new GunSlotSelectorDialog(this);
 		buyDialog = new BuyDialog(this);
+	}
+
+	public void loadPauseMenu(GameScene gameScene)
+	{
+		pauseMenuDialog = new PauseMenuDialog(this, gameScene);
+		pauseMenuDialog.create();
 	}
 
 	Texture backGroundTexture;

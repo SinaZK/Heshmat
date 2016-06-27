@@ -79,4 +79,20 @@ public class BulletFactory
 		return  rocketBullet;
 	}
 
+	public void pause()
+	{
+
+	}
+
+	public void resume()
+	{
+
+	}
+
+	public void restart()
+	{
+		for(int i = 0;i < bullets.size();i++)
+			bullets.get(i).isFree = true;
+	}
+
 }

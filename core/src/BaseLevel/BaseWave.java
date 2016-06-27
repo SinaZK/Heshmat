@@ -28,8 +28,9 @@ public class BaseWave
 	ArrayList<String> attr = new ArrayList<String>();
 	String enemyType = new String();
 
-	public Timer waveTimer = new Timer();
+	public float waveTimeCounter;
 
+	public int numberOfReleasedEnemy;
 	public boolean isReleased;
 	public float releaseTime;
 	public float diffTime;//time between releasing two enemy of this wave!
@@ -80,15 +81,6 @@ public class BaseWave
 			return;
 
 		isReleased = true;
-
-		waveTimer.scheduleTask(new Timer.Task()
-		{
-			@Override
-			public void run()
-			{
-				createEnemy();
-			}
-		}, 0, diffTime, numberOfEnemies - 1);
 	}
 
 	public void run()
@@ -96,12 +88,29 @@ public class BaseWave
 		if(!isReleased)
 			return;
 
+		waveTimeCounter += parentMode.levelManager.gameScene.getDeltaTime();
+
+		if(waveTimeCounter >= diffTime)
+		{
+//			Log.e("BaseWave.java", "waveCT = " + waveTimeCounter + " diffTime = " + diffTime);
+			waveTimeCounter = 0;
+			if(numberOfReleasedEnemy < numberOfEnemies)
+				createEnemy();
+		}
 	}
 
 	public void createEnemy()
 	{
+		numberOfReleasedEnemy++;
 		parentMode.enemyCount ++;
 		enemies.add(gameManager.enemyFactory.getEnemy(enemyType, enemyLevel, attr));
+	}
+
+	public void reset()
+	{
+		numberOfReleasedEnemy = 0;
+		waveTimeCounter = 0;
+		isReleased = false;
 	}
 
 }

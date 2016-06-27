@@ -1,0 +1,53 @@
+package Dialog;
+
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+
+import Entity.GameScene.RestartButton;
+import Entity.GameScene.ResumeButton;
+import GameScene.GameScene;
+import Misc.TextureHelper;
+import SceneManager.SceneManager;
+
+/**
+ * Created by sinazk on 6/27/16.
+ * 01:57
+ */
+public class PauseMenuDialog extends Dialog
+{
+	public GameScene gameScene;
+	float DX, DY;
+	public PauseMenuDialog(DialogManager dialogManager, GameScene gameScene)
+	{
+		super(dialogManager);
+
+		this.gameScene = gameScene;
+		this.DX = gameScene.DX;
+		this.DY = gameScene.DY;
+	}
+
+	public Texture RestartButtonTexture1, RestartButtonTexture2;
+	public Texture ResumeButtonTexture1, ResumeButtonTexture2;
+	@Override
+	public void create()
+	{
+		String add = "gfx/scene/dialog/pausemenu/";
+		backSprite = new Sprite(TextureHelper.loadTexture(add + "back.png", dialogManager.disposalTexture));
+		backSprite.setSize(300, 300);
+		backSprite.setPosition((SceneManager.WORLD_X - backSprite.getWidth()) / 2, (SceneManager.WORLD_Y - backSprite.getHeight()) / 2);
+
+		RestartButtonTexture1 = TextureHelper.loadTexture(add + "restart1.png", gameScene.disposeTextureArray);
+		RestartButtonTexture2 = TextureHelper.loadTexture(add + "restart2.png", gameScene.disposeTextureArray);
+		RestartButton restartButton = new RestartButton(this);
+		restartButton.setSize(50, 50);
+		restartButton.setPosition(DX + 340, DY + 250);
+		scene.addActor(restartButton);
+
+		ResumeButtonTexture1 = TextureHelper.loadTexture(add + "resume1.png", gameScene.disposeTextureArray);
+		ResumeButtonTexture2 = TextureHelper.loadTexture(add + "resume2.png", gameScene.disposeTextureArray);
+		ResumeButton resumeButton = new ResumeButton(this);
+		resumeButton.setSize(50, 50);
+		resumeButton.setPosition(DX + 400, DY + 250);
+		scene.addActor(resumeButton);
+	}
+}

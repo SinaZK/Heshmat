@@ -1,14 +1,10 @@
 package BaseLevel;
 
 
-import com.badlogic.gdx.utils.Timer;
-
 import java.util.Random;
 
-import BaseCar.BaseCar;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import Misc.CameraHelper;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
@@ -19,26 +15,24 @@ import PhysicsFactory.PhysicsConstant;
 public class DrivingMode extends LevelMode
 {
 	public float distance;
-	public float time;
+	public float time, fullTime;
 
 	boolean isEnding;
-	Timer timer;
 
 	public DrivingMode(LevelManager levelManager)
 	{
 		super(levelManager);
-
-		timer = new Timer();
+		mode = GameScene.LevelMode.Driving;
 	}
 
 	@Override
 	public void run()
 	{
 		if(isFinished)
-		{
-			timer.clear();
 			return;
-		}
+
+		time -= levelManager.gameScene.getDeltaTime();
+//		Log.e("DrivingMode.java", "Delta = " + levelManager.gameScene.getDeltaTime());
 
 		if(time <= 0)
 			levelManager.isLost = true;
@@ -67,15 +61,7 @@ public class DrivingMode extends LevelMode
 	@Override
 	public void start()
 	{
-		timer.scheduleTask(new Timer.Task()
-		{
-			@Override
-			public void run()
-			{
-				time-=0.1f;
-			}
-		}, 0, 0.1f);
-		levelManager.levelMode = GameScene.LevelMode.Driving;
+		time = fullTime;
 		super.start();
 	}
 
@@ -91,4 +77,11 @@ public class DrivingMode extends LevelMode
 		return firstCarX * PhysicsConstant.PIXEL_TO_METER + distance;
 	}
 	Random random = new Random();
+
+	@Override
+	public void reset()
+	{
+		super.reset();
+		isEnding = false;
+	}
 }

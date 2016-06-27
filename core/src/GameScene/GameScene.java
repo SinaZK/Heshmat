@@ -4,6 +4,7 @@ package GameScene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
@@ -14,10 +15,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import BaseCar.SizakCarModel;
 import Entity.AnimatedSprite;
+import Entity.Button;
+import Enums.Enums;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
-import BaseCar.SizakCarModel;
+import Misc.Log;
+import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
 import Scene.BaseScene;
 import SceneManager.SceneManager;
@@ -56,6 +61,8 @@ public class GameScene extends BaseScene
 	AnimatedSprite animatedSprite;
 
 
+	String add = "gfx/scene/game/";
+
 	@Override
 	public void loadResources()
 	{
@@ -76,6 +83,8 @@ public class GameScene extends BaseScene
 		gameManager = new GameManager(this);
 		gameManager.create();
 
+		mSceneManager.dialogManager.loadPauseMenu(this);
+
 		GSCM = new GameSceneContactManager(act, this);
 		world.setContactListener(GSCM.makeContact());
 	}
@@ -85,6 +94,7 @@ public class GameScene extends BaseScene
 	{
 		gameStat = GAME_STAT.PLAY;
 
+		createHUD();
 		setInput();
 	}
 
@@ -97,14 +107,22 @@ public class GameScene extends BaseScene
 
 	public void pause()
 	{
+		gameStat = GAME_STAT.PAUSE;
+		gameManager.pause();
+		mSceneManager.dialogManager.addPauseDialog();
 	}
 
 	public void resume()
 	{
+		gameStat = GAME_STAT.PLAY;
+		gameManager.resume();
 	}
 
 	public void restart()
 	{
+		gameStat = GAME_STAT.PLAY;
+		gameManager.restart();
+
 	}
 
 	public void EndTheGame()
@@ -117,6 +135,7 @@ public class GameScene extends BaseScene
 		{
 			inputMultiplexer = new InputMultiplexer();
 			inputMultiplexer.addProcessor(gameSceneInput);
+			inputMultiplexer.addProcessor(HUD);
 			gameManager.setInput(inputMultiplexer);
 			Gdx.input.setInputProcessor(inputMultiplexer);
 		}
@@ -124,11 +143,14 @@ public class GameScene extends BaseScene
 
 	public void update()
 	{
-		camera.update();
-		spriteBatch.setProjectionMatrix(camera.combined);
-		world.step(1 / gameSpeed, 6, 2);
+		if(gameStat == GAME_STAT.PLAY)
+		{
+			camera.update();
+			spriteBatch.setProjectionMatrix(camera.combined);
+			world.step(1 / gameSpeed, 6, 2);
 
-		gameManager.run();
+			gameManager.run();
+		}
 	}
 
 	public void draw()
@@ -150,22 +172,8 @@ public class GameScene extends BaseScene
 		}
 
 		gameManager.drawHUD();
-	}
 
-	@Override
-	public void dispose()
-	{
-		font22.dispose();
-		font24.dispose();
-		font24Gold.dispose();
-		font16.dispose();
-
-		if(isDebugRender)
-			debugRenderer.dispose();
-
-		world.dispose();
-
-		super.dispose();
+		HUD.draw();
 	}
 
 	public enum GAME_STAT
@@ -186,7 +194,49 @@ public class GameScene extends BaseScene
 
 	public float getDeltaTime()
 	{
+		if(gameStat == GAME_STAT.PAUSE)
+			return 0;
+
 		return Gdx.graphics.getDeltaTime();
 	}
 
+	@Override
+	public void dispose()
+	{
+		font22.dispose();
+		font24.dispose();
+		font24Gold.dispose();
+		font16.dispose();
+
+		if(isDebugRender)
+			debugRenderer.dispose();
+
+		world.dispose();
+
+		super.dispose();
+	}
+
+	@Override
+	public void createHUD()
+	{
+		Button pauseButton = new Button(loadTexture(add + "pause1.png"), loadTexture(add + "pause2.png"));
+		pauseButton.setSize(40, 40);
+		pauseButton.setPosition(DX + 700, DY + 400);
+
+		pauseButton.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				pause();
+			}
+		});
+
+		HUD.addActor(pauseButton);
+	}
+
+	public Texture loadTexture(String add)
+	{
+		return TextureHelper.loadTexture(add, disposeTextureArray);
+	}
 }//class

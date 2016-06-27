@@ -20,11 +20,12 @@ public class ShootingMode extends LevelMode
 	public ArrayList<BaseWave> waves = new ArrayList<BaseWave>();
 
 	float shootingModeTimeCounter = 0;
-	public Timer shootingModeTimer = new Timer();
 
 	public ShootingMode(LevelManager levelManager)
 	{
 		super(levelManager);
+
+		mode = GameScene.LevelMode.Shooting;
 	}
 
 	@Override
@@ -39,6 +40,9 @@ public class ShootingMode extends LevelMode
 			waves.get(i).run();
 		}
 
+		shootingModeTimeCounter += levelManager.gameScene.getDeltaTime();
+//		Log.e("ShootingMode.java", "" + shootingModeTimeCounter + " NoWs = " + numberOfWaves + " time = " + waves.get(1).releaseTime);
+
 		if(enemyDied == enemyMax)
 			isFinished = true;
 	}
@@ -52,19 +56,31 @@ public class ShootingMode extends LevelMode
 		enemyCount = 0;
 		enemyDied = 0;
 
-		shootingModeTimer.clear();
 		shootingModeTimeCounter = 0;
-		shootingModeTimer.scheduleTask(new Timer.Task()
-		{
-			@Override
-			public void run()
-			{
-				shootingModeTimeCounter+= 0.1f;
-			}
-		}, 0, 0.1f);
-
-		levelManager.levelMode = GameScene.LevelMode.Shooting;
 
 		super.start();
+	}
+
+	@Override
+	public void reset()
+	{
+		super.reset();
+//		shootingModeTimer.clear();
+//		shootingModeTimeCounter = 0;
+
+		for(int i = 0;i < waves.size();i++)
+			waves.get(i).reset();
+	}
+
+	@Override
+	public void pause()
+	{
+		super.pause();
+	}
+
+	@Override
+	public void resume()
+	{
+		super.resume();
 	}
 }

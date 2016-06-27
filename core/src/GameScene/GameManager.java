@@ -45,7 +45,7 @@ public class GameManager
 
 		selectedCar = CarSorter.createSelectedCar(this, gameScene.world, gameScene.disposeTextureArray, gameScene.act.selectorStatData.selectedCar);
 		assert selectedCar != null;
-		selectedCar.body.setCenterPosition(200 / PhysicsConstant.PIXEL_TO_METER, 300 / PhysicsConstant.PIXEL_TO_METER);
+		selectedCar.setFirstPos(200 / PhysicsConstant.PIXEL_TO_METER, 300 / PhysicsConstant.PIXEL_TO_METER);
 		selectedCar.setFromCarModel(gameScene.carModel);
 
 		levelManager = new LevelManager(this);
@@ -117,6 +117,31 @@ public class GameManager
 
 		if(levelManager.levelMode == GameScene.LevelMode.Driving || levelManager.levelMode == GameScene.LevelMode.Finish)
 			gameScene.drivingModeHUD.draw();
+	}
+
+	public void pause()
+	{
+		levelManager.pause();
+		gunManager.pause();
+		enemyFactory.pause();
+		bulletFactory.pause();
+	}
+
+	public void restart()
+	{
+		gunManager.restart();
+		enemyFactory.restart();
+		bulletFactory.restart();
+		selectedCar.reset();
+		levelManager.restart();
+	}
+
+	public void resume()
+	{
+		levelManager.resume();
+		gunManager.resume();
+		enemyFactory.resume();
+		bulletFactory.resume();
 	}
 
 }

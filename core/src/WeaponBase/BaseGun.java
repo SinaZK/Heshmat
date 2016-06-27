@@ -253,7 +253,7 @@ public class BaseGun implements InputProcessor
 			reload();
 		else ammo--;
 
-		Log.e("BaseGun.java", "Shoot : " + ammo);
+//		Log.e("BaseGun.java", "Shoot : " + ammo);
 	};
 
 	public void run()
@@ -369,5 +369,9 @@ public class BaseGun implements InputProcessor
 	{
 		this.gunStatData = gunStatData;
 	}
-	
+
+	public void reset()
+	{
+		ammo = clipSize;
+	}
 }

@@ -113,12 +113,20 @@ public class GunManager
 	}
 
 	float ratio = PhysicsConstant.PIXEL_TO_METER;
-//	public void reposition(ShootingMode shootingMode)
-//	{
-		/*for(int i = 0;i < MAX_GUNS;i++)
-		{
-			guns.get(i).rePosition(shootingMode.firstCarX * ratio, shootingMode.firstCarY * ratio);
-		}
-		*/
-//	}
+
+	public void pause()
+	{
+
+	}
+
+	public void resume()
+	{
+
+	}
+
+	public void restart()
+	{
+		for(int i = 0;i < guns.size();i++)
+			guns.get(i).reset();
+	}
 }

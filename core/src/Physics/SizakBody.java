@@ -116,4 +116,10 @@ public class SizakBody
 		world.createJoint(weldJointDef);
 	}
 
+	public void setAllBodiesV(float vX, float vY)
+	{
+		for (int i = 0;i < bodies.size();i++)
+			bodies.get(i).getmBody().setLinearVelocity(vX, vY);
+	}
+
 }

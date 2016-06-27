@@ -106,7 +106,7 @@ public class RocketBullet extends NormalBullet
 	{
 		if(!waitForExplosion)
 			super.draw(batch);
-		explosionSprite.draw(batch);
+		explosionSprite.draw(batch, bulletFactory.mScene.getDeltaTime());
 	}
 
 	@Override

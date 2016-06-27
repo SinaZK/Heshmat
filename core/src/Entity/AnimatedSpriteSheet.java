@@ -26,7 +26,6 @@ public class AnimatedSpriteSheet
 
 	public AnimatedSpriteSheet(String add, ArrayList<Texture> disposal)
 	{
-
 		textureSheet = TextureHelper.loadTexture(add, disposal);
 	}
 
@@ -43,12 +42,12 @@ public class AnimatedSpriteSheet
 			animations.get(i).setPosition(x, y);
 	}
 
-	public void draw(Batch batch)
+	public void draw(Batch batch, float delta)
 	{
 		if(isDisabled || animations.size() == 0)
 			return;
 
-		stateTime += Gdx.graphics.getDeltaTime();
+		stateTime += delta;
 		animations.get(selectedAnimation).draw(stateTime, batch);
 
 	}

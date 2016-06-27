@@ -12,6 +12,7 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
+import Misc.Log;
 import Physics.SizakBody;
 import heshmat.MainActivity;
 
@@ -161,4 +162,18 @@ public abstract class BaseCar
 		}
 	}
 
+	float firstPosX, firstPosY;
+	public void setFirstPos(float x, float y)
+	{
+		firstPosX = x;
+		firstPosY = y;
+		body.setCenterPosition(x, y);
+	}
+
+	public void reset()
+	{
+//		Log.e("BaseCar.java", "Reset");
+		body.setCenterPosition(firstPosX, firstPosY);
+		body.setAllBodiesV(0, 0);
+	}
 }

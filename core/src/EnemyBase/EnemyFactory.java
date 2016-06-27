@@ -358,4 +358,24 @@ public class EnemyFactory
 	public static String ENEMY_ANIMATION_ATTACKFIRE_STRING = "attackFire";
 	public static String ENEMY_ANIMATION_ATTACKBLOW_STRING = "attackBlow";
 	public static String ENEMY_ANIMATION_FLY_STRING = "fly";
+
+
+	public void pause()
+	{
+
+	}
+
+	public void resume()
+	{
+
+	}
+
+	public void restart()
+	{
+		for (int i = 0;i < enemies.size();i++)
+		{
+			enemies.get(i).isFree = true;
+			enemies.get(i).release();
+		}
+	}
 }

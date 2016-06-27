@@ -55,12 +55,12 @@ public class AnimatedSprite
 		y = Y;
 	}
 
-	public void draw(Batch batch)
+	public void draw(Batch batch, float delta)
 	{
 		if(isDisabled)
 			return;
 
-		stateTime += Gdx.graphics.getDeltaTime();
+		stateTime += delta;
 		if(stateTime >= TTL)
 			isDisabled = true;
 

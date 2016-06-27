@@ -64,15 +64,34 @@ public class LevelManager
 			return;
 
 		currentLevel.levelParts.get(currentLevel.currentPart).run();
+
+//		Log.e("LevelManager.java", "currentMode = " + levelMode);
 	}
 
 	public void lost()
 	{
-		Log.e("LevelManager.java", "You Lost");
+//		Log.e("LevelManager.java", "You Lost");
 	}
 
 	public void levelCompleted()
 	{
 		Log.e("LevelManager.java", "You Win");
+	}
+
+	public void pause()
+	{
+		currentLevel.pause();
+	}
+
+	public void restart()
+	{
+		currentLevel.restart();
+
+//		Log.e("LevelManager.java", "levelMode = " + levelMode);
+	}
+
+	public void resume()
+	{
+		currentLevel.resume();
 	}
 }
