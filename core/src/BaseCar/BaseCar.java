@@ -188,6 +188,6 @@ public abstract class BaseCar
 	private void damage(float damage)
 	{
 		hitpoint -= damage;
-		Log.e("BaseCar.java", "Hit damage = " + damage);
+//		Log.e("BaseCar.java", "Hit damage = " + damage);
 	}
 }

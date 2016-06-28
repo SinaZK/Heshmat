@@ -188,11 +188,6 @@ public class GameScene extends BaseScene
 		Shooting, Driving, Finish
 	}
 
-/*	public float getDeltaTime()
-	{
-		return Gdx.graphics.getDeltaTime();
-	}
-*/
 	public BitmapFont font16 = new BitmapFont(Gdx.files.internal("font/16w.fnt"));
 	public BitmapFont font22 = new BitmapFont(Gdx.files.internal("font/22w.fnt"));
 	public BitmapFont font24 = new BitmapFont(Gdx.files.internal("font/24w.fnt"));
@@ -203,7 +198,7 @@ public class GameScene extends BaseScene
 		if(gameStat == GAME_STAT.PAUSE)
 			return 0;
 
-		return Gdx.graphics.getDeltaTime();
+		return Math.min(Gdx.graphics.getDeltaTime(), 1 / 60f);
 	}
 
 	@Override

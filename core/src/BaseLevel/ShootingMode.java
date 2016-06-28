@@ -31,6 +31,8 @@ public class ShootingMode extends LevelMode
 	@Override
 	public void run()
 	{
+		super.run();
+
 		for(int i = 0;i < numberOfWaves;i++)
 		{
 			if(!waves.get(i).isReleased)
@@ -51,6 +53,9 @@ public class ShootingMode extends LevelMode
 	@Override
 	public void start()
 	{
+		cameraSpeedX = 5;
+		cameraSpeedY = 1.5f;
+
 		for(int i = 0;i < numberOfWaves;i++)
 			enemyMax += waves.get(i).numberOfEnemies;
 		enemyCount = 0;
@@ -59,14 +64,14 @@ public class ShootingMode extends LevelMode
 		shootingModeTimeCounter = 0;
 
 		super.start();
+
+		Log.e("ShootingMode.java", "pos = " + firstCarX + ", " + firstCarY);
 	}
 
 	@Override
 	public void reset()
 	{
 		super.reset();
-//		shootingModeTimer.clear();
-//		shootingModeTimeCounter = 0;
 
 		for(int i = 0;i < waves.size();i++)
 			waves.get(i).reset();
@@ -82,5 +87,18 @@ public class ShootingMode extends LevelMode
 	public void resume()
 	{
 		super.resume();
+	}
+
+	@Override
+	public void setCamera()
+	{
+		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+
+//		cameraPos.x = camera.position.x;
+//		cameraPos.y = camera.position.y;
+		cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
+		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 140;
+
+		super.setCamera();
 	}
 }

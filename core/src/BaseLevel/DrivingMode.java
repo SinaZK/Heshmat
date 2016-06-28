@@ -31,8 +31,9 @@ public class DrivingMode extends LevelMode
 		if(isFinished)
 			return;
 
+		super.run();
+
 		time -= levelManager.gameScene.getDeltaTime();
-//		Log.e("DrivingMode.java", "Delta = " + levelManager.gameScene.getDeltaTime());
 
 		if(time <= 0)
 			levelManager.isLost = true;
@@ -55,6 +56,7 @@ public class DrivingMode extends LevelMode
 
 		levelManager.gameScene.drivingModeHUD.getBatch().begin();
 		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 400);
+		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + getCurrentPos(), 10, 450);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
 	}
 
@@ -62,6 +64,8 @@ public class DrivingMode extends LevelMode
 	public void start()
 	{
 		time = fullTime;
+		cameraSpeedX = 100;
+		cameraSpeedY = 100;
 		super.start();
 	}
 
@@ -83,5 +87,15 @@ public class DrivingMode extends LevelMode
 	{
 		super.reset();
 		isEnding = false;
+	}
+
+	@Override
+	public void setCamera()
+	{
+		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+		cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
+		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
+
+		super.setCamera();
 	}
 }

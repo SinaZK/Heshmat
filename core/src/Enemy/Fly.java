@@ -36,7 +36,7 @@ public class Fly extends BaseEnemy
 		loadGun();
 
 		gun.bulletTexture = enemyFactory.FlyBulletTexture;
-		gun.bulletSize = new Vector2(35, 35);
+		gun.bulletSize = new Vector2(15, 15);
 		gun.bulletSpeed = 5;
 
 		gunX = 50;
@@ -64,6 +64,8 @@ public class Fly extends BaseEnemy
 		super.run();
 	}
 
+	float attackingDistance;
+
 	@Override
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
@@ -74,9 +76,10 @@ public class Fly extends BaseEnemy
 
 		float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y *
 				PhysicsConstant.PIXEL_TO_METER;
-		float myHeight = (float) (groundHeight + (Math.random() * 0.25 + 0.5) * SceneManager.WORLD_Y);
+		float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.45) * SceneManager.WORLD_Y);
 
 		setPosition(originX + width + 100, myHeight);
+		attackingDistance = (float) (SceneManager.WORLD_X * (0.3 + Math.random() * 0.05));
 	}
 
 	@Override
@@ -87,7 +90,7 @@ public class Fly extends BaseEnemy
 		float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *
 				PhysicsConstant.PIXEL_TO_METER;
 
-		if(x - carX < SceneManager.WORLD_X * 0.3 && currentState != StateEnum.ATTACK)
+		if(x - carX < attackingDistance && currentState != StateEnum.ATTACK)
 		{
 			setCurrentState(StateEnum.ATTACK);
 		}

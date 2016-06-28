@@ -62,24 +62,11 @@ public class GameManager
 
 	public void run()
 	{
+		levelManager.run();
 		bulletFactory.run();
 		enemyFactory.run();
-		levelManager.run();
 		gunManager.run();
 		shooterHuman.run();
-
-		if(levelManager.levelMode == GameScene.LevelMode.Shooting)
-			gameScene.camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
-
-		if(levelManager.levelMode == GameScene.LevelMode.Driving)
-		{
-			gameScene.camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
-			gameScene.camera.position.x = selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
-			gameScene.camera.position.y = selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
-		}
-
-		if(levelManager.levelMode == GameScene.LevelMode.Finish)
-			gameScene.camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
 	}
 
 	public void draw()

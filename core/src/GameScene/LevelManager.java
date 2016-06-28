@@ -62,10 +62,6 @@ public class LevelManager
 
 		if(currentLevel.currentPart >= currentLevel.levelParts.size())
 			return;
-
-		currentLevel.levelParts.get(currentLevel.currentPart).run();
-
-//		Log.e("LevelManager.java", "currentMode = " + levelMode);
 	}
 
 	public void lost()

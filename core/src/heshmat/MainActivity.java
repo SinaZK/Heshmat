@@ -66,12 +66,15 @@ public class MainActivity extends ApplicationAdapter
 			playerStatData.setMoney(1000 * 1000);
 	}
 
+	public long renderCT = 0;
 	@Override
 	public void render () 
 	{
 		Gdx.gl.glClearColor(0.2f, 0.4f, 0.8f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
+		renderCT++;
+
 		sceneManager.run();
 	}
 

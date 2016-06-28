@@ -46,6 +46,7 @@ public class SimpleHuman
 	}
 
 	float imageScaleX, imageScaleY;
+	float groundHeight;
 	public void create(float width, float height)
 	{
 		loadResources("gfx/human/1/stand.png");
@@ -57,6 +58,8 @@ public class SimpleHuman
 		bodySprite.setSize(width, height);
 		body.setBody(PhysicsFactory.createBoxBody(world, 0, 0, width, height, BodyDef.BodyType.StaticBody));
 		body.setUserData(BodyStrings.HUMAN_STRING + " " + "Simple");
+
+		groundHeight = gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
 	}
 
 	public void run()
@@ -65,8 +68,7 @@ public class SimpleHuman
 		{
 			float rat = PhysicsConstant.PIXEL_TO_METER;
 			setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x,
-					gameManager.levelManager.currentLevel.terrain.Points.getLast().y / rat + bodySprite.getHeight() / 2 / rat);
-
+					 groundHeight / rat + bodySprite.getHeight() / 2 / rat);
 		}
 
 		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Driving)
