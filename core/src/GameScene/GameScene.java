@@ -101,8 +101,8 @@ public class GameScene extends BaseScene
 	@Override
 	public void run()
 	{
-		update();
 		draw();
+		update();
 	}
 
 	public void pause()

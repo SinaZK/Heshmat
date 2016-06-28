@@ -1,10 +1,12 @@
 package GameScene;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import BaseLevel.*;
 import Misc.Log;
+import Misc.TextureHelper;
 import heshmat.MainActivity;
 
 
@@ -33,6 +35,8 @@ public class LevelManager
 
 	public void create(String add)
 	{
+		loadTextures();
+
 		currentLevel = new BaseLevel(gameManager);
 		currentLevel.load(add);
 
@@ -89,5 +93,14 @@ public class LevelManager
 	public void resume()
 	{
 		currentLevel.resume();
+	}
+
+	public Texture DrivingModeSplashTexture;
+	public Texture ShootingModeSplashTexture;
+
+	public void loadTextures()
+	{
+		DrivingModeSplashTexture  = TextureHelper.loadTexture("gfx/lvl/mode/driving.png", gameScene.disposeTextureArray);
+		ShootingModeSplashTexture = TextureHelper.loadTexture("gfx/lvl/mode/shooting.png", gameScene.disposeTextureArray);
 	}
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 
 import BaseCar.BaseCar;
+import Entity.LevelEntities.ModeSplashImage;
 import GameScene.*;
 import GameScene.LevelManager;
 
@@ -21,6 +22,7 @@ public abstract class LevelMode
 	public float firstCarX, firstCarY;
 	public BaseCar car;
 	GameScene.LevelMode mode;
+	ModeSplashImage modeSplashImage;
 
 	public OrthographicCamera camera;
 	public Vector2 cameraPos = new Vector2();
@@ -39,6 +41,12 @@ public abstract class LevelMode
 	public void run()
 	{
 		setCamera();
+		if(modeSplashImage != null)
+		{
+			levelManager.gameScene.HUD.getBatch().begin();
+			modeSplashImage.draw(levelManager.gameScene.HUD.getBatch());
+			levelManager.gameScene.HUD.getBatch().end();
+		}
 	}
 	public void start()
 	{

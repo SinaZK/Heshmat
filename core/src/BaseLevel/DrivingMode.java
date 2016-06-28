@@ -3,6 +3,7 @@ package BaseLevel;
 
 import java.util.Random;
 
+import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.Log;
@@ -23,6 +24,7 @@ public class DrivingMode extends LevelMode
 	{
 		super(levelManager);
 		mode = GameScene.LevelMode.Driving;
+		modeSplashImage = new ModeSplashImage(levelManager, levelManager.ShootingModeSplashTexture);
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class DrivingMode extends LevelMode
 		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 400);
 		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + getCurrentPos(), 10, 450);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
+
 	}
 
 	@Override
@@ -67,6 +70,8 @@ public class DrivingMode extends LevelMode
 		cameraSpeedX = 100;
 		cameraSpeedY = 100;
 		super.start();
+
+		modeSplashImage.set(0.8f, 1.2f, 0.02f, 5);
 	}
 
 	public float getCurrentPos()

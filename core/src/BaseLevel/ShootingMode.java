@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
+import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.Log;
@@ -26,6 +27,7 @@ public class ShootingMode extends LevelMode
 		super(levelManager);
 
 		mode = GameScene.LevelMode.Shooting;
+		modeSplashImage = new ModeSplashImage(levelManager, levelManager.ShootingModeSplashTexture);
 	}
 
 	@Override
@@ -65,7 +67,9 @@ public class ShootingMode extends LevelMode
 
 		super.start();
 
-		Log.e("ShootingMode.java", "pos = " + firstCarX + ", " + firstCarY);
+		modeSplashImage.set(0.5f, 1.5f, 0.1f, 2);
+
+//		Log.e("ShootingMode.java", "pos = " + firstCarX + ", " + firstCarY);
 	}
 
 	@Override
