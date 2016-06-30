@@ -67,7 +67,7 @@ public class ShootingMode extends LevelMode
 
 		super.start();
 
-		modeSplashImage.set(0.5f, 1.5f, 0.1f, 2);
+		modeSplashImage.set(0.5f, 1.5f, 0.01f, 0.1f);
 
 //		Log.e("ShootingMode.java", "pos = " + firstCarX + ", " + firstCarY);
 	}
@@ -98,8 +98,6 @@ public class ShootingMode extends LevelMode
 	{
 		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
 
-//		cameraPos.x = camera.position.x;
-//		cameraPos.y = camera.position.y;
 		cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
 		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 140;
 

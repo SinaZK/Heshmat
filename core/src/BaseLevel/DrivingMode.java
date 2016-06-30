@@ -40,9 +40,6 @@ public class DrivingMode extends LevelMode
 		if(time <= 0)
 			levelManager.isLost = true;
 
-//		if(Math.abs(random.nextInt() % 1000) < 30)
-//			Log.e("DrivingMode.java", "Pos = " + getCurrentPos() + " max = " + distance);
-
 		if(getCurrentPos() >= distance)
 		{
 			isEnding = true;
@@ -69,9 +66,10 @@ public class DrivingMode extends LevelMode
 		time = fullTime;
 		cameraSpeedX = 100;
 		cameraSpeedY = 100;
+
 		super.start();
 
-		modeSplashImage.set(0.8f, 1.2f, 0.02f, 5);
+		modeSplashImage.set(0.8f, 1.2f, 0.02f, 0.1f);
 	}
 
 	public float getCurrentPos()
@@ -102,5 +100,13 @@ public class DrivingMode extends LevelMode
 		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
 
 		super.setCamera();
+	}
+
+	@Override
+	public void setCameraOnReset()
+	{
+		camera.position.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
+		camera.position.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
+		super.setCameraOnReset();
 	}
 }
