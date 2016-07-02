@@ -254,7 +254,7 @@ public class BaseGun implements InputProcessor
 		float midY = y + image.getHeight() / 2;
 		float ret = (float)Math.toDegrees(Math.atan((midY - tY) / (midX - tX)));
 		if(midX > tX)
-			ret += 180;
+			ret +=  180;
 
 		return ret;
 	}
