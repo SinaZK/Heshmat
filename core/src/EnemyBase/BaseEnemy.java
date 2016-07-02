@@ -1,19 +1,12 @@
 package EnemyBase;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.utils.Timer;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import javax.swing.plaf.nimbus.State;
 
 import BaseLevel.ShootingMode;
 import Entity.AnimatedSpriteSheet;
@@ -54,12 +47,14 @@ public abstract class BaseEnemy
 	public  boolean isFree;
 	public int index;
 
+	public static float GOLD_SHOW_TIME = 2;
 	public static float RAGE_PERCENT = 20;
 	public static float LEVEL_UPGRADE_PERCENT = 10;
+	public static float GOLD_PERCENT = 15;
 
 	public int level;
 	public float fullImageWidth, fullImageHeight;
-	private float BASE_SPEED, MAX_HP, DAMAGE, FIRE_RATE, weakspeedcoef, HIT_STUN = 0, HIT_RAGE = 0;;
+	private float BASE_SPEED, MAX_HP, DAMAGE, FIRE_RATE, weakspeedcoef, HIT_STUN = 0, HIT_RAGE = 0, GOLD = 0;
 	public float speed;
 	public float hitPoint;
 
@@ -74,6 +69,7 @@ public abstract class BaseEnemy
 	public float animationStateTime;
 	public int selectedAnimation;
 	public AnimatedSpriteSheet animatedSpriteSheet;
+	public Sprite infoSprite;
 
 	public EnemyType enemyType;
 
@@ -123,6 +119,7 @@ public abstract class BaseEnemy
 		if(getHIT_STUN() > 0)
 			stun();
 	}
+
 	public void hitByCar()
 	{
 	}
@@ -142,6 +139,7 @@ public abstract class BaseEnemy
 	{
 		gun.shoot();
 	}
+
 	public void release()
 	{
 		shootingMode.enemyDied++;
@@ -150,7 +148,37 @@ public abstract class BaseEnemy
 		mainBody.getmBody().setLinearVelocity(0, 0);
 		mainBody.setPosition(10 / PhysicsConstant.PIXEL_TO_METER, 10 / PhysicsConstant.PIXEL_TO_METER);
 		isFree = true;
-	};
+
+		gameManager.activity.addMoney((long)getGOLD(), false);
+		resetOnDeath();
+	}
+
+	private void resetOnDeath()
+	{
+		isRunOnDeath = true;
+		deathTimer = 0;
+	}
+
+	float deathTimer;
+	boolean isRunOnDeath;
+	public void runOnDeath()//for goldShowingAfter death
+	{
+		if(!isRunOnDeath)
+			return;
+
+		deathTimer += gameManager.gameScene.getDeltaTime();
+
+		if(deathTimer >= GOLD_SHOW_TIME)
+			isRunOnDeath = false;
+	}
+
+	public void drawOnDeath(Batch batch)
+	{
+		if(isRunOnDeath)
+		{
+			gameManager.gameScene.font22.draw(batch, "+" + (long)getGOLD(), x, y);
+		}
+	}
 
 	public void setPosition(float X, float Y)
 	{
@@ -390,6 +418,9 @@ public abstract class BaseEnemy
 		HIT_STUN = fileLoader.getFloat(5, 1);
 		HIT_RAGE = fileLoader.getFloat(6, 1);
 		weakspeedcoef = fileLoader.getFloat(7, 1);
+		GOLD = fileLoader.getFloat(8, 1);
+
+		infoSprite = enemyFactory.getInfoSprite(enemyType);
 	}
 
 	public float getMAX_HP()
@@ -427,13 +458,20 @@ public abstract class BaseEnemy
 		return HIT_RAGE;
 	}
 
+	public float getGOLD() {return GOLD * goldMul;}
+
 	float levelMul = 1;
+	float goldMul = 1;
 	public void setLevel(int level)
 	{
 		this.level = level;
 		double a = (100 + LEVEL_UPGRADE_PERCENT) / 100;
 		double b = level - 1;
 		levelMul = (float)Math.pow(a, b);
+
+		a = (100 + GOLD_PERCENT) / 100;
+		b = level - 1;
+		goldMul = (float)Math.pow(a, b);
 	}
 
 	public enum StateEnum

@@ -74,8 +74,7 @@ public class Fly extends BaseEnemy
 		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
 		float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
-		float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y *
-				PhysicsConstant.PIXEL_TO_METER;
+		float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
 		float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.45) * SceneManager.WORLD_Y);
 
 		setPosition(originX + width + 100, myHeight);

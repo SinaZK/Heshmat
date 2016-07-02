@@ -2,7 +2,7 @@ package EnemyBase;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import GameScene.GameScene;
 import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
+import SceneManager.SceneManager;
 
 public class EnemyFactory
 {
@@ -51,27 +52,33 @@ public class EnemyFactory
 			Log.e("EnemyFactory.java", "NULL");
 
 		loadAnimations();
+		loadInfoCars();
 	}
+
 
 	public void run()
 	{
-		for(int i = 0;i < enemies.size();i++)
+		for (int i = 0; i < enemies.size(); i++)
 			if(!enemies.get(i).isFree)
 				enemies.get(i).run();
+			else if(enemies.get(i).isRunOnDeath)
+				enemies.get(i).runOnDeath();
 	}
 
 	public void draw(Batch batch)
 	{
-		for(int i = 0;i < enemies.size();i++)
+		for (int i = 0; i < enemies.size(); i++)
 			if(!enemies.get(i).isFree)
 				enemies.get(i).draw(batch);
+			else if(enemies.get(i).isRunOnDeath)
+				enemies.get(i).drawOnDeath(batch);
 	}
 
 	public BaseEnemy getEnemyByType(BaseEnemy.EnemyType enemyType, int _level, ArrayList<String> attr)
 	{
-		shootingMode = (ShootingMode)level.getCurrentPart(); //necessary
+		shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
 
-		for(int i = 0;i < enemies.size();i++)
+		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
 			{
 				enemies.get(i).create(shootingMode, _level, attr);
@@ -83,8 +90,8 @@ public class EnemyFactory
 
 	public boolean haveEnemy(BaseEnemy.EnemyType enemyType)
 	{
-		shootingMode = (ShootingMode)level.getCurrentPart(); //necessary
-		for(int i = 0;i < enemies.size();i++)
+		shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
 				return true;
 
@@ -93,7 +100,7 @@ public class EnemyFactory
 
 	public void damageArea(Vector2 centreOfExplosion, float length, float damage)
 	{
-		for(int i = 0;i < enemies.size();i++)
+		for (int i = 0; i < enemies.size(); i++)
 			if(!enemies.get(i).isFree)
 			{
 				if(CameraHelper.distance(centreOfExplosion.x, centreOfExplosion.y, enemies.get(i).x, enemies.get(i).y) <= length)
@@ -120,7 +127,7 @@ public class EnemyFactory
 		Bat enemy = new Bat(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public Bomb getBomb(int level, ArrayList<String> attr)
@@ -130,7 +137,7 @@ public class EnemyFactory
 		Bomb enemy = new Bomb(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public BossBird getBossBird(int level, ArrayList<String> attr)
@@ -140,7 +147,7 @@ public class EnemyFactory
 		BossBird enemy = new BossBird(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public FireBird getFireBird(int level, ArrayList<String> attr)
@@ -150,7 +157,7 @@ public class EnemyFactory
 		FireBird enemy = new FireBird(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public Fly getFly(int level, ArrayList<String> attr)
@@ -160,7 +167,7 @@ public class EnemyFactory
 		Fly enemy = new Fly(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public FurryBird getFuryBird(int level, ArrayList<String> attr)
@@ -170,7 +177,7 @@ public class EnemyFactory
 		FurryBird enemy = new FurryBird(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public HattyBird getHattyBird(int level, ArrayList<String> attr)
@@ -180,7 +187,7 @@ public class EnemyFactory
 		HattyBird enemy = new HattyBird(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public MaskBird getMaskBird(int level, ArrayList<String> attr)
@@ -190,7 +197,7 @@ public class EnemyFactory
 		MaskBird enemy = new MaskBird(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public RedBird getRedBird(int level, ArrayList<String> attr)
@@ -200,7 +207,7 @@ public class EnemyFactory
 		RedBird enemy = new RedBird(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public Mosquito getMosquito(int level, ArrayList<String> attr)
@@ -210,7 +217,7 @@ public class EnemyFactory
 		Mosquito enemy = new Mosquito(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public Wasp getWasp(int level, ArrayList<String> attr)
@@ -220,7 +227,7 @@ public class EnemyFactory
 		Wasp enemy = new Wasp(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public Worm getWorm(int level, ArrayList<String> attr)
@@ -230,7 +237,7 @@ public class EnemyFactory
 		Worm enemy = new Worm(gameManager, enemies.size());
 		enemy.create(shootingMode, level, attr);
 		enemies.add(enemy);
-		return  enemy;
+		return enemy;
 	}
 
 	public static String MOSQUITO = "MOSQUITO";
@@ -247,14 +254,13 @@ public class EnemyFactory
 	public static String BOMB = "BOMB";
 
 
-
 	public BaseEnemy getEnemy(String type, int level, ArrayList<String> attr)
 	{
 		if(type.equals(BAT))
 			return getBat(level, attr);
 
 		if(type.equals(BOMB))
-			return getBomb(level,attr);
+			return getBomb(level, attr);
 
 		if(type.equals(BOSS_BIRD))
 			return getBossBird(level, attr);
@@ -294,6 +300,7 @@ public class EnemyFactory
 	public AnimatedSpriteSheet FurryBirdEnemyAnimation, FireBirdEnemyAnimation, BatEnemyAnimation, BossBirdEnemyAnimation, WormEnemyAnimation, BombEnemyAnimation;
 
 	public Texture FlyBulletTexture;
+
 	public void loadAnimations()
 	{
 		MosquitoEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/1/mosquito.png", gameScene.disposeTextureArray);
@@ -329,7 +336,7 @@ public class EnemyFactory
 		FurryBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 436, 2486, 940, 1, 4, 8);
 
 		FireBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/8/bird.png", gameScene.disposeTextureArray);
-		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 250, 0 , 2158, 372, 1, 4, 8);
+		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 250, 0, 2158, 372, 1, 4, 8);
 		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 428, 2454, 920, 1, 4, 8);
 
 		BatEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/9/bat.png", gameScene.disposeTextureArray);
@@ -352,6 +359,17 @@ public class EnemyFactory
 		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_FALL_STRING, 34, 4, 1266, 274, 1, 7, 8);
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 34, 4, 1266, 274, 1, 5, 8);
+	}
+
+	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];
+
+	public void loadInfoCars()
+	{
+		String path = "gfx/enemy/";
+		ArrayList<Texture> dp = gameScene.disposeTextureArray;
+
+		for (int i = 1; i <= SceneManager.ENEMY_NUM; i++)
+			infoCards[i] = new Sprite(TextureHelper.loadTexture(path + i + "/infocard.png", dp));
 	}
 
 	public static String ENEMY_ANIMATION_DIE_STRING = "die";
@@ -377,10 +395,74 @@ public class EnemyFactory
 
 	public void restart()
 	{
-		for (int i = 0;i < enemies.size();i++)
+		for (int i = 0; i < enemies.size(); i++)
 		{
 			enemies.get(i).isFree = true;
 			enemies.get(i).release();
 		}
 	}
+
+	public static BaseEnemy.EnemyType[] enemyTypes =
+			{
+					null,//0
+					BaseEnemy.EnemyType.MOSQUITO,//1
+					BaseEnemy.EnemyType.FLY,//2
+					BaseEnemy.EnemyType.WASP,//3
+					BaseEnemy.EnemyType.RED_BIRD,//4
+					BaseEnemy.EnemyType.HATTY_BIRD,//5
+					BaseEnemy.EnemyType.MASK_BIRD,//6
+					BaseEnemy.EnemyType.FURRY_BIRD,//7
+					BaseEnemy.EnemyType.FIRE_BIRD,//8
+					BaseEnemy.EnemyType.BAT,//9
+					BaseEnemy.EnemyType.BOSS_BIRD,//10
+					BaseEnemy.EnemyType.WORM,//11
+					BaseEnemy.EnemyType.BOMB,//12
+
+			};
+
+	public int getEnemyID(BaseEnemy.EnemyType enemyType)
+	{
+		for (int i = 1; i <= SceneManager.ENEMY_NUM; i++)
+			if(enemyType == enemyTypes[i])
+				return i;
+
+		return -1;
+	}
+
+	public Sprite getInfoSprite(BaseEnemy.EnemyType enemyType)
+	{
+		return infoCards[getEnemyID(enemyType)];
+	}
+
+	public static BaseEnemy.EnemyType StringToEnemy(String type)
+	{
+		if(type.equals(BAT))
+			return BaseEnemy.EnemyType.BAT;
+		if(type.equals(MOSQUITO))
+			return BaseEnemy.EnemyType.MOSQUITO;
+		if(type.equals(WASP))
+			return BaseEnemy.EnemyType.WASP;
+		if(type.equals(BOMB))
+			return BaseEnemy.EnemyType.BOMB;
+		if(type.equals(BOSS_BIRD))
+			return BaseEnemy.EnemyType.BOSS_BIRD;
+		if(type.equals(FIRE_BIRD))
+			return BaseEnemy.EnemyType.FIRE_BIRD;
+		if(type.equals(FLY))
+			return BaseEnemy.EnemyType.FLY;
+		if(type.equals(FURRY_BIRD))
+			return BaseEnemy.EnemyType.FURRY_BIRD;
+		if(type.equals(HATTY_BIRD))
+			return BaseEnemy.EnemyType.HATTY_BIRD;
+		if(type.equals(MASK_BIRD))
+			return BaseEnemy.EnemyType.MASK_BIRD;
+		if(type.equals(RED_BIRD))
+			return BaseEnemy.EnemyType.RED_BIRD;
+		if(type.equals(WORM))
+			return BaseEnemy.EnemyType.WORM;
+
+		return null;
+	}
+
+
 }

@@ -84,6 +84,15 @@ public class NormalCar extends BaseCar
 		super.draw(spriteBatch);
 
 		run(gameSceneInput.isKeyPressed(Input.Keys.UP) | gasButton.isClicked, gameSceneInput.isKeyPressed(Input.Keys.DOWN) | brakeButton.isClicked, 1);
+
+		spriteBatch.end();
+
+		gameScene.HUD.getBatch().begin();
+		gameScene.font24Gold.draw(gameScene.HUD.getBatch(), "carHP = " + gameManager.selectedCar.hitpoint, 10, 300);
+		gameScene.HUD.getBatch().end();
+
+		spriteBatch.begin();
+
 	}
 
 	@Override

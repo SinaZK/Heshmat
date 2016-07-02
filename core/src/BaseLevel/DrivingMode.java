@@ -54,8 +54,8 @@ public class DrivingMode extends LevelMode
 		}
 
 		levelManager.gameScene.drivingModeHUD.getBatch().begin();
-		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 400);
-		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + getCurrentPos(), 10, 450);
+		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 380);
+		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + getCurrentPos(), 10, 420);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
 
 	}

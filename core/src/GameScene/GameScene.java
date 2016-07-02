@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseCar.SizakCarModel;
+import EnemyBase.BaseEnemy;
 import Entity.AnimatedSprite;
 import Entity.Button;
 import Enums.Enums;
@@ -29,7 +30,6 @@ import SceneManager.SceneManager;
 
 public class GameScene extends BaseScene
 {
-
 	public boolean isDebugRender = false;
 
 	SceneManager mSceneManager;
@@ -83,7 +83,7 @@ public class GameScene extends BaseScene
 		gameManager = new GameManager(this);
 		gameManager.create();
 
-		mSceneManager.dialogManager.loadPauseMenu(this);
+		mSceneManager.dialogManager.loadGameSceneDialogs(this);
 
 		GSCM = new GameSceneContactManager(act, this);
 		world.setContactListener(GSCM.makeContact());
@@ -105,12 +105,14 @@ public class GameScene extends BaseScene
 		update();
 	}
 
-	public void pause()
+	public void pause(boolean withPauseDialog)
 	{
 		Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size() + " EnemyQSize = " + gameManager.enemyFactory.enemies.size());
 		gameStat = GAME_STAT.PAUSE;
 		gameManager.pause();
-		mSceneManager.dialogManager.addPauseDialog();
+
+		if(withPauseDialog)
+			mSceneManager.dialogManager.addPauseDialog();
 	}
 
 	public void resume()
@@ -174,6 +176,10 @@ public class GameScene extends BaseScene
 
 		gameManager.drawHUD();
 
+
+		HUD.getBatch().begin();
+		font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
+		HUD.getBatch().end();
 		HUD.draw();
 	}
 
@@ -229,7 +235,8 @@ public class GameScene extends BaseScene
 			@Override
 			public void run()
 			{
-				pause();
+				pause(true);
+
 			}
 		});
 

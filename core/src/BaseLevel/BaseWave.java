@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import EnemyBase.BaseEnemy;
+import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.Log;
@@ -36,6 +37,8 @@ public class BaseWave
 	public float diffTime;//time between releasing two enemy of this wave!
 	ArrayList<BaseEnemy> enemies = new ArrayList<BaseEnemy>();
 
+	public boolean shouldInfoCardShown;
+
 	public BaseWave(GameManager gameManager, ShootingMode shootingMode)
 	{
 		parentMode = shootingMode;
@@ -47,6 +50,7 @@ public class BaseWave
 		enemyType = type;
 		numberOfEnemies = count;
 		enemyLevel = level;
+		shouldInfoCardShown = false;
 
 		try
 		{
@@ -65,6 +69,11 @@ public class BaseWave
 
 				if(ct == 1)//releaseTime
 					releaseTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
+
+				if(ct == 2)
+					if(read.equals("INFO"))
+						shouldInfoCardShown = true;
+
 				ct++;
 			}
 
@@ -81,6 +90,12 @@ public class BaseWave
 			return;
 
 		isReleased = true;
+
+		if(shouldInfoCardShown)
+		{
+			gameManager.activity.sceneManager.dialogManager.addInfoCardDialog(gameManager.gameScene,
+					gameManager.enemyFactory.getInfoSprite(EnemyFactory.StringToEnemy(enemyType)));
+		}
 	}
 
 	public void run()

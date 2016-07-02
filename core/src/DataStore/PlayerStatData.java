@@ -19,5 +19,5 @@ public class PlayerStatData
 	{
 		money += m * prime;
 	}
-	
+
 }

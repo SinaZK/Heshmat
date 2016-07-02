@@ -31,6 +31,7 @@ public class SceneManager
 	public static int CAR_NUM = 2;
 	public static int GUN_SLOT_NUM = 1;
 	public static int GUN_NUM = 5;
+	public static int ENEMY_NUM = 12;
 
 	public MainActivity act;
 	public DialogManager dialogManager;

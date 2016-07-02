@@ -51,6 +51,11 @@ public class FileLoader
 		return Float.valueOf(BodyStrings.getPartOf(lineStrings.get(lineNumber), pos));
 	}
 
+	public long getLong(int lineNumber, int pos)
+	{
+		return Long.valueOf(BodyStrings.getPartOf(lineStrings.get(lineNumber), pos));
+	}
+
 	public int getInt(int lineNumber, int pos)
 	{
 		return Integer.valueOf(BodyStrings.getPartOf(lineStrings.get(lineNumber), pos));

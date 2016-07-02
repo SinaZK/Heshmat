@@ -1,10 +1,8 @@
 package Dialog;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -90,6 +88,18 @@ public class DialogManager
 		Gdx.input.setInputProcessor(pauseMenuDialog.scene);
 	}
 
+	public void addInfoCardDialog(GameScene gameScene, Sprite infoCardSprite)
+	{
+		gameScene.pause(false);
+		infoCarDialog.setIsActive(true);
+		infoCarDialog.setSprite(infoCardSprite);
+		dialogs.add(infoCarDialog);
+
+		infoCarDialog.inputProcessorCPY = Gdx.input.getInputProcessor();
+
+		Gdx.input.setInputProcessor(infoCarDialog.scene);
+	}
+
 	public void popQ()
 	{
 		Gdx.input.setInputProcessor(dialogs.get(dialogs.size() - 1).inputProcessorCPY);
@@ -99,16 +109,29 @@ public class DialogManager
 	GunSlotSelectorDialog gunSlotSelectorDialog;
 	public BuyDialog buyDialog;
 	public PauseMenuDialog pauseMenuDialog;
+	public InfoCarDialog infoCarDialog;
 	private void loadDialogs()
 	{
 		gunSlotSelectorDialog = new GunSlotSelectorDialog(this);
 		buyDialog = new BuyDialog(this);
 	}
 
-	public void loadPauseMenu(GameScene gameScene)
+	public void loadGameSceneDialogs(GameScene gameScene)
+	{
+		loadPauseMenu(gameScene);
+		loadInfoCardDialog(gameScene);
+	}
+
+	private void loadPauseMenu(GameScene gameScene)
 	{
 		pauseMenuDialog = new PauseMenuDialog(this, gameScene);
 		pauseMenuDialog.create();
+	}
+
+	private void loadInfoCardDialog(GameScene gameScene)
+	{
+		infoCarDialog = new InfoCarDialog(this, gameScene);
+		infoCarDialog.create();
 	}
 
 	Texture backGroundTexture;

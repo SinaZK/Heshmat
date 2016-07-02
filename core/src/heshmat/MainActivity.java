@@ -31,8 +31,6 @@ import SceneManager.SceneManager;
 
 public class MainActivity extends ApplicationAdapter 
 {
-	public static boolean isMoneyInf = true;
-
 	public AudioManager audioManager;
 	public SceneManager sceneManager;
 	public SaveManager saveManager;
@@ -62,8 +60,9 @@ public class MainActivity extends ApplicationAdapter
 //		sceneManager.setCurrentScene(SceneManager.SCENES.SPLASH, null);
 		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
-		if(isMoneyInf)
-			playerStatData.setMoney(1000 * 1000);
+//		addMoney(2000, true);
+
+		createShowGold();
 	}
 
 	public long renderCT = 0;
@@ -76,6 +75,8 @@ public class MainActivity extends ApplicationAdapter
 		renderCT++;
 
 		sceneManager.run();
+
+		runMoney();//for changing showGold
 	}
 
 
@@ -161,6 +162,51 @@ public class MainActivity extends ApplicationAdapter
 	{
 		saveManager.saveDataValue(DataKeyStrings.PlayerStatData, playerStatData);
 	}
+
+	public void addMoney(long money, boolean save)
+	{
+		playerStatData.addMoney(money);
+
+		if(save)
+			savePlayerStatData();
+	}
+
+	private long showGold;
+	private long showGoldSpeed = 7;
+
+	public long getShowGold()
+	{
+		return showGold;
+	}
+
+	public void runMoney()
+	{
+		if(showGold == playerStatData.getMoney())
+			return;
+
+		if(showGold > playerStatData.getMoney())
+		{
+			showGold = playerStatData.getMoney();
+		}
+		else
+		{
+			showGoldSpeed = playerStatData.getMoney() - showGold;
+			showGoldSpeed /= 30;
+
+			if(showGoldSpeed == 0)
+				showGoldSpeed = 1;
+
+//			Log.e("MainActivity.java", "money = " + playerStatData.getMoney() + " speed = " + showGoldSpeed);
+
+			showGold += showGoldSpeed;
+		}
+	}
+
+	private void createShowGold()
+	{
+		showGold = playerStatData.getMoney();
+	}
+
 
 	public BitmapFont font22;
 }
