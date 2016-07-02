@@ -27,7 +27,7 @@ public class GunManager
 
 	public static int MAX_GUNS = 0;
 	int selectedGunNumber = 0;
-	ArrayList<BaseGun> guns = new ArrayList<BaseGun>();
+	public ArrayList<BaseGun> guns = new ArrayList<BaseGun>();
 
 	public GunManager(GameManager gameManager)
 	{

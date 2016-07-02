@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import DataStore.CarStatData;
 import Entity.Button;
 import GameScene.GameManager;
+import GameScene.GameScene;
 import HUD.DrivingHUD;
 import Misc.Log;
 import Misc.TextureHelper;
@@ -100,8 +101,11 @@ public class NormalCar extends BaseCar
 	{
 		super.run(isGas, isBrake, rate);
 
-
-
+		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+		{
+			gasButton.isClicked = false;
+			brakeButton.isClicked = false;
+		}
 //		Log.e("NormalCar.java", "isGas = " + isGas + " isBrake = " + isBrake);
 	}
 }

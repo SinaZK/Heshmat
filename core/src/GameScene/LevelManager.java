@@ -76,6 +76,8 @@ public class LevelManager
 	public void levelCompleted()
 	{
 		Log.e("LevelManager.java", "You Win");
+
+		gameScene.EndTheGame(true);
 	}
 
 	public void pause()
@@ -85,6 +87,7 @@ public class LevelManager
 
 	public void restart()
 	{
+		isLevelCompleted = false;
 		currentLevel.restart();
 
 //		Log.e("LevelManager.java", "levelMode = " + levelMode);

@@ -14,8 +14,8 @@ public class NormalGun extends BaseGun
 	public NormalGun(MainActivity a, GameManager gm, int posID, GunSorter.GunType gunType) {
 		super(a, gm);
 
-		loadResources("gfx/weapons/" + posID + "/", null);
 		this.gunType = gunType;
+		loadResources("gfx/weapons/" + posID + "/", null);
 	}
 
 	@Override

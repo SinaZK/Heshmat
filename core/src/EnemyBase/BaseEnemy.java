@@ -149,8 +149,11 @@ public abstract class BaseEnemy
 		mainBody.setPosition(10 / PhysicsConstant.PIXEL_TO_METER, 10 / PhysicsConstant.PIXEL_TO_METER);
 		isFree = true;
 
-		gameManager.activity.addMoney((long)getGOLD(), false);
-		resetOnDeath();
+		if(hitPoint <= 0)
+		{
+			gameManager.activity.addMoney((long) getGOLD(), false);
+			resetOnDeath();
+		}
 	}
 
 	private void resetOnDeath()

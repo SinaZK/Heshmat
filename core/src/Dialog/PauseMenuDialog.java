@@ -3,6 +3,7 @@ package Dialog;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import Entity.GameScene.EndGameButton;
 import Entity.GameScene.RestartButton;
 import Entity.GameScene.ResumeButton;
 import GameScene.GameScene;
@@ -28,6 +29,7 @@ public class PauseMenuDialog extends Dialog
 
 	public Texture RestartButtonTexture1, RestartButtonTexture2;
 	public Texture ResumeButtonTexture1, ResumeButtonTexture2;
+	public Texture EndButtonTexture1, EndButtonTexture2;
 	@Override
 	public void create()
 	{
@@ -49,5 +51,12 @@ public class PauseMenuDialog extends Dialog
 		resumeButton.setSize(50, 50);
 		resumeButton.setPosition(DX + 400, DY + 250);
 		scene.addActor(resumeButton);
+
+		EndButtonTexture1 = TextureHelper.loadTexture(add + "exit1.png", gameScene.disposeTextureArray);
+		EndButtonTexture2 = TextureHelper.loadTexture(add + "exit2.png", gameScene.disposeTextureArray);
+		EndGameButton endGameButton = new EndGameButton(this);
+		endGameButton.setSize(50, 50);
+		endGameButton.setPosition(DX + 280, DY + 250);
+		scene.addActor(endGameButton);
 	}
 }

@@ -21,6 +21,8 @@ public class Dooshka extends BaseGun
 		super(a, null);
 
 		loadResources("gfx/car/slots/gun/dooshka/", act.sceneManager.currentBaseScene.disposeTextureArray);//loading in garageScene
+
+		Log.e("Dooshka.java", "creating dooshka");
 	}
 
 	@Override

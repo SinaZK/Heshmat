@@ -55,7 +55,6 @@ public class SceneManager
 		LEVEL_SELECTOR,
 		GARAGE_SCENE,
 		WEAPON_SCENE,
-		END_GAME_SCENE,
 	}
 
 	public SCENES currentScene;
@@ -81,6 +80,7 @@ public class SceneManager
 	public void setCurrentScene(SCENES currentScene, SizakCarModel carModel)
 	{
 		this.currentScene = currentScene;
+		gameScene = null;
 		switch (currentScene)
 		{
 			case BLANK:
@@ -88,10 +88,10 @@ public class SceneManager
 				currentBaseScene = blankScene;
 				break;
 
-			case END_GAME_SCENE:
-				endGameScene = new EndGameScene(this, new ExtendViewport(WORLD_X, WORLD_Y));
-				currentBaseScene = endGameScene;
-				break;
+//			case END_GAME_SCENE:
+//				endGameScene = new EndGameScene(this, new ExtendViewport(WORLD_X, WORLD_Y));
+//				currentBaseScene = endGameScene;
+//				break;
 
 			case WEAPON_SCENE:
 				weaponScene = new WeaponScene(this, new ExtendViewport(WORLD_X, WORLD_Y));

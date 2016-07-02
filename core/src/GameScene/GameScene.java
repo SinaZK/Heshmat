@@ -16,23 +16,23 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseCar.SizakCarModel;
-import EnemyBase.BaseEnemy;
 import Entity.AnimatedSprite;
 import Entity.Button;
-import Enums.Enums;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
 import Misc.Log;
 import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
 import Scene.BaseScene;
+import Scene.EndGameScene;
 import SceneManager.SceneManager;
 
 public class GameScene extends BaseScene
 {
 	public boolean isDebugRender = false;
+	public boolean isUsefulDebugLog = false;
 
-	SceneManager mSceneManager;
+	public SceneManager mSceneManager;
 	SizakCarModel carModel;//giving it from garageScene
 
 	public GameScene(SceneManager sceneManager, Viewport v, SizakCarModel carModel)
@@ -57,8 +57,9 @@ public class GameScene extends BaseScene
 	public GameManager gameManager;
 	public DrivingHUD drivingModeHUD;
 	public ShootingHUD shootingModeHUD;
-	public boolean isGas, isBrake;
 	AnimatedSprite animatedSprite;
+
+	public EndGameScene endGameScene;
 
 
 	String add = "gfx/scene/game/";
@@ -87,6 +88,9 @@ public class GameScene extends BaseScene
 
 		GSCM = new GameSceneContactManager(act, this);
 		world.setContactListener(GSCM.makeContact());
+
+		endGameScene = new EndGameScene(this);
+		endGameScene.loadResources();
 	}
 
 	@Override
@@ -107,7 +111,9 @@ public class GameScene extends BaseScene
 
 	public void pause(boolean withPauseDialog)
 	{
-		Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size() + " EnemyQSize = " + gameManager.enemyFactory.enemies.size());
+		if(isUsefulDebugLog)
+			Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size() + " EnemyQSize = " + gameManager.enemyFactory.enemies.size());
+
 		gameStat = GAME_STAT.PAUSE;
 		gameManager.pause();
 
@@ -128,8 +134,18 @@ public class GameScene extends BaseScene
 
 	}
 
-	public void EndTheGame()
+	public void EndTheGame(boolean isLevelFinished)
 	{
+		pause(false);
+		gameStat = GAME_STAT.END_GAME;
+
+		endGameScene.set(isLevelFinished);
+	}
+
+	public void goToGarageScene()
+	{
+		mSceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+		dispose();
 	}
 
 	public void setInput()
@@ -141,6 +157,11 @@ public class GameScene extends BaseScene
 			inputMultiplexer.addProcessor(HUD);
 			gameManager.setInput(inputMultiplexer);
 			Gdx.input.setInputProcessor(inputMultiplexer);
+		}
+
+		if(gameStat == GAME_STAT.END_GAME)
+		{
+
 		}
 	}
 
@@ -154,6 +175,12 @@ public class GameScene extends BaseScene
 
 			gameManager.run();
 		}
+		if(gameStat == GAME_STAT.END_GAME)
+		{
+			endGameScene.run();
+		}
+
+//		Log.e("GameScene.java", "DA size = " + disposeTextureArray.size());
 	}
 
 	public void draw()
@@ -181,12 +208,18 @@ public class GameScene extends BaseScene
 		font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
 		HUD.getBatch().end();
 		HUD.draw();
+
+		if(gameStat == GAME_STAT.END_GAME)
+		{
+			endGameScene.draw();
+		}
 	}
 
 	public enum GAME_STAT
 	{
 		PAUSE,
 		PLAY,
+		END_GAME,
 	}
 
 	public enum LevelMode

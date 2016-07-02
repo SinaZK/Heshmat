@@ -398,6 +398,7 @@ public class EnemyFactory
 		for (int i = 0; i < enemies.size(); i++)
 		{
 			enemies.get(i).isFree = true;
+			enemies.get(i).isRunOnDeath = false;
 			enemies.get(i).release();
 		}
 	}

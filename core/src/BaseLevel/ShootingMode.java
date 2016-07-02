@@ -58,10 +58,12 @@ public class ShootingMode extends LevelMode
 		cameraSpeedX = 5;
 		cameraSpeedY = 1.5f;
 
-		for(int i = 0;i < numberOfWaves;i++)
-			enemyMax += waves.get(i).numberOfEnemies;
 		enemyCount = 0;
 		enemyDied = 0;
+		enemyMax = 0;
+
+		for(int i = 0;i < numberOfWaves;i++)
+			enemyMax += waves.get(i).numberOfEnemies;
 
 		shootingModeTimeCounter = 0;
 

@@ -59,7 +59,7 @@ public class BaseGun implements InputProcessor
 	public Texture bulletTexture;
 
 	public String shooterString = BodyStrings.Shooter_HUMAN;//Default
-	
+
 	public BaseGun(MainActivity a, GameManager gm)
 	{
 		act = a;
@@ -96,7 +96,7 @@ public class BaseGun implements InputProcessor
 	{
 		showSprite.draw(batch);
 	}
-	
+
 	public void loadResources(String path, ArrayList<Texture> disposalArray)
 	{
 		ArrayList<Texture> use;
@@ -105,9 +105,17 @@ public class BaseGun implements InputProcessor
 		else
 			use = act.sceneManager.gameScene.disposeTextureArray;
 
-		image = new Sprite(TextureHelper.loadTexture(path + "image.png", use));
-		showSprite = new Sprite(TextureHelper.loadTexture(path + "show.png", use));
-		bulletTexture = TextureHelper.loadTexture(path + "bullet.png", use);
+		if(!(gunType == GunSorter.GunType.NormalEnemyGun))
+		{
+			image = new Sprite(TextureHelper.loadTexture(path + "image.png", use));
+			showSprite = new Sprite(TextureHelper.loadTexture(path + "show.png", use));
+			bulletTexture = TextureHelper.loadTexture(path + "bullet.png", use);
+		}
+		else
+		{
+			image = new Sprite(gameManager.gunManager.guns.get(0).image.getTexture());
+			showSprite = new Sprite(gameManager.gunManager.guns.get(0).showSprite.getTexture());
+		}
 
 		FileHandle f = Gdx.files.internal(path + "gun.gun");
 		InputStream inputStream = f.read();
@@ -304,7 +312,7 @@ public class BaseGun implements InputProcessor
 	{
 		gameManager = act.sceneManager.gameScene.gameManager;
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		return false;
@@ -321,24 +329,23 @@ public class BaseGun implements InputProcessor
 	public boolean isTouched;
 
 	@Override
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) 
+	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
 		touchPoint = new Vector3(screenX, screenY, 0);
 		gameManager.gameScene.camera.unproject(touchPoint);
 
 		image.setRotation(getRotationByPoint(touchPoint.x, touchPoint.y));
-		shoot();
 
 		isTouched = true;
 		return true;
 	}
-	
+
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		isTouched = false;
 		return false;
 	}
-	
+
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
 
@@ -346,7 +353,6 @@ public class BaseGun implements InputProcessor
 		gameManager.gameScene.camera.unproject(touchPoint);
 
 		image.setRotation(getRotationByPoint(touchPoint.x, touchPoint.y));
-		shoot();
 
 		isTouched = true;
 
@@ -358,13 +364,13 @@ public class BaseGun implements InputProcessor
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
