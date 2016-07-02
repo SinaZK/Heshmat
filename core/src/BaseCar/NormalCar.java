@@ -106,6 +106,9 @@ public class NormalCar extends BaseCar
 			gasButton.isClicked = false;
 			brakeButton.isClicked = false;
 		}
+
+		for (int i = 0;i < slots.size();i++)
+			slots.get(i).run();
 //		Log.e("NormalCar.java", "isGas = " + isGas + " isBrake = " + isBrake);
 	}
 }

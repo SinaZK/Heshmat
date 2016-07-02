@@ -22,7 +22,9 @@ public class Dooshka extends BaseGun
 
 		loadResources("gfx/car/slots/gun/dooshka/", act.sceneManager.currentBaseScene.disposeTextureArray);//loading in garageScene
 
-		Log.e("Dooshka.java", "creating dooshka");
+//		Log.e("Dooshka.java", "creating dooshka");
+
+		gunType = GunSorter.GunType.DOOSHKA;
 	}
 
 	@Override
@@ -33,10 +35,20 @@ public class Dooshka extends BaseGun
 		if(!isShootingEnabled || isReloading)
 			return;
 
-		NormalBullet p = gameManager.bulletFactory.getNormalBullet(this, GunSorter.GunType.Pistol);
+		NormalBullet p = gameManager.bulletFactory.getNormalBullet(this, GunSorter.GunType.DOOSHKA);
 		p.shoot(getShootingX(), getShootingY(), image.getRotation());
 
 		isShootingEnabled = false;
+	}
+
+	Button testButton;
+	@Override
+	public void run()
+	{
+		super.run();
+
+		if(testButton.isClicked)
+			shoot();
 	}
 
 	@Override
@@ -46,20 +58,11 @@ public class Dooshka extends BaseGun
 
 		GameScene gameScene = act.sceneManager.gameScene;
 
-		Button testButton = new Button(TextureHelper.loadTexture("gfx/scene/game/restart1.png", gameScene.disposeTextureArray),
+		testButton = new Button(TextureHelper.loadTexture("gfx/scene/game/restart1.png", gameScene.disposeTextureArray),
 				TextureHelper.loadTexture("gfx/scene/game/restart2.png", gameScene.disposeTextureArray));
 		testButton.setPosition(200, 300);
 		testButton.setSize(70, 70);
+//		gameScene.shootingModeHUD.addActor(testButton);
 		gameScene.drivingModeHUD.addActor(testButton);
-
-		testButton.setRunnable(gameScene.act, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				shoot();
-				Log.e("Dooshka.java", "HOLAAAAAAAAAAA");
-			}
-		});
 	}
 }

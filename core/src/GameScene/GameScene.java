@@ -30,7 +30,7 @@ import SceneManager.SceneManager;
 public class GameScene extends BaseScene
 {
 	public boolean isDebugRender = false;
-	public boolean isUsefulDebugLog = false;
+	public boolean isUsefulDebugLog = true;
 
 	public SceneManager mSceneManager;
 	SizakCarModel carModel;//giving it from garageScene

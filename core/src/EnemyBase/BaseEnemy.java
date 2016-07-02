@@ -25,10 +25,10 @@ import WeaponBase.BaseGun;
 import static java.lang.StrictMath.max;
 
 /**
-	Body User String Protocol:
-	**Enemy + EnemyType + EnemyID
-	*
-	* Position: Middle of Enemy!
+ Body User String Protocol:
+ **Enemy + EnemyType + EnemyID
+ *
+ * Position: Middle of Enemy!
  **/
 
 public abstract class BaseEnemy
@@ -218,7 +218,7 @@ public abstract class BaseEnemy
 					break;
 				case ATTACK:
 					attack();
-                    break;
+					break;
 				case MOVE:
 					move();
 					break;
@@ -274,7 +274,7 @@ public abstract class BaseEnemy
 		y = mainBody.getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER;
 
 		if(x + fullImageWidth < CameraHelper.getXMin(gameManager.gameScene.camera))
-				shouldRelease = true;
+			shouldRelease = true;
 	}
 
 	public void stun()
@@ -333,7 +333,7 @@ public abstract class BaseEnemy
 			case ATTACK:
 				if(animatedSpriteSheet.haveAnimation(EnemyFactory.ENEMY_ANIMATION_ATTACK_STRING))
 					selectedAnimation = animatedSpriteSheet.getAnimationID(EnemyFactory.ENEMY_ANIMATION_ATTACK_STRING);
-                break;
+				break;
 			case MOVE:
 				if(animatedSpriteSheet.haveAnimation(EnemyFactory.ENEMY_ANIMATION_MOVE_STRING))
 					selectedAnimation = animatedSpriteSheet.getAnimationID(EnemyFactory.ENEMY_ANIMATION_MOVE_STRING);

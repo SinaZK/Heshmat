@@ -10,7 +10,7 @@ import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Physics.CzakBody;
-import PhysicsFactory.PhysicsFactory;
+import PhysicsFactory.*;
 import Sorter.GunSorter;
 import heshmat.MainActivity;
 
@@ -59,7 +59,14 @@ public abstract class BaseBullet
 		gameManager.gameScene.world.destroyBody(body.getmBody());
 	}
 
-	public abstract void run();
+	public void run()
+	{
+		float x = body.getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER;
+		float y = body.getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER;
+
+		if(CameraHelper.distance(x, y, startingPoint.x, startingPoint.y) >= shootingRange)
+			shouldRelease = true;
+	}
 	public abstract void draw(Batch batch);
 	public abstract void hitByEnemy(String EnemyData);
 	public abstract void hitByGround();

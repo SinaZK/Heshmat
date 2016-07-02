@@ -32,7 +32,7 @@ public class NormalBullet extends BaseBullet
 		userPrefixString = BodyStrings.BULLET_STRING + " " + GunSorter.getBulletBodyString(type) + " " + BulletFactoryQid;
 		body.setUserData(userPrefixString + " " + gun.shooterString);
 
-		shootingRange = 1000;
+		shootingRange = 2000;
 	}
 
 	@Override
@@ -70,6 +70,7 @@ public class NormalBullet extends BaseBullet
 
 	@Override
 	public void run() {
+		super.run();
 		if(shouldRelease)
 			release();
 	}
