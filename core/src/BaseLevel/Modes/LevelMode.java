@@ -22,7 +22,7 @@ public abstract class LevelMode
 	public boolean isFinished;
 	public float firstCarX, firstCarY;
 	public BaseCar car;
-	GameScene.LevelModeEnum mode;
+	public GameScene.LevelModeEnum mode;
 	ModeSplashImage modeSplashImage;
 
 	public OrthographicCamera camera;
@@ -53,7 +53,7 @@ public abstract class LevelMode
 			levelManager.gameScene.HUD.getBatch().end();
 		}
 
-//		Log.e("LevelModeEnum.java", "RUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUN" + mode);
+//		Log.e("LevelModeEnum.java", "run" + mode);
 	}
 
 	int cameraSetCT;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -20,6 +21,7 @@ import Entity.AnimatedSprite;
 import Entity.Button;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
+import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
@@ -50,6 +52,7 @@ public class GameScene extends BaseScene
 	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
 	public Batch spriteBatch;
+	public ShapeRenderer shapeRenderer;//for cinematic mode Black Bars
 	public PolygonSpriteBatch polygonSpriteBatch;
 	public float gameSpeed = 60f;
 
@@ -74,6 +77,7 @@ public class GameScene extends BaseScene
 
 		camera = (OrthographicCamera) getCamera();
 		spriteBatch = getBatch();
+		shapeRenderer = new ShapeRenderer();
 		polygonSpriteBatch = new PolygonSpriteBatch();
 
 		if(isDebugRender)
@@ -198,15 +202,38 @@ public class GameScene extends BaseScene
 		gameManager.drawHUD();
 
 
-		HUD.getBatch().begin();
-		font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
-		HUD.getBatch().end();
-		HUD.draw();
+		if(gameManager.levelManager.currentLevel.getCurrentPart().mode == LevelModeEnum.Cinematic)
+		{
+//			shapeRenderer.setProjectionMatrix(camera.combined);
+
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+			shapeRenderer.setColor(0.1f, 0.1f, 0.1f, 1);
+//			shapeRenderer.rect(CameraHelper.getXMin(camera), CameraHelper.getYMax(camera),
+//					CameraHelper.getXMax(camera), CameraHelper.getYMax(camera) - 400);//up bar
+
+			shapeRenderer.rect(0, 0, SceneManager.WORLD_X + 100, 100);
+			shapeRenderer.rect(0, SceneManager.WORLD_Y - 100, SceneManager.WORLD_X + 100, 200);
+
+//			shapeRenderer.rect(CameraHelper.getXMin(camera), CameraHelper.getYMin(camera),
+//					CameraHelper.getXMax(camera), CameraHelper.getYMin(camera) + 400);//up bar
+			shapeRenderer.end();
+
+//			Log.e("GameScene", "kose nanat");
+		}
+		else
+		{
+			HUD.getBatch().begin();
+			font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
+			HUD.getBatch().end();
+			HUD.draw();
+		}
 
 		if(gameStat == GAME_STAT.END_GAME)
 		{
 			endGameScene.draw();
 		}
+
+//		if(ga)
 	}
 
 	public enum GAME_STAT
@@ -218,7 +245,7 @@ public class GameScene extends BaseScene
 
 	public enum LevelModeEnum
 	{
-		Shooting, Driving, Finish
+		Shooting, Driving, Finish, Cinematic
 	}
 
 	public BitmapFont font16 = new BitmapFont(Gdx.files.internal("font/16w.fnt"));
@@ -246,6 +273,8 @@ public class GameScene extends BaseScene
 			debugRenderer.dispose();
 
 		world.dispose();
+
+		shapeRenderer.dispose();
 
 		super.dispose();
 	}

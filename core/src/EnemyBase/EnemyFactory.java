@@ -76,7 +76,8 @@ public class EnemyFactory
 
 	public BaseEnemy getEnemyByType(BaseEnemy.EnemyType enemyType, int _level, ArrayList<String> attr)
 	{
-		shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+		if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+			shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
 
 		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
@@ -90,7 +91,8 @@ public class EnemyFactory
 
 	public boolean haveEnemy(BaseEnemy.EnemyType enemyType)
 	{
-		shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+		if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+			shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
 		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
 				return true;

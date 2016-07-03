@@ -11,9 +11,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import BaseLevel.Modes.CinematicMode;
 import BaseLevel.Modes.DrivingMode;
 import BaseLevel.Modes.FinishMode;
 import BaseLevel.Modes.ShootingMode;
+import BaseLevel.Modes.StartGameCinematic;
 import GameScene.GameManager;
 import GameScene.LevelManager;
 import Misc.BodyStrings;
@@ -27,13 +29,16 @@ import PhysicsFactory.PhysicsConstant;
  */
 public class LevelLoader
 {
-	public 	static String EOF = "END";
-	public static String DrivingTagString = "DRIVING";
-	public static String ShootingTagString = "SHOOTING";
-	public static String FinishTagString = "FINISH";
-	public static String TRUE = "TRUE";
-	public static String FALSE = "FALSE";
+	public static String EOF = "END";
+	public static String DrivingTagString   = "DRIVING";
+	public static String ShootingTagString  = "SHOOTING";
 
+	public static String CinematicTagString = "CINEMATIC";
+	public static String StartGameCinematicTagString = "FIRST_CINEMATIC";
+
+	public static String FinishTagString    = "FINISH";
+	public static String TRUE  = "TRUE";
+	public static String FALSE = "FALSE";
 
 	float ratio = PhysicsConstant.PIXEL_TO_METER;
 	public static void loadLVLFile(BaseLevel normalLevel, GameManager gameManager, String path, World world, ArrayList<Texture> disposableArray)
@@ -66,6 +71,21 @@ public class LevelLoader
 					drivingModePart.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
 					normalLevel.levelParts.add(drivingModePart);
+					dis.readLine();//ignoring blank line
+				}//Driving Tag
+
+				if(read.equals(CinematicTagString))
+				{
+					read = dis.readLine();
+					if(BodyStrings.getPartOf(read, 1).equals(StartGameCinematicTagString))
+					{
+						StartGameCinematic startGameCinematic = new StartGameCinematic(levelManager);
+						read = dis.readLine();
+						startGameCinematic.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
+
+						normalLevel.levelParts.add(startGameCinematic);
+					}
+
 					dis.readLine();//ignoring blank line
 				}//Driving Tag
 

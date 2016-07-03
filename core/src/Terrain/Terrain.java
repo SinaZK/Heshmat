@@ -212,6 +212,7 @@ public class Terrain
 		while (lastVisible >= Points.getLast().x)
 		{
 			if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving)
+			{
 				if(!handleTheLastPartOfDrivingMode())
 				{
 					Vector2 prevPoint = Points.get(Points.size() - 2);
@@ -223,6 +224,13 @@ public class Terrain
 
 					addLastPiece();
 				}
+			}
+			else
+			{
+				Vector2 lastPoint = Points.getLast();
+				Points.add(new Vector2(lastPoint.x + xSize, lastPoint.y));
+				addLastPiece();
+			}
 		}
 
 		while (Points.size() > 3 * removeSize)

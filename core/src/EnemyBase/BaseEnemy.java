@@ -141,7 +141,8 @@ public abstract class BaseEnemy
 
 	public void release()
 	{
-		shootingMode.enemyDied++;
+		if(shootingMode != null)
+			shootingMode.enemyDied++;
 
 		mainBody.getmBody().setActive(false);
 		mainBody.getmBody().setLinearVelocity(0, 0);

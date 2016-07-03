@@ -13,6 +13,7 @@ import GameScene.GameScene;
 import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
 import Physics.SizakBody;
+import PhysicsFactory.PhysicsConstant;
 import WeaponBase.BaseBullet;
 import heshmat.MainActivity;
 
@@ -188,5 +189,15 @@ public abstract class BaseCar
 	{
 		hitpoint -= damage;
 //		Log.e("BaseCar.java", "Hit damage = " + damage);
+	}
+
+	public float getXInPixel()
+	{
+		return body.bodies.get(0).getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER;
+	}
+
+	public float getYInPixel()
+	{
+		return body.bodies.get(0).getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER;
 	}
 }
