@@ -1,5 +1,6 @@
 package Human;
 
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -11,7 +12,6 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.GunManager;
 import Misc.BodyStrings;
-import Misc.Log;
 import Misc.TextureHelper;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
@@ -64,14 +64,15 @@ public class SimpleHuman
 
 	public void run()
 	{
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+
+		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 		{
 			float rat = PhysicsConstant.PIXEL_TO_METER;
 			setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x,
 					 groundHeight / rat + bodySprite.getHeight() / 2 / rat);
 		}
 
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Driving)
+		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving)
 		{
 			setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x, gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().y);
 			setActive(false);
@@ -80,7 +81,7 @@ public class SimpleHuman
 
 	public void draw(Batch batch)
 	{
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 		{
 			float r = gunManager.getSelectedGun().image.getRotation();
 

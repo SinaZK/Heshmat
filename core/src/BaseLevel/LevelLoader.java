@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,12 +11,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import Cars.Train;
+import BaseLevel.Modes.DrivingMode;
+import BaseLevel.Modes.FinishMode;
+import BaseLevel.Modes.ShootingMode;
 import GameScene.GameManager;
 import GameScene.LevelManager;
 import Misc.BodyStrings;
-import Misc.Log;
-import Physics.SizakBodyLoader;
 import PhysicsFactory.PhysicsConstant;
 
 /**

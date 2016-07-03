@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import java.util.ArrayList;
 
+import BaseLevel.Modes.*;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
@@ -25,7 +26,7 @@ public class BaseLevel
 	GameManager gameManager;
 	LevelManager levelManager;
 	public int currentPart;
-	public ArrayList <LevelMode> levelParts = new ArrayList<LevelMode>();
+	public ArrayList<LevelMode> levelParts = new ArrayList<LevelMode>();
 
 	public Terrain terrain;
 	Texture terrainUpTexture, terrainDownTexture;

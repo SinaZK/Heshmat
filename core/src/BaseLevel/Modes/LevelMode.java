@@ -1,4 +1,4 @@
-package BaseLevel;
+package BaseLevel.Modes;
 
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,7 +9,6 @@ import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import Misc.Log;
 
 /**
  * Created by sinazk on 5/22/16.
@@ -23,7 +22,7 @@ public abstract class LevelMode
 	public boolean isFinished;
 	public float firstCarX, firstCarY;
 	public BaseCar car;
-	GameScene.LevelMode mode;
+	GameScene.LevelModeEnum mode;
 	ModeSplashImage modeSplashImage;
 
 	public OrthographicCamera camera;
@@ -54,14 +53,14 @@ public abstract class LevelMode
 			levelManager.gameScene.HUD.getBatch().end();
 		}
 
-//		Log.e("LevelMode.java", "RUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUN" + mode);
+//		Log.e("LevelModeEnum.java", "RUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUN" + mode);
 	}
 
 	int cameraSetCT;
 
 	public void start()
 	{
-		levelManager.levelMode = mode;
+		levelManager.levelModeEnum = mode;
 		gameScene.setInput();
 		firstCarX = car.body.bodies.get(0).getmBody().getWorldCenter().x;
 		firstCarY = car.body.bodies.get(0).getmBody().getWorldCenter().y;
@@ -75,17 +74,17 @@ public abstract class LevelMode
 	{
 		isFinished = false;
 		setCameraOnReset();
-//		Log.e("LevelMode.java", "restart" + mode);
+//		Log.e("LevelModeEnum.java", "restart" + mode);
 	}
 
 	public void pause()
 	{
-//		Log.e("LevelMode.java", "pause" + mode);
+//		Log.e("LevelModeEnum.java", "pause" + mode);
 	}
 
 	public void resume()
 	{
-//		Log.e("LevelMode.java", "resume" + mode);
+//		Log.e("LevelModeEnum.java", "resume" + mode);
 	}
 
 	public void setCamera()
@@ -120,7 +119,7 @@ public abstract class LevelMode
 
 		camera.position.set(camX, camY, 0);
 
-//		Log.e("LevelMode.java", "SetCamera" + mode);
+//		Log.e("LevelModeEnum.java", "SetCamera" + mode);
 	}
 
 	public void setCameraOnReset()

@@ -5,17 +5,13 @@ import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 
-import BaseLevel.ShootingMode;
+import BaseLevel.Modes.ShootingMode;
 import EnemyBase.BaseEnemy;
-import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
-import Sorter.GunSorter;
-import WeaponBase.BaseGun;
 
 /**
  * Created by sinazk on 5/6/16.

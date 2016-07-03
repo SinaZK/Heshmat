@@ -2,7 +2,7 @@ package Enemy;
 
 import java.util.ArrayList;
 
-import BaseLevel.ShootingMode;
+import BaseLevel.Modes.ShootingMode;
 import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;

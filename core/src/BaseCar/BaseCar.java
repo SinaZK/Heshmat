@@ -12,7 +12,6 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
-import Misc.Log;
 import Physics.SizakBody;
 import WeaponBase.BaseBullet;
 import heshmat.MainActivity;
@@ -90,7 +89,7 @@ public abstract class BaseCar
 			label();
 		}
 
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 			shouldStop = true;
 
 		if(shouldStop)

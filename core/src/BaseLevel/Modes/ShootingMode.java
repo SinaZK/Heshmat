@@ -1,14 +1,12 @@
-package BaseLevel;
-
-import com.badlogic.gdx.utils.Timer;
+package BaseLevel.Modes;
 
 import java.util.ArrayList;
 
 import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
+
 
 /**
  * Created by sinazk on 5/22/16.
@@ -18,7 +16,7 @@ public class ShootingMode extends LevelMode
 {
 	public int numberOfWaves;
 	public int enemyCount, enemyMax, enemyDied;//enemyAlive = enemyCount - enemyDied
-	public ArrayList<BaseWave> waves = new ArrayList<BaseWave>();
+	public ArrayList<BaseLevel.BaseWave> waves = new ArrayList<BaseLevel.BaseWave>();
 
 	float shootingModeTimeCounter = 0;
 
@@ -26,7 +24,7 @@ public class ShootingMode extends LevelMode
 	{
 		super(levelManager);
 
-		mode = GameScene.LevelMode.Shooting;
+		mode = GameScene.LevelModeEnum.Shooting;
 		modeSplashImage = new ModeSplashImage(levelManager, levelManager.ShootingModeSplashTexture);
 	}
 

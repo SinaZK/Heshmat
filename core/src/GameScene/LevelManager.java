@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-import BaseLevel.*;
+import BaseLevel.BaseLevel;
 import Misc.Log;
 import Misc.TextureHelper;
 import heshmat.MainActivity;
@@ -21,7 +21,7 @@ public class LevelManager
 	public GameScene gameScene;
 	public GameManager gameManager;
 	public BaseLevel currentLevel;
-	public GameScene.LevelMode levelMode;
+	public GameScene.LevelModeEnum levelModeEnum;
 
 	public boolean isLost;
 	public boolean isLevelCompleted;
@@ -90,7 +90,7 @@ public class LevelManager
 		isLevelCompleted = false;
 		currentLevel.restart();
 
-//		Log.e("LevelManager.java", "levelMode = " + levelMode);
+//		Log.e("LevelManager.java", "levelModeEnum = " + levelModeEnum);
 	}
 
 	public void resume()

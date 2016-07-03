@@ -1,4 +1,4 @@
-package BaseLevel;
+package BaseLevel.Modes;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,7 +9,8 @@ import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.BodyStrings;
 import Misc.Log;
-import PhysicsFactory.*;
+import PhysicsFactory.PhysicsConstant;
+import PhysicsFactory.PhysicsFactory;
 
 /**
  * Created by sinazk on 5/23/16.
@@ -46,6 +47,6 @@ public class FinishMode extends LevelMode
 		Log.e("FinishMode.java", "creating at : " + bX + " " + bY);
 		Log.e("FinishMode.java", "car is at : " + firstCarX + " " + firstCarY);
 
-		levelManager.levelMode = GameScene.LevelMode.Finish;
+		levelManager.levelModeEnum = GameScene.LevelModeEnum.Finish;
 	}
 }

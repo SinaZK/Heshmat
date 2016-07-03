@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 import BaseLevel.BaseLevel;
-import BaseLevel.ShootingMode;
+import BaseLevel.Modes.ShootingMode;
 import Enemy.Bat;
 import Enemy.Bomb;
 import Enemy.BossBird;

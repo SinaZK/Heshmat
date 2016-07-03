@@ -8,13 +8,12 @@ import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
-import BaseLevel.ShootingMode;
+import BaseLevel.Modes.ShootingMode;
 import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.FileLoader;
-import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;

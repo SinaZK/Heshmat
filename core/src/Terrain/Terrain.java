@@ -17,8 +17,10 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import BaseLevel.BaseLevel;
-import BaseLevel.DrivingMode;
-import GameScene.*;
+import BaseLevel.Modes.DrivingMode;
+import GameScene.GameManager;
+import GameScene.GameScene;
+import GameScene.LevelManager;
 import Misc.CameraHelper;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
@@ -209,7 +211,7 @@ public class Terrain
 
 		while (lastVisible >= Points.getLast().x)
 		{
-			if(gameManager.levelManager.levelMode == GameScene.LevelMode.Driving)
+			if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving)
 				if(!handleTheLastPartOfDrivingMode())
 				{
 					Vector2 prevPoint = Points.get(Points.size() - 2);

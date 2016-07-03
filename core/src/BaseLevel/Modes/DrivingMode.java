@@ -1,4 +1,4 @@
-package BaseLevel;
+package BaseLevel.Modes;
 
 
 import java.util.Random;
@@ -6,7 +6,6 @@ import java.util.Random;
 import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
@@ -23,7 +22,7 @@ public class DrivingMode extends LevelMode
 	public DrivingMode(LevelManager levelManager)
 	{
 		super(levelManager);
-		mode = GameScene.LevelMode.Driving;
+		mode = GameScene.LevelModeEnum.Driving;
 		modeSplashImage = new ModeSplashImage(levelManager, levelManager.ShootingModeSplashTexture);
 	}
 

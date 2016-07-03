@@ -1,16 +1,14 @@
 package BaseLevel;
 
-import com.badlogic.gdx.utils.Timer;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import BaseLevel.Modes.ShootingMode;
 import EnemyBase.BaseEnemy;
 import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
-import Misc.Log;
 
 /**
  * Created by sinazk on 5/14/16.

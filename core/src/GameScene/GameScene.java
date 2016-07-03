@@ -158,11 +158,6 @@ public class GameScene extends BaseScene
 			gameManager.setInput(inputMultiplexer);
 			Gdx.input.setInputProcessor(inputMultiplexer);
 		}
-
-		if(gameStat == GAME_STAT.END_GAME)
-		{
-
-		}
 	}
 
 	public void update()
@@ -222,7 +217,7 @@ public class GameScene extends BaseScene
 		END_GAME,
 	}
 
-	public enum LevelMode
+	public enum LevelModeEnum
 	{
 		Shooting, Driving, Finish
 	}

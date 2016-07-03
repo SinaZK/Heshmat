@@ -71,7 +71,7 @@ public class GunManager
 
 	public void run()
 	{
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 			getSelectedGun().run();
 		else
 			getSelectedGun().isTouched = false;

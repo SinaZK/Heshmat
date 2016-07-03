@@ -2,12 +2,11 @@ package Enemy;
 
 import java.util.ArrayList;
 
-import BaseLevel.ShootingMode;
+import BaseLevel.Modes.ShootingMode;
 import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 

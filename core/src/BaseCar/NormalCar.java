@@ -1,30 +1,14 @@
 package BaseCar;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
-import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
-import com.badlogic.gdx.utils.compression.lzma.Base;
-
-import java.util.ArrayList;
 
 import DataStore.CarStatData;
 import Entity.Button;
 import GameScene.GameManager;
 import GameScene.GameScene;
-import HUD.DrivingHUD;
-import Misc.Log;
 import Misc.TextureHelper;
-import Physics.CzakBody;
-import heshmat.MainActivity;
 
 public class NormalCar extends BaseCar
 {
@@ -101,7 +85,7 @@ public class NormalCar extends BaseCar
 	{
 		super.run(isGas, isBrake, rate);
 
-		if(gameManager.levelManager.levelMode == GameScene.LevelMode.Shooting)
+		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 		{
 			gasButton.isClicked = false;
 			brakeButton.isClicked = false;

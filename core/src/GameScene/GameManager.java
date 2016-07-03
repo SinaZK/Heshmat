@@ -1,7 +1,6 @@
 package GameScene;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
@@ -9,7 +8,6 @@ import BaseCar.BaseCar;
 import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
 import Human.SimpleHuman;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import Sorter.CarSorter;
 import WeaponBase.BulletFactory;
@@ -85,13 +83,13 @@ public class GameManager
 
 	public void setInput(InputMultiplexer inputMultiplexer)
 	{
-		if(levelManager.levelMode == GameScene.LevelMode.Shooting)
+		if(levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 		{
 			inputMultiplexer.addProcessor(gameScene.shootingModeHUD);
 			gunManager.setInput(inputMultiplexer);
 		}
 
-		if(levelManager.levelMode == GameScene.LevelMode.Driving || levelManager.levelMode == GameScene.LevelMode.Finish)
+		if(levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving || levelManager.levelModeEnum == GameScene.LevelModeEnum.Finish)
 		{
 			inputMultiplexer.addProcessor(gameScene.drivingModeHUD);
 		}
@@ -99,10 +97,10 @@ public class GameManager
 
 	public void drawHUD()
 	{
-		if(levelManager.levelMode == GameScene.LevelMode.Shooting)
+		if(levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 			gameScene.shootingModeHUD.draw();
 
-		if(levelManager.levelMode == GameScene.LevelMode.Driving || levelManager.levelMode == GameScene.LevelMode.Finish)
+		if(levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving || levelManager.levelModeEnum == GameScene.LevelModeEnum.Finish)
 			gameScene.drivingModeHUD.draw();
 	}
 
