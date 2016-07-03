@@ -167,7 +167,6 @@ public class GameScene extends BaseScene
 			camera.update();
 			spriteBatch.setProjectionMatrix(camera.combined);
 			world.step(1 / gameSpeed, 6, 2);
-
 			gameManager.run();
 		}
 		if(gameStat == GAME_STAT.END_GAME)
