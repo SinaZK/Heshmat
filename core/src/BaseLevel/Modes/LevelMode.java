@@ -74,18 +74,13 @@ public abstract class LevelMode
 	{
 		isFinished = false;
 		setCameraOnReset();
-//		Log.e("LevelModeEnum.java", "restart" + mode);
 	}
 
-	public void pause()
-	{
-//		Log.e("LevelModeEnum.java", "pause" + mode);
-	}
+	public void onFinished(){}
 
-	public void resume()
-	{
-//		Log.e("LevelModeEnum.java", "resume" + mode);
-	}
+	public void pause(){}
+
+	public void resume(){}
 
 	public void setCamera()
 	{

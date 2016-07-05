@@ -11,17 +11,20 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import java.util.ArrayList;
 
 import BaseCar.SizakCarModel;
 import Entity.AnimatedSprite;
 import Entity.Button;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
-import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
@@ -31,8 +34,8 @@ import SceneManager.SceneManager;
 
 public class GameScene extends BaseScene
 {
-	public boolean isDebugRender = false;
-	public boolean isUsefulDebugLog = true;
+	public static boolean isDebugRender = false;
+	public static boolean isUsefulDebugLog = true;
 
 	public SceneManager mSceneManager;
 	SizakCarModel carModel;//giving it from garageScene
@@ -116,7 +119,20 @@ public class GameScene extends BaseScene
 	public void pause(boolean withPauseDialog)
 	{
 		if(isUsefulDebugLog)
-			Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size() + " EnemyQSize = " + gameManager.enemyFactory.enemies.size());
+		{
+			Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size()
+					+ " EnemyQSize = " + gameManager.enemyFactory.enemies.size() + " VBO size = " + disposeTextureArray.size() + " WorldSize = " + world.getBodyCount());
+
+
+//			Array<Body> bodies = new Array<Body>();
+//			world.getBodies(bodies);
+//
+//			for(int i = 0;i < world.getBodyCount();i++)
+//			{
+//				Log.e("GameScene.java", "WorldBody " + (i + 1) + ": " + bodies.get(i).getUserData());
+//			}
+
+		}
 
 		gameStat = GAME_STAT.PAUSE;
 		gameManager.pause();

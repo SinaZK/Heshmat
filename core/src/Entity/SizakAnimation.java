@@ -24,7 +24,7 @@ public class SizakAnimation
 	public float _FPS, animDuration;
 
 	TextureRegion[] textureFrames;
-	Sprite [] sprites;
+	public Sprite [] sprites;
 	TextureRegion currentFrame;
 
 	public SizakAnimation(Texture textureSheet, int startX, int startY, int endX, int endY, int row, int col, float fps, String name)

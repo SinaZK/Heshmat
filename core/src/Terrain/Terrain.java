@@ -22,6 +22,7 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.CameraHelper;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 import heshmat.MainActivity;
@@ -45,10 +46,10 @@ public class Terrain
 	public float xSize = 15;
 	float firstNum = 200;
 
-	public int removeSize = 150;
+	public int removeSize = 200;
 
 	public LinkedList<Vector2> Points;
-	LinkedList<TerrainPiece> Pieces;
+	public LinkedList<TerrainPiece> Pieces;
 
 	public Texture repeatingTextureRegion;
 	public Texture upTextureRegion;
@@ -142,20 +143,7 @@ public class Terrain
 		polygonSpriteBatch = pScene;
 		spriteBatch = batch;
 
-		float firstX = -xSize * firstNum;
-		for (int i = 0; i < 2; i++)
-		{
-			firstX += xSize;
-			Points.addLast(new Vector2(firstX, getHeight(0)));
-
-		}
-
-		for (int i = 0; i < firstNum; i++)
-		{
-			firstX += xSize;
-			Points.addLast(new Vector2(firstX, getHeight(0)));
-			addLastPiece();
-		}
+		createFirstTerrain();
 
 
 	}//Create
@@ -207,6 +195,7 @@ public class Terrain
 
 	public void run()
 	{
+//		Log.e("Terrain.java", "SIZE = " + Pieces.size());
 		float lastVisible = CameraHelper.getXMax(mCamera, mCamera.zoom * 1.5f);
 
 		while (lastVisible >= Points.getLast().x)
@@ -233,7 +222,7 @@ public class Terrain
 			}
 		}
 
-		while (Points.size() > 3 * removeSize)
+		while (Points.size() > removeSize)
 			removeFirstPiece();
 	}
 
@@ -301,8 +290,20 @@ public class Terrain
 
 	void createFirstTerrain()
 	{
-		Pieces.addLast(new TerrainPiece(act, this, mPhysicsWorld));
-		Pieces.getLast().create(Points.getFirst().x, Points.getFirst().y, Points.getLast().x, Points.getLast().y);
+		float firstX = -xSize / 2 * firstNum;
+		for (int i = 0; i < 2; i++)
+		{
+			firstX += xSize;
+			Points.addLast(new Vector2(firstX, getHeight(0)));
+
+		}
+
+		for (int i = 0; i < firstNum; i++)
+		{
+			firstX += xSize;
+			Points.addLast(new Vector2(firstX, getHeight(0)));
+			addLastPiece();
+		}
 	}
 
 	float y, ay, by;
@@ -506,5 +507,27 @@ public class Terrain
 		mPhysicsWorld = null;
 	}
 
+	public int getIndexOfX(float x)
+	{
+		for(int i = 0;i < Points.size() - 1;i++)
+		{
+//			Log.e("Terrain.java", "Point " + i + " + : " + Points.get(i).x);
+			if(x >= Points.get(i).x && x <= Points.get(i + 1).x)
+				return i;
+		}
+
+		return -1;
+	}
+
+	public void restart()
+	{
+		for (int i = 0; i < Pieces.size(); i++)
+			Pieces.get(i).dispose(false);
+
+		Pieces.clear();
+		Points.clear();
+
+		createFirstTerrain();
+	}
 
 }//Class

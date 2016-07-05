@@ -52,7 +52,7 @@ public class GameSceneInput implements InputProcessor
 		if(keycode == Input.Keys.NUM_3)
 		{
 			float ratio = PhysicsConstant.PIXEL_TO_METER;
-			mScene.gameManager.selectedCar.body.setCenterPosition(mScene.camera.position.x / ratio, mScene.camera.position.y / ratio);
+			mScene.gameManager.selectedCar.body.setCenterPosition(mScene.camera.position.x / ratio, mScene.camera.position.y / ratio + 5);
 		}
 
 		return false;

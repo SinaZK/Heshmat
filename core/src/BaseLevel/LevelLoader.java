@@ -12,10 +12,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import BaseLevel.Modes.CinematicMode;
+import BaseLevel.Modes.DrivingEnemyQuery;
 import BaseLevel.Modes.DrivingMode;
 import BaseLevel.Modes.FinishMode;
 import BaseLevel.Modes.ShootingMode;
 import BaseLevel.Modes.StartGameCinematic;
+import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import GameScene.LevelManager;
 import Misc.BodyStrings;
@@ -69,6 +71,18 @@ public class LevelLoader
 
 					read = dis.readLine();
 					drivingModePart.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
+
+					while (true)
+					{
+						read = dis.readLine();
+						if(read.equals(EOF))
+							break;
+
+						drivingModePart.queries.add(
+								new DrivingEnemyQuery(drivingModePart, EnemyFactory.StringToEnemy(BodyStrings.getPartOf(read, 0)),
+										Integer.valueOf(BodyStrings.getPartOf(read, 1)),
+										Float.valueOf(BodyStrings.getPartOf(read, 2))));
+					}
 
 					normalLevel.levelParts.add(drivingModePart);
 					dis.readLine();//ignoring blank line

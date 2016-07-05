@@ -133,6 +133,12 @@ public class CzakBody
 		mBody = b;
 	}
 
+	public void resizeImages(float w, float h)
+	{
+		for(int i = 0;i < mSprite.size();i++)
+			mSprite.get(i).setSize(w, h);
+	}
+
 	public float getWidth()
 	{
 		return mSprite.get(0).getWidth();

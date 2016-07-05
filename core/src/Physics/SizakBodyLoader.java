@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import Misc.BodyStrings;
+import Misc.Log;
 import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
@@ -87,8 +88,7 @@ public class SizakBodyLoader
 
 					if(BodyStrings.getPartOf(read, 3).equals(CircleBody))
 					{
-						newBody.setBody(createCircleBody(world, bodyType, fixtureDef, dis));
-						newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
+						newBody = createCzakCircleBody(newBody, world, BodyDef.BodyType.DynamicBody, fixtureDef, dis, imgAdd, disposableArray);
 						newBody.setUserData(newBody.bodyName);
 						retBody.addBody(newBody);
 					}
@@ -203,6 +203,25 @@ public class SizakBodyLoader
 		float radius = Float.valueOf(input);
 
 		return PhysicsFactory.createCircleBody(world, cX, cY, radius, bodyType, fixtureDef);
+	}
+
+	public static CzakBody createCzakCircleBody(CzakBody newBody, World world, BodyDef.BodyType bodyType, FixtureDef fixtureDef,
+												BufferedReader dis, String imgAdd, ArrayList<Texture> disposableArray) throws  IOException
+	{
+		String input = dis.readLine();
+		float cX = Float.valueOf(BodyStrings.getPartOf(input, 0));
+		float cY = Float.valueOf(BodyStrings.getPartOf(input, 1));
+		input = dis.readLine();
+		float radius = Float.valueOf(input);
+
+		Body circleBody = PhysicsFactory.createCircleBody(world, cX, cY, radius, bodyType, fixtureDef);
+
+		newBody.setBody(circleBody);
+		newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
+
+		newBody.resizeImages(radius * 2, radius * 2);
+
+		return newBody;
 	}
 
 	static float ratio = PhysicsConstant.PIXEL_TO_METER;

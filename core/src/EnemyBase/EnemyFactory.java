@@ -8,10 +8,17 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.ArrayList;
 
 import BaseLevel.BaseLevel;
+import BaseLevel.Modes.DrivingMode;
 import BaseLevel.Modes.ShootingMode;
 import Enemy.Bat;
 import Enemy.Bomb;
 import Enemy.BossBird;
+import Enemy.EnemyState.GreenTree;
+import Enemy.EnemyState.SmallStreetLight;
+import Enemy.EnemyState.StreetLight;
+import Enemy.EnemyState.TrafficLight;
+import Enemy.EnemyState.WaterBox;
+import Enemy.EnemyState.YellowTree;
 import Enemy.FireBird;
 import Enemy.Fly;
 import Enemy.FurryBird;
@@ -48,11 +55,13 @@ public class EnemyFactory
 	{
 		level = gameManager.levelManager.currentLevel;
 
-		if(level == null)
-			Log.e("EnemyFactory.java", "NULL");
+//		if(level == null)
+//			Log.e("EnemyFactory.java", "NULL");
+//		else Log.e("EnemyFactory.java", "Not NULL");
 
 		loadAnimations();
 		loadInfoCars();
+		loadDrivingEnemyAssets();
 	}
 
 
@@ -76,8 +85,9 @@ public class EnemyFactory
 
 	public BaseEnemy getEnemyByType(BaseEnemy.EnemyType enemyType, int _level, ArrayList<String> attr)
 	{
-		if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
-			shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+		if(level != null)
+			if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+				shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
 
 		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
@@ -91,8 +101,10 @@ public class EnemyFactory
 
 	public boolean haveEnemy(BaseEnemy.EnemyType enemyType)
 	{
-		if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
-			shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+		if(level != null)
+			if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+				shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+
 		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)
 				return true;
@@ -255,6 +267,14 @@ public class EnemyFactory
 	public static String WORM = "WORM";
 	public static String BOMB = "BOMB";
 
+	public static String STREET_LIGHT   = "STREET_LIGHT";
+	public static String SMALL_LIGHT    = "SMALL_LIGHT";
+	public static String GREEN_TREE     = "GREEN_TREE";
+	public static String YELLOW_TREE    = "YELLOW_TREE";
+	public static String TRAFFIC_LIGHT  = "TRAFFIC_LIGHT";
+	public static String WATER_BOX  = "WATER_BOX";
+
+
 
 	public BaseEnemy getEnemy(String type, int level, ArrayList<String> attr)
 	{
@@ -363,6 +383,25 @@ public class EnemyFactory
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 34, 4, 1266, 274, 1, 5, 8);
 	}
 
+	public AnimatedSpriteSheet DrivingEnemiesSpriteSheet;
+
+	public void loadDrivingEnemyAssets()
+	{
+		DrivingEnemiesSpriteSheet = new AnimatedSpriteSheet("gfx/enemy/driving/sheet.png", gameScene.disposeTextureArray);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_STREET_LIGHT, 0, 0, 240, 348, 1, 2, NOT_ANIMATION);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_SMALL_LIGHT, 30, 352, 232, 639, 1, 2, NOT_ANIMATION);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_TRAFFIC_LIGHT, 251, 4, 479, 318, 1, 2, NOT_ANIMATION);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_WATER_BOX, 560, 351, 796, 490, 1, 2, NOT_ANIMATION);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_GREEN_TREE, 666, 39, 887, 300, 1, 2, NOT_ANIMATION);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_YELLOW_TREE, 255, 333, 532, 535, 1, 2, NOT_ANIMATION);
+	}
+
 	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];
 
 	public void loadInfoCars()
@@ -374,6 +413,7 @@ public class EnemyFactory
 			infoCards[i] = new Sprite(TextureHelper.loadTexture(path + i + "/infocard.png", dp));
 	}
 
+	//for Spirtes and animations
 	public static String ENEMY_ANIMATION_DIE_STRING = "die";
 	public static String ENEMY_ANIMATION_FALL_STRING = "fall";
 	public static String ENEMY_ANIMATION_EXPLODE_STRING = "explode";
@@ -384,6 +424,15 @@ public class EnemyFactory
 	public static String ENEMY_ANIMATION_ATTACKFIRE_STRING = "attackFire";
 	public static String ENEMY_ANIMATION_ATTACKBLOW_STRING = "attackBlow";
 
+	public static String ENEMY_DRIVING_STREET_LIGHT  = "street light";
+	public static String ENEMY_DRIVING_SMALL_LIGHT   = "small light";
+	public static String ENEMY_DRIVING_GREEN_TREE    = "green tree";
+	public static String ENEMY_DRIVING_YELLOW_TREE   = "yellow tree";
+	public static String ENEMY_DRIVING_TRAFFIC_LIGHT = "traffic light";
+	public static String ENEMY_DRIVING_WATER_BOX     = "water box";
+
+	public static int NOT_ANIMATION = -1;
+	//for Spirtes and animations
 
 	public void pause()
 	{
@@ -420,7 +469,6 @@ public class EnemyFactory
 					BaseEnemy.EnemyType.BOSS_BIRD,//10
 					BaseEnemy.EnemyType.WORM,//11
 					BaseEnemy.EnemyType.BOMB,//12
-
 			};
 
 	public int getEnemyID(BaseEnemy.EnemyType enemyType)
@@ -434,6 +482,9 @@ public class EnemyFactory
 
 	public Sprite getInfoSprite(BaseEnemy.EnemyType enemyType)
 	{
+		if(getEnemyID(enemyType) == -1)
+			return null;
+
 		return infoCards[getEnemyID(enemyType)];
 	}
 
@@ -464,8 +515,63 @@ public class EnemyFactory
 		if(type.equals(WORM))
 			return BaseEnemy.EnemyType.WORM;
 
+		if(type.equals(TRAFFIC_LIGHT))
+			return BaseEnemy.EnemyType.TrafficLight;
+		if(type.equals(SMALL_LIGHT))
+			return BaseEnemy.EnemyType.SmallLight;
+		if(type.equals(STREET_LIGHT))
+			return BaseEnemy.EnemyType.StreetLight;
+		if(type.equals(GREEN_TREE))
+			return BaseEnemy.EnemyType.GreenTree;
+		if(type.equals(YELLOW_TREE))
+			return BaseEnemy.EnemyType.YellowTree;
+		if(type.equals(WATER_BOX))
+			return BaseEnemy.EnemyType.WaterBox;
+
 		return null;
 	}
 
+
+	public BaseEnemy getDrivingEnemy(BaseEnemy.EnemyType type, int level, ArrayList<String> attr)
+	{
+//		Log.e("EnemyFactory.java", "start Create WorldBody Count = " + gameScene.world.getBodyCount());
+		if(haveEnemy(type))
+		{
+//			Log.e("EnemyFactory.java", "have!!!! After Create WorldBody Count = " + gameScene.world.getBodyCount());
+			return getEnemyByType(type, level, attr);
+		}
+
+		BaseEnemy retEnemy = null;
+		switch (type)
+		{
+			case StreetLight:
+				retEnemy = new StreetLight(gameManager, enemies.size());
+				break;
+			case SmallLight:
+				retEnemy = new SmallStreetLight(gameManager, enemies.size());
+				break;
+			case TrafficLight:
+				retEnemy = new TrafficLight(gameManager, enemies.size());
+				break;
+			case WaterBox:
+				retEnemy = new WaterBox(gameManager, enemies.size());
+				break;
+			case GreenTree:
+				retEnemy = new GreenTree(gameManager, enemies.size());
+				break;
+			case YellowTree:
+				retEnemy = new YellowTree(gameManager, enemies.size());
+				break;
+		}
+
+		assert retEnemy != null;
+		retEnemy.create(shootingMode, level, attr);
+
+		enemies.add(retEnemy);
+
+//		Log.e("EnemyFactory.java", "not Have!!! After Create WorldBody Count = " + gameScene.world.getBodyCount());
+
+		return retEnemy;
+	}
 
 }

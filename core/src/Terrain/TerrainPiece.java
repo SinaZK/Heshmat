@@ -23,7 +23,7 @@ public class TerrainPiece
 
 	float x1, y1, x2, y2;
 
-	Body mBody;
+	public Body mBody;
 
 	float TEXTURE_HEIGHT = 1600;
 

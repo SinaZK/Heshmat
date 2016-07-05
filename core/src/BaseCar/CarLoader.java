@@ -62,9 +62,15 @@ public class CarLoader
 
 		try
 		{
+			String read;
 			dis.readLine();//price
+			read = dis.readLine();
+			retCar.hitpoint = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
-			String read = dis.readLine();
+			read = dis.readLine();
+			retCar.collisionDamageRate = Float.valueOf(BodyStrings.getPartOf(read, 1));
+
+			read = dis.readLine();
 			retCar.body = SizakBodyLoader.loadBodyFile(BodyStrings.getPartOf(read, 1), world, disposableArray);
 
 			read = dis.readLine();

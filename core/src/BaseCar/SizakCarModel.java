@@ -62,6 +62,8 @@ public class SizakCarModel extends SizakBodyModel
 			read = dis.readLine();//price
 			price = Long.valueOf(BodyStrings.getPartOf(read, 1));
 
+			dis.readLine();//hitpoint
+			dis.readLine();//collisionDamageRate
 
 			read = dis.readLine();
 

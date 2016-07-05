@@ -32,6 +32,7 @@ public abstract class BaseCar
 	public ArrayList<CarSlot> slots = new ArrayList<CarSlot>();
 
 	public float hitpoint;
+	public float collisionDamageRate;
 	public float rotationFlipTorque;
 
 	public int wheelNum;

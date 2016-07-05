@@ -39,7 +39,7 @@ public class GameManager
 		bulletFactory = new BulletFactory(gameScene.act, gameScene);
 		enemyFactory = new EnemyFactory(this);
 		gunManager = new GunManager(this);
-		hpBarSprite = new HPBarSprite("gfx/hpbar.png", 7, 1, gameScene.disposeTextureArray);
+		hpBarSprite = new HPBarSprite(gameScene.disposeTextureArray);
 
 		selectedCar = CarSorter.createSelectedCar(this, gameScene.world, gameScene.disposeTextureArray, gameScene.act.selectorStatData.selectedCar);
 		assert selectedCar != null;
@@ -49,8 +49,8 @@ public class GameManager
 		levelManager = new LevelManager(this);
 
 		gunManager.create();
-		levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/");
 		enemyFactory.create();
+		levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/");
 
 		shooterHuman = new SimpleHuman(this);
 		shooterHuman.create(50, 200);

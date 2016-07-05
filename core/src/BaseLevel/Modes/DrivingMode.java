@@ -1,11 +1,17 @@
 package BaseLevel.Modes;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
+import Enemy.EnemyState.StreetLight;
+import EnemyBase.BaseEnemy;
 import Entity.LevelEntities.ModeSplashImage;
+import Enums.Enums;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.CameraHelper;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
@@ -18,6 +24,11 @@ public class DrivingMode extends LevelMode
 	public float time, fullTime;
 
 	boolean isEnding;
+
+//	public static int StreetLightDist = 1000;
+//	public int streetLightPos = StreetLightDist;
+
+	public ArrayList<DrivingEnemyQuery> queries = new ArrayList<DrivingEnemyQuery>();
 
 	public DrivingMode(LevelManager levelManager)
 	{
@@ -54,8 +65,11 @@ public class DrivingMode extends LevelMode
 
 		levelManager.gameScene.drivingModeHUD.getBatch().begin();
 		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 380);
-		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + getCurrentPos(), 10, 420);
+		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + (int) getCurrentPos(), 10, 420);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
+
+		for(int i = 0;i < queries.size();i++)
+			queries.get(i).run(getCurrentPos());
 
 	}
 
@@ -69,6 +83,9 @@ public class DrivingMode extends LevelMode
 		super.start();
 
 		modeSplashImage.set(0.8f, 1.2f, 0.02f, 0.1f);
+
+		for(int i = 0;i < queries.size();i++)
+			queries.get(i).reset();
 	}
 
 	public float getCurrentPos()
@@ -89,12 +106,16 @@ public class DrivingMode extends LevelMode
 	{
 		super.reset();
 		isEnding = false;
+
+		for (int i = 0;i < queries.size();i++)
+			queries.get(i).reset();
 	}
 
 	@Override
 	public void setCamera()
 	{
 		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+//		camera.zoom = 5f;
 		cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
 		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
 

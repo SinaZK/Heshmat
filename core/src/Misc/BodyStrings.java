@@ -22,7 +22,8 @@ public class BodyStrings
 	public static String Shooter_HUMAN = "shooterH";
 	public static String Shooter_ENEMY = "shooterE";
 
-	public static String EnemyFly = "Pigeon";
+	public static String EnemyFly = "FLY";
+	public static String DrivingEnemy = "DrivingEnemy";
 
 	public static String FINISH_MODE_STRING = "FINISH";
 	public static String GroundString = "Ground";
@@ -50,6 +51,14 @@ public class BodyStrings
 	public static boolean isEnemy(String s)
 	{
 		return getPartOf(s, 0).equals(ENEMY_STRING);
+	}
+	public static boolean isDrivingEnemy(String s)
+	{
+		return getPartOf(s, 1).equals(DrivingEnemy);
+	}
+	public static boolean isShootingEnemy(String s)
+	{
+		return getPartOf(s, 1).equals(EnemyFly);
 	}
 
 	public static String getPartOf(String s, int index)

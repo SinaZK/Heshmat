@@ -18,9 +18,6 @@ public class BulletFactory
 	public MainActivity act;
 	public GameScene mScene;
 
-	public Texture PistolBulletTexture;
-	public Texture RocketBulletTexture;
-
 	public ArrayList <BaseBullet> bullets = new ArrayList<BaseBullet>();
 
 	public BulletFactory(MainActivity a, GameScene pSceneNormal)
@@ -28,8 +25,6 @@ public class BulletFactory
 		act = a;
 		mScene = pSceneNormal;
 
-		PistolBulletTexture = TextureHelper.loadTexture("gfx/pistolbullet.png", act.sceneManager.gameScene.disposeTextureArray);
-		RocketBulletTexture = TextureHelper.loadTexture("gfx/rocketbullet.png", act.sceneManager.gameScene.disposeTextureArray);
 	}
 
 	public void run()

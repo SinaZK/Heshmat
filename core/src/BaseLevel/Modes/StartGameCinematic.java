@@ -23,7 +23,7 @@ public class StartGameCinematic extends CinematicMode
 	{
 		super(levelManager);
 
-		Log.e("StartGameCinematic.java", "startGameCinematic bitch!");
+//		Log.e("StartGameCinematic.java", "startGameCinematic bitch!");
 	}
 
 	@Override
@@ -90,5 +90,13 @@ public class StartGameCinematic extends CinematicMode
 
 		super.setCamera();
 
+	}
+
+	@Override
+	public void onFinished()
+	{
+		super.onFinished();
+
+		enemy.isFree = true;
 	}
 }

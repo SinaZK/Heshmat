@@ -44,7 +44,10 @@ public class CinematicMode extends LevelMode
 		time -= levelManager.gameScene.getDeltaTime();
 
 		if(time <= 0)
+		{
 			isFinished = true;
+			onFinished();
+		}
 
 		super.run();
 

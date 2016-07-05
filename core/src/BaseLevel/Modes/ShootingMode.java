@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 
@@ -43,7 +44,7 @@ public class ShootingMode extends LevelMode
 		}
 
 		shootingModeTimeCounter += levelManager.gameScene.getDeltaTime();
-//		Log.e("ShootingMode.java", "" + shootingModeTimeCounter + " NoWs = " + numberOfWaves + " time = " + waves.get(1).releaseTime);
+//		Log.e("ShootingMode.java", "enemyDied = " + enemyDied + " enemyMax = " + enemyMax);
 
 		if(enemyDied == enemyMax)
 			isFinished = true;

@@ -16,7 +16,7 @@ public class AnimatedSpriteSheet
 	private int FRAME_COLS;
 	private int FRAME_ROWS;
 
-	ArrayList<SizakAnimation> animations = new ArrayList<SizakAnimation>();
+	public ArrayList<SizakAnimation> animations = new ArrayList<SizakAnimation>();
 	Texture textureSheet;
 	public boolean isDisabled;
 	int selectedAnimation = 0;

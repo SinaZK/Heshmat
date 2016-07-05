@@ -4,16 +4,21 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.utils.Timer;
 
 import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
+import Enemy.EnemyState.StreetLight;
 import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
+import GameScene.GameScene;
+import GameScene.GameSceneContactManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.FileLoader;
+import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
@@ -34,7 +39,10 @@ public abstract class BaseEnemy
 {
 	public enum EnemyType
 	{
-		MOSQUITO, FLY, WASP, RED_BIRD, HATTY_BIRD, MASK_BIRD, FURRY_BIRD, FIRE_BIRD, BAT, BOSS_BIRD, WORM, BOMB
+		MOSQUITO, FLY, WASP, RED_BIRD, HATTY_BIRD, MASK_BIRD, FURRY_BIRD, FIRE_BIRD, BAT, BOSS_BIRD, WORM, BOMB,
+
+		//DrivingMode Enemies
+		StreetLight, SmallLight, TrafficLight, GreenTree, YellowTree, WaterBox
 	}
 
 	public GameManager gameManager;
@@ -56,6 +64,7 @@ public abstract class BaseEnemy
 	private float BASE_SPEED, MAX_HP, DAMAGE, FIRE_RATE, weakspeedcoef, HIT_STUN = 0, HIT_RAGE = 0, GOLD = 0;
 	public float speed;
 	public float hitPoint;
+	public boolean isKillCount = true;//in DrivingMode Enemies its false
 
 	public boolean isStun, isRage;
 	private float stunCounter, rageCounter;//forTiming
@@ -93,13 +102,15 @@ public abstract class BaseEnemy
 
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
+		if(mainBody != null)
+			mainBody.getmBody().setActive(true);
+
 		setLevel(level);
 		currentState = StateEnum.MOVE;
 		this.shootingMode = shootingMode;
 		isFree = false;
 		hitPoint = getMAX_HP();
 		speed = getBASE_SPEED();
-		mainBody.getmBody().setActive(true);
 		shouldRelease = false;
 		selectedAnimation = 0;
 		isStun = false;
@@ -119,7 +130,7 @@ public abstract class BaseEnemy
 			stun();
 	}
 
-	public void hitByCar()
+	public void hitByCar(Contact contact, String carData)
 	{
 	}
 
@@ -141,12 +152,21 @@ public abstract class BaseEnemy
 
 	public void release()
 	{
-		if(shootingMode != null)
-			shootingMode.enemyDied++;
+		if(gameManager.levelManager.currentLevel.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+		{
+			if(isKillCount)
+			{
+				shootingMode = (ShootingMode) gameManager.levelManager.currentLevel.getCurrentPart();
+				shootingMode.enemyDied++;
+			}
+		}
 
-		mainBody.getmBody().setActive(false);
-		mainBody.getmBody().setLinearVelocity(0, 0);
-		mainBody.setPosition(10 / PhysicsConstant.PIXEL_TO_METER, 10 / PhysicsConstant.PIXEL_TO_METER);
+		if(mainBody != null)
+		{
+			mainBody.getmBody().setActive(false);
+			mainBody.getmBody().setLinearVelocity(0, 0);
+			mainBody.setPosition(10 / PhysicsConstant.PIXEL_TO_METER, 10 / PhysicsConstant.PIXEL_TO_METER);
+		}
 		isFree = true;
 
 		if(hitPoint <= 0)
@@ -187,7 +207,8 @@ public abstract class BaseEnemy
 	{
 		x = X;
 		y = Y;
-		mainBody.setPosition(x / PhysicsConstant.PIXEL_TO_METER, y / PhysicsConstant.PIXEL_TO_METER);
+		if(mainBody != null)
+			mainBody.setPosition(x / PhysicsConstant.PIXEL_TO_METER, y / PhysicsConstant.PIXEL_TO_METER);
 	}
 
 	public void run()
@@ -406,7 +427,7 @@ public abstract class BaseEnemy
 		mainBody.setUserData(BodyStrings.ENEMY_STRING + " " + userData + " " + id);
 	}
 
-	public void load(String path)
+	public FileLoader load(String path)
 	{
 		FileLoader fileLoader = new FileLoader();
 		fileLoader.loadFile(path + "enemy.enemy");
@@ -424,6 +445,8 @@ public abstract class BaseEnemy
 		GOLD = fileLoader.getFloat(8, 1);
 
 		infoSprite = enemyFactory.getInfoSprite(enemyType);
+
+		return fileLoader;
 	}
 
 	public float getMAX_HP()
@@ -482,4 +505,7 @@ public abstract class BaseEnemy
 		MOVE, ATTACK, STUN, DEATH,
 	}
 
+	public void hitBy(Contact contact)
+	{
+	}
 }
