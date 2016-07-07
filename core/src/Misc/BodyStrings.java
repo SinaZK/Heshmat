@@ -11,6 +11,7 @@ public class BodyStrings
 	public static String BULLET_STRING = "BULLET";
 	public static String ENEMY_STRING = "ENEMY";
 	public static String GUN_STRING = "GUN";
+	public static String CAR_ATTACH_STRING = "CAR_ATTACH";
 
 	public static String HUMAN_STRING = "HUMAN";
 	public static String Human_HeadString = "Head";
@@ -46,6 +47,11 @@ public class BodyStrings
 	public static boolean isGround(String s)
 	{
 		return getPartOf(s, 0).equals(GroundString);
+	}
+
+	public static boolean isCarAttach(String s)
+	{
+		return s.equals(CAR_ATTACH_STRING);
 	}
 
 	public static boolean isEnemy(String s)

@@ -29,7 +29,7 @@ import Misc.Log;
 import PurchaseIAB.purchaseIAB;
 import SceneManager.SceneManager;
 
-public class MainActivity extends ApplicationAdapter 
+public class MainActivity extends ApplicationAdapter
 {
 	public AudioManager audioManager;
 	public SceneManager sceneManager;
@@ -57,7 +57,7 @@ public class MainActivity extends ApplicationAdapter
 		gameStatData.numberOfAppRun++;
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_SELECTOR, null);
 //		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		if(playerStatData.getMoney() < 2000)
@@ -145,6 +145,7 @@ public class MainActivity extends ApplicationAdapter
 
 	public void saveAllLevelDatas(int levels)
 	{
+		Log.e("MainActivity.java", "saving All levelDatas");
 		saveManager.saveDataValue(DataKeyStrings.LVLPackStatData[selectorStatData.selectedLevelPack], levelPackageStatDatas[selectorStatData.selectedLevelPack]);
 
 		for(int i = 1;i <= levels;i++)

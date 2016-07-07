@@ -2,8 +2,10 @@ package Physics;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 
 import java.util.ArrayList;
@@ -104,7 +106,19 @@ public class SizakBody
 		}
 	}
 
-	public void addBodyWithWeld(CzakBody body, String attachedBodyName, World world)
+	public void setCenterPosition(float worldX, float worldY, float r)
+	{
+		Vector2 position = bodies.get(0).getmBody().getWorldCenter();
+		Vector2 diffVector = new Vector2(worldX - position.x, worldY - position.y);
+
+		for(int i = 0;i < bodies.size();i++)
+		{
+			position = bodies.get(i).getmBody().getWorldCenter();
+			bodies.get(i).setPosition(position.x + diffVector.x, position.y + diffVector.y, r);
+		}
+	}
+
+	public WeldJoint addBodyWithWeld(CzakBody body, String attachedBodyName, World world)
 	{
 		bodies.add(body);
 
@@ -113,13 +127,41 @@ public class SizakBody
 		WeldJointDef weldJointDef = new WeldJointDef();
 		weldJointDef.initialize(body.getmBody(), attachedBody.getmBody(), body.getmBody().getWorldCenter());
 
-		world.createJoint(weldJointDef);
+		return (WeldJoint)world.createJoint(weldJointDef);
+	}
+
+	public WeldJoint addBodyWithWeldWithoutAdding(CzakBody body, String attachedBodyName, World world)
+	{
+		CzakBody attachedBody = getBodyByName(attachedBodyName);
+
+		WeldJointDef weldJointDef = new WeldJointDef();
+		weldJointDef.initialize(body.getmBody(), attachedBody.getmBody(), body.getmBody().getWorldCenter());
+
+		return (WeldJoint)world.createJoint(weldJointDef);
 	}
 
 	public void setAllBodiesV(float vX, float vY)
 	{
 		for (int i = 0;i < bodies.size();i++)
 			bodies.get(i).getmBody().setLinearVelocity(vX, vY);
+	}
+
+	public void setAllBodiesR(float r)
+	{
+		for (int i = 0;i < bodies.size();i++)
+			bodies.get(i).setR(r);
+	}
+
+	public void setType(BodyDef.BodyType type)
+	{
+		for (int i = 0;i < bodies.size();i++)
+			bodies.get(i).setType(type);
+	}
+
+	public void flushSprites()
+	{
+		for(int i = 0;i < bodies.size();i++)
+			bodies.get(i).flushSprites();
 	}
 
 }

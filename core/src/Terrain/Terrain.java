@@ -34,7 +34,7 @@ public class Terrain
 	GameScene gameScene;
 	GameManager gameManager;
 	LevelManager levelManager;
-	BaseLevel level;
+	public BaseLevel level;
 	public PolygonSpriteBatch polygonSpriteBatch;
 	public Batch spriteBatch;
 	OrthographicCamera mCamera;

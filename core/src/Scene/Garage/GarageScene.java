@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 import java.util.Random;
 
+import BaseCar.CarLoader;
 import DataStore.CarStatData;
 import DataStore.DataKeyStrings;
 import Entity.Button;

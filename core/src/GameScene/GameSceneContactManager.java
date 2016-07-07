@@ -125,8 +125,19 @@ public class GameSceneContactManager
 				if(BodyStrings.isCar(s2) && BodyStrings.isBullet(s1))
 					handleBulletToCarPreSolve(contact, s2, s1);
 
+				if(BodyStrings.isCar(s1) && BodyStrings.isCarAttach(s2) ||
+						BodyStrings.isCar(s2) && BodyStrings.isCarAttach(s1))
+				{
+					contact.setEnabled(false);
+				}
+
 				if(BodyStrings.isBullet(s1) && BodyStrings.isBullet(s2))
 					handleBulletToBulletPreSolve(contact, s1, s2);
+
+				if(BodyStrings.isBullet(s1) && BodyStrings.isEnemy(s2))
+					handleBulletToEnemy(contact, s1, s2);
+				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
+					handleBulletToEnemy(contact, s2, s1);
 
 //				if(BodyStrings.isEnemy(s1) || BodyStrings.isEnemy(s2))
 //					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted " + " isEnable = " + contact.isEnabled());
@@ -196,8 +207,11 @@ public class GameSceneContactManager
 
 	public void handleBulletToEnemy(Contact contact, String bulletData, String enemyData)
 	{
+		contact.setEnabled(false);
 		if(BaseBullet.getBulletShooter(bulletData).equals(BodyStrings.Shooter_ENEMY))
+		{
 			return;
+		}
 
 		int bulletID = BaseBullet.getBulletID(bulletData);
 		int enemyID = BaseEnemy.getEnemyID(enemyData);
@@ -222,7 +236,10 @@ public class GameSceneContactManager
 		int enemyID = BaseEnemy.getEnemyID(enemyData);
 
 		if(BodyStrings.isDrivingEnemy(enemyData))
+		{
 			enemyFactory.enemies.get(enemyID).hitByCar(contact, carData);
+			gameManager.selectedCar.hitByDrivingEnemy(contact);
+		}
 
 		contact.setEnabled(false);
 	}

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import BaseLevel.BaseLevel;
+import BaseLevel.EndlessLevel;
 import Misc.Log;
 import Misc.TextureHelper;
 import heshmat.MainActivity;
@@ -25,6 +26,7 @@ public class LevelManager
 
 	public boolean isLost;
 	public boolean isLevelCompleted;
+	public LevelType levelType;
 
 	public LevelManager(GameManager gameManager)
 	{
@@ -33,12 +35,21 @@ public class LevelManager
 		act = this.gameManager.gameScene.act;
 	}
 
-	public void create(String add)
+	public void create(String add, LevelType levelType)
 	{
 		loadTextures();
 
-		currentLevel = new BaseLevel(gameManager);
-		currentLevel.load(add);
+		if(levelType == LevelType.NORMAL)
+		{
+			currentLevel = new BaseLevel(gameManager);
+			currentLevel.load(add);
+		}
+		else if(levelType == LevelType.ENDLESS)
+		{
+			EndlessLevel lvl = new EndlessLevel(gameManager, act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
+			lvl.load(add);
+			currentLevel = lvl;
+		}
 
 		currentLevel.levelParts.get(0).start();
 	}
@@ -105,5 +116,10 @@ public class LevelManager
 	{
 		DrivingModeSplashTexture  = TextureHelper.loadTexture("gfx/lvl/mode/driving.png", gameScene.disposeTextureArray);
 		ShootingModeSplashTexture = TextureHelper.loadTexture("gfx/lvl/mode/shooting.png", gameScene.disposeTextureArray);
+	}
+
+	public enum LevelType
+	{
+		NORMAL, ENDLESS,
 	}
 }

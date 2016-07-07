@@ -67,6 +67,25 @@ public class LevelSelectorScene extends BaseScene
 
 			levelEntity.attachToScene(this);
 		}
+
+		Button endLess = new Button(TextureHelper.loadTexture("gfx/scene/level/endless1.png", disposeTextureArray),
+				TextureHelper.loadTexture("gfx/scene/level/endless2.png", disposeTextureArray));
+
+		endLess.setSize(width, height);
+		endLess.setPosition(700, 100);
+
+		endLess.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				act.selectorStatData.selectedLevel = -1;
+				act.sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+				LevelSelectorScene.this.dispose();
+			}
+		});
+
+		attachChild(endLess);
 	}
 
 	@Override

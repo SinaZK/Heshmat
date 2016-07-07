@@ -50,6 +50,9 @@ public class BaseWave
 		enemyLevel = level;
 		shouldInfoCardShown = false;
 
+		if(dis == null)
+			return;
+
 		try
 		{
 			int ct = 0;

@@ -50,7 +50,13 @@ public class GameManager
 
 		gunManager.create();
 		enemyFactory.create();
-		levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/");
+
+		if(activity.selectorStatData.selectedLevel == -1)//endless
+		{
+			levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/endless/", LevelManager.LevelType.ENDLESS);
+		}
+		else
+			levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);
 
 		shooterHuman = new SimpleHuman(this);
 		shooterHuman.create(50, 200);

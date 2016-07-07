@@ -36,7 +36,10 @@ public abstract class LevelMode
 		gameScene = levelManager.gameScene;
 		car = levelManager.gameManager.selectedCar;
 		camera = levelManager.gameScene.camera;
-		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+		if(levelManager.currentLevel == null)
+			camera.zoom = 1;
+		else
+			camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
 	}
 
 	public void run()

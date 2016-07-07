@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 
 import java.util.ArrayList;
 
@@ -51,6 +53,18 @@ public class CzakBody
 
 		if(pTexture != null)
 			mSprite.add(new Sprite(pTexture));
+	}
+
+	public void flushSprites()
+	{
+		for(int i = 0;i < mSprite.size();i++)
+		{
+			mSprite.get(i).setPosition(
+					mBody.getPosition().x * PhysicsConstant.PIXEL_TO_METER - mSprite.get(i).getWidth() / 2,
+					mBody.getPosition().y * PhysicsConstant.PIXEL_TO_METER - mSprite.get(i).getHeight() / 2);
+
+			mSprite.get(i).setRotation((float) (mBody.getAngle() * 180f / Math.PI));
+		}
 	}
 
 	public void draw(Batch batch)
@@ -123,6 +137,18 @@ public class CzakBody
 		mBody.setTransform(x, y, mBody.getAngle());
 	}
 
+	public void setPosition(float x, float y, float r)
+	{
+		mBody.setTransform(x, y, r);
+	}
+
+	public void setR(float r)
+	{
+		Vector2 pos = new Vector2(mBody.getWorldCenter());
+		mBody.setTransform(pos, r);
+		mBody.setAngularVelocity(0);
+	}
+
 	public void addSprite(Sprite s)
 	{
 		mSprite.add(s);
@@ -137,6 +163,11 @@ public class CzakBody
 	{
 		for(int i = 0;i < mSprite.size();i++)
 			mSprite.get(i).setSize(w, h);
+	}
+
+	public void setType(BodyDef.BodyType type)
+	{
+		getmBody().setType(type);
 	}
 
 	public float getWidth()

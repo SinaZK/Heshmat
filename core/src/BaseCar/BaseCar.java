@@ -3,6 +3,8 @@ package BaseCar;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public abstract class BaseCar
 	public SizakBody body;
 
 	public ArrayList<CarSlot> slots = new ArrayList<CarSlot>();
+	public ArrayList<AttachPart> attachParts = new ArrayList<AttachPart>();
 
 	public float hitpoint;
 	public float collisionDamageRate;
@@ -67,12 +70,31 @@ public abstract class BaseCar
 		this.carStatData = carStatData;
 	}
 
+	public void create()
+	{
+
+	}
+
 	public void draw(Batch spriteBatch)
 	{
-		body.draw(spriteBatch);
+		drawBody(spriteBatch);
+		drawSlots(spriteBatch);
+		drawOnHUD(spriteBatch);
+	}
 
+	public void drawOnHUD(Batch batch)
+	{
+
+	}
+
+	public void drawBody(Batch batch)
+	{
+		body.draw(batch);
+	}
+	public void drawSlots(Batch batch)
+	{
 		for(int i = 0;i < slots.size();i++)
-			slots.get(i).draw(spriteBatch);
+			slots.get(i).draw(batch);
 	}
 
 	public abstract void gas(float rate);
@@ -91,7 +113,19 @@ public abstract class BaseCar
 			label();
 		}
 
-		if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
+		if(staticCount > 0)
+		{
+			staticCount--;
+			if(staticCount == 0)
+			{
+				body.bodies.get(0).setType(BodyDef.BodyType.DynamicBody);
+
+				for(int i = 0;i < attachParts.size();i++)
+					attachParts.get(i).reset();
+			}
+		}
+
+		if(gameManager.levelManager.levelModeEnum != GameScene.LevelModeEnum.Driving)
 			shouldStop = true;
 
 		if(shouldStop)
@@ -173,17 +207,27 @@ public abstract class BaseCar
 		body.setCenterPosition(x, y);
 	}
 
+	public int staticCount = 0;
 	public void reset()
 	{
-//		Log.e("BaseCar.java", "Reset");
-		body.setCenterPosition(firstPosX, firstPosY);
+		body.bodies.get(0).setType(BodyDef.BodyType.StaticBody);
+		staticCount = 30;
 		body.setAllBodiesV(0, 0);
+		body.setCenterPosition(firstPosX, firstPosY, 0);
 	}
 
 	public void hitByBullet(String bulletData)
 	{
 		int bulletID = BaseBullet.getBulletID(bulletData);
 		damage(gameManager.bulletFactory.bullets.get(bulletID).damage);
+	}
+
+	public void hitByDrivingEnemy(Contact contact)
+	{
+		float intence = gameScene.GSCM.getContactIntense(contact);
+
+		damage(intence);
+//		Log.e("DrivingModeEn
 	}
 
 	private void damage(float damage)

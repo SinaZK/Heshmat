@@ -20,11 +20,14 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+import BaseCar.CarLoader;
 import BaseCar.SizakCarModel;
+import Cars.DenaCar;
 import Entity.AnimatedSprite;
 import Entity.Button;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
+import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
@@ -122,16 +125,6 @@ public class GameScene extends BaseScene
 		{
 			Log.e("GameScene.java", "Pause: BulletQSize = " + gameManager.bulletFactory.bullets.size()
 					+ " EnemyQSize = " + gameManager.enemyFactory.enemies.size() + " VBO size = " + disposeTextureArray.size() + " WorldSize = " + world.getBodyCount());
-
-
-//			Array<Body> bodies = new Array<Body>();
-//			world.getBodies(bodies);
-//
-//			for(int i = 0;i < world.getBodyCount();i++)
-//			{
-//				Log.e("GameScene.java", "WorldBody " + (i + 1) + ": " + bodies.get(i).getUserData());
-//			}
-
 		}
 
 		gameStat = GAME_STAT.PAUSE;
@@ -193,8 +186,6 @@ public class GameScene extends BaseScene
 		{
 			endGameScene.run();
 		}
-
-//		Log.e("GameScene.java", "DA size = " + disposeTextureArray.size());
 	}
 
 	public void draw()
@@ -220,21 +211,22 @@ public class GameScene extends BaseScene
 
 		if(gameManager.levelManager.currentLevel.getCurrentPart().mode == LevelModeEnum.Cinematic)
 		{
-//			shapeRenderer.setProjectionMatrix(camera.combined);
+			shapeRenderer.setProjectionMatrix(camera.combined);
 
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 			shapeRenderer.setColor(0.1f, 0.1f, 0.1f, 1);
-//			shapeRenderer.rect(CameraHelper.getXMin(camera), CameraHelper.getYMax(camera),
-//					CameraHelper.getXMax(camera), CameraHelper.getYMax(camera) - 400);//up bar
 
-			shapeRenderer.rect(0, 0, SceneManager.WORLD_X + 100, 100);
-			shapeRenderer.rect(0, SceneManager.WORLD_Y - 100, SceneManager.WORLD_X + 100, 200);
+			float x1 = CameraHelper.getXMin(camera);
+			float x2 = CameraHelper.getXMax(camera);
+			float y1 = CameraHelper.getYMin(camera);
+			float y2 = CameraHelper.getYMax(camera);
 
-//			shapeRenderer.rect(CameraHelper.getXMin(camera), CameraHelper.getYMin(camera),
-//					CameraHelper.getXMax(camera), CameraHelper.getYMin(camera) + 400);//up bar
+			float height = 50 * camera.zoom;
+			shapeRenderer.rect(x1 - 100, y1, x2 - x1 + 100, height + 10);//down
+			shapeRenderer.rect(x1 - 100, y2 - height, x2 - x1 + 100, height + 10);//up
+
 			shapeRenderer.end();
 
-//			Log.e("GameScene", "kose nanat");
 		}
 		else
 		{

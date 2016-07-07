@@ -11,6 +11,12 @@ public class LevelPackageStatData
 	long record;
 	long star;
 	public boolean [] isLevelLocked;
+	long endlessStartingWave;
+
+	public long getEndlessStartingWave()
+	{
+		return endlessStartingWave;
+	}
 
 	public long getRecord()
 	{

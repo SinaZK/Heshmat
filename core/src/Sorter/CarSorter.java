@@ -7,7 +7,13 @@ import java.util.ArrayList;
 
 import BaseCar.BaseCar;
 import BaseCar.CarLoader;
+import Cars.ArmorCar;
+import Cars.DenaCar;
+import Cars.PeykanOffroad;
+import Cars.Toyota;
 import Cars.Train;
+import Cars.Truck;
+import DataStore.CarStatData;
 import GameScene.GameManager;
 import Misc.Log;
 import SceneManager.SceneManager;
@@ -23,8 +29,11 @@ public class CarSorter
 			{
 					0,//   NULL
 
-					1,//  Train
-					2,//  Neysan
+					1,//  Dena
+					2,//  Toyota
+					3,//  Peykan
+					4,//  Truck
+					5,//  Armor Car
 
 
 			};
@@ -42,18 +51,43 @@ public class CarSorter
 	{
 		int selectedCar = carPos[pos];
 
+		BaseCar retCar = null;
+		CarStatData carStatData = gameManager.activity.carStatDatas[selectedCar];
+
 		switch (selectedCar)
 		{
 			case 1:
-//				Log.e("CarSorter.java", "Selecting Train");
-				return CarLoader.loadTrainFile(gameManager, "gfx/car/1/car.car", world, disposeTextureArray, gameManager.activity.carStatDatas[selectedCar]);
+				DenaCar carD = new DenaCar(gameManager, carStatData);
+				carD.load("gfx/car/1/car.car", gameManager, world, disposeTextureArray);
+				retCar = carD;
+				break;
 
 			case 2:
-//				Log.e("CarSorter.java", "Selecting Neysan");
-				return CarLoader.loadCarFile(gameManager, "gfx/car/2/car.car", world, disposeTextureArray, gameManager.activity.carStatDatas[selectedCar]);
+				Toyota carT = new Toyota(gameManager, carStatData);
+				carT.load("gfx/car/2/car.car", gameManager, world, disposeTextureArray);
+				retCar = carT;
+				break;
+
+			case 3:
+				PeykanOffroad carP = new PeykanOffroad(gameManager, carStatData);
+				carP.load("gfx/car/3/car.car", gameManager, world, disposeTextureArray);
+				retCar = carP;
+				break;
+
+			case 4:
+				Truck carTr = new Truck(gameManager, carStatData);
+				carTr.load("gfx/car/4/car.car", gameManager, world, disposeTextureArray);
+				retCar = carTr;
+				break;
+
+			case 5:
+				ArmorCar carA = new ArmorCar(gameManager, carStatData);
+				carA.load("gfx/car/5/car.car", gameManager, world, disposeTextureArray);
+				retCar = carA;
+				break;
 		}
 
-		return null;
+		return retCar;
 	}
 
 }
