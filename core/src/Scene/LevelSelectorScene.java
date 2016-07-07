@@ -4,9 +4,12 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseLevel.LevelPackage;
 import DataStore.LevelStatData;
+import Entity.Button;
+import Entity.Entity;
 import Entity.LevelEntity;
 import Enums.Enums;
 import Misc.Log;
+import Misc.TextureHelper;
 import SceneManager.SceneManager;
 
 public class LevelSelectorScene extends BaseScene
@@ -28,18 +31,20 @@ public class LevelSelectorScene extends BaseScene
 		DX = (getCamera().viewportWidth - SceneManager.WORLD_X) / 2;
 		DY = (getCamera().viewportHeight - SceneManager.WORLD_Y) / 2;
 
+		createBack();
+
 		levelPackage = new LevelPackage(act);
 		levelPackage.load("gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/level.pckg");
 
-		Log.e("LevelSelectorScene.java", "selectedPack = " + act.selectorStatData.selectedLevelPack + " numOfLevels = " + levelPackage.numberOfLevels);
-
 		act.loadLevelData(levelPackage, act.selectorStatData.selectedLevelPack);
 
-		int padding = 10;
-		float startX = 100;
-		float startY = 300;
-		float width = 50;
-		float height = 50;
+
+		int paddingX = 10;
+		int paddingY = 15;
+		float startX = 241;
+		float startY = 330;
+		float width = 83;
+		float height = 89;
 
 		int numInRow = 4;
 
@@ -48,13 +53,15 @@ public class LevelSelectorScene extends BaseScene
 		{
 			LevelEntity levelEntity = new LevelEntity(act, disposeTextureArray, act.levelStatDatas.get(i), i);
 
+//			Log.e("LevelSelectorScene.java", "id = " + i + " star = " + act.levelStatDatas.get(i).getStar());
+
 			levelEntity.setSize(width, height);
 			levelEntity.setPosition(posX, posY);
 
-			posX += padding + width;
+			posX += paddingX + width;
 			if(i % numInRow == 0)
 			{
-				posY -= height + padding;
+				posY -= height + paddingY;
 				posX = startX;
 			}
 
@@ -63,10 +70,74 @@ public class LevelSelectorScene extends BaseScene
 	}
 
 	@Override
+	public void create()
+	{
+		super.create();
+
+		addBackToMenuButton();
+	}
+
+	@Override
 	public void dispose()
 	{
 		act.saveSelector();
 		act.saveAllLevelDatas(levelPackage.numberOfLevels);
 		super.dispose();
+	}
+
+	public void addBackToMenuButton()
+	{
+		Button menuButton = new Button(TextureHelper.loadTexture(add + "menu1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add+"menu2.png", disposeTextureArray));
+		menuButton.setPosition(DX + 28, DY + 28);
+		menuButton.setRunnable(act, new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				dispose();
+				mSceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
+			}
+		});
+
+		attachChild(menuButton);
+
+		Button backButton = new Button(TextureHelper.loadTexture(add + "back1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add+"back2.png", disposeTextureArray));
+		backButton.setPosition(DX + 98, DY + 28);
+		backButton.setRunnable(act, new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				dispose();
+				mSceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_PACKAGE_SELECTOR, null);
+			}
+		});
+
+		attachChild(backButton);
+	}
+
+	@Override
+	public void draw()
+	{
+		super.draw();
+
+		getBatch().begin();
+		mSceneManager.drawGoldSprite(getBatch());
+		getBatch().end();
+	}
+
+	public void createBack()
+	{
+		Entity back = new Entity(TextureHelper.loadTexture(add + "back.png", disposeTextureArray));
+		back.setSize(850, 500);
+		float bX = back.getWidth() - SceneManager.WORLD_X;
+		float bY = back.getHeight() - SceneManager.WORLD_Y;
+		back.setPosition(DX - bX / 2, DY - bY / 2);
+
+		attachChild(back);
 	}
 }

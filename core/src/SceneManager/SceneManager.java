@@ -1,10 +1,17 @@
 package SceneManager;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import java.util.ArrayList;
+
+import BaseCar.SizakCarModel;
 import Dialog.DialogManager;
 import GameScene.GameScene;
-import BaseCar.SizakCarModel;
+import Misc.Log;
+import Misc.TextureHelper;
 import PurchaseIAB.purchaseIAB;
 import Scene.BaseScene;
 import Scene.EndGameScene;
@@ -38,11 +45,15 @@ public class SceneManager
 
 	purchaseIAB.IABInterface purchaseHelper;
 
+	ArrayList<Texture> disposableTextures = new ArrayList<Texture>();
+
 	public SceneManager(MainActivity act, purchaseIAB.IABInterface p)
 	{
 		this.act = act;
 		purchaseHelper = p;
 		dialogManager = new DialogManager(act);
+
+		createAndLoadGoldBar();
 	}
 
 	public enum SCENES
@@ -148,5 +159,61 @@ public class SceneManager
 		currentBaseScene.run();
 		dialogManager.draw();
 		dialogManager.run();
+	}
+
+	Sprite goldSprite;
+	public void createAndLoadGoldBar()
+	{
+		goldSprite = new Sprite(TextureHelper.loadTexture("gfx/goldbar.png", disposableTextures));
+	}
+
+	public void drawGoldSprite(Batch batch, float x, float y)
+	{
+
+		goldSprite.setPosition(x, y);
+		goldSprite.draw(batch);
+	}
+
+	public void drawGoldSprite(Batch batch)
+	{
+		float DX = currentBaseScene.DX;
+		float DY = currentBaseScene.DY;
+
+		float x = DX + 28;
+		float y = DY + 420;
+
+		goldSprite.setPosition(x, y);
+		goldSprite.draw(batch);
+
+		float coinSize = 20;
+		float fontSize = 22;
+		float textSize = getDigitNum(act.getShowGold()) * fontSize / 2 + act.font22.getSpaceWidth() * (getDigitNum(act.getShowGold()) - 1);
+		float imageWidth = goldSprite.getWidth() - coinSize;//minus the coin width
+
+
+		act.font22.draw(batch, "" + act.getShowGold(), x + (imageWidth - textSize) / 2 + coinSize, y + 25);
+
+//		Log.e("SceneManager.java", "digitNum = " + getDigitNum(act.getShowGold()) + " textSize = " + textSize + " SpaceWidth = " + act.font22.getSpaceWidth());
+	}
+
+	public static long getDigitNum(long a)
+	{
+		if(a == 0)
+			return 1;
+
+		int ct = 0;
+		while (a > 0)
+		{
+			a /= 10;
+			ct++;
+		}
+
+		return ct;
+	}
+
+	public void dispose()
+	{
+		for (int i = 0;i < disposableTextures.size();i++)
+			disposableTextures.get(i).dispose();
 	}
 }

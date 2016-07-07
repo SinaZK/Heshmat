@@ -522,7 +522,7 @@ public class Terrain
 	public void restart()
 	{
 		for (int i = 0; i < Pieces.size(); i++)
-			Pieces.get(i).dispose(false);
+			Pieces.get(i).dispose(true);
 
 		Pieces.clear();
 		Points.clear();

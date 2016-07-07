@@ -27,10 +27,15 @@ public class LevelStatData
 		return star / prime;
 	}
 
-	public void setStar(int star)
+	public void setStar(long star)
 	{
 		if(star * prime > this.star)
 			this.star = star * prime;
+	}
+
+	public void unlock()
+	{
+		lockStat = Enums.LOCKSTAT.UNLOCK;
 	}
 
 }

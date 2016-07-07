@@ -57,12 +57,11 @@ public class MainActivity extends ApplicationAdapter
 		gameStatData.numberOfAppRun++;
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
 //		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		if(playerStatData.getMoney() < 2000)
 			playerStatData.setMoney(2000);
-//		addMoney(2000, true);
 
 		createShowGold();
 	}
@@ -129,6 +128,12 @@ public class MainActivity extends ApplicationAdapter
 		Log.e("MainActivity.java", "saveCarDatas");
 		for(int i = 1;i <= SceneManager.CAR_NUM;i++)
 			saveManager.saveDataValue(DataKeyStrings.CarStatData[i], carStatDatas[i]);
+	}
+
+	public void saveSetting()
+	{
+		Log.e("MainActivity.java", "saveSetting");
+		saveManager.saveDataValue(DataKeyStrings.SettingStatData, settingStatData);
 	}
 
 	public void saveGunDatas()
@@ -203,8 +208,6 @@ public class MainActivity extends ApplicationAdapter
 			if(showGoldSpeed == 0)
 				showGoldSpeed = 1;
 
-//			Log.e("MainActivity.java", "money = " + playerStatData.getMoney() + " speed = " + showGoldSpeed);
-
 			showGold += showGoldSpeed;
 		}
 	}
@@ -216,4 +219,12 @@ public class MainActivity extends ApplicationAdapter
 
 
 	public BitmapFont font22;
+
+	@Override
+	public void dispose()
+	{
+		sceneManager.dispose();
+		super.dispose();
+	}
+
 }

@@ -2,9 +2,7 @@ package Entity;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
 
@@ -37,20 +35,50 @@ public class LevelEntity extends Actor
 		this.activity = activity;
 		this.disposeAbleTextures = disposeAbleTextures;
 		this.id = id;
-		levelSelectorScene = (LevelSelectorScene)activity.sceneManager.currentBaseScene;
+		levelSelectorScene = (LevelSelectorScene) activity.sceneManager.currentBaseScene;
 
 		loadResources();
 	}
 
 	public void loadResources()
 	{
-		lockSprite = new Button(TextureHelper.loadTexture("gfx/scene/level/lock.png", disposeAbleTextures),
-				TextureHelper.loadTexture("gfx/scene/level/lock.png", disposeAbleTextures));
+		lockSprite = new Button(TextureHelper.loadTexture("gfx/scene/level/lock1.png", disposeAbleTextures),
+				TextureHelper.loadTexture("gfx/scene/level/lock2.png", disposeAbleTextures))
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				if(parentAlpha == 1)
+					return;
+
+				super.draw(batch, 1);
+			}
+
+			public void draw(Batch batch)
+			{
+				super.draw(batch, 1);
+			}
+		};
 
 		for (int i = 0; i <= 3; i++)
 		{
-			starSprites[i] = new Button(TextureHelper.loadTexture("gfx/scene/level/star" + i + ".png", disposeAbleTextures),
-					TextureHelper.loadTexture("gfx/scene/level/star" + 3 + ".png", disposeAbleTextures));
+			starSprites[i] = new Button(TextureHelper.loadTexture("gfx/scene/level/star" + i + "1.png", disposeAbleTextures),
+					TextureHelper.loadTexture("gfx/scene/level/star" + i + "2.png", disposeAbleTextures))
+			{
+				@Override
+				public void draw(Batch batch, float parentAlpha)
+				{
+					if(parentAlpha == 1)
+						return;
+
+					super.draw(batch, 1);
+				}
+
+				public void draw(Batch batch)
+				{
+					super.draw(batch, 1);
+				}
+			};
 			starSprites[i].setRunnable(activity, new Runnable()
 			{
 				@Override
@@ -61,6 +89,7 @@ public class LevelEntity extends Actor
 					levelSelectorScene.dispose();
 				}
 			});
+
 		}
 	}
 
@@ -88,26 +117,35 @@ public class LevelEntity extends Actor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
+
 		if(levelStatData == null)
 			return;
 
+
 		if(levelStatData.lockStat == Enums.LOCKSTAT.LOCK)
-			lockSprite.draw(batch, 1);
+			lockSprite.draw(batch, 0.5f);
 		else
-			starSprites[(int) levelStatData.getStar()].draw(batch, 1);
+		{
+			starSprites[(int) levelStatData.getStar()].draw(batch, 0.5f);
+
+			float x = starSprites[0].getX();
+			float y = starSprites[0].getY();
+			float fontSize = 11;
+			activity.font22.draw(batch, "" + id, x + 37 - (SceneManager.getDigitNum(id) - 1) * fontSize, y + 45);
+		}
 	}
 
 	@Override
 	public void act(float delta)
 	{
 		lockSprite.setVisible(false);
-		for(int i = 0;i <= 3;i++)
+		for (int i = 0; i <= 3; i++)
 			starSprites[i].setVisible(false);
 
 		if(levelStatData.lockStat == Enums.LOCKSTAT.LOCK)
 			lockSprite.setVisible(true);
 		else
-		starSprites[(int) levelStatData.getStar()].setVisible(true);
+			starSprites[(int) levelStatData.getStar()].setVisible(true);
 
 		super.act(delta);
 	}
@@ -116,7 +154,7 @@ public class LevelEntity extends Actor
 	{
 		scene.attachChild(this);
 		scene.attachChild(lockSprite);
-		for(int i = 0;i <= 3;i++)
+		for (int i = 0; i <= 3; i++)
 			scene.attachChild(starSprites[i]);
 	}
 }
