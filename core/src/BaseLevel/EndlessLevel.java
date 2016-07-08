@@ -137,6 +137,7 @@ public class EndlessLevel extends BaseLevel
 			}
 		}
 
+
 		return shootingMode;
 	}
 
