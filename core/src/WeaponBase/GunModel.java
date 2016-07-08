@@ -40,6 +40,7 @@ public class GunModel
 	MainActivity act;
 	GunSelectorTab gunSelectorTab;
 	public Sprite showSprite;
+
 	public long price;
 
 	public ArrayList <GunUpgradeButton> upgradeButtons = new ArrayList<GunUpgradeButton>();
