@@ -1,5 +1,7 @@
 package Enemy;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
@@ -25,12 +27,21 @@ public class Wasp extends BaseEnemy
 		load("gfx/enemy/3/");
 
 		init(BodyStrings.EnemyFly, id, enemyFactory.WaspEnemyAnimation);
-	}
+        loadGun();
+
+        gun.bulletTexture = enemyFactory.FlyBulletTexture;
+        gun.bulletSize = new Vector2(15, 15);
+        gun.bulletSpeed = 5;
+
+        gunX = 50;
+        gunY = 65;
+        gunTeta = 235;
+    }
 
 	@Override
 	public void attack()
 	{
-
+        super.attack();
 	}
 
 	@Override
@@ -40,7 +51,10 @@ public class Wasp extends BaseEnemy
 
 	}
 
-	@Override
+    float attackingDistance;
+
+
+    @Override
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
 		super.create(shootingMode, level, attr);
@@ -48,14 +62,29 @@ public class Wasp extends BaseEnemy
         float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
         float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
-        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y *
-                PhysicsConstant.PIXEL_TO_METER;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.2 + 0.25) * SceneManager.WORLD_Y);
+        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
+        float myHeight = (float) (groundHeight + (Math.random() * 0.12 + 0.20) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
+        attackingDistance = (float) (SceneManager.WORLD_X * (0.1 + Math.random() * 0.1));
 	}
 
-	@Override
+    @Override
+    public void decide()
+    {
+        super.decide();
+
+        float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *
+                PhysicsConstant.PIXEL_TO_METER;
+
+        if(x - carX < attackingDistance && currentState != StateEnum.ATTACK)
+        {
+            setCurrentState(StateEnum.ATTACK);
+        }
+    }
+
+
+    @Override
 	public void release()
 	{
 		super.release();

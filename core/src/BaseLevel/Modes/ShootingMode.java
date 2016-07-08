@@ -55,7 +55,7 @@ public class ShootingMode extends LevelMode
 	public void start()
 	{
 		cameraSpeedX = 5;
-		cameraSpeedY = 1.5f;
+		cameraSpeedY = 0.5f;
 
 		enemyCount = 0;
 		enemyDied = 0;
