@@ -127,10 +127,14 @@ public class EndlessLevel extends BaseLevel
 	{
 		ShootingMode shootingMode = new ShootingMode(levelManager);
 
+		float currentTime = 0;
 		for(int i = 0;i < enemyStrings.size();i++)
 		{
 			if(currentWave + 1 >= startLevels.get(i))
-				addWave(shootingMode, enemyStrings.get(i), level, numberOfBirdsInEachWave, 1, 0);
+			{
+				addWave(shootingMode, enemyStrings.get(i), 1 + currentWave / 5, 4 + currentWave / 20, 0.7f, currentTime);
+				currentTime += 8 + currentWave / 30.0;
+			}
 		}
 
 		return shootingMode;
