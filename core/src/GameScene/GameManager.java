@@ -63,7 +63,6 @@ public class GameManager
 		shooterHuman.setPosition(220, 160);
 	}
 
-
 	public void run()
 	{
 		levelManager.run();
