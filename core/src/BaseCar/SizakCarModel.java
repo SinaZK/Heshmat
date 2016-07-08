@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,14 +12,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import BaseCar.CarLoader;
-import BaseCar.CarSlot;
 import DataStore.CarStatData;
 import Entity.CarUpgradeButtons.CarUpgradeButton;
+import Entity.CarUpgradeButtons.CollisionDamageUpgradeButton;
 import Entity.CarUpgradeButtons.EngineUpgradeButton;
 import Entity.CarUpgradeButtons.HitPointUpgradeButton;
+import Enums.Enums;
 import Misc.BodyStrings;
 import Misc.Log;
+import Misc.TextureHelper;
 import Physics.SizakBodyModel;
 import Scene.Garage.CarSelectEntity;
 import Scene.Garage.GarageScene;
@@ -40,6 +42,8 @@ public class SizakCarModel extends SizakBodyModel
 	public ArrayList <CarUpgradeButton> upgradeButtons = new ArrayList<CarUpgradeButton>();
 	public CarStatData carStatData;
 
+	public Sprite carShowSprite;
+
 	public long price;
 
 	public SizakCarModel(MainActivity activity, CarSelectEntity carSelectEntity)
@@ -55,6 +59,12 @@ public class SizakCarModel extends SizakBodyModel
 		FileHandle f = Gdx.files.internal(path);
 		InputStream inputStream = f.read();
 		BufferedReader dis = new BufferedReader(new InputStreamReader(inputStream));
+
+
+		String imgLoc = path.substring(0, path.length() - 7);
+		imgLoc += "show.png";
+//		Log.e("Tag", "path = " + path);
+		carShowSprite = new Sprite(TextureHelper.loadTexture(imgLoc, disposableArray));
 
 		String read;
 		try
@@ -125,16 +135,30 @@ public class SizakCarModel extends SizakBodyModel
 				if(read.equals(CarLoader.EOF))
 					break;
 
-				if(read.equals(CarLoader.UPGRADE_ENGINE))
+				String type = BodyStrings.getPartOf(read, 0);
+				int price = Integer.valueOf(BodyStrings.getPartOf(read, 1));
+
+
+
+				if(type.equals(CarLoader.UPGRADE_ENGINE))
 				{
-					upgradeButtons.add(new EngineUpgradeButton(garageScene));
+					upgradeButtons.add(new EngineUpgradeButton(garageScene, price));
+
 				}
 
-				if(read.equals(CarLoader.UPGRADE_HIT_POINT))
-				{
-					upgradeButtons.add(new HitPointUpgradeButton(garageScene));
-				}
+				if(type.equals(CarLoader.UPGRADE_HIT_POINT))
+					upgradeButtons.add(new HitPointUpgradeButton(garageScene, price));
+
+				if(type.equals(CarLoader.UPGRADE_COLL_RATE))
+					upgradeButtons.add(new CollisionDamageUpgradeButton(garageScene, price));
 			}
+
+			read = dis.readLine();
+
+			float width  = Float.valueOf(BodyStrings.getPartOf(read, 1));
+			float height = Float.valueOf(BodyStrings.getPartOf(read, 2));
+
+			carShowSprite.setSize(width, height);
 
 		} catch (IOException e)
 		{
@@ -144,12 +168,17 @@ public class SizakCarModel extends SizakBodyModel
 
 	public void drawOnGarageScene(Batch batch)
 	{
-		super.draw(batch);
+		if(carSelectEntity.carStatData.lockStat == Enums.LOCKSTAT.UNLOCK)
+			carShowSprite.setAlpha(1);
+		else
+			carShowSprite.setAlpha(0.7f);
+		carShowSprite.draw(batch);
 	}
 
 	@Override
 	public void setPosition(float x, float y)
 	{
+		carShowSprite.setPosition(x, y);
 		float xx = sprites.get(0).getX();
 		float yy = sprites.get(0).getY();
 
@@ -168,17 +197,16 @@ public class SizakCarModel extends SizakBodyModel
 
 	public void initUpgradeButtons(CarStatData carStatData)
 	{
-		float startX = garageScene.DX + 80;
-		float startY = garageScene.DY + 40;
-		float width = 50;
+		float startX = garageScene.DX + 115;
+		float startY = garageScene.DY + 25;
+		float width = 188;
 		float height = 50;
-		float padding = 20;
+		float padding = 10;
 
 		for(int i = 0;i < upgradeButtons.size();i++)
 		{
 			upgradeButtons.get(i).setCarStatData(carStatData);
-			upgradeButtons.get(i).setPosition(startX + (width + padding) * (i - 1), startY);
-			upgradeButtons.get(i).setSize(width, height);
+			upgradeButtons.get(i).setPosition(startX + (width + padding) * (i), startY);
 		}
 	}
 }

@@ -14,7 +14,9 @@ import java.util.ArrayList;
 
 import DataStore.CarStatData;
 import DataStore.GunStatData;
+import Entity.GunUpgradeButtons.ClipSizeUpgradeButton;
 import Entity.GunUpgradeButtons.FireRateUpgradeButton;
+import Entity.GunUpgradeButtons.GunDamageUpgradeButton;
 import Entity.GunUpgradeButtons.GunUpgradeButton;
 import Misc.BodyStrings;
 import Misc.Log;
@@ -32,6 +34,7 @@ public class GunModel
 {
 	public static String FIRE_RATE_STRING = "FIRE_RATE";
 	public static String DAMAGE_STRING = "DAMAGE";
+	public static String CLIP_SIZE = "CLIP_SIZE";
 	public static String EOF = "END";
 
 	MainActivity act;
@@ -108,15 +111,28 @@ public class GunModel
 				if(in.equals(EOF))
 					break;
 
-				if(in.equals(FIRE_RATE_STRING))
-				{
-					upgradeButtons.add(new FireRateUpgradeButton(gunSelectorTab));
-				}
+				String type = BodyStrings.getPartOf(in, 0);
+				int price = Integer.valueOf(BodyStrings.getPartOf(in, 1));
+
+				if(type.equals(FIRE_RATE_STRING))
+					upgradeButtons.add(new FireRateUpgradeButton(gunSelectorTab, price));
+
+				if(type.equals(DAMAGE_STRING))
+					upgradeButtons.add(new GunDamageUpgradeButton(gunSelectorTab, price));
+
+				if(type.equals(CLIP_SIZE))
+					upgradeButtons.add(new ClipSizeUpgradeButton(gunSelectorTab, price));
 
 //				if(in.equals(DAMAGE_STRING))
 //				{
 //				}
 			}
+
+			in = dis.readLine();
+			float width  = Float.valueOf(BodyStrings.getPartOf(in, 1));
+			float height = Float.valueOf(BodyStrings.getPartOf(in, 2));
+
+			showSprite.setSize(width, height);
 
 		}
 		catch (IOException e)
@@ -128,17 +144,16 @@ public class GunModel
 
 	public void initUpgradeButtons(GunStatData gunStatData)
 	{
-		float startX = gunSelectorTab.DX + 80;
-		float startY = gunSelectorTab.DY + 40;
-		float width = 50;
+		float startX = gunSelectorTab.DX + 115;
+		float startY = gunSelectorTab.DY + 25;
+		float width = 188;
 		float height = 50;
-		float padding = 20;
+		float padding = 10;
 
 		for(int i = 0;i < upgradeButtons.size();i++)
 		{
 			upgradeButtons.get(i).setGunStatData(gunStatData);
-			upgradeButtons.get(i).setPosition(startX + (width + padding) * (i - 1), startY);
-			upgradeButtons.get(i).setSize(width, height);
+			upgradeButtons.get(i).setPosition(startX + (width + padding) * (i), startY);
 		}
 	}
 }

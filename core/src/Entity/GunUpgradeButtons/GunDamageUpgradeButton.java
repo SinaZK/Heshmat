@@ -3,7 +3,6 @@ package Entity.GunUpgradeButtons;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import DataStore.GunStatData;
-import Entity.CarUpgradeButtons.CollisionDamageUpgradeButton;
 import Misc.TextureHelper;
 import Scene.Garage.GunSelectorTab;
 
@@ -11,13 +10,13 @@ import Scene.Garage.GunSelectorTab;
  * Created by sinazk on -/-/16.
  * 06:55
  */
-public class FireRateUpgradeButton extends GunUpgradeButton
+public class GunDamageUpgradeButton extends GunUpgradeButton
 {
-	public FireRateUpgradeButton(GunSelectorTab gunSelectorTab, int price)
+	public GunDamageUpgradeButton(GunSelectorTab gunSelectorTab, int price)
 	{
 		super(gunSelectorTab, gunSelectorTab.garageScene.FireRateUpgradeButtonTexture1, gunSelectorTab.garageScene.FireRateUpgradeButtonTexture2, price);
 
-		upgradeImage = new Sprite(TextureHelper.loadTexture(garageScene.add + "guntab/firerate.png", garageScene.disposeTextureArray));
+		upgradeImage = new Sprite(TextureHelper.loadTexture(garageScene.add + "guntab/damage.png", garageScene.disposeTextureArray));
 	}
 
 	public void setGunStatData(GunStatData gunStatData)
@@ -30,7 +29,7 @@ public class FireRateUpgradeButton extends GunUpgradeButton
 			public void run()
 			{
 
-				if(FireRateUpgradeButton.this.gunStatData.fireRateLVL < lastLevel)
+				if(GunDamageUpgradeButton.this.gunStatData.damageLVL < lastLevel)
 				{
 					dialogManager.addBuyDialog(garageScene.DX, garageScene.DY, calculatePrice(getLevel()));
 					isWaitingForBuy = true;
@@ -45,7 +44,7 @@ public class FireRateUpgradeButton extends GunUpgradeButton
 		super.doOnBuyFinished();
 		if(dialogManager.buyDialog.isBought)
 		{
-			gunStatData.fireRateLVL++;
+			gunStatData.damageLVL++;
 			garageScene.act.saveCarDatas();
 			dialogManager.popQ();
 		}
@@ -54,8 +53,8 @@ public class FireRateUpgradeButton extends GunUpgradeButton
 	@Override
 	public Sprite getStarImage()
 	{
-		if(gunStatData.fireRateLVL >= 0 && gunStatData.fireRateLVL <= 5)
-			return garageScene.starSprites[gunStatData.fireRateLVL];
+		if(gunStatData.damageLVL >= 0 && gunStatData.damageLVL <= 5)
+			return garageScene.starSprites[gunStatData.damageLVL];
 
 		return null;
 	}
@@ -63,12 +62,12 @@ public class FireRateUpgradeButton extends GunUpgradeButton
 	@Override
 	public boolean isLevelOk()
 	{
-		return gunStatData.fireRateLVL < lastLevel;
+		return gunStatData.damageLVL < lastLevel;
 	}
 
 	@Override
 	public int getLevel()
 	{
-		return gunStatData.fireRateLVL;
+		return gunStatData.damageLVL;
 	}
 }

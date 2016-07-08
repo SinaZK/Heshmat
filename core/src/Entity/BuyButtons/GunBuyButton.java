@@ -45,8 +45,6 @@ public class GunBuyButton extends Button
 				isWaitingForBuy = true;
 			}
 		});
-
-		setSize(40, 40);
 	}
 
 	@Override
@@ -54,7 +52,7 @@ public class GunBuyButton extends Button
 	{
 		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
 		{
-			garageScene.act.font22.draw(batch, "price = " + price, getX(), getY());
+			garageScene.act.font22.draw(batch, "" + price, getX() + 50, getY() + 35);
 			super.draw(batch, parentAlpha);
 		}
 		else

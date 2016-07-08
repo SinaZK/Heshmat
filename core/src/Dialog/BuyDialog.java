@@ -35,16 +35,12 @@ public class BuyDialog extends Dialog
 		loadResources();
 	}
 
-	static float buttonWidth  = 80;
-	static float buttonHeight = 30;
 	public void loadResources()
 	{
 		canOkButton = new Button(TextureHelper.loadTexture(add + "canok1.png", dialogManager.disposalTexture),
 				TextureHelper.loadTexture(add + "canok2.png", dialogManager.disposalTexture));
 		cantOkButton = new Button(TextureHelper.loadTexture(add + "cantok1.png", dialogManager.disposalTexture),
 				TextureHelper.loadTexture(add + "cantok2.png", dialogManager.disposalTexture));
-		canCancelButton = new Button(TextureHelper.loadTexture(add + "cantcancel1.png", dialogManager.disposalTexture),
-				TextureHelper.loadTexture(add + "cancancel2.png", dialogManager.disposalTexture));
 
 		canOkButton.setRunnable(dialogManager.activity, new Runnable()
 		{
@@ -55,30 +51,16 @@ public class BuyDialog extends Dialog
 				money -= price;
 				playerStatData.setMoney(money);
 				dialogManager.activity.savePlayerStatData();
-				Log.e("BuyDialog.java", "Purchase Completed : " + playerStatData.getMoney());
+//				Log.e("BuyDialog.java", "Purchase Completed : " + playerStatData.getMoney());
 				isFinished = true;
 				isBought = true;
 			}
 		});
 
-		canCancelButton.setRunnable(dialogManager.activity, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				isFinished = true;
-				dialogManager.popQ();
-			}
-		});
-
-		canOkButton.setSize(buttonWidth, buttonHeight);
-		cantOkButton.setSize(buttonWidth, buttonHeight);
-		canCancelButton.setSize(buttonWidth, buttonHeight);
-
-		backSprite = new Sprite(dialogManager.backGroundTexture);
-		backSprite.setSize(300, 300);
-
 		super.create();//adding exitButton
+
+		canCancelButton = exitButton;
+		canCancelButton.setSize(canOkButton.getWidth(), canOkButton.getHeight());
 	}
 
 	public void create(float DXx, float DYy, long price)
@@ -95,10 +77,12 @@ public class BuyDialog extends Dialog
 		{
 			scene.addActor(canOkButton);
 			scene.addActor(canCancelButton);
+			backSprite = new Sprite(dialogManager.canBuybackTexture);
 		}
 		else
 		{
 			scene.addActor(cantOkButton);
+			backSprite = new Sprite(dialogManager.cantBuyBackTexture);
 		}
 
 		scene.addActor(exitButton);
@@ -115,9 +99,9 @@ public class BuyDialog extends Dialog
 	{
 		backSprite.setPosition(DX + (SceneManager.WORLD_X - backSprite.getWidth()) / 2, DY + (SceneManager.WORLD_Y - backSprite.getHeight()) / 2);
 
-		exitButton.setPosition(DX + 520, DY + 350);
-		canOkButton.setPosition(DX + 450, DY + 100);
-		cantOkButton.setPosition(DX + 450, DY + 100);
-		canCancelButton.setPosition(DX + 250, DY + 100);
+		canOkButton.setPosition(DX + 315, DY + 155);
+		canCancelButton.setPosition(DX + 410, DY + 155);
+
+		cantOkButton.setPosition(DX + 315, DY + 155);
 	}
 }

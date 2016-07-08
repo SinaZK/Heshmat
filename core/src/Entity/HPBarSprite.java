@@ -37,7 +37,7 @@ public class HPBarSprite
 
 	public void draw(Batch batch, float x, float y, float HP, float maxHP, float width, float height)
 	{
-		if(isDisabled)
+		if(isDisabled || HP <= 0)
 			return;
 
 		float w2 = width * (HP / maxHP);

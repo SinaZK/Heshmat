@@ -51,6 +51,8 @@ public class NormalCar extends BaseCar
 				wheelJoints[i].setMotorSpeed(-(wheelSpeed[i] + additionalSpeed));
 				wheelJoints[i].setMaxMotorTorque(wheelTorque[i]);
 			}
+			else
+				wheelJoints[i].enableMotor(false);
 		}
 	}
 

@@ -46,7 +46,6 @@ public class CarBuyButton extends Button
 			}
 		});
 
-		setSize(40, 40);
 	}
 
 	@Override
@@ -54,8 +53,8 @@ public class CarBuyButton extends Button
 	{
 		if(carStatData.lockStat == Enums.LOCKSTAT.LOCK)
 		{
-			garageScene.act.font22.draw(batch, "price = " + price, getX(), getY());
 			super.draw(batch, parentAlpha);
+			garageScene.act.font22.draw(batch, "" + price, getX() + 50, getY() + 35);
 		}
 		else
 			setVisible(false);
@@ -83,4 +82,11 @@ public class CarBuyButton extends Button
 			dialogManager.popQ();
 		}
 	}
+
+	@Override
+	public void setPosition(float x, float y)
+	{
+		super.setPosition(x, y);
+	}
+
 }

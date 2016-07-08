@@ -48,6 +48,7 @@ public class CarLoader
 	public static String GUN_SLOT = "GUN";
 	public static String UPGRADE_ENGINE   = "ENGINE";
 	public static String UPGRADE_HIT_POINT = "HITPOINT";
+	public static String UPGRADE_COLL_RATE = "COLLRATE";
 
 
 	float ratio = PhysicsConstant.PIXEL_TO_METER;

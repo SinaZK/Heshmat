@@ -7,16 +7,16 @@ import Misc.TextureHelper;
 import Scene.Garage.GarageScene;
 
 /**
- * Created by sinazk on 6/7/16.
- * 19:19 Am i going right? :)
+ * Created by sinazk on 8/July/16.
+ * 12:00
  */
-public class HitPointUpgradeButton extends CarUpgradeButton
+public class CollisionDamageUpgradeButton extends CarUpgradeButton
 {
-	public HitPointUpgradeButton(GarageScene garageScene, int price)
+	public CollisionDamageUpgradeButton(GarageScene garageScene, int price)
 	{
 		super(garageScene, garageScene.HitPointUpgradeButtonTexture1, garageScene.HitPointUpgradeButtonTexture2, price);
 
-		upgradeImage = new Sprite(TextureHelper.loadTexture(garageScene.add + "cartab/health.png", garageScene.disposeTextureArray));
+		upgradeImage = new Sprite(TextureHelper.loadTexture(garageScene.add + "cartab/colrate.png", garageScene.disposeTextureArray));
 	}
 
 	public void setCarStatData(CarStatData carStatData)
@@ -29,7 +29,7 @@ public class HitPointUpgradeButton extends CarUpgradeButton
 			public void run()
 			{
 
-				if(HitPointUpgradeButton.this.carStatData.hitPointLVL < lastLevel)
+				if(CollisionDamageUpgradeButton.this.carStatData.collisionDamageLVL < lastLevel)
 				{
 					dialogManager.addBuyDialog(garageScene.DX, garageScene.DY, calculatePrice(getLevel()));
 					isWaitingForBuy = true;
@@ -44,7 +44,7 @@ public class HitPointUpgradeButton extends CarUpgradeButton
 		super.doOnBuyFinished();
 		if(dialogManager.buyDialog.isBought)
 		{
-			carStatData.hitPointLVL++;
+			carStatData.collisionDamageLVL++;
 			garageScene.act.saveCarDatas();
 			dialogManager.popQ();
 		}
@@ -53,8 +53,8 @@ public class HitPointUpgradeButton extends CarUpgradeButton
 	@Override
 	public Sprite getStarImage()
 	{
-		if(carStatData.hitPointLVL >= 0 && carStatData.hitPointLVL <= 5)
-			return garageScene.starSprites[carStatData.hitPointLVL];
+		if(carStatData.collisionDamageLVL >= 0 && carStatData.collisionDamageLVL <= 5)
+			return garageScene.starSprites[carStatData.collisionDamageLVL];
 
 		return null;
 	}
@@ -62,12 +62,12 @@ public class HitPointUpgradeButton extends CarUpgradeButton
 	@Override
 	public boolean isLevelOk()
 	{
-		return carStatData.hitPointLVL < lastLevel;
+		return carStatData.collisionDamageLVL < lastLevel;
 	}
 
 	@Override
 	public int getLevel()
 	{
-		return carStatData.hitPointLVL;
+		return carStatData.collisionDamageLVL;
 	}
 }

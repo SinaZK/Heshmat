@@ -63,7 +63,7 @@ public class CarSelectorTab extends BaseScene
 		{
 			carSelectEntities[i] = new CarSelectEntity(this,
 					(CarStatData) act.saveManager.loadDataValue(DataKeyStrings.CarStatData[CarSorter.carPos[i]], CarStatData.class), i);
-			carSelectEntities[i].setPosition(i * CAR_SHOW_WIDTH + (i - 1) * CAR_SHOW_PADDING, 200);
+			carSelectEntities[i].setPosition(i * CAR_SHOW_WIDTH + (i - 1) * CAR_SHOW_PADDING, 100);
 		}
 
 		loadGunSlots();
@@ -127,7 +127,7 @@ public class CarSelectorTab extends BaseScene
 
 	public float getCameraDistX()
 	{
-		return selectedCar * CAR_SHOW_WIDTH + (selectedCar - 1) * CAR_SHOW_PADDING + carSelectEntities[selectedCar].sizakCarModel.sprites.get(0).getWidth() / 2;
+		return selectedCar * CAR_SHOW_WIDTH + (selectedCar - 1) * CAR_SHOW_PADDING + carSelectEntities[selectedCar].sizakCarModel.carShowSprite.getWidth() / 2;
 	}
 
 	@Override
@@ -135,13 +135,11 @@ public class CarSelectorTab extends BaseScene
 	{
 		Button nextCarButton = new Button(TextureHelper.loadTexture(add + "nextbutton1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "nextbutton2.png", disposeTextureArray));
-		nextCarButton.setSize(50, 250);
-		nextCarButton.setPosition(DX + SceneManager.WORLD_X - 50 - 10, DY + 120);
+		nextCarButton.setPosition(DX + SceneManager.WORLD_X - 190, DY + 120);
 
 		Button prevCarButton = new Button(TextureHelper.loadTexture(add + "prevbutton1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "prevbutton2.png", disposeTextureArray));
-		prevCarButton.setSize(50, 250);
-		prevCarButton.setPosition(DX + 10, DY + 120);
+		prevCarButton.setPosition(DX + 100, DY + 120);
 
 		nextCarButton.setRunnable(act, new Runnable()
 		{

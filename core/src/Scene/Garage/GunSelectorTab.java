@@ -61,7 +61,8 @@ public class GunSelectorTab extends BaseScene
 		{
 			gunSelectEntities[i] = new GunSelectEntity(this, act.gunStatDatas[GunSorter.gunPos[i]], i);
 			gunSelectEntities[i].setPosition(i * GUN_SHOW_WIDTH + (i - 1) * GUN_SHOW_PADDING, 100);
-			gunSelectEntities[i].setSize(GUN_SHOW_WIDTH, GUN_SHOW_HEIGHT);
+
+			gunSelectEntities[i].setPosition(i * GUN_SHOW_WIDTH + (i - 1) * GUN_SHOW_PADDING, 100);
 		}
 
 		inputMultiplexer.addProcessor(this);
@@ -133,13 +134,11 @@ public class GunSelectorTab extends BaseScene
 	{
 		Button nextCarButton = new Button(TextureHelper.loadTexture(add + "nextbutton1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "nextbutton2.png", disposeTextureArray));
-		nextCarButton.setSize(50, 250);
-		nextCarButton.setPosition(DX + SceneManager.WORLD_X - 50 - 10, DY + 120);
+		nextCarButton.setPosition(DX + SceneManager.WORLD_X - 190, DY + 120);
 
 		Button prevCarButton = new Button(TextureHelper.loadTexture(add + "prevbutton1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "prevbutton2.png", disposeTextureArray));
-		prevCarButton.setSize(50, 250);
-		prevCarButton.setPosition(DX + 10, DY + 120);
+		prevCarButton.setPosition(DX + 100, DY + 120);
 
 		nextCarButton.setRunnable(act, new Runnable()
 		{

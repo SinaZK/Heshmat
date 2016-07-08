@@ -57,11 +57,8 @@ public class MainActivity extends ApplicationAdapter
 		gameStatData.numberOfAppRun++;
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_SELECTOR, null);
-//		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
-
-		if(playerStatData.getMoney() < 2000)
-			playerStatData.setMoney(2000);
+//		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_SELECTOR, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		createShowGold();
 	}

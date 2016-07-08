@@ -45,7 +45,7 @@ public class GunSelectEntity
 	public void setPosition(float x, float y)
 	{
 		gunModel.setPosition(x, y);
-		gunBuyButton.setPosition(x - 50, y + 20);
+		gunBuyButton.setPosition(x + (gunModel.showSprite.getWidth() - gunBuyButton.getWidth()) / 2, y - 20 - gunBuyButton.getHeight());
 	}
 
 	public void setSize(float w, float h) { gunModel.setSize(w, h);}

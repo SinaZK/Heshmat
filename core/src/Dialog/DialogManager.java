@@ -135,9 +135,14 @@ public class DialogManager
 	}
 
 	Texture backGroundTexture;
+
+	public Texture canBuybackTexture, cantBuyBackTexture;
 	private void loadTextures()
 	{
 		backGroundTexture = TextureHelper.loadTexture(add + "back.png", disposalTexture);
+
+		canBuybackTexture = TextureHelper.loadTexture(add + "/buy/can.png", disposalTexture);
+		cantBuyBackTexture = TextureHelper.loadTexture(add + "/buy/cant.png", disposalTexture);
 	}
 
 	public void dispose()
