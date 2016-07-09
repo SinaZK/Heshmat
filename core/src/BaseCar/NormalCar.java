@@ -116,7 +116,8 @@ public class NormalCar extends BaseCar
 
 //			NormalCar retCar = new NormalCar(gameManager, carStatData);
 
-		hitpoint = loader.getFloat(1, 1);
+		MAX_HITPOINT = loader.getFloat(1, 1);
+		hitpoint = getMaxHitPoint();
 		collisionDamageRate = loader.getFloat(2, 1);
 
 		body = SizakBodyLoader.loadBodyFile(loader.getString(3, 1), world, disposableArray);

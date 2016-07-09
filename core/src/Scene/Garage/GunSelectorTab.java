@@ -1,8 +1,8 @@
 package Scene.Garage;
 
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -12,8 +12,6 @@ import Misc.TextureHelper;
 import Scene.BaseScene;
 import SceneManager.SceneManager;
 import Sorter.GunSorter;
-import WeaponBase.BaseGun;
-import WeaponBase.GunModel;
 
 /**
  * Created by sinazk on 6/14/16.
@@ -129,6 +127,8 @@ public class GunSelectorTab extends BaseScene
 		return selectedGun * GUN_SHOW_WIDTH + (selectedGun - 1) * GUN_SHOW_PADDING + gunSelectEntities[selectedGun].gunModel.showSprite.getWidth() / 2;
 	}
 
+
+	public Sprite gunBackSprite;
 	@Override
 	public void createHUD()
 	{
@@ -168,5 +168,7 @@ public class GunSelectorTab extends BaseScene
 
 		HUD.addActor(nextCarButton);
 		HUD.addActor(prevCarButton);
+
+		gunBackSprite = new Sprite(TextureHelper.loadTexture(add + "guntab/gunback.png", disposeTextureArray));
 	}
 }

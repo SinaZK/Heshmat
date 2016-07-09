@@ -375,7 +375,7 @@ public abstract class BaseEnemy
 			mainBody.draw(batch, animationStateTime, selectedAnimation);
 		}
 
-		if(!isDying)
+		if(!isDying && !isRunOnDeath)
 		{
 			float paddingX = 5;
 

@@ -107,7 +107,7 @@ public abstract class CarUpgradeButton extends Button
 			garageScene.goldBackSprite.draw(batch);
 			plusButton.draw(batch, parentAlpha);
 
-			garageScene.act.font22.draw(batch, "" + calculatePrice(getLevel()), getX() + upgradeImage.getWidth() + 25, getY() + 11);
+			garageScene.act.font22.draw(batch, "" + calculatePrice(getLevel()), getX() + upgradeImage.getWidth() + 25, getY() + 25);
 		}
 
 	}

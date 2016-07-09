@@ -59,10 +59,10 @@ public class GunSelectEntity
 	{
 		batch.begin();
 
-		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
-			gunModel.showSprite.setAlpha(0.5f);
-		else
-			gunModel.showSprite.setAlpha(1.0f);
+//		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
+//			gunModel.showSprite.setAlpha(0.5f);
+//		else
+//			gunModel.showSprite.setAlpha(1.0f);
 
 		gunModel.draw(batch);
 		batch.end();

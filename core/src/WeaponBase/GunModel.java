@@ -55,7 +55,7 @@ public class GunModel
 
 	public void setPosition(float x, float y)
 	{
-		showSprite.setPosition(x, y);
+		showSprite.setPosition(x, y - 30);
 	}
 
 	public void setSize(float w, float h)
@@ -65,6 +65,16 @@ public class GunModel
 
 	public void draw(Batch batch)
 	{
+		gunSelectorTab.gunBackSprite.setSize(450, 300);
+
+		float w = gunSelectorTab.gunBackSprite.getWidth();
+		float h = gunSelectorTab.gunBackSprite.getHeight();
+
+		float shW = showSprite.getWidth();
+		float shH = showSprite.getHeight();
+
+		gunSelectorTab.gunBackSprite.setPosition(showSprite.getX() - (w - shW) / 2 + 10, showSprite.getY() - (h - shH) / 2 + 20);
+		gunSelectorTab.gunBackSprite.draw(batch);
 		showSprite.draw(batch);
 	}
 

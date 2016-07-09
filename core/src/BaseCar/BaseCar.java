@@ -34,6 +34,7 @@ public abstract class BaseCar
 	public ArrayList<CarSlot> slots = new ArrayList<CarSlot>();
 	public ArrayList<AttachPart> attachParts = new ArrayList<AttachPart>();
 
+	protected float MAX_HITPOINT;
 	public float hitpoint;
 	public float collisionDamageRate;
 	public float rotationFlipTorque;
@@ -108,6 +109,9 @@ public abstract class BaseCar
 
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
+		if(groundContact > 0)
+			groundContact--;
+
 		if(!isLabeled)
 		{
 			label();
@@ -119,9 +123,6 @@ public abstract class BaseCar
 			if(staticCount == 0)
 			{
 				body.bodies.get(0).setType(BodyDef.BodyType.DynamicBody);
-
-				for(int i = 0;i < attachParts.size();i++)
-					attachParts.get(i).reset();
 			}
 		}
 
@@ -210,10 +211,14 @@ public abstract class BaseCar
 	public int staticCount = 0;
 	public void reset()
 	{
+		groundContact = GROUND_MAX;
+
 		body.bodies.get(0).setType(BodyDef.BodyType.StaticBody);
 		staticCount = 30;
 		body.setAllBodiesV(0, 0);
 		body.setCenterPosition(firstPosX, firstPosY, 0);
+
+		hitpoint = getMaxHitPoint();
 	}
 
 	public void hitByBullet(String bulletData)
@@ -244,5 +249,20 @@ public abstract class BaseCar
 	public float getYInPixel()
 	{
 		return body.bodies.get(0).getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER;
+	}
+
+	public float getMaxHitPoint()
+	{
+		return MAX_HITPOINT;
+	}
+
+	int GROUND_MAX = 10;
+	int groundContact = GROUND_MAX;
+	public void handleWithGround(Contact contact)
+	{
+		if(groundContact > 0)
+		{
+			contact.setEnabled(false);
+		}
 	}
 }

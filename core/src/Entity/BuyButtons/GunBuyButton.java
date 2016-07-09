@@ -52,8 +52,8 @@ public class GunBuyButton extends Button
 	{
 		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
 		{
-			garageScene.act.font22.draw(batch, "" + price, getX() + 50, getY() + 35);
 			super.draw(batch, parentAlpha);
+			garageScene.act.font22.draw(batch, "" + price, getX() + 50, getY() + 35);
 		}
 		else
 			setVisible(false);

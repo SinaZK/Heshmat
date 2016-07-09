@@ -139,6 +139,17 @@ public class GameSceneContactManager
 				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
 					handleBulletToEnemy(contact, s2, s1);
 
+				if(BodyStrings.isCarAttach(s1) || BodyStrings.isCarAttach(s2))
+				{
+					if(BodyStrings.isGround(s1) || BodyStrings.isGround(s2))
+					{
+//						Log.e("Tag", "contact : " + s1 + " " + s2);
+
+						gameManager.selectedCar.handleWithGround(contact);
+					}
+					else contact.setEnabled(false);
+				}
+
 //				if(BodyStrings.isEnemy(s1) || BodyStrings.isEnemy(s2))
 //					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted " + " isEnable = " + contact.isEnabled());
 			}

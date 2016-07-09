@@ -3,11 +3,13 @@ package Cars;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 
 import BaseCar.AttachPart;
 import BaseCar.NormalCar;
 import DataStore.CarStatData;
+import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.Log;
@@ -27,7 +29,6 @@ public class PeykanOffroad extends NormalCar
 		super(gm, carStatData);
 	}
 
-	Sprite layerSprite = new Sprite(TextureHelper.loadTexture("gfx/car/3/layer.png", gameScene.disposeTextureArray));
 	@Override
 	public void create()
 	{
@@ -44,65 +45,68 @@ public class PeykanOffroad extends NormalCar
 	public void drawBody(Batch batch)
 	{
 		body.flushSprites();
-
-		layerSprite.setPosition(body.bodies.get(0).getmSprite().get(0).getX(), body.bodies.get(0).getmSprite().get(0).getY());
-		layerSprite.setRotation(body.bodies.get(0).getmSprite().get(0).getRotation());
-		layerSprite.draw(batch);
-		for(int i = 1;i < body.bodies.size();i++)
-			body.bodies.get(i).draw(batch);
 		body.bodies.get(0).draw(batch);//car Skeleton
 
-		enginePart.draw(batch);
+		for(int i = 0;i < attachParts.size();i++)
+			attachParts.get(i).draw(batch);
+
+		for(int i = 1;i < body.bodies.size();i++)//wheels
+			body.bodies.get(i).draw(batch);
 	}
 
-	CzakBody tirePart, boxPart;
-	WeldJoint engineJoint;
-
-	AttachPart enginePart;
+	AnimatedSpriteSheet partSheet;
+	AttachPart enginePart, boxPart, tirePart;
 	public void createAttachedParts()
 	{
 
+		partSheet = new AnimatedSpriteSheet("gfx/car/3/misc.png", gameScene.disposeTextureArray);
 
-//		x = 400;
-//		y = 300;
+		partSheet.addAnimation("engine", 15, 16, 268, 96, 1, 2, -1);
+		partSheet.addAnimation("box"   , 10, 116, 316, 172, 1, 2, -1);
+		partSheet.addAnimation("tire"  , 11, 178, 360, 245, 1, 2, -1);
 
 		enginePart = new AttachPart(this);
-		enginePart.create(50, 50, 100, 100, true);
-
-		enginePart.addSprite(new Sprite(TextureHelper.loadTexture("gfx/car/3/engine1.png", gameScene.disposeTextureArray)));
-		enginePart.addSprite(new Sprite(TextureHelper.loadTexture("gfx/car/3/engine2.png", gameScene.disposeTextureArray)));
-//		enginePart.setType(BodyDef.BodyType.StaticBody);
-
+		enginePart.create(170, 20, 70, 50, 0, true);
+		enginePart.addSprite(partSheet.getAnimation("engine").sprites[0], true);
+		enginePart.addSprite(partSheet.getAnimation("engine").sprites[1], true);
+		enginePart.setPercent(80, 50);
 		attachParts.add(enginePart);
 
+		boxPart = new AttachPart(this);
+		boxPart.create(25, -75, 100, 37, 0, true);
+		boxPart.addSprite(partSheet.getAnimation("box").sprites[0], true);
+		boxPart.addSprite(partSheet.getAnimation("box").sprites[1], true);
+		boxPart.setPercent(50, 40);
+		attachParts.add(boxPart);
+
+		tirePart = new AttachPart(this);
+		tirePart.create(-170, 15, 100, 40, 25.5f, true);
+		tirePart.addSprite(partSheet.getAnimation("tire").sprites[0], true);
+		tirePart.addSprite(partSheet.getAnimation("tire").sprites[1], true);
+		tirePart.setPercent(30, 10);
+		attachParts.add(tirePart);
 	}
 
 	@Override
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
 		super.run(isGas, isBrake, rate);
-
-//		Log.e("Peykan", "hp = " + hitpoint);
-
-		if(hitpoint < 200)
-		{
-			enginePart.detach();
-		}
-
-		if(staticCount > -10 && staticCount <= 0)
-		{
-			staticCount--;
-
-			if(staticCount == -10)
-			{
-				enginePart.reset();
-			}
-		}
 	}
 
 	@Override
 	public void reset()
 	{
 		super.reset();
+
+		for(int i = 0;i < attachParts.size();i++)
+			attachParts.get(i).reset();
 	}
+
+	@Override
+	public void hitByDrivingEnemy(Contact contact)
+	{
+		super.hitByDrivingEnemy(contact);
+
+	}
+
 }
