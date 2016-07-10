@@ -35,8 +35,8 @@ public class PauseMenuDialog extends Dialog
 	{
 		String add = "gfx/scene/dialog/pausemenu/";
 		backSprite = new Sprite(TextureHelper.loadTexture(add + "back.png", dialogManager.disposalTexture));
-		backSprite.setSize(300, 300);
-		backSprite.setPosition((SceneManager.WORLD_X - backSprite.getWidth()) / 2, (SceneManager.WORLD_Y - backSprite.getHeight()) / 2);
+//		backSprite.setSize(300, 300);
+		backSprite.setPosition(DX + (SceneManager.WORLD_X - backSprite.getWidth()) / 2 - 30, DY + (SceneManager.WORLD_Y - backSprite.getHeight()) / 2 + 50);
 
 		RestartButtonTexture1 = TextureHelper.loadTexture(add + "restart1.png", gameScene.disposeTextureArray);
 		RestartButtonTexture2 = TextureHelper.loadTexture(add + "restart2.png", gameScene.disposeTextureArray);

@@ -96,7 +96,8 @@ public class SizakBodyLoader
 					if(BodyStrings.getPartOf(read, 3).equals(PolygonBody))
 					{
 						newBody.setBody(createPolygonBody(world, bodyType, fixtureDef, dis));
-						newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
+						if(!imgAdd.equals("NULL"))
+							newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
 						newBody.setUserData(newBody.bodyName);
 						retBody.addBody(newBody);
 					}
@@ -217,7 +218,8 @@ public class SizakBodyLoader
 		Body circleBody = PhysicsFactory.createCircleBody(world, cX, cY, radius, bodyType, fixtureDef);
 
 		newBody.setBody(circleBody);
-		newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
+		if(!imgAdd.equals("NULL"))
+			newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
 
 		newBody.resizeImages(radius * 2, radius * 2);
 

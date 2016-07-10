@@ -13,7 +13,7 @@ import Misc.GUI;
 public class Entity  extends Actor
 {
 
-	Sprite img;
+	public Sprite img;
 
 	public Entity(Texture tex) 
 	{

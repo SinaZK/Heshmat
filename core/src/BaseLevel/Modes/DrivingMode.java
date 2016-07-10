@@ -34,7 +34,7 @@ public class DrivingMode extends LevelMode
 	{
 		super(levelManager);
 		mode = GameScene.LevelModeEnum.Driving;
-		modeSplashImage = new ModeSplashImage(levelManager, levelManager.ShootingModeSplashTexture);
+		modeSplashImage = new ModeSplashImage(levelManager, levelManager.DrivingModeSplashTexture);
 	}
 
 	@Override
@@ -64,8 +64,7 @@ public class DrivingMode extends LevelMode
 		}
 
 		levelManager.gameScene.drivingModeHUD.getBatch().begin();
-		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "time = " + time, 10, 380);
-		levelManager.gameScene.font16.draw(levelManager.gameScene.drivingModeHUD.getBatch(), "dist = " + (int) getCurrentPos(), 10, 420);
+		levelManager.gameScene.drawDist(levelManager.gameScene.drivingModeHUD.getBatch(), getCurrentPosFull() + firstCarX, getEndDistance());
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
 
 		for(int i = 0;i < queries.size();i++)
@@ -82,7 +81,7 @@ public class DrivingMode extends LevelMode
 
 		super.start();
 
-		modeSplashImage.set(0.8f, 1.2f, 0.02f, 0.1f);
+		modeSplashImage.set(0.8f, 1.2f, 0.02f, 2.0f);
 
 		for(int i = 0;i < queries.size();i++)
 			queries.get(i).reset();
@@ -91,6 +90,13 @@ public class DrivingMode extends LevelMode
 	public float getCurrentPos()
 	{
 		float diff = car.body.bodies.get(0).getmBody().getWorldCenter().x - firstCarX;
+		diff *= PhysicsConstant.PIXEL_TO_METER;
+		return diff;
+	}
+
+	public float getCurrentPosFull()
+	{
+		float diff = car.body.bodies.get(0).getmBody().getWorldCenter().x;
 		diff *= PhysicsConstant.PIXEL_TO_METER;
 		return diff;
 	}
@@ -115,7 +121,6 @@ public class DrivingMode extends LevelMode
 	public void setCamera()
 	{
 		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
-//		camera.zoom = 5f;
 		cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
 		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
 

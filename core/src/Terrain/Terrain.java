@@ -429,65 +429,6 @@ public class Terrain
 		}
 	}
 
-	public void drawBG()
-	{
-		bgSpriteBatch.act();
-		bgSpriteBatch.draw();
-
-		bgSpriteBatch.getBatch().begin();
-
-		float deltaY = mCamera.position.y - Gdx.graphics.getHeight() / 2;
-		deltaY *= -1;
-
-		for (int i = 0; i < bgSize; i++)
-		{
-			float IH = bgLayers.get(i).getHeight();
-			float yStarter = IH - mCamera.viewportHeight;
-			yStarter /= 2;
-			yStarter *= -1;
-
-			if(!bgLayerIsAutoParallax[i])
-			{
-				float CX = CameraHelper.getXMin(mCamera, 2.5f) / bgLayersSpeedX[i];
-
-				float IW = bgLayers.get(i).getWidth();
-				int c = (int) (CX / IW);
-				float r = CX - c * IW;
-
-				float dY = deltaY / bgLayersSpeedY[i];
-
-
-				if(dY < yStarter)
-					dY = yStarter;
-				if(dY > 0)
-					dY = 0;
-
-				if(CX < 0)
-					bgSpriteBatch.getBatch().draw(bgLayers.get(i), -r - IW, dY);
-				bgSpriteBatch.getBatch().draw(bgLayers.get(i), -r, dY);
-				bgSpriteBatch.getBatch().draw(bgLayers.get(i), -r + IW, dY);
-			} else
-			{
-				if(act.sceneManager.gameScene.gameStat != GameScene.GAME_STAT.PAUSE)
-					bgLayers.get(i).setPosition(bgLayers.get(i).getX() - bgLayersSpeedX[i], 0);
-
-				if(bgLayers.get(i).getX() <= -bgLayers.get(i).getWidth())
-					bgLayers.get(i).setPosition(bgLayers.get(i).getX() + Gdx.graphics.getWidth() * 2, 0);
-
-				float dY = deltaY / bgLayersSpeedY[i];
-
-				if(dY < yStarter)
-					dY = yStarter;
-				if(dY > 0)
-					dY = 0;
-
-				bgSpriteBatch.getBatch().draw(bgLayers.get(i), bgLayers.get(i).getX(), dY);
-			}
-		}
-
-		bgSpriteBatch.getBatch().end();
-	}
-
 	public void destroyAllPieces()
 	{
 		for (int i = 0; i < Pieces.size(); i++)
@@ -528,6 +469,22 @@ public class Terrain
 		Points.clear();
 
 		createFirstTerrain();
+	}
+
+	public Sprite BGSprite;
+	public void drawBG()
+	{
+		Batch batch = bgSpriteBatch.getBatch();
+		float x;//(SceneManager.WORLD_X - BGSprite.getWidth()) / 2;
+		float y = (SceneManager.WORLD_Y - BGSprite.getHeight()) / 2;
+
+		x = -gameManager.selectedCar.getXInPixel() / 100;
+
+		batch.begin();
+		batch.draw(BGSprite, x, y);
+		batch.draw(BGSprite, x + BGSprite.getWidth() - 1, y);
+		batch.draw(BGSprite, x + BGSprite.getWidth() * 2 - 1, y);
+		batch.end();
 	}
 
 }//Class

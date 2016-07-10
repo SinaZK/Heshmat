@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
+import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
 import BaseCar.AttachPart;
 import BaseCar.NormalCar;
@@ -92,6 +94,7 @@ public class PeykanOffroad extends NormalCar
 	{
 
 		super.run(isGas, isBrake, rate);
+
 	}
 
 	@Override
@@ -101,6 +104,8 @@ public class PeykanOffroad extends NormalCar
 
 		for(int i = 0;i < attachParts.size();i++)
 			attachParts.get(i).reset();
+
+
 	}
 
 	@Override

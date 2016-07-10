@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import java.util.ArrayList;
 
 import Misc.BodyStrings;
+import Misc.Log;
 
 /**
  * Created by sinazk on 5/16/16.
@@ -51,6 +52,11 @@ public class SizakBody
 		for(int i = 0;i < bodies.size();i++)
 			if(bodies.get(i).bodyName.equals(name))
 				return bodies.get(i);
+
+		Log.e("Tag", "Body not founded = " + name);
+		Log.e("Tag", "available are : ");
+		for(int i = 0;i < bodies.size();i++)
+			Log.e("Tag", "i = " + i + ": " + bodies.get(i).bodyName);
 
 		return null;
 	}
@@ -162,6 +168,12 @@ public class SizakBody
 	{
 		for(int i = 0;i < bodies.size();i++)
 			bodies.get(i).flushSprites();
+	}
+
+	public void disposeBodies(World world)
+	{
+		for(int i = 0;i < bodies.size();i++)
+			world.destroyBody(bodies.get(i).getmBody());
 	}
 
 }

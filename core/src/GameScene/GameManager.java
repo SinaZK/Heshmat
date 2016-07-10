@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import BaseCar.BaseCar;
 import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
+import Human.DriverHuman;
 import Human.SimpleHuman;
 import PhysicsFactory.PhysicsConstant;
 import Sorter.CarSorter;
@@ -25,6 +26,7 @@ public class GameManager
 
 	public BaseCar selectedCar;
 	SimpleHuman shooterHuman;
+	public DriverHuman driverHuman;
 
 	public HPBarSprite hpBarSprite;
 
@@ -61,6 +63,8 @@ public class GameManager
 		shooterHuman = new SimpleHuman(this);
 		shooterHuman.create(50, 200);
 		shooterHuman.setPosition(220, 160);
+
+		driverHuman = new DriverHuman(this);
 	}
 
 	public void run()
@@ -70,11 +74,13 @@ public class GameManager
 		enemyFactory.run();
 		gunManager.run();
 		shooterHuman.run();
+		driverHuman.run();
 	}
 
 	public void draw()
 	{
 		levelManager.drawOnBatch(gameScene.getBatch());
+		driverHuman.draw(gameScene.getBatch());
 		selectedCar.draw(gameScene.getBatch());
 		enemyFactory.draw(gameScene.getBatch());
 		bulletFactory.draw(gameScene.getBatch());
@@ -124,6 +130,7 @@ public class GameManager
 		bulletFactory.restart();
 		selectedCar.reset();
 		levelManager.restart();
+		driverHuman.reset();
 	}
 
 	public void resume()

@@ -8,22 +8,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
-
-import BaseCar.CarLoader;
 import BaseCar.SizakCarModel;
-import Cars.DenaCar;
 import Entity.AnimatedSprite;
+import Entity.AnimatedSpriteSheet;
 import Entity.Button;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
@@ -101,6 +98,8 @@ public class GameScene extends BaseScene
 
 		endGameScene = new EndGameScene(this);
 		endGameScene.loadResources();
+
+		loadUI();
 	}
 
 	@Override
@@ -191,6 +190,10 @@ public class GameScene extends BaseScene
 	public void draw()
 	{
 		spriteBatch.setProjectionMatrix(camera.combined);
+
+		if(gameManager.levelManager.currentLevel.terrain.bgSpriteBatch != null)
+			gameManager.levelManager.currentLevel.terrain.drawBG();
+
 		spriteBatch.begin();
 		gameManager.draw();
 		spriteBatch.end();
@@ -231,7 +234,9 @@ public class GameScene extends BaseScene
 		else
 		{
 			HUD.getBatch().begin();
-			font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
+			mSceneManager.drawGoldSprite(HUD.getBatch());
+			drawCarHP(HUD.getBatch());
+//			font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
 			HUD.getBatch().end();
 			HUD.draw();
 		}
@@ -291,7 +296,6 @@ public class GameScene extends BaseScene
 	public void createHUD()
 	{
 		Button pauseButton = new Button(loadTexture(add + "pause1.png"), loadTexture(add + "pause2.png"));
-		pauseButton.setSize(40, 40);
 		pauseButton.setPosition(DX + 700, DY + 400);
 
 		pauseButton.setRunnable(act, new Runnable()
@@ -311,4 +315,71 @@ public class GameScene extends BaseScene
 	{
 		return TextureHelper.loadTexture(add, disposeTextureArray);
 	}
+
+	Texture carHPTexture1, carHPTexture2;
+	Sprite carHP1Sprite;
+
+	Sprite distanceSprite;
+	Texture distanceTexture;
+	private void loadUI()
+	{
+		carHPTexture1 = loadTexture(add + "hp1.png");
+		carHPTexture2 = loadTexture(add + "hp2.png");
+		carHP1Sprite = new Sprite(carHPTexture1);
+
+		distanceTexture = loadTexture(add + "record.png");
+		distanceSprite = new Sprite(distanceTexture);
+	}
+
+	public void drawCarHP(Batch batch)
+	{
+		float percent = gameManager.selectedCar.hitpoint / gameManager.selectedCar.getMaxHitPoint();
+
+		float w = carHPTexture1.getWidth() * percent;
+
+		if(percent < 0)
+			w = 0;
+
+		TextureRegion t = new TextureRegion(carHPTexture2, (int)w, carHPTexture2.getHeight());
+		Sprite sprite = new Sprite(t);
+
+		carHP1Sprite.setSize(60, 60);
+		carHP1Sprite.setPosition(DX + (SceneManager.WORLD_X - carHP1Sprite.getWidth()) / 2, DY + 390);
+
+		sprite.setPosition(carHP1Sprite.getX(), carHP1Sprite.getY());
+		sprite.setSize(carHP1Sprite.getWidth() * percent, carHP1Sprite.getHeight());
+
+		sprite.draw(batch);
+		carHP1Sprite.draw(batch);
+	}
+
+	public void drawDist(Batch batch, float dist, float maxDist)
+	{
+		dist -= 200;
+
+		dist /= 10;
+		maxDist /= 10;
+
+		int intMax = (int)maxDist;
+
+		intMax /= 1000;
+		intMax *= 1000;
+
+		if(dist > maxDist)
+			dist = intMax;
+
+		if(dist < 0)
+			dist = 0;
+
+		distanceSprite.setPosition(DX + 28, DY + 360);
+		distanceSprite.draw(batch);
+
+		font16.draw(batch, "( " + (int)dist, distanceSprite.getX() + 45, distanceSprite.getY() + 28);
+
+		float fontSize = 12;
+		float tW = SceneManager.getDigitNum((int)dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();
+
+		font16.draw(batch, "/ "+ intMax+ ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
+	}
+
 }//class

@@ -69,6 +69,8 @@ public class SizakCarModel extends SizakBodyModel
 		String read;
 		try
 		{
+			dis.readLine();//driverPos
+			dis.readLine();//rotationForce
 			read = dis.readLine();//price
 			price = Long.valueOf(BodyStrings.getPartOf(read, 1));
 

@@ -150,8 +150,11 @@ public class GameSceneContactManager
 					else contact.setEnabled(false);
 				}
 
-//				if(BodyStrings.isEnemy(s1) || BodyStrings.isEnemy(s2))
-//					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted " + " isEnable = " + contact.isEnabled());
+				if(BodyStrings.isHuman(s1) || BodyStrings.isHuman(s2))
+				{
+					contact.setEnabled(false);
+				}
+
 			}
 
 			@Override
@@ -160,8 +163,6 @@ public class GameSceneContactManager
 				String s1 = (String)contact.getFixtureA().getBody().getUserData();
 				String s2 = (String)contact.getFixtureB().getBody().getUserData();
 
-//				if(BodyStrings.isEnemy(s1) || BodyStrings.isEnemy(s2))
-//					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted " + " isEnable = " + contact.isEnabled());
 			}
 		};
 

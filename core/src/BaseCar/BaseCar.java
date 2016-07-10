@@ -37,7 +37,6 @@ public abstract class BaseCar
 	protected float MAX_HITPOINT;
 	public float hitpoint;
 	public float collisionDamageRate;
-	public float rotationFlipTorque;
 
 	public int wheelNum;
 	public boolean[] isWheelDrive;
@@ -53,6 +52,8 @@ public abstract class BaseCar
 	public Float CAR_REVERSE_SPEED;
 	public Float CAR_DOWN_FORCE;
 	public Float CAR_BRAKE_FORCE;
+	public float driverX, driverY, driverScale;
+	public float rotationForce;
 	public boolean isDead;
 
 	public float gunPosX, gunPosY;

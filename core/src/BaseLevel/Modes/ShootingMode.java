@@ -68,7 +68,7 @@ public class ShootingMode extends LevelMode
 
 		super.start();
 
-		modeSplashImage.set(0.5f, 1.5f, 0.01f, 0.1f);
+		modeSplashImage.set(0.5f, 1.5f, 0.02f, 2f);
 
 //		Log.e("ShootingMode.java", "pos = " + firstCarX + ", " + firstCarY);
 	}

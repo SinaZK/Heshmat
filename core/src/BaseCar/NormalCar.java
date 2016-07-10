@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.ArrayList;
 
@@ -30,10 +31,24 @@ public class NormalCar extends BaseCar
 
 		gasButton = new Button(TextureHelper.loadTexture("gfx/scene/game/gas1.png", gameScene.disposeTextureArray),
 				TextureHelper.loadTexture("gfx/scene/game/gas2.png", gameScene.disposeTextureArray));
-		gasButton.setPosition(600, 10);
+		gasButton.setPosition(gameScene.DX + 500, gameScene.DY + -90);
 
-		brakeButton = new Button(TextureHelper.loadTexture("gfx/scene/game/brake1.png", gameScene.disposeTextureArray), TextureHelper.loadTexture("gfx/scene/game/brake2.png", gameScene.disposeTextureArray));
-		brakeButton.setPosition(50, 10);
+
+		brakeButton = new Button(TextureHelper.loadTexture("gfx/scene/game/brake1.png", gameScene.disposeTextureArray),
+				TextureHelper.loadTexture("gfx/scene/game/brake2.png", gameScene.disposeTextureArray))
+		{
+			@Override
+			public void setSize(float width, float height)
+			{
+				float w = img.getTexture().getWidth();
+				float h = img.getTexture().getHeight();
+
+				super.setSize(width, height);
+				clickedSprite.setSize(w, h);
+				normalSprite.setSize(w, h);
+			}
+		};
+		brakeButton.setPosition(gameScene.DX - 100, gameScene.DY + -90);
 
 		HUD.addActor(gasButton);
 		HUD.addActor(brakeButton);
@@ -116,20 +131,25 @@ public class NormalCar extends BaseCar
 
 //			NormalCar retCar = new NormalCar(gameManager, carStatData);
 
-		MAX_HITPOINT = loader.getFloat(1, 1);
+		driverX = loader.getFloat(0, 1);
+		driverY = loader.getFloat(0, 2);
+		driverScale = loader.getFloat(0, 3);
+		rotationForce = loader.getFloat(1, 1);
+
+		MAX_HITPOINT = loader.getFloat(3, 1);
 		hitpoint = getMaxHitPoint();
-		collisionDamageRate = loader.getFloat(2, 1);
+		collisionDamageRate = loader.getFloat(4, 1);
 
-		body = SizakBodyLoader.loadBodyFile(loader.getString(3, 1), world, disposableArray);
+		body = SizakBodyLoader.loadBodyFile(loader.getString(5, 1), world, disposableArray);
 
-		wheelNum = loader.getInt(4, 1);
+		wheelNum = loader.getInt(6, 1);
 
 		isWheelDrive = new boolean[wheelNum];
 		wheelJoints = new WheelJoint[wheelNum];
 		wheelSpeed = new float[wheelNum];
 		wheelTorque = new float[wheelNum];
 
-		int lineNumber = 5;
+		int lineNumber = 7;
 
 		for (int i = 0; i < wheelNum; i++)
 		{

@@ -3,6 +3,7 @@ package BaseLevel;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
 
@@ -42,6 +43,8 @@ public class BaseLevel
 	public void load(String add)
 	{
 		loadTerrain(add);
+
+		terrain.BGSprite = new Sprite(TextureHelper.loadTexture("gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/back.png", gameScene.disposeTextureArray));
 
 		LevelLoader.loadLVLFile(this, gameManager, add, gameScene.world, gameScene.disposeTextureArray);
 	}

@@ -66,7 +66,8 @@ public class BaseScene extends Stage
 	{
 		for(int i = 0;i < disposeTextureArray.size();i++)
 			disposeTextureArray.get(i).dispose();
-		
+
+		HUD.dispose();
 		super.dispose();
 	}
 
