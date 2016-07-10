@@ -34,6 +34,8 @@ public class HUD extends Stage
 	@Override
 	public void draw()
 	{
+		if(gameScene.gameManager.levelManager.currentLevel.getCurrentPart().isFinished)
+			return;
 		super.draw();
 		getBatch().begin();
 		gameScene.font16.draw(getBatch(), "" + Gdx.graphics.getFramesPerSecond(), 10, 30);

@@ -73,7 +73,7 @@ public class StartGameCinematic extends CinematicMode
 	}
 
 	@Override
-	public void setCamera()
+	public void setCamera(boolean isSuperCallNeeded)
 	{
 		camera.zoom = 3;
 
@@ -88,7 +88,9 @@ public class StartGameCinematic extends CinematicMode
 			cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 120;
 		}
 
-		super.setCamera();
+
+		if(isSuperCallNeeded)
+			super.setCamera(false);
 
 	}
 

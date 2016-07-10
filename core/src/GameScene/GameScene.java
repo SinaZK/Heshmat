@@ -35,7 +35,7 @@ import SceneManager.SceneManager;
 public class GameScene extends BaseScene
 {
 	public static boolean isDebugRender = false;
-	public static boolean isUsefulDebugLog = false;
+	public static boolean isUsefulDebugLog = true;
 
 	public SceneManager mSceneManager;
 	SizakCarModel carModel;//giving it from garageScene
@@ -75,6 +75,7 @@ public class GameScene extends BaseScene
 	{
 		DX = (getCamera().viewportWidth - SceneManager.WORLD_X) / 2;
 		DY = (getCamera().viewportHeight - SceneManager.WORLD_Y) / 2;
+		loadUI();
 		drivingModeHUD = new DrivingHUD(this, new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 		shootingModeHUD = new ShootingHUD(this, new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 
@@ -98,8 +99,6 @@ public class GameScene extends BaseScene
 
 		endGameScene = new EndGameScene(this);
 		endGameScene.loadResources();
-
-		loadUI();
 	}
 
 	@Override
@@ -321,6 +320,9 @@ public class GameScene extends BaseScene
 
 	Sprite distanceSprite;
 	Texture distanceTexture;
+
+	public Texture nullTexture;
+	public Texture selectedGunButtonTexture, nextGunButtonTexture;
 	private void loadUI()
 	{
 		carHPTexture1 = loadTexture(add + "hp1.png");
@@ -329,6 +331,10 @@ public class GameScene extends BaseScene
 
 		distanceTexture = loadTexture(add + "record.png");
 		distanceSprite = new Sprite(distanceTexture);
+
+		selectedGunButtonTexture = loadTexture(add + "shooting/selected.png");
+		nextGunButtonTexture = loadTexture(add + "shooting/next.png");
+		nullTexture = loadTexture("gfx/coin.png");
 	}
 
 	public void drawCarHP(Batch batch)
@@ -355,15 +361,7 @@ public class GameScene extends BaseScene
 
 	public void drawDist(Batch batch, float dist, float maxDist)
 	{
-		dist -= 200;
-
-		dist /= 10;
-		maxDist /= 10;
-
 		int intMax = (int)maxDist;
-
-		intMax /= 1000;
-		intMax *= 1000;
 
 		if(dist > maxDist)
 			dist = intMax;
@@ -374,7 +372,7 @@ public class GameScene extends BaseScene
 		distanceSprite.setPosition(DX + 28, DY + 360);
 		distanceSprite.draw(batch);
 
-		font16.draw(batch, "( " + (int)dist, distanceSprite.getX() + 45, distanceSprite.getY() + 28);
+		font16.draw(batch, "( " + (int) dist, distanceSprite.getX() + 45, distanceSprite.getY() + 28);
 
 		float fontSize = 12;
 		float tW = SceneManager.getDigitNum((int)dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();

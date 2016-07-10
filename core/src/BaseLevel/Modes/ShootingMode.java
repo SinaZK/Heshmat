@@ -44,7 +44,6 @@ public class ShootingMode extends LevelMode
 		}
 
 		shootingModeTimeCounter += levelManager.gameScene.getDeltaTime();
-//		Log.e("ShootingMode.java", "enemyDied = " + enemyDied + " enemyMax = " + enemyMax);
 
 		if(enemyDied == enemyMax)
 			isFinished = true;
@@ -69,8 +68,6 @@ public class ShootingMode extends LevelMode
 		super.start();
 
 		modeSplashImage.set(0.5f, 1.5f, 0.02f, 2f);
-
-//		Log.e("ShootingMode.java", "pos = " + firstCarX + ", " + firstCarY);
 	}
 
 	@Override
@@ -95,13 +92,18 @@ public class ShootingMode extends LevelMode
 	}
 
 	@Override
-	public void setCamera()
+	public void setCamera(boolean isSuperCallNeeded)
 	{
-		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+		if(!isFinished)
+		{
+			camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
 
-		cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
-		cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 140;
+			cameraPos.x = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER + 400;
+			cameraPos.y = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER + 300;
+		}
 
-		super.setCamera();
+
+		if(isSuperCallNeeded)
+			super.setCamera(false);
 	}
 }

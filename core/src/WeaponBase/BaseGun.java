@@ -31,7 +31,7 @@ import heshmat.MainActivity;
 public class BaseGun implements InputProcessor
 {
 	public MainActivity act;
-	public Sprite image, showSprite;
+	public Sprite image, showSprite, selectSprite;
 
 	public float rateOfFire;//numberOfBulletsPerSecond
 	public float bulletHP;
@@ -110,6 +110,8 @@ public class BaseGun implements InputProcessor
 			image = new Sprite(TextureHelper.loadTexture(path + "image.png", use));
 			showSprite = new Sprite(TextureHelper.loadTexture(path + "show.png", use));
 			bulletTexture = TextureHelper.loadTexture(path + "bullet.png", use);
+
+			selectSprite = new Sprite(TextureHelper.loadTexture(path + "select.png", use));
 		}
 		else
 		{
@@ -302,6 +304,9 @@ public class BaseGun implements InputProcessor
 	public void reload()
 	{
 		if(isReloading)
+			return;
+
+		if(clipSize == ammo)
 			return;
 
 		isReloading = true;

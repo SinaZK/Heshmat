@@ -94,10 +94,20 @@ public class GunManager
 		}
 	}
 
-	public void swapGun()
+	public void nextGun()
 	{
 		selectedGunNumber++;
 		selectedGunNumber %= MAX_GUNS;
+
+		gameScene.setInput();
+	}
+
+	public void prevGun()
+	{
+		selectedGunNumber--;
+
+		if(selectedGunNumber < 0)
+			selectedGunNumber = MAX_GUNS - 1;
 
 		gameScene.setInput();
 	}
@@ -129,4 +139,35 @@ public class GunManager
 		for(int i = 0;i < guns.size();i++)
 			guns.get(i).reset();
 	}
+
+	public Sprite getNextGunSelectSprite()
+	{
+		int i = getNextID();
+		return guns.get(i).selectSprite;
+	}
+
+	public Sprite getPrevGunSelectSprite()
+	{
+		int i = getPrevID();
+		return guns.get(i).selectSprite;
+	}
+
+	private int getPrevID()
+	{
+		int i = selectedGunNumber - 1;
+		if(i < 0)
+			i = MAX_GUNS - 1;
+
+		return i;
+	}
+
+	private int getNextID()
+	{
+		int i = selectedGunNumber + 1;
+		if(i >= MAX_GUNS)
+			i = 0;
+
+		return i;
+	}
+
 }

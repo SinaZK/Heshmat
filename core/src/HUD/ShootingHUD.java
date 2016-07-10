@@ -1,11 +1,11 @@
 package HUD;
 
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Entity.Button;
-import GameScene.*;
-import Misc.TextureHelper;
+import GameScene.GameScene;
 
 /**
  * Created by sinazk on 5/21/16.
@@ -14,26 +14,62 @@ import Misc.TextureHelper;
 public class ShootingHUD extends HUD
 {
 
-	Button switchGunButton;
+	Button nextGunButton, prevGunButton, reloadButton;
+	float DX, DY;
+
 	public ShootingHUD(final GameScene gameScene, Viewport viewport)
 	{
 		super(gameScene, viewport);
 
+		DX = gameScene.DX;
+		DY = gameScene.DY;
 
-		switchGunButton = new Button(TextureHelper.loadTexture("gfx/scene/game/restart1.png", gameScene.disposeTextureArray),
-				TextureHelper.loadTexture("gfx/scene/game/restart2.png", gameScene.disposeTextureArray));
-		switchGunButton.setPosition(300, 10);
-		switchGunButton.setSize(70, 70);
-		addActor(switchGunButton);
+		float y = 270;
+		float x = 0;
 
-		switchGunButton.setRunnable(gameScene.act, new Runnable()
+		prevGunButton = new Button(gameScene.nextGunButtonTexture,
+				gameScene.nextGunButtonTexture);
+		prevGunButton.setRunnable(gameScene.act, new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				ShootingHUD.this.gameScene.gameManager.gunManager.swapGun();
+				ShootingHUD.this.gameScene.gameManager.gunManager.prevGun();
 			}
 		});
+		prevGunButton.setPosition(DX + x + 10, DY + y);
+		addActor(prevGunButton);
+
+
+
+		reloadButton = new Button(gameScene.selectedGunButtonTexture,
+				gameScene.selectedGunButtonTexture);
+		reloadButton.setRunnable(gameScene.act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				ShootingHUD.this.gameScene.gameManager.gunManager.getSelectedGun().reload();
+			}
+		});
+		reloadButton.setPosition(DX + x + 80, DY + y);
+		addActor(reloadButton);
+
+
+
+
+		nextGunButton = new Button(gameScene.nextGunButtonTexture,
+				gameScene.nextGunButtonTexture);
+		nextGunButton.setRunnable(gameScene.act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				ShootingHUD.this.gameScene.gameManager.gunManager.nextGun();
+			}
+		});
+		nextGunButton.setPosition(DX + x + 165, DY + y);
+		addActor(nextGunButton);
 	}
 
 	@Override
@@ -42,9 +78,36 @@ public class ShootingHUD extends HUD
 		super.act();
 	}
 
+	Sprite nextSprite, prevSprite, selectSprite;
 	@Override
 	public void draw()
 	{
 		super.draw();
+
+		if(gameScene.gameManager.levelManager.currentLevel.getCurrentPart().isFinished)
+			return;
+
+		getBatch().begin();
+
+		nextSprite = gameScene.gameManager.gunManager.getNextGunSelectSprite();
+		selectSprite = gameScene.gameManager.gunManager.getSelectedGun().selectSprite;
+		prevSprite = gameScene.gameManager.gunManager.getPrevGunSelectSprite();
+
+		if(nextSprite != null)
+		{
+			nextSprite.setPosition(nextGunButton.getX(), nextGunButton.getY());
+			nextSprite.draw(getBatch());
+		}
+
+		if(prevSprite != null)
+		{
+			prevSprite.setPosition(prevGunButton.getX(), prevGunButton.getY());
+			prevSprite.draw(getBatch());
+		}
+
+		selectSprite.setPosition(reloadButton.getX(), reloadButton.getY());
+		selectSprite.draw(getBatch());
+
+		getBatch().end();
 	}
 }

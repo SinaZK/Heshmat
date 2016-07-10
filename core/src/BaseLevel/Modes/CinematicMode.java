@@ -39,7 +39,10 @@ public class CinematicMode extends LevelMode
 	public void run()
 	{
 		if(isFinished)
+		{
+			isCameraDone = true;
 			return;
+		}
 
 		time -= levelManager.gameScene.getDeltaTime();
 
@@ -75,9 +78,9 @@ public class CinematicMode extends LevelMode
 	}
 
 	@Override
-	public void setCamera()
+	public void setCamera(boolean isSuperCallNeeded)
 	{
-		super.setCamera();
+		super.setCamera(false);
 	}
 
 	@Override

@@ -23,10 +23,11 @@ public class GunSorter
 					0,//   NULL
 
 					1,//  Pistol
-					3,//  MP5
+					2,//  Magnum
+					3,//  UZI
 					4,//  AK47
 					5,//  SNIPER
-					2,//  Rocket Launcher
+					6,//  Rocket Launcher
 
 			};//tayin konande tartib ine! gunPosByType daghighan bayad be hamun tartibe too file ha bian va bara jabajeyayi too garageScene (nabayad) avaz she meghdaresh
 
@@ -34,7 +35,8 @@ public class GunSorter
 			{
 					null,
 					GunType.Pistol,
-					GunType.MP5,
+					GunType.Magnum,
+					GunType.UZI,
 					GunType.AK47,
 					GunType.SNIPER,
 					GunType.RocketLauncher,
@@ -44,7 +46,8 @@ public class GunSorter
 			{
 					"NULL",
 					"Pistol",
-					"MP5",
+					"Magnum",
+					"UZI",
 					"AK47",
 					"Sniper",
 					"Rocket",
@@ -61,7 +64,7 @@ public class GunSorter
 
 	public enum  GunType
 	{
-		Pistol, RocketLauncher, MP5, AK47, SNIPER,
+		Pistol, Magnum, RocketLauncher, UZI, AK47, SNIPER,
 
 		//GunSlots:
 		DOOSHKA,
@@ -101,19 +104,16 @@ public class GunSorter
 		switch (gunType)
 		{
 			case Pistol:
-//				Log.e("GunSorter.java", "Creating Pistol");
 				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.Pistol);
-			case MP5:
-//				Log.e("GunSorter.java", "Creating MP5");
-				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.MP5);
+			case Magnum:
+				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.Magnum);
+			case UZI:
+				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.UZI);
 			case AK47:
-//				Log.e("GunSorter.java", "Creating AK47");
 				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.AK47);
 			case SNIPER:
-//				Log.e("GunSorter.java", "Creating SNIPER");
 				return new NormalGun(gameManager.gameScene.act, gameManager, selectedGun, GunType.SNIPER);
 			case RocketLauncher:
-//				Log.e("GunSorter.java", "Creating ROCKET Launcher");
 				return new RocketLauncher(gameManager.gameScene.act, gameManager);
 		}
 

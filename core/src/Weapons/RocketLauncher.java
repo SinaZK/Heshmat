@@ -20,7 +20,7 @@ public class RocketLauncher extends BaseGun
 	{
 		super(a, gm);
 
-		loadResources("gfx/weapons/2/", null);
+		loadResources("gfx/weapons/6/", null);
 	}
 	
 	@Override

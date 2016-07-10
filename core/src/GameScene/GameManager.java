@@ -25,7 +25,7 @@ public class GameManager
 
 
 	public BaseCar selectedCar;
-	SimpleHuman shooterHuman;
+	public SimpleHuman shooterHuman;
 	public DriverHuman driverHuman;
 
 	public HPBarSprite hpBarSprite;
@@ -61,8 +61,7 @@ public class GameManager
 			levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);
 
 		shooterHuman = new SimpleHuman(this);
-		shooterHuman.create(50, 200);
-		shooterHuman.setPosition(220, 160);
+		shooterHuman.create(37, 169);
 
 		driverHuman = new DriverHuman(this);
 	}

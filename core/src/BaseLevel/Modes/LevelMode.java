@@ -9,6 +9,7 @@ import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.Log;
 
 /**
  * Created by sinazk on 5/22/16.
@@ -27,7 +28,8 @@ public abstract class LevelMode
 
 	public OrthographicCamera camera;
 	public Vector2 cameraPos = new Vector2();
-	public float cameraSpeedX = 10, cameraSpeedY = 10;
+	public float cameraSpeedX = 10, cameraSpeedY = 10, cameraZoomSpeed = 1;
+	public boolean isCameraDone = false;
 
 	public LevelMode(LevelManager levelManager)
 	{
@@ -44,10 +46,17 @@ public abstract class LevelMode
 
 	public void run()
 	{
+		if(isFinished && !isCameraDone)
+		{
+			runOnEnd();
+		}
+
+//		Log.e("Tag", "isFinished = " + isFinished + " isCameraDOne = " + isCameraDone);
+
 		if(cameraSetCT > 0)
 			cameraSetCT--;
 		else
-			setCamera();
+			setCamera(true);
 
 		if(modeSplashImage != null)
 		{
@@ -55,8 +64,7 @@ public abstract class LevelMode
 			modeSplashImage.draw(levelManager.gameScene.HUD.getBatch());
 			levelManager.gameScene.HUD.getBatch().end();
 		}
-
-//		Log.e("LevelModeEnum.java", "run" + mode);
+		int a = 10;
 	}
 
 	int cameraSetCT;
@@ -75,6 +83,7 @@ public abstract class LevelMode
 
 	public void reset()
 	{
+		isCameraDone = false;
 		isFinished = false;
 		setCameraOnReset();
 	}
@@ -85,10 +94,13 @@ public abstract class LevelMode
 
 	public void resume(){}
 
-	public void setCamera()
+	public void setCamera(boolean isSuperCallNeeded)
 	{
 		float camX = camera.position.x;
 		float camY = camera.position.y;
+
+//		if(isFinished)
+//			Log.e("Tag", "FIRST Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 
 		float diffX = cameraPos.x - camX;
 		float diffY = cameraPos.y - camY;
@@ -117,7 +129,8 @@ public abstract class LevelMode
 
 		camera.position.set(camX, camY, 0);
 
-//		Log.e("LevelModeEnum.java", "SetCamera" + mode);
+//		if(isFinished)
+//			Log.e("Tag", "SECOND Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 	}
 
 	public void setCameraOnReset()
@@ -126,4 +139,23 @@ public abstract class LevelMode
 		cameraPos.y = camera.position.y;
 	}
 
+	public void runOnEnd()//isFinished == true & isCameraDone == False
+	{
+		LevelMode nextPart = levelManager.currentLevel.getNextPart();
+		if(nextPart == null)
+		{
+			isCameraDone = true;
+			return;
+		}
+
+		nextPart.setCamera(false);
+		cameraPos.x = nextPart.cameraPos.x;
+		cameraPos.y = nextPart.cameraPos.y;
+
+		cameraSpeedX = 1.5f;
+		cameraSpeedY = 1.5f;
+
+		if(Math.abs(cameraPos.x - camera.position.x) < 1 && Math.abs(cameraPos.y - camera.position.y) < 1)
+			isCameraDone = true;
+	}
 }

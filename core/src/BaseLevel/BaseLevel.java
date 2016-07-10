@@ -62,7 +62,7 @@ public class BaseLevel
 		if(currentPart >= levelParts.size())
 			return;
 
-		if(levelParts.get(currentPart).isFinished)
+		if(levelParts.get(currentPart).isFinished && levelParts.get(currentPart).isCameraDone)
 		{
 			currentPart++;
 			if(currentPart < levelParts.size())
@@ -70,6 +70,8 @@ public class BaseLevel
 			else
 				finishTheLevel();
 		}
+
+//		Log.e("BaseLevel", "currentPart = " + currentPart + " isFinished = " + getCurrentPart().isFinished + " isCameraDone = " + getCurrentPart().isCameraDone);
 
 		if(currentPart < levelParts.size())
 			levelParts.get(currentPart).run();
@@ -122,6 +124,14 @@ public class BaseLevel
 
 		currentPart = 0;
 		levelParts.get(0).start();
+	}
+
+	public LevelMode getNextPart()
+	{
+		if(currentPart + 1 >= levelParts.size())
+			return null;
+
+		return levelParts.get(currentPart + 1);
 	}
 
 	public void resume()
