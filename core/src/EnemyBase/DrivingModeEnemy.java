@@ -58,6 +58,8 @@ public class DrivingModeEnemy extends BaseEnemy
 	@Override
 	public void draw(Batch batch)
 	{
+		if(currentState >= stateCount)
+			currentState = stateCount - 1;
 		states.get(currentState).draw(batch);
 	}
 
@@ -178,7 +180,10 @@ public class DrivingModeEnemy extends BaseEnemy
 //		Log.e("DrivingModeEnemy.java", "CurrentState++ = " + currentState);
 
 		if(currentState >= stateCount)
+		{
+			currentState = stateCount - 1;
 			return;
+		}
 
 		mainBody = states.get(currentState).body;
 		mainBody.getmBody().setActive(true);
@@ -189,7 +194,7 @@ public class DrivingModeEnemy extends BaseEnemy
 	{
 		super.hitByCar(contact, carData);
 
-		float intence = GameSceneContactManager.getContactIntense(contact) * gameManager.selectedCar.collisionDamageRate;
+		float intence = GameSceneContactManager.getContactIntense(contact) * gameManager.selectedCar.getCollisionDamageRate();
 
 		damage(intence);
 //		Log.e("DrivingModeEnemy.java", "Intense = " + intence);
@@ -201,7 +206,7 @@ public class DrivingModeEnemy extends BaseEnemy
 		if(hitPoint < 0.1f * getMAX_HP())
 			return;
 
-		float intence = GameSceneContactManager.getContactIntense(contact) * gameManager.selectedCar.collisionDamageRate;
+		float intence = GameSceneContactManager.getContactIntense(contact) * gameManager.selectedCar.getCollisionDamageRate();
 		damage(intence);
 	}
 

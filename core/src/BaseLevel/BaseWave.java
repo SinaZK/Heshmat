@@ -9,6 +9,7 @@ import EnemyBase.BaseEnemy;
 import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
+import Misc.Log;
 
 /**
  * Created by sinazk on 5/14/16.
@@ -49,6 +50,7 @@ public class BaseWave
 		numberOfEnemies = count;
 		enemyLevel = level;
 		shouldInfoCardShown = false;
+		gameManager.enemyInitCount += count;
 
 		if(dis == null)
 			return;

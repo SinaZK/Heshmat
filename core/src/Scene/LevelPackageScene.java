@@ -45,6 +45,7 @@ public class LevelPackageScene extends BaseScene
 					public void run()
 					{
 						act.selectorStatData.selectedLevelPack = II;
+						act.starManager.create();
 						mSceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_SELECTOR, null);
 						dispose();
 					}

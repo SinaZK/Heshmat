@@ -4,16 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.utils.compression.lzma.Base;
 
 import java.util.ArrayList;
 
-import javax.xml.crypto.Data;
-
 import Audio.AudioManager;
-import BaseCar.BaseCar;
 import BaseLevel.LevelPackage;
-import Cars.Train;
 import DataStore.CarStatData;
 import DataStore.DataKeyStrings;
 import DataStore.GameStatData;
@@ -24,6 +19,7 @@ import DataStore.PlayerStatData;
 import DataStore.SaveManager;
 import DataStore.SelectorStatData;
 import DataStore.SettingStatData;
+import GameScene.StarManager;
 import GoogleServices.IGoogleServices;
 import Misc.Log;
 import PurchaseIAB.purchaseIAB;
@@ -34,6 +30,7 @@ public class MainActivity extends ApplicationAdapter
 	public AudioManager audioManager;
 	public SceneManager sceneManager;
 	public SaveManager saveManager;
+	public StarManager starManager;
 
 	public IGoogleServices googleServices;
 	public purchaseIAB.IABInterface purchaseHelper;
@@ -56,11 +53,15 @@ public class MainActivity extends ApplicationAdapter
 
 		gameStatData.numberOfAppRun++;
 
+		starManager = new StarManager(this);
+
 		sceneManager = new SceneManager(this, purchaseHelper);
-//		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_SELECTOR, null);
-		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_PACKAGE_SELECTOR, null);
+//		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		createShowGold();
+
+		addMoney(10000, true);
 	}
 
 	public long renderCT = 0;
@@ -140,12 +141,12 @@ public class MainActivity extends ApplicationAdapter
 			saveManager.saveDataValue(DataKeyStrings.GunStatData[i], gunStatDatas[i]);
 	}
 
-	public void saveAllLevelDatas(int levels)
+	public void saveAllLevelDatas(int numberOfLevels)
 	{
 		Log.e("MainActivity.java", "saving All levelDatas");
 		saveManager.saveDataValue(DataKeyStrings.LVLPackStatData[selectorStatData.selectedLevelPack], levelPackageStatDatas[selectorStatData.selectedLevelPack]);
 
-		for(int i = 1;i <= levels;i++)
+		for(int i = 1;i <= numberOfLevels;i++)
 		{
 			String s = DataKeyStrings.getLevelFromPack(selectorStatData.selectedLevelPack, i);
 			saveManager.saveDataValue(s, levelStatDatas.get(i));
@@ -179,6 +180,11 @@ public class MainActivity extends ApplicationAdapter
 
 		if(save)
 			savePlayerStatData();
+
+		if(sceneManager.getCurrentScene() == SceneManager.SCENES.GAME_SCENE)
+		{
+			sceneManager.gameScene.gameManager.goldCollect += money;
+		}
 	}
 
 	private long showGold;

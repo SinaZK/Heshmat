@@ -36,27 +36,27 @@ public class PauseMenuDialog extends Dialog
 		String add = "gfx/scene/dialog/pausemenu/";
 		backSprite = new Sprite(TextureHelper.loadTexture(add + "back.png", dialogManager.disposalTexture));
 //		backSprite.setSize(300, 300);
-		backSprite.setPosition(DX + (SceneManager.WORLD_X - backSprite.getWidth()) / 2 - 30, DY + (SceneManager.WORLD_Y - backSprite.getHeight()) / 2 + 50);
+		backSprite.setPosition(DX + (SceneManager.WORLD_X - backSprite.getWidth()) / 2, DY + (SceneManager.WORLD_Y - backSprite.getHeight()) / 2);
 
 		RestartButtonTexture1 = TextureHelper.loadTexture(add + "restart1.png", gameScene.disposeTextureArray);
 		RestartButtonTexture2 = TextureHelper.loadTexture(add + "restart2.png", gameScene.disposeTextureArray);
 		RestartButton restartButton = new RestartButton(this);
 		restartButton.setSize(50, 50);
-		restartButton.setPosition(DX + 340, DY + 250);
+		restartButton.setPosition(DX + 370, DY + 200);
 		scene.addActor(restartButton);
 
 		ResumeButtonTexture1 = TextureHelper.loadTexture(add + "resume1.png", gameScene.disposeTextureArray);
 		ResumeButtonTexture2 = TextureHelper.loadTexture(add + "resume2.png", gameScene.disposeTextureArray);
 		ResumeButton resumeButton = new ResumeButton(this);
 		resumeButton.setSize(50, 50);
-		resumeButton.setPosition(DX + 400, DY + 250);
+		resumeButton.setPosition(DX + 430, DY + 200);
 		scene.addActor(resumeButton);
 
 		EndButtonTexture1 = TextureHelper.loadTexture(add + "exit1.png", gameScene.disposeTextureArray);
 		EndButtonTexture2 = TextureHelper.loadTexture(add + "exit2.png", gameScene.disposeTextureArray);
 		EndGameButton endGameButton = new EndGameButton(this);
 		endGameButton.setSize(50, 50);
-		endGameButton.setPosition(DX + 280, DY + 250);
+		endGameButton.setPosition(DX + 310, DY + 200);
 		scene.addActor(endGameButton);
 	}
 }

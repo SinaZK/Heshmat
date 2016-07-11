@@ -12,6 +12,7 @@ public class BodyStrings
 	public static String ENEMY_STRING = "ENEMY";
 	public static String GUN_STRING = "GUN";
 	public static String CAR_ATTACH_STRING = "CAR_ATTACH";
+	public static String CAR_WHEEL_STRING = "WHEEL";
 
 	public static String HUMAN_STRING = "HUMAN";
 	public static String Human_HeadString = "Head";

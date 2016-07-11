@@ -94,9 +94,9 @@ public abstract class BaseEnemy
 	public void loadGun()
 	{
 		gun = GunSorter.createEnemyGun(gameManager);
-		gun.rateOfFire = getFIRE_RATE();
+		gun.setRateOfFire(getFIRE_RATE());
 		gun.ammo = 100;
-		gun.bulletDamage = getDamage();
+		gun.setBulletDamage(getDamage());
 		gun.setShooter(BodyStrings.Shooter_ENEMY);
 	}
 
@@ -115,6 +115,7 @@ public abstract class BaseEnemy
 		selectedAnimation = 0;
 		isStun = false;
 		isRage = false;
+		isRunOnDeath = false;
 
 //        Log.e("BaseEnemy.java", "enemy create : " + enemyType);
 	}
@@ -158,6 +159,7 @@ public abstract class BaseEnemy
 			{
 				shootingMode = (ShootingMode) gameManager.levelManager.currentLevel.getCurrentPart();
 				shootingMode.enemyDied++;
+				gameManager.enemyKilledCount++;
 			}
 		}
 
@@ -333,7 +335,7 @@ public abstract class BaseEnemy
 						isDying = false;
 						shouldRelease = true;
 					}
-				}, animatedSpriteSheet.getAnimation(EnemyFactory.ENEMY_ANIMATION_DIE_STRING).animDuration * 2);
+				}, animatedSpriteSheet.getAnimation(EnemyFactory.ENEMY_ANIMATION_DIE_STRING).animDuration);
 
 			}
 			else
@@ -375,7 +377,7 @@ public abstract class BaseEnemy
 			mainBody.draw(batch, animationStateTime, selectedAnimation);
 		}
 
-		if(!isDying && !isRunOnDeath)
+		if(!isDying && !isRunOnDeath && hitPoint > 0)
 		{
 			float paddingX = 5;
 

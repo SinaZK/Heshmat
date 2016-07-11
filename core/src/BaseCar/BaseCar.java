@@ -14,6 +14,7 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
+import Misc.BodyStrings;
 import Physics.SizakBody;
 import PhysicsFactory.PhysicsConstant;
 import WeaponBase.BaseBullet;
@@ -34,29 +35,22 @@ public abstract class BaseCar
 	public ArrayList<CarSlot> slots = new ArrayList<CarSlot>();
 	public ArrayList<AttachPart> attachParts = new ArrayList<AttachPart>();
 
+
 	protected float MAX_HITPOINT;
 	public float hitpoint;
-	public float collisionDamageRate;
+	protected float collisionDamageRate;
 
 	public int wheelNum;
 	public boolean[] isWheelDrive;
-	public WheelJoint [] wheelJoints;
-	public float []wheelTorque;
-	public float []wheelSpeed;
+	public WheelJoint[] wheelJoints;
+	public float[] wheelTorque;
+	public float[] wheelSpeed;
 
 	public CarType carType;
-	public Float CAR_FORWARDS_TORQUE;
-	public Float CAR_FORWARDS_SPEED;
-	public Float CAR_BRAKE_TORQUE;
-	public Float CAR_REVERSE_TORQUE;
-	public Float CAR_REVERSE_SPEED;
-	public Float CAR_DOWN_FORCE;
-	public Float CAR_BRAKE_FORCE;
 	public float driverX, driverY, driverScale;
 	public float rotationForce;
 	public boolean isDead;
-
-	public float gunPosX, gunPosY;
+	public int contactManagerWheelCollisionCount = 0;
 
 	public GameSceneInput gameSceneInput;
 	public DrivingHUD HUD;
@@ -93,9 +87,10 @@ public abstract class BaseCar
 	{
 		body.draw(batch);
 	}
+
 	public void drawSlots(Batch batch)
 	{
-		for(int i = 0;i < slots.size();i++)
+		for (int i = 0; i < slots.size(); i++)
 			slots.get(i).draw(batch);
 	}
 
@@ -135,23 +130,87 @@ public abstract class BaseCar
 			if(isStopped())
 				shouldStop = false;
 
-			brake(1);
+			onStop();
 			return;
 		}
-		if(isGas)
-			gas(1f);
 
-		if(isBrake)
-			brake(1f);
 
-		if(!isGas && !isBrake)
-			relax();
+		relax();
 
-		for(int i = 0;i < slots.size();i++)
+		if(isInAir())
+		{
+			runOnAir(isGas, isBrake);
+		} else
+		{
+			runOnGround(isGas, isBrake);
+		}
+
+		for (int i = 0; i < slots.size(); i++)
 			slots.get(i).run();
+
+//		Log.e("Tag", "Speed = " + getSpeedInMeter());
+	}
+
+	public void runOnAir(boolean isGasButtonPressed, boolean isBrakeButtonPressed)
+	{
+		if(isGasButtonPressed)
+		{
+			body.bodies.get(0).getmBody().applyTorque(rotationForce, true);
+		}
+
+		if(isBrakeButtonPressed)
+		{
+			body.bodies.get(0).getmBody().applyTorque(-rotationForce, true);
+		}
+	}
+
+	public void runOnGround(boolean isGas, boolean isBrake)
+	{
+		float speed = getSpeedInMeter();
+		float SWAP_LINE = 3;
+
+		if(speed >= 0)
+		{
+			if(isGas)
+				gas(1);
+			else if(isBrake)
+			{
+				if(speed < SWAP_LINE)
+					gas(-0.3f);//goingBackWard
+				else
+					brake(1);
+			}
+		} else if(speed < 0)
+		{
+			if(isBrake)
+				gas(-0.3f);
+			else if(isGas)
+			{
+				if(speed > -SWAP_LINE)
+				{
+					gas(1);
+				} else brake(1);
+			}
+		}
+	}
+
+	public float getSpeedInMeter()
+	{
+		float vX = body.bodies.get(0).getmBody().getLinearVelocity().x;
+
+		if(vX > 0)
+			return body.bodies.get(0).getmBody().getLinearVelocity().len();
+
+		return -body.bodies.get(0).getmBody().getLinearVelocity().len();
+	}
+
+	public float getSpeedInPixel()
+	{
+		return getSpeedInMeter() * PhysicsConstant.PIXEL_TO_METER;
 	}
 
 	boolean shouldStop;
+
 	public void stop()
 	{
 		shouldStop = true;
@@ -159,25 +218,58 @@ public abstract class BaseCar
 
 	public boolean isStopped()
 	{
-		for(int i = 0;i < body.bodies.size();i++)
+		for (int i = 0; i < body.bodies.size(); i++)
 		{
-			if(!isBodyStopped(body.bodies.get(i).getmBody()))
-				return  false;
+			if(!isBodyStopped(body.bodies.get(i).getmBody(), 0.1f))
+				return false;
 		}
+
+		float angle = convertAngleToDegrees();
+
+		if(angle > 30 || angle < -30)
+			return false;
 
 		return true;
 	}
 
-	public boolean isBodyStopped(Body body)
+	public float convertAngleToDegrees()
 	{
-		return body.getLinearVelocity().len2() < 0.1f;
+		float angle = body.bodies.get(0).getmBody().getAngle();
+		angle = (float) Math.toDegrees(angle);
+
+		int q = (int) angle / 360;
+		float q360 = q * 360;
+		angle -= q360;
+
+		return angle;
 	}
 
-	public void dispose(){}
+	public float convertAngleToRadians()
+	{
+		return (float) Math.toRadians(convertAngleToDegrees());
+	}
+
+	public void onStop()
+	{
+		brake(1);
+	}
+
+	public boolean isBodyStopped(Body body, float rat)
+	{
+		return body.getLinearVelocity().len2() < rat;
+	}
+
+	public void dispose()
+	{
+	}
 
 	boolean isLabeled = false;
+
 	public void label()
 	{
+		for (int i = 1; i < body.bodies.size(); i++)
+			body.bodies.get(i).setUserData(BodyStrings.CAR_WHEEL_STRING + " " + i);
+
 		body.setCar();
 		isLabeled = true;
 	}
@@ -192,7 +284,7 @@ public abstract class BaseCar
 		if(carModel == null)
 			return;
 
-		for(int i = 0;i < carModel.slots.size();i++)
+		for (int i = 0; i < carModel.slots.size(); i++)
 		{
 			CarSlot slot = carModel.slots.get(i);
 
@@ -202,6 +294,7 @@ public abstract class BaseCar
 	}
 
 	float firstPosX, firstPosY;
+
 	public void setFirstPos(float x, float y)
 	{
 		firstPosX = x;
@@ -210,16 +303,47 @@ public abstract class BaseCar
 	}
 
 	public int staticCount = 0;
+
 	public void reset()
 	{
 		groundContact = GROUND_MAX;
 
+		contactManagerWheelCollisionCount = 0;
 		body.bodies.get(0).setType(BodyDef.BodyType.StaticBody);
 		staticCount = 30;
 		body.setAllBodiesV(0, 0);
 		body.setCenterPosition(firstPosX, firstPosY, 0);
 
 		hitpoint = getMaxHitPoint();
+	}
+
+	public void hitByGround(Contact contact, String CarBodyString, boolean isBegin, boolean isEnd)
+	{
+		if(isBegin)
+			contactManagerWheelCollisionCount++;
+		if(isEnd)
+			contactManagerWheelCollisionCount--;
+	}
+
+	float airCounter = 0;
+	float AirLimitTime = 0.1f;
+
+	public boolean isInAir()
+	{
+		if(contactManagerWheelCollisionCount == 0)
+		{
+			airCounter += gameScene.getDeltaTime();
+
+			if(airCounter >= AirLimitTime)
+				return true;
+		} else airCounter = 0;
+
+		return false;
+	}
+
+	public boolean isWheel(String s)
+	{
+		return BodyStrings.getPartOf(s, 1).equals(BodyStrings.CAR_WHEEL_STRING);
 	}
 
 	public void hitByBullet(String bulletData)
@@ -252,18 +376,44 @@ public abstract class BaseCar
 		return body.bodies.get(0).getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER;
 	}
 
-	public float getMaxHitPoint()
-	{
-		return MAX_HITPOINT;
-	}
 
 	int GROUND_MAX = 10;
 	int groundContact = GROUND_MAX;
+
 	public void handleWithGround(Contact contact)
 	{
 		if(groundContact > 0)
 		{
 			contact.setEnabled(false);
 		}
+	}
+
+	public static float COLLISION_PERCENT = 10;
+	public static float ENGINE_PERCENT = 10;
+	public static float HIT_POINT_PERCENT = 10;
+
+	public float getCollisionDamageRate()
+	{
+		return collisionDamageRate * calculatePercent(carStatData.collisionDamageLVL, COLLISION_PERCENT);
+	}
+
+	public float getMaxHitPoint()
+	{
+		return MAX_HITPOINT * calculatePercent(carStatData.hitPointLVL, HIT_POINT_PERCENT);
+	}
+
+	public float getWheelSpeed(float speed)
+	{
+		return speed * calculatePercent(carStatData.engineLVL, ENGINE_PERCENT);
+	}
+
+	public float getWheelMaxTorque(float torque)
+	{
+		return torque * calculatePercent(carStatData.engineLVL, ENGINE_PERCENT / 1);
+	}
+
+	public float calculatePercent(int level, float addingPercent)
+	{
+		return (float) Math.pow((100f + addingPercent) / 100f, level);
 	}
 }

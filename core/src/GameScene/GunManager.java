@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import DataStore.GunStatData;
 import Enums.Enums;
+import Misc.Log;
 import Misc.TextureHelper;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
@@ -58,15 +59,20 @@ public class GunManager
 	private static float reloadSpriteHeight = 20;
 	public void drawReloadBar(Batch batch, float x, float y, float reloadCounter, float reloadTime)
 	{
-		float percent = reloadCounter / reloadTime;
-		float width = percent * reloadSpriteWidth;
+		float prefixX = 10;
 
-		reloadSprite2.setPosition(x, y);
-		reloadSprite2.draw(batch);
+		float percent = reloadCounter / reloadTime;
+		float width = percent * (reloadSpriteWidth - prefixX);
+
 
 		reloadSprite1.setPosition(x, y);
-		reloadSprite1.setSize(width, reloadSpriteHeight);
+		reloadSprite1.setSize(reloadSpriteWidth, reloadSpriteHeight);
 		reloadSprite1.draw(batch);
+
+		reloadSprite2.setColor(0, 186 / 255, 81 / 255, 1);
+		reloadSprite2.setPosition(x + prefixX, y);
+		reloadSprite2.setSize(width, reloadSpriteHeight);
+		reloadSprite2.draw(batch);
 	}
 
 	public void run()
@@ -79,12 +85,13 @@ public class GunManager
 
 	public void initGuns()
 	{
+		MAX_GUNS = 0;
+
 		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
 		{
 			GunStatData gunStatData = gameScene.act.gunStatDatas[GunSorter.gunPos[i]];
 			if(gunStatData.lockStat == Enums.LOCKSTAT.UNLOCK)
 			{
-//				Log.e("GunManager.java", "id = " + i + " isUnlock");
 				MAX_GUNS++;
 				BaseGun gun = GunSorter.createSelectedGun(gameManager, i);
 				assert gun != null;

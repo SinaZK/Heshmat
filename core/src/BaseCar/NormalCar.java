@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.ArrayList;
 
@@ -17,9 +16,9 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import Misc.BodyStrings;
 import Misc.FileLoader;
-import Misc.Log;
 import Misc.TextureHelper;
 import Physics.SizakBodyLoader;
+import PhysicsFactory.PhysicsConstant;
 
 public class NormalCar extends BaseCar
 {
@@ -57,16 +56,17 @@ public class NormalCar extends BaseCar
 	@Override
 	public void gas(float rate)
 	{
-		float additionalSpeed = carStatData.engineLVL * 20f;
+		if(shouldStop)
+			return;
+
 		for (int i = 0; i < wheelNum; i++)
 		{
 			if(isWheelDrive[i])
 			{
 				wheelJoints[i].enableMotor(true);
-				wheelJoints[i].setMotorSpeed(-(wheelSpeed[i] + additionalSpeed));
-				wheelJoints[i].setMaxMotorTorque(wheelTorque[i]);
-			}
-			else
+				wheelJoints[i].setMotorSpeed(-getWheelSpeed(wheelSpeed[i]) * rate);
+				wheelJoints[i].setMaxMotorTorque(getWheelMaxTorque(wheelTorque[i]));
+			} else
 				wheelJoints[i].enableMotor(false);
 		}
 	}
@@ -81,6 +81,8 @@ public class NormalCar extends BaseCar
 			wheelJoints[i].setMaxMotorTorque(20);
 		}
 	}
+
+
 
 	@Override
 	public void relax()
@@ -168,5 +170,23 @@ public class NormalCar extends BaseCar
 		create();
 
 		return loader;
+	}
+
+	@Override
+	public void onStop()
+	{
+		for (int i = 0; i < wheelNum - 1; i++)
+		{
+			wheelJoints[i].enableMotor(true);
+			wheelJoints[i].setMaxMotorTorque(100);
+			wheelJoints[i].setMotorSpeed(0);
+		}
+
+		{
+			int i = wheelNum - 1;
+			wheelJoints[i].enableMotor(true);
+			wheelJoints[i].setMaxMotorTorque(5);
+			wheelJoints[i].setMotorSpeed(0);
+		}
 	}
 }

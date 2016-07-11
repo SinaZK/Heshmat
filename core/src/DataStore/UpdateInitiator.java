@@ -82,6 +82,7 @@ public class UpdateInitiator
 		LevelPackageStatData ret = new LevelPackageStatData();
 
 		ret.lockStat = lockStat;
+		ret.endlessStartingWave = 1;
 
 		return ret;
 	}

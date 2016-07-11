@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import BaseLevel.Modes.ShootingMode;
 import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
+import GameScene.GameScene;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
 import SceneManager.SceneManager;
@@ -43,7 +44,16 @@ public class Bomb extends BaseEnemy
 	{
 		super.create(shootingMode, level, attr);
 
-		shootingMode.enemyMax++;
+		if(shootingMode == null)
+		{
+			if(gameManager.levelManager.currentLevel.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+			{
+				shootingMode = (ShootingMode)gameManager.levelManager.currentLevel.getCurrentPart();
+				shootingMode.enemyMax++;
+			}
+		}
+
+		gameManager.enemyInitCount++;
 
 		float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
 		float originY = CameraHelper.getYMin(gameManager.gameScene.camera);

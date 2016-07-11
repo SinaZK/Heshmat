@@ -95,18 +95,26 @@ public class ShootingHUD extends HUD
 
 		if(nextSprite != null)
 		{
+			nextSprite.setSize(nextGunButton.getWidth(), nextGunButton.getHeight());
 			nextSprite.setPosition(nextGunButton.getX(), nextGunButton.getY());
 			nextSprite.draw(getBatch());
 		}
 
 		if(prevSprite != null)
 		{
+			prevSprite.setSize(prevGunButton.getWidth(), prevGunButton.getHeight());
 			prevSprite.setPosition(prevGunButton.getX(), prevGunButton.getY());
 			prevSprite.draw(getBatch());
 		}
 
+		selectSprite.setSize(reloadButton.getWidth(), reloadButton.getHeight());
 		selectSprite.setPosition(reloadButton.getX(), reloadButton.getY());
 		selectSprite.draw(getBatch());
+
+		gameScene.font16.setColor(0, 0, 0, 1);
+		gameScene.font16.draw(getBatch(), ""+ (int)gameScene.gameManager.gunManager.getSelectedGun().ammo + "/" +
+				(int)gameScene.gameManager.gunManager.getSelectedGun().getClipSize()
+				, selectSprite.getX() + selectSprite.getWidth() / 2 - 20, selectSprite.getY() - 10);
 
 		getBatch().end();
 	}

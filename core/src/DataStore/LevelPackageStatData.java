@@ -18,6 +18,13 @@ public class LevelPackageStatData
 		return endlessStartingWave;
 	}
 
+	public long addToEndlessStartingWave()
+	{
+		endlessStartingWave++;
+
+		return endlessStartingWave;
+	}
+
 	public long getRecord()
 	{
 		return record / prime;

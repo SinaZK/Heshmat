@@ -91,6 +91,11 @@ public class ModeSplashImage extends Sprite
 		setPosition((worldW - imageW) / 2, (worldH - imageH) / 2);
 	}
 
+	public boolean isDrawing()
+	{
+		return timeCounter < time;
+	}
+
 	public void changeScaleSign()
 	{
 		scaleSign *= -1;

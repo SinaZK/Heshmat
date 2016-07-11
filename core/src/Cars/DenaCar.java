@@ -41,8 +41,10 @@ public class DenaCar extends NormalCar
 		layerSprite.setPosition(body.bodies.get(0).getmSprite().get(0).getX(), body.bodies.get(0).getmSprite().get(0).getY());
 		layerSprite.setRotation(body.bodies.get(0).getmSprite().get(0).getRotation());
 		layerSprite.draw(batch);
+
+		body.bodies.get(0).draw(batch);//car Skeleton
+
 		for(int i = 1;i < body.bodies.size();i++)
 			body.bodies.get(i).draw(batch);
-		body.bodies.get(0).draw(batch);//car Skeleton
 	}
 }

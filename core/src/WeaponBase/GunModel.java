@@ -110,6 +110,7 @@ public class GunModel
 			dis.readLine();//BulletSize
 			dis.readLine();//ClipSize
 			dis.readLine();//ReloadTime
+			dis.readLine();//FireError
 			dis.readLine();//physic
 
 			dis.readLine();//blank line

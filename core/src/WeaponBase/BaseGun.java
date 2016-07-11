@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Random;
 
 import DataStore.GunStatData;
 import Entity.Entity;
@@ -33,12 +34,13 @@ public class BaseGun implements InputProcessor
 	public MainActivity act;
 	public Sprite image, showSprite, selectSprite;
 
-	public float rateOfFire;//numberOfBulletsPerSecond
-	public float bulletHP;
-	public float clipSize;
-	public float reloadTime;
-	public float bulletSpeed;
-	public float bulletDamage;
+	protected float rateOfFire;//numberOfBulletsPerSecond
+	protected float bulletHP;
+	protected float clipSize;
+	protected float reloadTime;
+	protected float bulletSpeed;
+	protected float bulletDamage;
+
 	public Vector2 bulletSize;
 	public boolean isShootingEnabled = true;
 	public float shootingTimeCounter = 0;
@@ -164,10 +166,13 @@ public class BaseGun implements InputProcessor
 
 			in = dis.readLine();
 			clipSize = Float.valueOf(BodyStrings.getPartOf(in, 1));
-			ammo = clipSize;
+			ammo = getClipSize();
 
 			in = dis.readLine();
 			reloadTime = Float.valueOf(BodyStrings.getPartOf(in, 1));
+
+			in = dis.readLine();
+			FIRE_ERROR_TETA = Float.valueOf(BodyStrings.getPartOf(in, 1));
 
 			float scaleX = image.getWidth() / width;
 			float scaleY = image.getHeight() / height;
@@ -261,14 +266,27 @@ public class BaseGun implements InputProcessor
 		return ret;
 	}
 
+	Random r = new Random();
 	public void shoot()
 	{
 		if(isShootingEnabled == false || isReloading)
 			return;
 
-		if(ammo == 0)
+		if((int)ammo <= 0)
 			reload();
-		else ammo--;
+		else
+		{
+			float angle = image.getRotation();//degrees
+
+			if(r.nextBoolean())//mosbatManfi
+				angle += r.nextFloat() * FIRE_ERROR_TETA;
+			else
+				angle -= r.nextFloat() * FIRE_ERROR_TETA;
+
+			image.setRotation(angle);
+
+			ammo--;
+		}
 
 //		Log.e("BaseGun.java", "Shoot : " + ammo);
 	};
@@ -281,7 +299,7 @@ public class BaseGun implements InputProcessor
 			if(reloadCounter >= reloadTime)
 			{
 				isReloading = false;
-				ammo = clipSize;
+				ammo = getClipSize();
 			}
 		}
 		else
@@ -306,7 +324,7 @@ public class BaseGun implements InputProcessor
 		if(isReloading)
 			return;
 
-		if(clipSize == ammo)
+		if(getClipSize() == ammo)
 			return;
 
 		isReloading = true;
@@ -386,10 +404,90 @@ public class BaseGun implements InputProcessor
 	public void setUpgrade(GunStatData gunStatData)
 	{
 		this.gunStatData = gunStatData;
+		ammo = getClipSize();
 	}
 
 	public void reset()
 	{
-		ammo = clipSize;
+		ammo = getClipSize();
+	}
+
+	public float getRateOfFire()
+	{
+		if(gunStatData == null)
+			return rateOfFire;
+		return rateOfFire * calculatePercent(gunStatData.fireRateLVL, FIRE_RATE_PERCENT);
+	}
+
+	public float getBulletHP()
+	{
+		if(gunStatData == null)
+			return bulletHP;
+
+		return bulletHP * calculatePercent(gunStatData.damageLVL, BULLET_HP_PERCENT);
+	}
+
+	public float getClipSize()
+	{
+		if(gunStatData == null)
+			return clipSize;
+
+		return clipSize * calculatePercent(gunStatData.clipSizeLVL, CLIP_SIZE_PERCENT);
+	}
+
+	public float getReloadTime()
+	{
+		return reloadTime;
+	}
+
+	public float getBulletSpeed()
+	{
+		return bulletSpeed;
+	}
+
+	public float getBulletDamage()
+	{
+		if(gunStatData == null)
+			return bulletDamage;
+
+		return bulletDamage * calculatePercent(gunStatData.damageLVL, BULLET_DAMAGE_PERCENT);
+	}
+
+	public float FIRE_ERROR_TETA = 5;//degrees
+
+	static float BULLET_DAMAGE_PERCENT = 20;
+	static float BULLET_HP_PERCENT = 20;
+//	static float BULLET_SPEED_PERCENT = 20;
+//	static float RELOAD_TIME_PERCENT = 20;
+	static float CLIP_SIZE_PERCENT = 20;
+	static float FIRE_RATE_PERCENT = 20;
+	public float calculatePercent(int level, float addingPercent)
+	{
+		return (float)Math.pow((100f + addingPercent) / 100f, level);
+	}
+
+	public void setRateOfFire(float rate)
+	{
+		rateOfFire = rate;
+	}
+
+	public void setBulletDamage(float damage)
+	{
+		bulletDamage = damage;
+	}
+
+	public void setClipSize(float size)
+	{
+		clipSize = size;
+	}
+
+	public void setBulletSpeed(float speed)
+	{
+		bulletSpeed = speed;
+	}
+
+	public void setReloadTime(float time)
+	{
+		reloadTime = time;
 	}
 }

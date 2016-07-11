@@ -24,7 +24,7 @@ public abstract class LevelMode
 	public float firstCarX, firstCarY;
 	public BaseCar car;
 	public GameScene.LevelModeEnum mode;
-	ModeSplashImage modeSplashImage;
+	public ModeSplashImage modeSplashImage;
 
 	public OrthographicCamera camera;
 	public Vector2 cameraPos = new Vector2();

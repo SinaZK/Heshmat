@@ -30,8 +30,8 @@ public class NormalGun extends BaseGun
 
 		NormalBullet p = gameManager.bulletFactory.getNormalBullet(this, gunType);
 
-		p.damage = bulletDamage;
-		p.hitPoint = bulletHP;
+		p.damage = getBulletDamage();
+		p.hitPoint = getBulletHP();
 		p.bulletTexture = bulletTexture;
 
 		p.shoot(getShootingX(), getShootingY(), image.getRotation());

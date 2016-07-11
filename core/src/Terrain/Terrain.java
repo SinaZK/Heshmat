@@ -2,6 +2,7 @@ package Terrain;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,8 +22,8 @@ import BaseLevel.Modes.DrivingMode;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import HUD.HUD;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 import heshmat.MainActivity;
@@ -46,7 +47,7 @@ public class Terrain
 	public float xSize = 15;
 	float firstNum = 200;
 
-	public int removeSize = 200;
+	public int removeSize = 300;
 
 	public LinkedList<Vector2> Points;
 	public LinkedList<TerrainPiece> Pieces;
@@ -57,7 +58,6 @@ public class Terrain
 	public Texture gasTexture;
 	public Texture timeTexture;
 
-	public Stage bgSpriteBatch;
 	public int bgSize;
 	public ArrayList<Sprite> bgLayers = new ArrayList<Sprite>();
 	public float[] bgLayersSpeedX = new float[10];
@@ -138,8 +138,6 @@ public class Terrain
 
 	public void create(Batch batch, PolygonSpriteBatch pScene)
 	{
-		bgSpriteBatch = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
-
 		polygonSpriteBatch = pScene;
 		spriteBatch = batch;
 
@@ -472,19 +470,28 @@ public class Terrain
 	}
 
 	public Sprite BGSprite;
+	public Stage bgSpriteBatch = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 	public void drawBG()
 	{
-		Batch batch = bgSpriteBatch.getBatch();
-		float x;//(SceneManager.WORLD_X - BGSprite.getWidth()) / 2;
+		float x;
 		float y = (SceneManager.WORLD_Y - BGSprite.getHeight()) / 2;
 
 		x = -gameManager.selectedCar.getXInPixel() / 100;
 
+
+		Batch batch = bgSpriteBatch.getBatch();
+		BGSprite.setSize(BGSprite.getWidth(), SceneManager.WORLD_Y);
 		batch.begin();
-		batch.draw(BGSprite, x, y);
-		batch.draw(BGSprite, x + BGSprite.getWidth() - 1, y);
-		batch.draw(BGSprite, x + BGSprite.getWidth() * 2 - 1, y);
+		BGSprite.setPosition(x, y);
+		BGSprite.draw(batch);
+		BGSprite.setPosition(x + BGSprite.getWidth() - 1, y);
+		BGSprite.draw(batch);
+		BGSprite.setPosition(x + BGSprite.getWidth() * 2 - 2, y);
+		BGSprite.draw(batch);
 		batch.end();
+
+		bgSpriteBatch.act();
+		bgSpriteBatch.draw();
 	}
 
 }//Class

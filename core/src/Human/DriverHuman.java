@@ -31,7 +31,7 @@ public class DriverHuman
 	public WeldJoint carWeldJoint;
 	public RevoluteJoint neckRevolute;
 
-	public static float lowLimit = (float)Math.toRadians(-25);
+	public static float lowLimit = (float)Math.toRadians(-10);
 	public static float highLimit = (float)Math.toRadians(25);
 
 	Sprite headSprite, bodySprite;

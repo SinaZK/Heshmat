@@ -39,6 +39,7 @@ public class LevelManager
 	{
 		loadTextures();
 
+		this.levelType = levelType;
 		if(levelType == LevelType.NORMAL)
 		{
 			currentLevel = new BaseLevel(gameManager);
@@ -51,7 +52,7 @@ public class LevelManager
 			currentLevel = lvl;
 		}
 
-		currentLevel.levelParts.get(0).start();
+		currentLevel.start();
 	}
 
 	public void drawOnBatch(Batch batch)
@@ -81,7 +82,6 @@ public class LevelManager
 
 	public void lost()
 	{
-//		Log.e("LevelManager.java", "You Lost");
 	}
 
 	public void levelCompleted()
@@ -101,7 +101,6 @@ public class LevelManager
 		isLevelCompleted = false;
 		currentLevel.restart();
 
-//		Log.e("LevelManager.java", "levelModeEnum = " + levelModeEnum);
 	}
 
 	public void resume()
@@ -109,12 +108,14 @@ public class LevelManager
 		currentLevel.resume();
 	}
 
+	public Texture WaveModeSplashTexture;
 	public Texture DrivingModeSplashTexture;
 	public Texture ShootingModeSplashTexture;
 
 	public void loadTextures()
 	{
 		DrivingModeSplashTexture  = TextureHelper.loadTexture("gfx/lvl/mode/driving.png", gameScene.disposeTextureArray);
+		WaveModeSplashTexture  = TextureHelper.loadTexture("gfx/lvl/mode/wave.png", gameScene.disposeTextureArray);
 		ShootingModeSplashTexture = TextureHelper.loadTexture("gfx/lvl/mode/shooting.png", gameScene.disposeTextureArray);
 	}
 

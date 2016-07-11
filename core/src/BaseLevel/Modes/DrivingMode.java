@@ -63,7 +63,10 @@ public class DrivingMode extends LevelMode
 			if(!car.isStopped())
 				car.stop();
 			else
+			{
+				gameManager.distanceTraveled += distance;
 				isFinished = true;
+			}
 		}
 
 		levelManager.gameScene.drivingModeHUD.getBatch().begin();
@@ -85,6 +88,7 @@ public class DrivingMode extends LevelMode
 		super.start();
 
 		modeSplashImage.set(0.8f, 1.2f, 0.02f, 2.0f);
+//		Log.e("DrivingMode : " , "settingTime");
 
 		for(int i = 0;i < queries.size();i++)
 			queries.get(i).reset();

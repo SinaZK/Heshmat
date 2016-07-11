@@ -138,4 +138,14 @@ public class BaseLevel
 	{
 		getCurrentPart().resume();
 	}
+
+	public void endGameWithWin()
+	{
+
+	}
+
+	public void endGameWithLose()
+	{
+
+	}
 }

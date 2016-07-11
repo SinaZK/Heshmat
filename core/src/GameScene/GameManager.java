@@ -9,6 +9,7 @@ import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
 import Human.DriverHuman;
 import Human.SimpleHuman;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import Sorter.CarSorter;
 import WeaponBase.BulletFactory;
@@ -34,6 +35,7 @@ public class GameManager
 	{
 		gameScene = mScene;
 		activity = gameScene.act;
+		enemyInitCount = 0;
 	}
 
 	public void create()
@@ -64,6 +66,8 @@ public class GameManager
 		shooterHuman.create(37, 169);
 
 		driverHuman = new DriverHuman(this);
+
+		enemyKilledCount = 0;
 	}
 
 	public void run()
@@ -74,6 +78,7 @@ public class GameManager
 		gunManager.run();
 		shooterHuman.run();
 		driverHuman.run();
+
 	}
 
 	public void draw()
@@ -130,6 +135,10 @@ public class GameManager
 		selectedCar.reset();
 		levelManager.restart();
 		driverHuman.reset();
+
+		enemyKilledCount = 0;
+		goldCollect = 0;
+		distanceTraveled = 0;
 	}
 
 	public void resume()
@@ -139,5 +148,9 @@ public class GameManager
 		enemyFactory.resume();
 		bulletFactory.resume();
 	}
+
+	public int enemyKilledCount, enemyInitCount;
+	public long goldCollect = 0;
+	public float distanceTraveled;
 
 }

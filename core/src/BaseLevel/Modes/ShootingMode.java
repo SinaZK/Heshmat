@@ -98,7 +98,7 @@ public class ShootingMode extends LevelMode
 		{
 			camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
 
-			cameraPos.x = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER + 400;
+			cameraPos.x = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER + 600;
 			cameraPos.y = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER + 300;
 		}
 

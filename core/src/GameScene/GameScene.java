@@ -19,8 +19,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseCar.SizakCarModel;
+import BaseLevel.EndlessLevel;
 import Entity.AnimatedSprite;
-import Entity.AnimatedSpriteSheet;
 import Entity.Button;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
@@ -38,7 +38,7 @@ public class GameScene extends BaseScene
 	public static boolean isUsefulDebugLog = true;
 
 	public SceneManager mSceneManager;
-	SizakCarModel carModel;//giving it from garageScene
+	public SizakCarModel carModel;//giving it from garageScene
 
 	public GameScene(SceneManager sceneManager, Viewport v, SizakCarModel carModel)
 	{
@@ -236,6 +236,12 @@ public class GameScene extends BaseScene
 			mSceneManager.drawGoldSprite(HUD.getBatch());
 			drawCarHP(HUD.getBatch());
 //			font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
+
+			if(gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
+			{
+				EndlessLevel level = (EndlessLevel)gameManager.levelManager.currentLevel;
+				level.waveModeSplashImage.draw(HUD.getBatch());
+			}
 			HUD.getBatch().end();
 			HUD.draw();
 		}
@@ -377,6 +383,7 @@ public class GameScene extends BaseScene
 		float fontSize = 12;
 		float tW = SceneManager.getDigitNum((int)dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();
 
+		font16.setColor(0, 0, 0, 1);
 		font16.draw(batch, "/ "+ intMax+ ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
 	}
 

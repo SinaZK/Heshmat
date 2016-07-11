@@ -45,6 +45,11 @@ public class GameSceneContactManager
 				String s1 = (String)contact.getFixtureA().getBody().getUserData();
 				String s2 = (String)contact.getFixtureB().getBody().getUserData();
 
+				if(BodyStrings.isCar(s1) && BodyStrings.isGround(s2))
+					gameManager.selectedCar.hitByGround(contact, s1, true, false);
+				if(BodyStrings.isCar(s2) && BodyStrings.isGround(s1))
+					gameManager.selectedCar.hitByGround(contact, s2, true, false);
+
 				if(BodyStrings.isBullet(s1) && BodyStrings.isBullet(s2))
 					handleBulletToBullet(contact, s1, s2);
 
@@ -90,6 +95,11 @@ public class GameSceneContactManager
 				String s1 = (String)contact.getFixtureA().getBody().getUserData();
 				String s2 = (String)contact.getFixtureB().getBody().getUserData();
 
+				if(BodyStrings.isCar(s1) && BodyStrings.isGround(s2))
+					gameManager.selectedCar.hitByGround(contact, s1, false, true);
+				if(BodyStrings.isCar(s2) && BodyStrings.isGround(s1))
+					gameManager.selectedCar.hitByGround(contact, s2, false, true);
+
 //				if(BodyStrings.isEnemy(s1) || BodyStrings.isEnemy(s2))
 //					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted " + " isEnable = " + contact.isEnabled());
 			}
@@ -119,6 +129,14 @@ public class GameSceneContactManager
 						else contact.setEnabled(false);
 					}
 				}
+
+				if(BodyStrings.isCar(s1) && BodyStrings.isEnemy(s2))
+					if(BodyStrings.isShootingEnemy(s2))
+						contact.setEnabled(false);
+
+				if(BodyStrings.isCar(s2) && BodyStrings.isEnemy(s1))
+					if(BodyStrings.isShootingEnemy(s1))
+						contact.setEnabled(false);
 
 				if(BodyStrings.isCar(s1) && BodyStrings.isBullet(s2))
 					handleBulletToCarPreSolve(contact, s1, s2);

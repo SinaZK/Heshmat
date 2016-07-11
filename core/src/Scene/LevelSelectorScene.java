@@ -7,15 +7,18 @@ import DataStore.LevelStatData;
 import Entity.Button;
 import Entity.Entity;
 import Entity.LevelEntity;
-import Enums.Enums;
-import Misc.Log;
 import Misc.TextureHelper;
 import SceneManager.SceneManager;
 
 public class LevelSelectorScene extends BaseScene
 {
 	SceneManager mSceneManager;
-	public LevelSelectorScene(SceneManager sceneManager, Viewport v){super(sceneManager.act, v);mSceneManager = sceneManager;}
+
+	public LevelSelectorScene(SceneManager sceneManager, Viewport v)
+	{
+		super(sceneManager.act, v);
+		mSceneManager = sceneManager;
+	}
 
 
 	public float DX;
@@ -42,18 +45,16 @@ public class LevelSelectorScene extends BaseScene
 		int paddingX = 10;
 		int paddingY = 15;
 		float startX = 241;
-		float startY = 330;
+		float startY = 300;
 		float width = 83;
 		float height = 89;
 
 		int numInRow = 4;
 
 		float posX = startX, posY = startY;
-		for(int i = 1;i <= levelPackage.numberOfLevels;i++)
+		for (int i = 1; i <= levelPackage.numberOfLevels; i++)
 		{
 			LevelEntity levelEntity = new LevelEntity(act, disposeTextureArray, act.levelStatDatas.get(i), i);
-
-//			Log.e("LevelSelectorScene.java", "id = " + i + " star = " + act.levelStatDatas.get(i).getStar());
 
 			levelEntity.setSize(width, height);
 			levelEntity.setPosition(posX, posY);
@@ -72,13 +73,19 @@ public class LevelSelectorScene extends BaseScene
 				TextureHelper.loadTexture("gfx/scene/level/endless2.png", disposeTextureArray));
 
 		endLess.setSize(width, height);
-		endLess.setPosition(700, 100);
+		endLess.setPosition(650, 196);
 
 		endLess.setRunnable(act, new Runnable()
 		{
 			@Override
 			public void run()
 			{
+				if(act.starManager.getStarNum() < act.sceneManager.ENDLESS_STARS)
+				{
+					act.googleServices.makeToastLong("به " + (act.sceneManager.ENDLESS_STARS - act.starManager.getStarNum() + " ستاره نیاز داری"));
+					return;
+				}
+
 				act.selectorStatData.selectedLevel = -1;
 				act.sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 				LevelSelectorScene.this.dispose();
@@ -107,7 +114,7 @@ public class LevelSelectorScene extends BaseScene
 	public void addBackToMenuButton()
 	{
 		Button menuButton = new Button(TextureHelper.loadTexture(add + "menu1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"menu2.png", disposeTextureArray));
+				TextureHelper.loadTexture(add + "menu2.png", disposeTextureArray));
 		menuButton.setPosition(DX + 28, DY + 28);
 		menuButton.setRunnable(act, new Runnable()
 		{
@@ -123,7 +130,7 @@ public class LevelSelectorScene extends BaseScene
 		attachChild(menuButton);
 
 		Button backButton = new Button(TextureHelper.loadTexture(add + "back1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"back2.png", disposeTextureArray));
+				TextureHelper.loadTexture(add + "back2.png", disposeTextureArray));
 		backButton.setPosition(DX + 98, DY + 28);
 		backButton.setRunnable(act, new Runnable()
 		{

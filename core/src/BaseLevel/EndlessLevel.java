@@ -3,6 +3,7 @@ package BaseLevel;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import BaseLevel.Modes.ShootingMode;
 import Enemy.EnemyState.StreetLight;
 import EnemyBase.BaseEnemy;
 import EnemyBase.EnemyFactory;
+import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
@@ -33,6 +35,8 @@ public class EndlessLevel extends BaseLevel
 	ArrayList<String> enemyStrings = new ArrayList<String>();
 	ArrayList<Integer> startLevels = new ArrayList<Integer>();
 
+	public ModeSplashImage waveModeSplashImage;
+
 	public int currentWave = 1;
 
 	public EndlessLevel(GameManager gameManager, long currentWave)
@@ -43,10 +47,27 @@ public class EndlessLevel extends BaseLevel
 	}
 
 	@Override
+	public void start()
+	{
+		addDrivingMode(2000, 100);
+		addShootingMode(2, 5);
+
+		super.start();
+		levelParts.get(0).modeSplashImage.time = -1;//do not Draw it!!!
+		setWaveSplash();
+	}
+
+	public void setWaveSplash()
+	{
+		waveModeSplashImage.set(0.9f, 1.1f, 0.01f, 3.0f);
+	}
+
+	@Override
 	public void load(String add)
 	{
 		loadTerrain(add);
 		terrain.level = this;
+		terrain.BGSprite = new Sprite(TextureHelper.loadTexture("gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/back.png", gameScene.disposeTextureArray));
 
 		FileLoader loader = new FileLoader();
 		loader.loadFile(add + "level.lvl");
@@ -68,9 +89,21 @@ public class EndlessLevel extends BaseLevel
 		}
 
 
-//		Log.e("endless", "terrainC = " + terrain.cameraZoom);
-		addDrivingMode(2000, 100);
-		addShootingMode(2, 5);
+		waveModeSplashImage = new ModeSplashImage(levelManager, levelManager.WaveModeSplashTexture)
+		{
+			@Override
+			public void draw(Batch batch)
+			{
+				super.draw(batch);
+
+				if(isDrawing())
+				{
+					gameScene.font22.setColor(0, 0, 0, 1);
+					gameScene.font22.draw(batch, ""+ (currentWave),
+							getX() + getWidth() / 2, getY() + getHeight() / 2);
+				}
+			}
+		};
 	}
 
 	@Override
@@ -87,11 +120,15 @@ public class EndlessLevel extends BaseLevel
 		if(currentPart >= levelParts.size())
 			return;
 
-		if(levelParts.get(currentPart).isFinished)
+		if(levelParts.get(currentPart).isFinished && levelParts.get(currentPart).isCameraDone)
 		{
 			currentPart++;
 			if(currentPart < levelParts.size())
+			{
 				levelParts.get(currentPart).start();
+
+				levelParts.get(currentPart).modeSplashImage.time = -1;//do not Draw it!!!
+			}
 
 			if(currentPart % 2 == 1)
 			{
@@ -100,7 +137,11 @@ public class EndlessLevel extends BaseLevel
 			}
 
 			if(currentPart % 2 == 0)
+			{
+				setWaveSplash();
 				currentWave++;
+				act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].addToEndlessStartingWave();
+			}
 		}
 
 		if(currentPart < levelParts.size())
@@ -164,4 +205,5 @@ public class EndlessLevel extends BaseLevel
 	{
 		levelParts.add(levelMode);
 	}
+
 }

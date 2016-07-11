@@ -31,6 +31,8 @@ public class SceneManager
 	public static int WORLD_X = 800;
 	public static int WORLD_Y = 480;
 
+	public static int ENDLESS_STARS = 0;
+
 	public static int LVL_PACK_MAX_NUM = 2;
 	public static int LVL_MAX_NUM = 12;
 	public static int CAR_MAX_NUM = 20;
@@ -147,7 +149,6 @@ public class SceneManager
 		}
 
 		createAndStuff(currentBaseScene);
-
 	}
 
 	public void createAndStuff(BaseScene mScene)

@@ -37,7 +37,7 @@ public class Fly extends BaseEnemy
 
         gun.bulletTexture = enemyFactory.FlyBulletTexture;
         gun.bulletSize = new Vector2(15, 15);
-        gun.bulletSpeed = 5;
+        gun.setBulletSpeed(5);
 
         gunX = 50;
         gunY = 65;
