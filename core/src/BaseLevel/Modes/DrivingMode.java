@@ -4,14 +4,9 @@ package BaseLevel.Modes;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Enemy.EnemyState.StreetLight;
-import EnemyBase.BaseEnemy;
 import Entity.LevelEntities.ModeSplashImage;
-import Enums.Enums;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
@@ -73,7 +68,7 @@ public class DrivingMode extends LevelMode
 		levelManager.gameScene.drawDist(levelManager.gameScene.drivingModeHUD.getBatch(), getCurrentPos(), distance);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
 
-		for(int i = 0;i < queries.size();i++)
+		for (int i = 0; i < queries.size(); i++)
 			queries.get(i).run(getCurrentPos());
 
 	}
@@ -84,14 +79,16 @@ public class DrivingMode extends LevelMode
 		time = fullTime;
 		cameraSpeedX = 100;
 		cameraSpeedY = 100;
+		cameraZoomSpeed = 0.005f;
 
 		super.start();
 
 		modeSplashImage.set(0.8f, 1.2f, 0.02f, 2.0f);
-//		Log.e("DrivingMode : " , "settingTime");
 
-		for(int i = 0;i < queries.size();i++)
+		for (int i = 0; i < queries.size(); i++)
 			queries.get(i).reset();
+
+		gameManager.activity.audioManager.playDrivingMusic();
 	}
 
 	public float getCurrentPos()
@@ -113,6 +110,7 @@ public class DrivingMode extends LevelMode
 	{
 		return firstCarX * PhysicsConstant.PIXEL_TO_METER + distance;
 	}
+
 	Random random = new Random();
 
 	@Override
@@ -121,8 +119,10 @@ public class DrivingMode extends LevelMode
 		super.reset();
 		isEnding = false;
 
-		for (int i = 0;i < queries.size();i++)
+		for (int i = 0; i < queries.size(); i++)
 			queries.get(i).reset();
+
+		gameManager.activity.audioManager.playDrivingMusic();
 	}
 
 	@Override
@@ -130,8 +130,16 @@ public class DrivingMode extends LevelMode
 	{
 		if(!isFinished)
 		{
-			camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
-			cameraPos.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
+			cameraPosZoom = levelManager.currentLevel.terrain.cameraZoom + Math.max(Math.min(car.getSpeedInMeter() / 30, 1.5f), 0);
+
+			float cameraWidth = camera.viewportWidth * camera.zoom;
+			cameraWidth /= 2;
+
+			float cameraPosTmp = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER;
+			cameraPosTmp += cameraWidth - gameManager.selectedCar.body.bodies.get(0).getWidth() / 2;
+			cameraPosTmp -= 20;
+
+			cameraPos.x = cameraPosTmp;
 			cameraPos.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
 		}
 
@@ -144,6 +152,8 @@ public class DrivingMode extends LevelMode
 	{
 		camera.position.x = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().x * PhysicsConstant.PIXEL_TO_METER + 400;
 		camera.position.y = gameManager.selectedCar.body.bodies.get(0).getmBody().getPosition().y * PhysicsConstant.PIXEL_TO_METER + 80;
+		camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+
 		super.setCameraOnReset();
 	}
 }

@@ -130,6 +130,8 @@ public class EnemyState
 		if(!isAttachedToGround)
 			return;
 
+//		gameManager.activity.audioManager.playCrash();
+
 		isAttachedToGround = false;
 		body.getmBody().setType(BodyDef.BodyType.DynamicBody);
 	}

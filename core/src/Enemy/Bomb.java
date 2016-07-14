@@ -1,9 +1,13 @@
 package Enemy;
 
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.utils.Timer;
+
 import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
 import EnemyBase.BaseEnemy;
+import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import Misc.BodyStrings;
@@ -24,7 +28,7 @@ public class Bomb extends BaseEnemy
 
 		load("gfx/enemy/12/");
 
-		init(BodyStrings.EnemyFly, id, enemyFactory.BombEnemyAnimation);
+		init(BodyStrings.DrivingEnemy, id, enemyFactory.BombEnemyAnimation);
 	}
 
 	@Override
@@ -73,5 +77,25 @@ public class Bomb extends BaseEnemy
 	public void release()
 	{
 		super.release();
+	}
+
+	Timer t = new Timer();
+	@Override
+	public void hitByCar(Contact contact, String carData)
+	{
+		super.hitByCar(contact, carData);
+
+		setCurrentState(StateEnum.BOMB_EXPLODE);
+		selectedAnimation = animatedSpriteSheet.getAnimationID(EnemyFactory.ENEMY_ANIMATION_EXPLODE_STRING);
+
+		t.scheduleTask(new Timer.Task()
+		{
+			@Override
+			public void run()
+			{
+				release();
+				gameManager.selectedCar.damage(getDamage());
+			}
+		}, animatedSpriteSheet.getAnimation(EnemyFactory.ENEMY_ANIMATION_EXPLODE_STRING).animDuration);
 	}
 }

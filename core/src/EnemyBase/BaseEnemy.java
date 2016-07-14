@@ -10,11 +10,13 @@ import com.badlogic.gdx.utils.Timer;
 import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
+import Enemy.EnemyState.GreenTree;
 import Enemy.EnemyState.StreetLight;
+import Enemy.EnemyState.TrafficLight;
+import Enemy.EnemyState.YellowTree;
 import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
 import GameScene.GameScene;
-import GameScene.GameSceneContactManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.FileLoader;
@@ -40,6 +42,8 @@ public abstract class BaseEnemy
 	public enum EnemyType
 	{
 		MOSQUITO, FLY, WASP, RED_BIRD, HATTY_BIRD, MASK_BIRD, FURRY_BIRD, FIRE_BIRD, BAT, BOSS_BIRD, WORM, BOMB,
+
+		PIGEON,
 
 		//DrivingMode Enemies
 		StreetLight, SmallLight, TrafficLight, GreenTree, YellowTree, WaterBox
@@ -129,6 +133,8 @@ public abstract class BaseEnemy
 
 		if(getHIT_STUN() > 0)
 			stun();
+
+		gameManager.activity.audioManager.playEnemyHit();
 	}
 
 	public void hitByCar(Contact contact, String carData)
@@ -159,7 +165,9 @@ public abstract class BaseEnemy
 			{
 				shootingMode = (ShootingMode) gameManager.levelManager.currentLevel.getCurrentPart();
 				shootingMode.enemyDied++;
-				gameManager.enemyKilledCount++;
+
+				if(hitPoint <= 0)
+					gameManager.enemyKilledCount++;
 			}
 		}
 
@@ -505,6 +513,8 @@ public abstract class BaseEnemy
 	public enum StateEnum
 	{
 		MOVE, ATTACK, STUN, DEATH,
+
+		BOMB_EXPLODE,
 	}
 
 	public void hitBy(Contact contact)

@@ -52,7 +52,10 @@ public class BodyStrings
 
 	public static boolean isCarAttach(String s)
 	{
-		return s.equals(CAR_ATTACH_STRING);
+		if(s.lastIndexOf(" ") == -1)
+			return s.equals(CAR_ATTACH_STRING);
+
+		return BodyStrings.getPartOf(s, 0).equals(CAR_ATTACH_STRING);
 	}
 
 	public static boolean isEnemy(String s)

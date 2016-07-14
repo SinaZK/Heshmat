@@ -21,6 +21,7 @@ import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import GameScene.LevelManager;
 import Misc.BodyStrings;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
@@ -62,6 +63,8 @@ public class LevelLoader
 				if(read.equals(EOF))
 					break;
 
+//				Log.e("Tag", "ADDING " + read + " and isEqual to Cinema? = " + read.equals(StartGameCinematicTagString));
+
 				if(read.equals(DrivingTagString))
 				{
 					DrivingMode drivingModePart = new DrivingMode(levelManager);
@@ -90,6 +93,7 @@ public class LevelLoader
 
 				if(read.equals(CinematicTagString))
 				{
+//					Log.e("Tag", "ADDING CINEMA");
 					read = dis.readLine();
 					if(BodyStrings.getPartOf(read, 1).equals(StartGameCinematicTagString))
 					{

@@ -157,6 +157,8 @@ public class EndGameScene extends BaseScene
 
 	}
 
+
+
 	private void goToNextLevel()
 	{
 		SizakCarModel carModel = gameScene.carModel;
@@ -170,6 +172,7 @@ public class EndGameScene extends BaseScene
 	@Override
 	public void create()
 	{
+		act.audioManager.playBgMusic();
 	}
 
 	@Override

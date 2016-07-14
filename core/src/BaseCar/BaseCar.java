@@ -1,6 +1,8 @@
 package BaseCar;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -56,6 +58,8 @@ public abstract class BaseCar
 	public DrivingHUD HUD;
 	public CarStatData carStatData;
 
+	public Sound carSound;
+
 	public BaseCar(GameManager gm, CarStatData carStatData)
 	{
 		gameManager = gm;
@@ -68,7 +72,6 @@ public abstract class BaseCar
 
 	public void create()
 	{
-
 	}
 
 	public void draw(Batch spriteBatch)
@@ -103,8 +106,20 @@ public abstract class BaseCar
 //			wheelJoint[i].setMaxMotorTorque(0.05f);
 //			wheelJoint[i].setMotorSpeed(0);
 
+	long carSoundID;
+	public void loadCarSound(String path)
+	{
+		carSound = Gdx.audio.newSound(Gdx.files.internal(path));
+		carSoundID = carSound.play(0.2f);
+		carSound.setLooping(carSoundID, true);
+	}
+
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
+		if(carSound != null)
+		{
+			act.audioManager.playCarSound(carSound, carSoundID, getSpeedInMeter(), 20);
+		}
 		if(groundContact > 0)
 			groundContact--;
 
@@ -127,23 +142,23 @@ public abstract class BaseCar
 
 		if(shouldStop)
 		{
-			if(isStopped())
+			if(isStopped() && gameScene.gameManager.levelManager.currentLevel.getCurrentPart().mode == GameScene.LevelModeEnum.Driving)
 				shouldStop = false;
 
-			onStop();
-			return;
+			if(shouldStop && convertAngleToDegrees() >= -15 && convertAngleToDegrees() <= 15)
+			{
+				onStop();
+				return;
+			}
 		}
 
 
 		relax();
 
 		if(isInAir())
-		{
 			runOnAir(isGas, isBrake);
-		} else
-		{
+		else
 			runOnGround(isGas, isBrake);
-		}
 
 		for (int i = 0; i < slots.size(); i++)
 			slots.get(i).run();
@@ -261,6 +276,8 @@ public abstract class BaseCar
 
 	public void dispose()
 	{
+		carSound.stop();
+		carSound.dispose();
 	}
 
 	boolean isLabeled = false;
@@ -325,13 +342,14 @@ public abstract class BaseCar
 			contactManagerWheelCollisionCount--;
 	}
 
-	float airCounter = 0;
+	public float airCounter = 0;
 	float AirLimitTime = 0.1f;
 
 	public boolean isInAir()
 	{
-		if(contactManagerWheelCollisionCount == 0)
+		if(contactManagerWheelCollisionCount <= 0)
 		{
+			contactManagerWheelCollisionCount = 0;
 			airCounter += gameScene.getDeltaTime();
 
 			if(airCounter >= AirLimitTime)
@@ -360,7 +378,7 @@ public abstract class BaseCar
 //		Log.e("DrivingModeEn
 	}
 
-	private void damage(float damage)
+	public void damage(float damage)
 	{
 		hitpoint -= damage;
 //		Log.e("BaseCar.java", "Hit damage = " + damage);

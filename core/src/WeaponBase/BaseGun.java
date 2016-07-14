@@ -3,6 +3,7 @@ package WeaponBase;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -61,6 +62,7 @@ public class BaseGun implements InputProcessor
 	public Texture bulletTexture;
 
 	public String shooterString = BodyStrings.Shooter_HUMAN;//Default
+	public Sound shootingSound;
 
 	public BaseGun(MainActivity a, GameManager gm)
 	{
@@ -286,6 +288,9 @@ public class BaseGun implements InputProcessor
 			image.setRotation(angle);
 
 			ammo--;
+
+			if(shootingSound != null)
+				act.audioManager.playSound(shootingSound);
 		}
 
 //		Log.e("BaseGun.java", "Shoot : " + ammo);
@@ -316,6 +321,9 @@ public class BaseGun implements InputProcessor
 
 			if(isTouched)
 				shoot();
+
+			if((int)ammo <= 0)
+				reload();
 		}
 	}
 
@@ -329,6 +337,8 @@ public class BaseGun implements InputProcessor
 
 		isReloading = true;
 		reloadCounter = 0;
+
+		act.audioManager.playReload();
 	}
 
 	public void slotGunInitOnAttachCar()
@@ -479,6 +489,8 @@ public class BaseGun implements InputProcessor
 	public void setClipSize(float size)
 	{
 		clipSize = size;
+
+		ammo = getClipSize();
 	}
 
 	public void setBulletSpeed(float speed)

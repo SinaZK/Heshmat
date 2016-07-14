@@ -108,6 +108,9 @@ public class Button extends Entity
 	Runnable runOnClick;
 	public void doOnClicked()
 	{
+		if(isSoundEnable && act != null)
+			act.audioManager.playClick();
+
 		if(runOnClick != null)
 		{
 			runOnClick.run();

@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
+import java.util.ArrayList;
+
+import BaseLevel.Modes.CinematicState.CinematicState;
 import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameManager;
 import GameScene.GameScene;
@@ -15,7 +18,7 @@ import SceneManager.SceneManager;
  * Created by sinazk on 5/22/16.
  * 4:57
  */
-public class CinematicMode extends LevelMode
+public abstract class CinematicMode extends LevelMode
 {
 	public float time, fullTime;
 
@@ -23,6 +26,9 @@ public class CinematicMode extends LevelMode
 	protected GameManager gameManager;
 
 	protected Stage stage;
+
+	public int currentState = 0;
+	protected ArrayList<CinematicState> states = new ArrayList<CinematicState>();
 
 	public CinematicMode(LevelManager levelManager)
 	{
@@ -32,16 +38,32 @@ public class CinematicMode extends LevelMode
 
 		gameScene = levelManager.gameScene;
 		gameManager = levelManager.gameManager;
-		stage = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
+
+		loadStates();
 	}
 
 	@Override
 	public void run()
 	{
+		super.run();
+
 		if(isFinished)
 		{
-			isCameraDone = true;
 			return;
+		}
+
+		if(currentState < states.size())
+		{
+			states.get(currentState).run();
+
+			if(states.get(currentState).isFinished)
+			{
+				currentState++;
+				if(currentState >= states.size())
+					isFinished = true;
+				else
+					states.get(currentState).start();
+			}
 		}
 
 		time -= levelManager.gameScene.getDeltaTime();
@@ -52,10 +74,7 @@ public class CinematicMode extends LevelMode
 			onFinished();
 		}
 
-		super.run();
 
-		stage.act();
-		stage.draw();
 
 	}
 
@@ -75,12 +94,28 @@ public class CinematicMode extends LevelMode
 	public void reset()
 	{
 		super.reset();
+
+		currentState = 0;
+		for(int i = 0;i < states.size();i++)
+			states.get(i).reset();
 	}
 
 	@Override
 	public void setCamera(boolean isSuperCallNeeded)
 	{
-		super.setCamera(false);
+		if(!isFinished)
+		{
+			cameraPos.x = states.get(currentState).camPosX;
+			cameraPos.y = states.get(currentState).camPosY;
+			cameraPosZoom = states.get(currentState).camZoom;
+
+			cameraSpeedX = states.get(currentState).camSpeedX;
+			cameraSpeedY = states.get(currentState).camSpeedY;
+			cameraZoomSpeed = states.get(currentState).camZoomSpeed;
+		}
+
+		if(isSuperCallNeeded)
+			super.setCamera(false);
 	}
 
 	@Override
@@ -88,4 +123,6 @@ public class CinematicMode extends LevelMode
 	{
 		super.setCameraOnReset();
 	}
+
+	public abstract void loadStates();
 }

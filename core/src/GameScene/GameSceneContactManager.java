@@ -82,6 +82,9 @@ public class GameSceneContactManager
 				if(BodyStrings.isCar(s2) && s1.equals(BodyStrings.FINISH_MODE_STRING))
 					handleFinishBody(contact, s2);
 
+//				Log.e("GameSceneContactManager.java", s1 + " and " + s2 + "  Begin contacted ISATTACH : " + BodyStrings.isCarAttach(s1) + " and " +
+//				BodyStrings.isCarAttach(s2));
+
 //				if(BodyStrings.isEnemy(s1) && BodyStrings.isEnemy(s2))
 //					contact.setEnabled(false);
 
@@ -112,8 +115,6 @@ public class GameSceneContactManager
 
 				if(BodyStrings.isEnemy(s1) && BodyStrings.isEnemy(s2))
 				{
-//					Log.e("GameSceneContactManager.java", s1 + " and " + s2 + " contacted " + " Disabling!!!");
-
 					if(BodyStrings.isShootingEnemy(s1) && BodyStrings.isShootingEnemy(s2))
 						contact.setEnabled(false);
 					else

@@ -2,23 +2,21 @@ package BaseLevel.Modes;
 
 
 import BaseLevel.Modes.CinematicState.CinematicState;
-import Enemy.Fly;
 import Enemy.Pigeon;
 import EnemyBase.BaseEnemy;
 import GameScene.LevelManager;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
  * Created by sinazk on 5/22/16.
  * 4:57
  */
-public class StartGameCinematic extends CinematicMode
+public class EndGameCinematic extends CinematicMode
 {
 	Pigeon enemy;
 
-	public StartGameCinematic(LevelManager levelManager)
+	public EndGameCinematic(LevelManager levelManager)
 	{
 		super(levelManager);
 	}

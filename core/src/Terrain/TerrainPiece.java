@@ -99,8 +99,8 @@ public class TerrainPiece
 
 	public void drawFirst()//asli
 	{
-		float last  = CameraHelper.getXMax(mTerrain.mCamera) + 20;
-		float first = CameraHelper.getXMin(mTerrain.mCamera) - 20;
+		float last  = CameraHelper.getXMax(mTerrain.mCamera) + 100;
+		float first = CameraHelper.getXMin(mTerrain.mCamera) - 100;
 
 		float firstX = texturePolygon.getVertices()[0];
 		float lastX = firstX + mTerrain.xSize;

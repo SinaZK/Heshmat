@@ -1,6 +1,8 @@
 package GameScene;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -29,6 +31,8 @@ public class GunManager
 	public static int MAX_GUNS = 0;
 	int selectedGunNumber = 0;
 	public ArrayList<BaseGun> guns = new ArrayList<BaseGun>();
+
+	public ArrayList<Sound> gunSounds = new ArrayList<Sound>();
 
 	public GunManager(GameManager gameManager)
 	{
@@ -85,6 +89,12 @@ public class GunManager
 
 	public void initGuns()
 	{
+		gunSounds.add(null);
+		for(int i = 1;i <= SceneManager.GUN_MAX_NUM;i++)
+		{
+			gunSounds.add(Gdx.audio.newSound(Gdx.files.internal("sfx/gun/" + i + ".ogg")));
+		}
+
 		MAX_GUNS = 0;
 
 		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
@@ -95,6 +105,7 @@ public class GunManager
 				MAX_GUNS++;
 				BaseGun gun = GunSorter.createSelectedGun(gameManager, i);
 				assert gun != null;
+				gun.shootingSound = gunSounds.get(GunSorter.gunPos[i]);
 				gun.setUpgrade(gunStatData);
 				guns.add(gun);
 			}

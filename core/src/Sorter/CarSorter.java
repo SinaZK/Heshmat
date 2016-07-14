@@ -59,30 +59,35 @@ public class CarSorter
 			case 1:
 				DenaCar carD = new DenaCar(gameManager, carStatData);
 				carD.load("gfx/car/1/car.car", gameManager, world, disposeTextureArray);
+				carD.loadCarSound("sfx/car/1.ogg");
 				retCar = carD;
 				break;
 
 			case 2:
 				Toyota carT = new Toyota(gameManager, carStatData);
 				carT.load("gfx/car/2/car.car", gameManager, world, disposeTextureArray);
+				carT.loadCarSound("sfx/car/2.ogg");
 				retCar = carT;
 				break;
 
 			case 3:
 				PeykanOffroad carP = new PeykanOffroad(gameManager, carStatData);
 				carP.load("gfx/car/3/car.car", gameManager, world, disposeTextureArray);
+				carP.loadCarSound("sfx/car/3.ogg");
 				retCar = carP;
 				break;
 
 			case 4:
 				Truck carTr = new Truck(gameManager, carStatData);
 				carTr.load("gfx/car/4/car.car", gameManager, world, disposeTextureArray);
+				carTr.loadCarSound("sfx/car/4.ogg");
 				retCar = carTr;
 				break;
 
 			case 5:
 				ArmorCar carA = new ArmorCar(gameManager, carStatData);
 				carA.load("gfx/car/5/car.car", gameManager, world, disposeTextureArray);
+				carA.loadCarSound("sfx/car/5.ogg");
 				retCar = carA;
 				break;
 		}

@@ -82,7 +82,9 @@ public class LevelSelectorScene extends BaseScene
 			{
 				if(act.starManager.getStarNum() < act.sceneManager.ENDLESS_STARS)
 				{
-					act.googleServices.makeToastLong("به " + (act.sceneManager.ENDLESS_STARS - act.starManager.getStarNum() + " ستاره نیاز داری"));
+					String second = " " + (act.sceneManager.ENDLESS_STARS - act.starManager.getStarNum())+" ";
+					String third = "!!!تا ستاره دیگه نیاز داری";
+					act.googleServices.makeToastLong(third + second);
 					return;
 				}
 

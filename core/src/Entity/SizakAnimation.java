@@ -44,6 +44,7 @@ public class SizakAnimation
 
 		_FPS = 1 / fps;
 		animDuration = _FPS * FRAME_COLS * FRAME_ROWS;
+		int size = FRAME_COLS * FRAME_ROWS;
 
 		textureFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
 //		TextureRegion[][] tmp = TextureRegion.split(textureSheet, (int)frameWidth, (int)frameHeight);
@@ -55,7 +56,7 @@ public class SizakAnimation
 		for (int i = 0; i < FRAME_ROWS; i++)
 			for (int j = 0; j < FRAME_COLS; j++)
 			{
-				textureFrames[index] = new TextureRegion(textureSheet, startX + j * frameWidth, startY + i * FRAME_ROWS, frameWidth, frameHeight);
+				textureFrames[index] = new TextureRegion(textureSheet, startX + j * frameWidth, startY + i * frameHeight, frameWidth, frameHeight);
 				sprites[index] = new Sprite(textureFrames[index]);
 				index++;
 			}

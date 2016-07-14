@@ -34,6 +34,8 @@ public class ShootingMode extends LevelMode
 	{
 		super.run();
 
+		car.stop();
+
 		for(int i = 0;i < numberOfWaves;i++)
 		{
 			if(!waves.get(i).isReleased)
@@ -68,6 +70,8 @@ public class ShootingMode extends LevelMode
 		super.start();
 
 		modeSplashImage.set(0.5f, 1.5f, 0.02f, 2f);
+
+		gameManager.activity.audioManager.playShootingMusic();
 	}
 
 	@Override
@@ -89,6 +93,7 @@ public class ShootingMode extends LevelMode
 	public void resume()
 	{
 		super.resume();
+		gameManager.activity.audioManager.playShootingMusic();
 	}
 
 	@Override
@@ -96,7 +101,7 @@ public class ShootingMode extends LevelMode
 	{
 		if(!isFinished)
 		{
-			camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+			cameraPosZoom = levelManager.currentLevel.terrain.cameraZoom;
 
 			cameraPos.x = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER + 600;
 			cameraPos.y = gameManager.shooterHuman.standBody.getmBody().getWorldCenter().y * PhysicsConstant.PIXEL_TO_METER + 300;

@@ -24,6 +24,7 @@ import Entity.AnimatedSprite;
 import Entity.Button;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
+import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
@@ -129,7 +130,11 @@ public class GameScene extends BaseScene
 		gameManager.pause();
 
 		if(withPauseDialog)
+		{
 			mSceneManager.dialogManager.addPauseDialog();
+
+			act.audioManager.playBgMusic();
+		}
 	}
 
 	public void resume()
@@ -293,6 +298,8 @@ public class GameScene extends BaseScene
 		world.dispose();
 
 		shapeRenderer.dispose();
+
+		gameManager.dispose();
 
 		super.dispose();
 	}

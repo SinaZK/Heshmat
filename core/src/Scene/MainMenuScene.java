@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+import Countly.CountlyStrings;
 import DataStore.DataKeyStrings;
 import Entity.Button;
 import Entity.Entity;
@@ -204,14 +205,14 @@ public class MainMenuScene extends BaseScene
 					return;
 
 
-//				if(!act.settingStatData.isSoundOn)//trying to change sound setting
-//					act.googleServices.Countly(CountlyStrings.SettingSoundOn);
-//				else
-//					act.googleServices.Countly(CountlyStrings.SettingSoundOff);
+				if(!act.settingStatData.isSoundOn)//trying to change sound setting
+					act.googleServices.Countly(CountlyStrings.SettingSoundOn);
+				else
+					act.googleServices.Countly(CountlyStrings.SettingSoundOff);
 
 
 				act.settingStatData.isSoundOn = !act.settingStatData.isSoundOn;
-//				act.saveSetting();
+				act.saveSetting();
 			}
 		});
 
@@ -236,23 +237,19 @@ public class MainMenuScene extends BaseScene
 			@Override
 			public void run()
 			{
+
 				if(!isSetting || isSettingRunning)
 					return;
 
-//				if(!act.settingStatData.isMusicOn)//trying to change sound setting
-//					act.googleServices.Countly(CountlyStrings.SettingMusicOn);
-//				else
-//					act.googleServices.Countly(CountlyStrings.SettingMusicOff);
+				if(!act.settingStatData.isMusicOn)//trying to change sound setting
+					act.googleServices.Countly(CountlyStrings.SettingMusicOn);
+				else
+					act.googleServices.Countly(CountlyStrings.SettingMusicOff);
 
 				act.settingStatData.isMusicOn = !act.settingStatData.isMusicOn;
 				act.saveSetting();
 
-
-//				if(!act.settingStatData.isMusicOn)
-//					act.nativeMultimedia.setVolume(0);
-//				else
-//					act.nativeMultimedia.setVolume(1);
-
+				act.audioManager.setVolume();
 			}
 		});
 

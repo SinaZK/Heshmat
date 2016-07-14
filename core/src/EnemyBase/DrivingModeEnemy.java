@@ -15,6 +15,7 @@ import Entity.AnimatedSpriteSheet;
 import Entity.SizakAnimation;
 import GameScene.GameManager;
 import GameScene.GameSceneContactManager;
+import Misc.BodyStrings;
 import Misc.FileLoader;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
@@ -138,7 +139,12 @@ public class DrivingModeEnemy extends BaseEnemy
 	public void initFromAnimation(String userData, int id, SizakAnimation animation)
 	{
 		for(int i = 0;i < stateCount;i++)
+		{
 			states.get(i).init(userData, id, animation.sprites[i]);
+
+//			if(i == stateCount - 1)
+//				states.get(i).body.setUserData(BodyStrings.CAR_ATTACH_STRING + " " + userData + " " + id);
+		}
 	}
 
 	@Override

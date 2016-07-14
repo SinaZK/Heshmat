@@ -56,9 +56,6 @@ public class NormalCar extends BaseCar
 	@Override
 	public void gas(float rate)
 	{
-		if(shouldStop)
-			return;
-
 		for (int i = 0; i < wheelNum; i++)
 		{
 			if(isWheelDrive[i])
@@ -130,8 +127,6 @@ public class NormalCar extends BaseCar
 	{
 		FileLoader loader = new FileLoader();
 		loader.loadFile(path);
-
-//			NormalCar retCar = new NormalCar(gameManager, carStatData);
 
 		driverX = loader.getFloat(0, 1);
 		driverY = loader.getFloat(0, 2);

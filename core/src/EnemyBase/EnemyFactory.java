@@ -25,6 +25,7 @@ import Enemy.FurryBird;
 import Enemy.HattyBird;
 import Enemy.MaskBird;
 import Enemy.Mosquito;
+import Enemy.Pigeon;
 import Enemy.RedBird;
 import Enemy.Wasp;
 import Enemy.Worm;
@@ -266,6 +267,7 @@ public class EnemyFactory
 	public static String BOSS_BIRD = "BOSS_BIRD";
 	public static String WORM = "WORM";
 	public static String BOMB = "BOMB";
+	public static String PIGEON = "PIGEON";
 
 	public static String STREET_LIGHT   = "STREET_LIGHT";
 	public static String SMALL_LIGHT    = "SMALL_LIGHT";
@@ -273,7 +275,6 @@ public class EnemyFactory
 	public static String YELLOW_TREE    = "YELLOW_TREE";
 	public static String TRAFFIC_LIGHT  = "TRAFFIC_LIGHT";
 	public static String WATER_BOX  = "WATER_BOX";
-
 
 
 	public BaseEnemy getEnemy(String type, int level, ArrayList<String> attr)
@@ -314,12 +315,12 @@ public class EnemyFactory
 		if(type.equals(WORM))
 			return getWorm(level, attr);
 
-		return null;
-
+		return getDrivingEnemy(StringToEnemy(type), level, attr);
 	}
 
 	public AnimatedSpriteSheet MosquitoEnemyAnimation, FlyEnemyAnimation, WaspEnemyAnimation, RedBirdEnemyAnimation, HattyBirdEnemyAnimation, MaskBirdEnemyAnimation;
 	public AnimatedSpriteSheet FurryBirdEnemyAnimation, FireBirdEnemyAnimation, BatEnemyAnimation, BossBirdEnemyAnimation, WormEnemyAnimation, BombEnemyAnimation;
+	public AnimatedSpriteSheet PigeonEnemyAnimation;
 
 	public Texture FlyBulletTexture;
 
@@ -379,8 +380,11 @@ public class EnemyFactory
 		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 1308, 2496, 1671, 1, 6, 8);
 
 		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
-		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_FALL_STRING, 34, 4, 1266, 274, 1, 7, 8);
-		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 34, 4, 1266, 274, 1, 5, 8);
+		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 8);
+		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 19, 273, 977, 507, 1, 5, 6);
+
+		PigeonEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/13/bird.png", gameScene.disposeTextureArray);
+		PigeonEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 1204, 882, 3, 3, 8);
 	}
 
 	public AnimatedSpriteSheet DrivingEnemiesSpriteSheet;
@@ -514,6 +518,8 @@ public class EnemyFactory
 			return BaseEnemy.EnemyType.RED_BIRD;
 		if(type.equals(WORM))
 			return BaseEnemy.EnemyType.WORM;
+		if(type.equals(PIGEON))
+			return BaseEnemy.EnemyType.PIGEON;
 
 		if(type.equals(TRAFFIC_LIGHT))
 			return BaseEnemy.EnemyType.TrafficLight;
@@ -561,6 +567,10 @@ public class EnemyFactory
 				break;
 			case YellowTree:
 				retEnemy = new YellowTree(gameManager, enemies.size());
+				break;
+
+			case PIGEON:
+				retEnemy = new Pigeon(gameManager, enemies.size());
 				break;
 		}
 

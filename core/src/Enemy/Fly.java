@@ -55,7 +55,6 @@ public class Fly extends BaseEnemy
     {
         super.draw(batch);
 
-//		gun.draw(batch);
     }
 
     @Override

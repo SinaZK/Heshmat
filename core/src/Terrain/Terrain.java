@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -23,8 +25,10 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import HUD.HUD;
+import Misc.BodyStrings;
 import Misc.CameraHelper;
 import PhysicsFactory.PhysicsConstant;
+import PhysicsFactory.PhysicsFactory;
 import SceneManager.SceneManager;
 import heshmat.MainActivity;
 
@@ -143,6 +147,8 @@ public class Terrain
 
 		createFirstTerrain();
 
+		wallBody = PhysicsFactory.createBoxBody(mPhysicsWorld, -100, 0, WALL_WIDTH, WALL_HEIGHT, BodyDef.BodyType.StaticBody);
+		wallBody.setUserData(BodyStrings.GroundString);
 
 	}//Create
 
@@ -189,10 +195,22 @@ public class Terrain
 	int curBumperDist = bumperDist;
 	float lastObstacle = -1;
 
+
+	public static float WALL_WIDTH  = 100;
+	public static float WALL_HEIGHT = 500;
+	public void moveBackWall()
+	{
+		int pieceID = 5;
+		float wX = Points.get(pieceID).x;
+		float wY = Points.get(pieceID).y;
+		wallBody.setTransform(wX / rat + WALL_WIDTH / 2 / rat, wY / rat + WALL_HEIGHT / 2 / rat, 0);
+	}
+
 	Random utilRand = new Random(727);
 
 	public void run()
 	{
+		moveBackWall();
 //		Log.e("Terrain.java", "SIZE = " + Pieces.size());
 		float lastVisible = CameraHelper.getXMax(mCamera, mCamera.zoom * 1.5f);
 
@@ -427,24 +445,7 @@ public class Terrain
 		}
 	}
 
-	public void destroyAllPieces()
-	{
-		for (int i = 0; i < Pieces.size(); i++)
-			Pieces.get(i).dispose(false);
-
-		Pieces.removeAll(Pieces);
-		Points.removeAll(Points);
-	}
-
-	public void dispose()
-	{
-		polygonSpriteBatch = null;
-		spriteBatch = null;
-		bgSpriteBatch.dispose();
-		polygonSpriteBatch = null;
-		destroyAllPieces();
-		mPhysicsWorld = null;
-	}
+	Body wallBody;
 
 	public int getIndexOfX(float x)
 	{
@@ -456,6 +457,13 @@ public class Terrain
 		}
 
 		return -1;
+	}
+
+	public void dispose()
+	{
+		repeatingTextureRegion.dispose();
+		upTextureRegion.dispose();
+		mPhysicsWorld.destroyBody(wallBody);
 	}
 
 	public void restart()

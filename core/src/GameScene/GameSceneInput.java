@@ -48,6 +48,8 @@ public class GameSceneInput implements InputProcessor
 		{
 			float ratio = PhysicsConstant.PIXEL_TO_METER;
 			mScene.gameManager.selectedCar.body.setCenterPosition(mScene.camera.position.x / ratio, mScene.camera.position.y / ratio + 5);
+			mScene.gameManager.selectedCar.contactManagerWheelCollisionCount = 0;
+			mScene.gameManager.selectedCar.airCounter = 100;
 		}
 
 		return false;

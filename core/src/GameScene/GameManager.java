@@ -149,6 +149,11 @@ public class GameManager
 		bulletFactory.resume();
 	}
 
+	public void dispose()
+	{
+		selectedCar.dispose();
+	}
+
 	public int enemyKilledCount, enemyInitCount;
 	public long goldCollect = 0;
 	public float distanceTraveled;

@@ -51,17 +51,20 @@ public class MainActivity extends ApplicationAdapter
 		saveManager = new SaveManager(false);
 		loadSaveAtt();
 
+		audioManager = new AudioManager(this);
+		audioManager.load();
+
 		gameStatData.numberOfAppRun++;
 
 		starManager = new StarManager(this);
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_PACKAGE_SELECTOR, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
 //		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		createShowGold();
 
-		addMoney(10000, true);
+		audioManager.playBgMusic();
 	}
 
 	public long renderCT = 0;

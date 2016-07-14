@@ -28,6 +28,7 @@ public abstract class LevelMode
 
 	public OrthographicCamera camera;
 	public Vector2 cameraPos = new Vector2();
+	public float cameraPosZoom;
 	public float cameraSpeedX = 10, cameraSpeedY = 10, cameraZoomSpeed = 1;
 	public boolean isCameraDone = false;
 
@@ -79,12 +80,15 @@ public abstract class LevelMode
 		cameraSetCT = 2;
 		cameraPos.x = camera.position.x;
 		cameraPos.y = camera.position.y;
+		cameraPosZoom = camera.zoom;
 	}
 
+	boolean isEndATTRSet = false;
 	public void reset()
 	{
 		isCameraDone = false;
 		isFinished = false;
+		isEndATTRSet = false;
 		setCameraOnReset();
 	}
 
@@ -129,6 +133,24 @@ public abstract class LevelMode
 
 		camera.position.set(camX, camY, 0);
 
+		//ZOOM
+		float zoomDiff = cameraPosZoom - camera.zoom;
+		if(cameraPosZoom > camera.zoom)
+		{
+			if(zoomDiff > cameraZoomSpeed)
+				camera.zoom += cameraZoomSpeed;
+			else
+				camera.zoom += zoomDiff;
+		}
+		else
+		{
+			zoomDiff = Math.abs(zoomDiff);
+			if(zoomDiff > cameraZoomSpeed)
+				camera.zoom -= cameraZoomSpeed;
+			else
+				camera.zoom -= zoomDiff;
+		}
+
 //		if(isFinished)
 //			Log.e("Tag", "SECOND Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 	}
@@ -137,6 +159,7 @@ public abstract class LevelMode
 	{
 		cameraPos.x = camera.position.x;
 		cameraPos.y = camera.position.y;
+		cameraPosZoom = camera.zoom;
 	}
 
 	public void runOnEnd()//isFinished == true & isCameraDone == False
@@ -151,11 +174,21 @@ public abstract class LevelMode
 		nextPart.setCamera(false);
 		cameraPos.x = nextPart.cameraPos.x;
 		cameraPos.y = nextPart.cameraPos.y;
+		cameraPosZoom = nextPart.cameraPosZoom;
 
-		cameraSpeedX = 1.5f;
-		cameraSpeedY = 1.5f;
+		if(!isEndATTRSet)
+		{
+			float TIME = 3;
+			cameraSpeedX = Math.abs(cameraPos.x - camera.position.x) / TIME / 60;
+			cameraSpeedY = Math.abs(cameraPos.y - camera.position.y) / TIME / 60;
+			cameraZoomSpeed = Math.abs(camera.zoom - cameraPosZoom) / TIME / 60;
+
+			isEndATTRSet = true;
+		}
 
 		if(Math.abs(cameraPos.x - camera.position.x) < 1 && Math.abs(cameraPos.y - camera.position.y) < 1)
 			isCameraDone = true;
+
+		car.onStop();
 	}
 }
