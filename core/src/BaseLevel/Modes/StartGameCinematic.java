@@ -63,13 +63,13 @@ public class StartGameCinematic extends CinematicMode
 		float carY = firstCarY * PhysicsConstant.PIXEL_TO_METER;
 
 		float firstZoom = levelManager.currentLevel.terrain.cameraZoom;
-		float zoom = firstZoom * 1.5f;
+		float zoom = firstZoom + 1.2f;
 		float cX = carX;
 		float cY = carY;
 
-		float [] times = {5, 5, 18};
+		float [] times = {5, 5, 18, 5};
 
-		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 1.5f / 60f / times[0]).setTime(times[0]);
+		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 1.2f / 60f / times[0]).setTime(times[0]);
 		states.add(firstState);
 
 		cX += times[1] * 60 * 3;
@@ -87,6 +87,10 @@ public class StartGameCinematic extends CinematicMode
 				enemy.setPosition(CameraHelper.getXMax(camera) - 100, CameraHelper.getYMax(camera) - 300);
 			}
 		};
+
+		CinematicState lastState = new CinematicState(this).init(cX, cY, levelManager.currentLevel.terrain.cameraZoom).
+				setSpeed(0, 0, 1.2f / 60f / times[3]).setTime(times[3]);
+		states.add(lastState);
 
 
 		camera.position.x = carX;

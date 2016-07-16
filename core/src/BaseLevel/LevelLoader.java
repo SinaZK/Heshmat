@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import BaseLevel.Modes.CinematicMode;
 import BaseLevel.Modes.DrivingEnemyQuery;
 import BaseLevel.Modes.DrivingMode;
+import BaseLevel.Modes.EndGameCinematic;
 import BaseLevel.Modes.FinishMode;
 import BaseLevel.Modes.ShootingMode;
 import BaseLevel.Modes.StartGameCinematic;
@@ -38,6 +39,7 @@ public class LevelLoader
 
 	public static String CinematicTagString = "CINEMATIC";
 	public static String StartGameCinematicTagString = "FIRST_CINEMATIC";
+	public static String EndGameCinematicTagString = "END_CINEMATIC";
 
 	public static String FinishTagString    = "FINISH";
 	public static String TRUE  = "TRUE";
@@ -75,16 +77,21 @@ public class LevelLoader
 					read = dis.readLine();
 					drivingModePart.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
-					while (true)
-					{
-						read = dis.readLine();
-						if(read.equals(EOF))
-							break;
+					read = dis.readLine();
+					drivingModePart.objDist = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
-						drivingModePart.queries.add(
-								new DrivingEnemyQuery(drivingModePart, EnemyFactory.StringToEnemy(BodyStrings.getPartOf(read, 0)),
-										Integer.valueOf(BodyStrings.getPartOf(read, 1)),
-										Float.valueOf(BodyStrings.getPartOf(read, 2))));
+					if(drivingModePart.objDist != -1)
+					{
+						while (true)
+						{
+							read = dis.readLine();
+							if(read.equals(EOF))
+								break;
+
+							drivingModePart.queries.add(
+									new DrivingEnemyQuery(drivingModePart, EnemyFactory.StringToEnemy(BodyStrings.getPartOf(read, 0)),
+											Integer.valueOf(BodyStrings.getPartOf(read, 1))));
+						}
 					}
 
 					normalLevel.levelParts.add(drivingModePart);
@@ -102,6 +109,15 @@ public class LevelLoader
 						startGameCinematic.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
 						normalLevel.levelParts.add(startGameCinematic);
+					}
+
+					if(BodyStrings.getPartOf(read, 1).equals(EndGameCinematicTagString))
+					{
+						EndGameCinematic endGameCinematic = new EndGameCinematic(levelManager);
+						read = dis.readLine();
+						endGameCinematic.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
+
+						normalLevel.levelParts.add(endGameCinematic);
 					}
 
 					dis.readLine();//ignoring blank line

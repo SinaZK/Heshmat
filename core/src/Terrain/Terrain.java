@@ -2,7 +2,6 @@ package Terrain;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -24,9 +23,9 @@ import BaseLevel.Modes.DrivingMode;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import HUD.HUD;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
 import SceneManager.SceneManager;
@@ -118,7 +117,6 @@ public class Terrain
 
 		setAtt();
 
-		random = new Random(terrainLoader.randSeed);
 		mCamera.zoom = terrainLoader.zoom;
 		cameraZoom = terrainLoader.zoom;
 	}
@@ -211,7 +209,12 @@ public class Terrain
 	public void run()
 	{
 		moveBackWall();
-//		Log.e("Terrain.java", "SIZE = " + Pieces.size());
+		Log.e("Terrain.java", "STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART");
+		Log.e("Terrain.java", "SIZE = " + Pieces.size() + " : ");
+		Log.e("Terrain.java", "first = " + Points.get(0));
+		Log.e("Terrain.java", " Last = " + Points.getLast());
+		Log.e("Terrain.java", "END");
+		Log.e("Terrain.java", "");
 		float lastVisible = CameraHelper.getXMax(mCamera, mCamera.zoom * 1.5f);
 
 		while (lastVisible >= Points.getLast().x)
@@ -306,6 +309,9 @@ public class Terrain
 
 	void createFirstTerrain()
 	{
+		prevPosition = 0;
+		random = new Random(terrainLoader.randSeed);
+
 		float firstX = -xSize / 2 * firstNum;
 		for (int i = 0; i < 2; i++)
 		{
@@ -451,7 +457,6 @@ public class Terrain
 	{
 		for(int i = 0;i < Points.size() - 1;i++)
 		{
-//			Log.e("Terrain.java", "Point " + i + " + : " + Points.get(i).x);
 			if(x >= Points.get(i).x && x <= Points.get(i + 1).x)
 				return i;
 		}

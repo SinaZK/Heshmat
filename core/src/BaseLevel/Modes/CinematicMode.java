@@ -88,6 +88,8 @@ public abstract class CinematicMode extends LevelMode
 		super.start();
 
 		modeSplashImage.set(0.8f, 1.2f, 0.02f, 0.1f);
+
+		levelManager.act.audioManager.playCinematicMusic();
 	}
 
 	@Override

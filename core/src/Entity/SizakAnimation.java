@@ -63,6 +63,19 @@ public class SizakAnimation
 
 	}
 
+	public void flipAnimation()
+	{
+		int size = FRAME_COLS * FRAME_ROWS;
+		int index = size - 1;
+
+		for(int i = 0;i < size / 2;i++, index--)
+		{
+			Sprite tmp = sprites[i];
+			sprites[i] = sprites[index];
+			sprites[index] = tmp;
+		}
+	}
+
 	public void draw(float stateTime, Batch batch)
 	{
 		while (stateTime >= animDuration)

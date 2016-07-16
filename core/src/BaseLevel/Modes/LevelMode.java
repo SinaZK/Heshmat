@@ -47,6 +47,7 @@ public abstract class LevelMode
 
 	public void run()
 	{
+
 		if(isFinished && !isCameraDone)
 		{
 			runOnEnd();
@@ -81,6 +82,8 @@ public abstract class LevelMode
 		cameraPos.x = camera.position.x;
 		cameraPos.y = camera.position.y;
 		cameraPosZoom = camera.zoom;
+
+		isFinished = false;
 	}
 
 	boolean isEndATTRSet = false;
@@ -104,7 +107,7 @@ public abstract class LevelMode
 		float camY = camera.position.y;
 
 //		if(isFinished)
-//			Log.e("Tag", "FIRST Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
+//			Log.e("Tag", "mode = " + mode + " FIRST Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 
 		float diffX = cameraPos.x - camX;
 		float diffY = cameraPos.y - camY;
@@ -152,7 +155,7 @@ public abstract class LevelMode
 		}
 
 //		if(isFinished)
-//			Log.e("Tag", "SECOND Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
+//			Log.e("Tag", "mode " + mode + "SECOND Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 	}
 
 	public void setCameraOnReset()
@@ -179,9 +182,16 @@ public abstract class LevelMode
 		if(!isEndATTRSet)
 		{
 			float TIME = 3;
-			cameraSpeedX = Math.abs(cameraPos.x - camera.position.x) / TIME / 60;
-			cameraSpeedY = Math.abs(cameraPos.y - camera.position.y) / TIME / 60;
-			cameraZoomSpeed = Math.abs(camera.zoom - cameraPosZoom) / TIME / 60;
+
+			float deltaX = (cameraPos.x - camera.position.x);
+			float deltaY = (cameraPos.y - camera.position.y);
+//			Log.e("Tag", "Deltas = " + deltaX + " y = " + deltaY);
+
+			cameraSpeedX = Math.abs(cameraPos.x - camera.position.x) / TIME / 60f;
+			cameraSpeedY = Math.abs(cameraPos.y - camera.position.y) / TIME / 60f;
+			cameraZoomSpeed = Math.abs(camera.zoom - cameraPosZoom) / TIME / 60f;
+
+//			Log.e("Tag", "sX = " + cameraSpeedX + " sY = " + cameraSpeedY);
 
 			isEndATTRSet = true;
 		}

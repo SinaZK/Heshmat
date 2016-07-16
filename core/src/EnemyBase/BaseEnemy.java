@@ -46,7 +46,7 @@ public abstract class BaseEnemy
 		PIGEON,
 
 		//DrivingMode Enemies
-		StreetLight, SmallLight, TrafficLight, GreenTree, YellowTree, WaterBox
+		StreetLight, SmallLight, TrafficLight, GreenTree, YellowTree, WaterBox, StopSign
 	}
 
 	public GameManager gameManager;

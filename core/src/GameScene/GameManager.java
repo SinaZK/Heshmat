@@ -3,6 +3,8 @@ package GameScene;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
 
 import BaseCar.BaseCar;
 import EnemyBase.EnemyFactory;
@@ -101,6 +103,7 @@ public class GameManager
 		if(levelManager.levelModeEnum == GameScene.LevelModeEnum.Shooting)
 		{
 			inputMultiplexer.addProcessor(gameScene.shootingModeHUD);
+
 			gunManager.setInput(inputMultiplexer);
 		}
 

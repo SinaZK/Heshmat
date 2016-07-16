@@ -92,7 +92,7 @@ public class GunManager
 		gunSounds.add(null);
 		for(int i = 1;i <= SceneManager.GUN_MAX_NUM;i++)
 		{
-			gunSounds.add(Gdx.audio.newSound(Gdx.files.internal("sfx/gun/" + i + ".ogg")));
+			gunSounds.add(Gdx.audio.newSound(Gdx.files.internal("sfx/gun/" + i + ".mp3")));
 		}
 
 		MAX_GUNS = 0;

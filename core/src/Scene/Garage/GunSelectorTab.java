@@ -127,6 +127,23 @@ public class GunSelectorTab extends BaseScene
 		return selectedGun * GUN_SHOW_WIDTH + (selectedGun - 1) * GUN_SHOW_PADDING + gunSelectEntities[selectedGun].gunModel.showSprite.getWidth() / 2;
 	}
 
+	public void next()
+	{
+		selectedGun++;
+		if(selectedGun > SceneManager.GUN_NUM)
+			selectedGun = SceneManager.GUN_NUM;
+
+		gunSelectEntities[selectedGun].select();
+	}
+
+	public void prev()
+	{
+		selectedGun--;
+		if(selectedGun < 1)
+			selectedGun = 1;
+
+		gunSelectEntities[selectedGun].select();
+	}
 
 	public Sprite gunBackSprite;
 	@Override
@@ -145,11 +162,7 @@ public class GunSelectorTab extends BaseScene
 			@Override
 			public void run()
 			{
-				selectedGun++;
-				if(selectedGun > SceneManager.GUN_NUM)
-					selectedGun = SceneManager.GUN_NUM;
-
-				gunSelectEntities[selectedGun].select();
+				next();
 			}
 		});
 
@@ -158,11 +171,7 @@ public class GunSelectorTab extends BaseScene
 			@Override
 			public void run()
 			{
-				selectedGun--;
-				if(selectedGun < 1)
-					selectedGun = 1;
-
-				gunSelectEntities[selectedGun].select();
+				prev();
 			}
 		});
 

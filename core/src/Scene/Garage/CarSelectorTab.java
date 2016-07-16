@@ -130,6 +130,24 @@ public class CarSelectorTab extends BaseScene
 		return selectedCar * CAR_SHOW_WIDTH + (selectedCar - 1) * CAR_SHOW_PADDING + carSelectEntities[selectedCar].sizakCarModel.carShowSprite.getWidth() / 2;
 	}
 
+	public void next()
+	{
+		selectedCar++;
+		if(selectedCar > SceneManager.CAR_NUM)
+			selectedCar = SceneManager.CAR_NUM;
+
+		carSelectEntities[selectedCar].select();
+	}
+
+	public void prev()
+	{
+		selectedCar--;
+		if(selectedCar < 1)
+			selectedCar = 1;
+
+		carSelectEntities[selectedCar].select();
+	}
+
 	@Override
 	public void createHUD()
 	{
@@ -146,11 +164,7 @@ public class CarSelectorTab extends BaseScene
 			@Override
 			public void run()
 			{
-				selectedCar++;
-				if(selectedCar > SceneManager.CAR_NUM)
-					selectedCar = SceneManager.CAR_NUM;
-
-				carSelectEntities[selectedCar].select();
+				next();
 			}
 		});
 
@@ -159,11 +173,7 @@ public class CarSelectorTab extends BaseScene
 			@Override
 			public void run()
 			{
-				selectedCar--;
-				if(selectedCar < 1)
-					selectedCar = 1;
-
-				carSelectEntities[selectedCar].select();
+				prev();
 			}
 		});
 

@@ -19,7 +19,7 @@ public class AudioManager
 	
 	public Sound buttonClickSound, buyItemSound;
 	public Sound crashSound, enemyHit, reloadSound;
-	public Music bgMusic, drivingMusic, shootingMusic;
+	public Music bgMusic, drivingMusic, shootingMusic, cinematicMusic;
 	
 	ArrayList<Sound> allSounds = new ArrayList<Sound>();
 	ArrayList<Music> allMusics = new ArrayList<Music>();
@@ -51,35 +51,45 @@ public class AudioManager
 	{
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/bg.ogg"));
 		drivingMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/driving.ogg"));
+		drivingMusic.setVolume(0.1f);
 		shootingMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/shooting.ogg"));
+		cinematicMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/cinematic.ogg"));
 
 		allMusics.add(bgMusic);
 		allMusics.add(drivingMusic);
 		allMusics.add(shootingMusic);
 	}
 
+	public void playCinematicMusic()
+	{
+		bgMusic.stop();
+		drivingMusic.stop();
+		shootingMusic.stop();
+		cinematicMusic.play();
+	}
+
 	public void playBgMusic()
 	{
-		Log.e("Tag", "BG");
 		bgMusic.play();
 		drivingMusic.stop();
 		shootingMusic.stop();
+		cinematicMusic.stop();
 	}
 
 	public void playDrivingMusic()
 	{
-		Log.e("Tag", "Driving");
 		bgMusic.stop();
 		drivingMusic.play();
 		shootingMusic.stop();
+		cinematicMusic.stop();
 	}
 
 	public void playShootingMusic()
 	{
-		Log.e("Tag", "SHOOTING");
 		bgMusic.stop();
 		drivingMusic.stop();
 		shootingMusic.play();
+		cinematicMusic.stop();
 	}
 
 	public void playEnemyHit()

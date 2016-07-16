@@ -2,6 +2,10 @@ package HUD;
 
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Entity.Button;
@@ -70,6 +74,12 @@ public class ShootingHUD extends HUD
 		});
 		nextGunButton.setPosition(DX + x + 165, DY + y);
 		addActor(nextGunButton);
+
+		initSwipeInput();
+
+		nextGunButton.addListener(swipeDetector);
+		prevGunButton.addListener(swipeDetector);
+		reloadButton.addListener(swipeDetector);
 	}
 
 	@Override
@@ -117,5 +127,23 @@ public class ShootingHUD extends HUD
 				, selectSprite.getX() + selectSprite.getWidth() / 2 - 20, selectSprite.getY() - 10);
 
 		getBatch().end();
+	}
+
+	public float swipeVX = 5;
+	ActorGestureListener swipeDetector;
+	public void initSwipeInput()
+	{
+		swipeDetector = new ActorGestureListener()
+		{
+			@Override
+			public void fling(InputEvent event, float velocityX, float velocityY, int button)
+			{
+				if(velocityY < -swipeVX)
+					gameScene.gameManager.gunManager.nextGun();
+
+				if(velocityY > swipeVX)
+					gameScene.gameManager.gunManager.prevGun();
+			}
+		};
 	}
 }

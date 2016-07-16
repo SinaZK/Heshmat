@@ -29,6 +29,8 @@ public class Bomb extends BaseEnemy
 		load("gfx/enemy/12/");
 
 		init(BodyStrings.DrivingEnemy, id, enemyFactory.BombEnemyAnimation);
+
+		animatedSpriteSheet.getAnimation(EnemyFactory.ENEMY_ANIMATION_EXPLODE_STRING).setSize(250 / 1.5f, 220 / 1.5f);
 	}
 
 	@Override
@@ -64,7 +66,8 @@ public class Bomb extends BaseEnemy
 		float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
-		mainBody.getmBody().setLinearVelocity(0, -1);
+//		mainBody.getmBody().setLinearVelocity(0, -1);
+		mainBody.getmBody().setGravityScale(1);
 	}
 
 	@Override

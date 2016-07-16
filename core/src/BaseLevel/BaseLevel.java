@@ -119,6 +119,7 @@ public class BaseLevel
 	{
 		terrain.restart();
 
+
 		for(int i = 0;i < levelParts.size();i++)
 			levelParts.get(i).reset();
 

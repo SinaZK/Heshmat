@@ -110,16 +110,19 @@ public abstract class BaseCar
 	public void loadCarSound(String path)
 	{
 		carSound = Gdx.audio.newSound(Gdx.files.internal(path));
-		carSoundID = carSound.play(0.2f);
-		carSound.setLooping(carSoundID, true);
+
+		if(act.settingStatData.isSoundOn)
+		{
+			carSoundID = carSound.play(0.2f);
+			carSound.setLooping(carSoundID, true);
+		}
 	}
 
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
 		if(carSound != null)
-		{
 			act.audioManager.playCarSound(carSound, carSoundID, getSpeedInMeter(), 20);
-		}
+
 		if(groundContact > 0)
 			groundContact--;
 
@@ -162,6 +165,13 @@ public abstract class BaseCar
 
 		for (int i = 0; i < slots.size(); i++)
 			slots.get(i).run();
+
+//		if(gameManager.levelManager.currentLevel.getCurrentPart().isFinished = true &&
+//				gameManager.levelManager.currentLevel.getCurrentPart().isCameraDone == false)
+//		{
+//			onStop();
+//			return;
+//		}
 
 //		Log.e("Tag", "Speed = " + getSpeedInMeter());
 	}

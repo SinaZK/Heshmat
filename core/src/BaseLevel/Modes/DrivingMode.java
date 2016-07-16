@@ -2,11 +2,17 @@ package BaseLevel.Modes;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
+import Enemy.EnemyState.StopSign;
+import EnemyBase.BaseEnemy;
+import EnemyBase.DrivingModeEnemy;
 import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.CameraHelper;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
@@ -16,12 +22,13 @@ import PhysicsFactory.PhysicsConstant;
 public class DrivingMode extends LevelMode
 {
 	public float distance;
-	public float time, fullTime;
+	public float time, fullTime, objDist;
+	float distCounter;
 
 	boolean isEnding;
 
-//	public static int StreetLightDist = 1000;
-//	public int streetLightPos = StreetLightDist;
+	public static float distBeforeEnd = 2000;
+	public boolean isEndSignInit = false;
 
 	public ArrayList<DrivingEnemyQuery> queries = new ArrayList<DrivingEnemyQuery>();
 
@@ -36,6 +43,8 @@ public class DrivingMode extends LevelMode
 	public void run()
 	{
 		super.run();
+
+//		Log.e("Tag", "isEnding = " + isEnding + "isFinished = " + isFinished + " isCameraDOne = " + isCameraDone);
 
 		if(isFinished)
 		{
@@ -68,11 +77,38 @@ public class DrivingMode extends LevelMode
 		levelManager.gameScene.drawDist(levelManager.gameScene.drivingModeHUD.getBatch(), getCurrentPos(), distance);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
 
-		for (int i = 0; i < queries.size(); i++)
-			queries.get(i).run(getCurrentPos());
+
+		if(getCurrentPos() > distCounter && getCurrentPos() + distBeforeEnd < distance)
+		{
+			distCounter += objDist;
+
+			if(queries.size() == 0)
+				return;
+
+			int id = Math.abs(random.nextInt()) % queries.size();
+			queries.get(id).getEnemy();
+		}
+
+		if(!isEndSignInit)
+		{
+//			if(distance - getCurrentPos() < 1000)
+			float firstXinPixel = firstCarX * PhysicsConstant.PIXEL_TO_METER;
+			if(CameraHelper.getXMax(camera) + 100 > firstXinPixel + distance)
+			{
+				isEndSignInit = true;
+				StopSign stopSign = (StopSign)levelManager.gameManager.enemyFactory.getDrivingEnemy(BaseEnemy.EnemyType.StopSign,
+						(int)(levelManager.act.selectorStatData.selectedLevel * 1.5f), null);
+
+//				Log.e("drivingMode", "Stop Sign At : " + levelManager.currentLevel.currentPart);
+
+				float x = firstXinPixel + distance;
+				stopSign.attachToGround(x);
+			}
+		}
 
 	}
 
+	Random random = new Random(100 + levelManager.currentLevel.levelParts.size());
 	@Override
 	public void start()
 	{
@@ -80,6 +116,8 @@ public class DrivingMode extends LevelMode
 		cameraSpeedX = 100;
 		cameraSpeedY = 100;
 		cameraZoomSpeed = 0.005f;
+
+		distCounter = objDist;
 
 		super.start();
 
@@ -111,13 +149,12 @@ public class DrivingMode extends LevelMode
 		return firstCarX * PhysicsConstant.PIXEL_TO_METER + distance;
 	}
 
-	Random random = new Random();
-
 	@Override
 	public void reset()
 	{
 		super.reset();
 		isEnding = false;
+		isEndSignInit = false;
 
 		for (int i = 0; i < queries.size(); i++)
 			queries.get(i).reset();

@@ -15,6 +15,7 @@ import Enemy.Bomb;
 import Enemy.BossBird;
 import Enemy.EnemyState.GreenTree;
 import Enemy.EnemyState.SmallStreetLight;
+import Enemy.EnemyState.StopSign;
 import Enemy.EnemyState.StreetLight;
 import Enemy.EnemyState.TrafficLight;
 import Enemy.EnemyState.WaterBox;
@@ -274,7 +275,8 @@ public class EnemyFactory
 	public static String GREEN_TREE     = "GREEN_TREE";
 	public static String YELLOW_TREE    = "YELLOW_TREE";
 	public static String TRAFFIC_LIGHT  = "TRAFFIC_LIGHT";
-	public static String WATER_BOX  = "WATER_BOX";
+	public static String WATER_BOX      = "WATER_BOX";
+	public static String STOP_SIGN      = "STOP_SIGN";
 
 
 	public BaseEnemy getEnemy(String type, int level, ArrayList<String> attr)
@@ -381,7 +383,8 @@ public class EnemyFactory
 
 		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 8);
-		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 19, 273, 977, 507, 1, 5, 6);
+		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 0, 300, 1270, 520, 1, 5, 15);
+		BombEnemyAnimation.getAnimation(ENEMY_ANIMATION_EXPLODE_STRING).flipAnimation();
 
 		PigeonEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/13/bird.png", gameScene.disposeTextureArray);
 		PigeonEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 1204, 882, 3, 3, 8);
@@ -404,6 +407,8 @@ public class EnemyFactory
 		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_GREEN_TREE, 666, 39, 887, 300, 1, 2, NOT_ANIMATION);
 
 		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_YELLOW_TREE, 255, 333, 532, 535, 1, 2, NOT_ANIMATION);
+
+		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_STOP_SIGN, 921, 32, 1134, 268, 1, 2, NOT_ANIMATION);
 	}
 
 	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];
@@ -434,6 +439,7 @@ public class EnemyFactory
 	public static String ENEMY_DRIVING_YELLOW_TREE   = "yellow tree";
 	public static String ENEMY_DRIVING_TRAFFIC_LIGHT = "traffic light";
 	public static String ENEMY_DRIVING_WATER_BOX     = "water box";
+	public static String ENEMY_DRIVING_STOP_SIGN   = "stop sign";
 
 	public static int NOT_ANIMATION = -1;
 	//for Spirtes and animations
@@ -533,6 +539,8 @@ public class EnemyFactory
 			return BaseEnemy.EnemyType.YellowTree;
 		if(type.equals(WATER_BOX))
 			return BaseEnemy.EnemyType.WaterBox;
+		if(type.equals(STOP_SIGN))
+			return BaseEnemy.EnemyType.StopSign;
 
 		return null;
 	}
@@ -568,10 +576,14 @@ public class EnemyFactory
 			case YellowTree:
 				retEnemy = new YellowTree(gameManager, enemies.size());
 				break;
+			case StopSign:
+				retEnemy = new StopSign(gameManager, enemies.size());
+				break;
 
 			case PIGEON:
 				retEnemy = new Pigeon(gameManager, enemies.size());
 				break;
+
 		}
 
 		assert retEnemy != null;

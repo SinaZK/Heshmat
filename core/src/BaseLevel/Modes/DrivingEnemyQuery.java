@@ -14,38 +14,26 @@ public class DrivingEnemyQuery
 {
 	EnemyFactory enemyFactory;
 	DrivingMode mode;
-	public float dist;
 	public BaseEnemy.EnemyType type;
 	public int level;
-	public float counter = 0;
 
-	public DrivingEnemyQuery(DrivingMode drivingMode, BaseEnemy.EnemyType enemyType, int level, float dist)
+	public DrivingEnemyQuery(DrivingMode drivingMode, BaseEnemy.EnemyType enemyType, int level)
 	{
 		mode = drivingMode;
 		enemyFactory = mode.gameManager.enemyFactory;
-		this.dist = dist;
 		this.type = enemyType;
 		this.level = level;
 	}
 
 	public void reset()
 	{
-		counter = dist;
 	}
 
-	public void run(float currentDistance)
+	public void getEnemy()
 	{
-		if(currentDistance >= counter)
-		{
-			counter += dist;
+		DrivingModeEnemy enemy = (DrivingModeEnemy)enemyFactory.getDrivingEnemy(type, level, null);
 
-//			Log.e("DrivingEnemyQuery.java", "initing " + type + " counter = " + counter + " dist = " + dist);
-
-			DrivingModeEnemy enemy = (DrivingModeEnemy)enemyFactory.getDrivingEnemy(type, level, null);
-
-			float x = CameraHelper.getXMax(mode.camera) - 100;
-			enemy.attachToGround(x);
-
-		}
+		float x = CameraHelper.getXMax(mode.camera) - 100;
+		enemy.attachToGround(x);
 	}
 }
