@@ -1,5 +1,6 @@
 package SceneManager;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -31,7 +32,7 @@ public class SceneManager
 	public static int WORLD_X = 800;
 	public static int WORLD_Y = 480;
 
-	public static int ENDLESS_STARS = 12;
+	public static int ENDLESS_STARS = 0;
 
 	public static int LVL_PACK_MAX_NUM = 2;
 	public static int LVL_MAX_NUM = 12;
@@ -194,7 +195,8 @@ public class SceneManager
 		float imageWidth = goldSprite.getWidth() - coinSize;//minus the coin width
 
 
-		act.font22.draw(batch, "" + act.getShowGold(), x + (imageWidth - textSize) / 2 + coinSize, y + 25);
+		act.font18.setColor(Color.BLACK);
+		act.font18.draw(batch, "" + act.getShowGold(), x + (imageWidth - textSize) / 2 + coinSize, y + 25);
 
 //		Log.e("SceneManager.java", "digitNum = " + getDigitNum(act.getShowGold()) + " textSize = " + textSize + " SpaceWidth = " + act.font22.getSpaceWidth());
 	}

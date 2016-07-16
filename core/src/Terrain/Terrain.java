@@ -209,12 +209,12 @@ public class Terrain
 	public void run()
 	{
 		moveBackWall();
-		Log.e("Terrain.java", "STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART");
-		Log.e("Terrain.java", "SIZE = " + Pieces.size() + " : ");
-		Log.e("Terrain.java", "first = " + Points.get(0));
-		Log.e("Terrain.java", " Last = " + Points.getLast());
-		Log.e("Terrain.java", "END");
-		Log.e("Terrain.java", "");
+//		Log.e("Terrain.java", "STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART");
+//		Log.e("Terrain.java", "SIZE = " + Pieces.size() + " : ");
+//		Log.e("Terrain.java", "first = " + Points.get(0));
+//		Log.e("Terrain.java", " Last = " + Points.getLast());
+//		Log.e("Terrain.java", "END");
+//		Log.e("Terrain.java", "");
 		float lastVisible = CameraHelper.getXMax(mCamera, mCamera.zoom * 1.5f);
 
 		while (lastVisible >= Points.getLast().x)

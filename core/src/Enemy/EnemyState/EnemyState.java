@@ -53,7 +53,7 @@ public class EnemyState
 		float hpBarX = parent.x - width / 2 + paddingX;
 		float hpBarY = parent.y + height / 2 + 6;
 		gameManager.hpBarSprite.draw(batch, hpBarX, hpBarY, parent.hitPoint, parent.getMAX_HP(), width - paddingX * 2, 10);
-		gameManager.gameScene.font24Gold.draw(batch, "" + parent.level, hpBarX, hpBarY);
+		gameManager.gameScene.font14.draw(batch, "" + parent.level, hpBarX, hpBarY);
 	}
 
 	public void run()

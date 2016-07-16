@@ -101,10 +101,6 @@ public class NormalCar extends BaseCar
 	{
 		batch.end();
 
-		gameScene.HUD.getBatch().begin();
-		gameScene.font24Gold.draw(gameScene.HUD.getBatch(), "carHP = " + gameManager.selectedCar.hitpoint, 10, 300);
-		gameScene.HUD.getBatch().end();
-
 		batch.begin();
 	}
 

@@ -164,6 +164,12 @@ public class GameScene extends BaseScene
 		dispose();
 	}
 
+	public BitmapFont font14 = act.font14;
+	public BitmapFont font16 = act.font16;
+	public BitmapFont font18 = act.font18;
+	public BitmapFont font22 = act.font22;
+	public BitmapFont font24 = act.font24;
+
 	public void setInput()
 	{
 		if(gameStat == GAME_STAT.PLAY)
@@ -271,10 +277,7 @@ public class GameScene extends BaseScene
 		Shooting, Driving, Finish, Cinematic
 	}
 
-	public BitmapFont font16 = new BitmapFont(Gdx.files.internal("font/16w.fnt"));
-	public BitmapFont font22 = new BitmapFont(Gdx.files.internal("font/22w.fnt"));
-	public BitmapFont font24 = new BitmapFont(Gdx.files.internal("font/24w.fnt"));
-	public BitmapFont font24Gold = new BitmapFont(Gdx.files.internal("font/24gold.fnt"));
+
 
 	public float getDeltaTime()
 	{
@@ -287,11 +290,6 @@ public class GameScene extends BaseScene
 	@Override
 	public void dispose()
 	{
-		font22.dispose();
-		font24.dispose();
-		font24Gold.dispose();
-		font16.dispose();
-
 		if(isDebugRender)
 			debugRenderer.dispose();
 

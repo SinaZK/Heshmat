@@ -1,5 +1,6 @@
 package Entity.CarUpgradeButtons;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -107,7 +108,8 @@ public abstract class CarUpgradeButton extends Button
 			garageScene.goldBackSprite.draw(batch);
 			plusButton.draw(batch, parentAlpha);
 
-			garageScene.act.font22.draw(batch, "" + calculatePrice(getLevel()), getX() + upgradeImage.getWidth() + 25, getY() + 25);
+			garageScene.act.font12.setColor(Color.BLACK);
+			garageScene.act.font12.draw(batch, "" + calculatePrice(getLevel()), getX() + upgradeImage.getWidth() + 25, getY() + 25);
 		}
 
 	}

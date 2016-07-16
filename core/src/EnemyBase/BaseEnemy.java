@@ -392,7 +392,7 @@ public abstract class BaseEnemy
 			float hpBarX = x - fullImageWidth / 2 + paddingX;
 			float hpBarY = y + fullImageHeight / 2 + 6;
 			gameManager.hpBarSprite.draw(batch, hpBarX, hpBarY, hitPoint, getMAX_HP(), fullImageWidth - paddingX * 2, 10);
-			gameManager.gameScene.font24Gold.draw(batch, "" + level, hpBarX, hpBarY);
+			gameManager.gameScene.font14.draw(batch, "" + level, hpBarX, hpBarY);
 		}
 
 	}

@@ -46,7 +46,6 @@ public class MainActivity extends ApplicationAdapter
 	{
 //		Gdx.input.setCatchBackKey(true);
 		//fonts are for debug
-		font22 = new BitmapFont(Gdx.files.internal("font/22w.fnt"));
 
 		saveManager = new SaveManager(false);
 		loadSaveAtt();
@@ -65,6 +64,8 @@ public class MainActivity extends ApplicationAdapter
 		createShowGold();
 
 		audioManager.playBgMusic();
+
+		loadFonts();
 	}
 
 	public long renderCT = 0;
@@ -225,13 +226,38 @@ public class MainActivity extends ApplicationAdapter
 	}
 
 
+	public BitmapFont font12;
+	public BitmapFont font10;
+	public BitmapFont font14;
+	public BitmapFont font16;
+	public BitmapFont font18;
 	public BitmapFont font22;
+	public BitmapFont font24;
 
 	@Override
 	public void dispose()
 	{
+		font10.dispose();
+		font12.dispose();
+		font14.dispose();
+		font16.dispose();
+		font18.dispose();
+		font22.dispose();
+		font24.dispose();
+
 		sceneManager.dispose();
 		super.dispose();
+	}
+
+	public void loadFonts()
+	{
+		font10 = new BitmapFont(Gdx.files.internal("font/10.fnt"));
+		font12 = new BitmapFont(Gdx.files.internal("font/12.fnt"));
+		font14 = new BitmapFont(Gdx.files.internal("font/14.fnt"));
+		font16 = new BitmapFont(Gdx.files.internal("font/16.fnt"));
+		font18 = new BitmapFont(Gdx.files.internal("font/18.fnt"));
+		font22 = new BitmapFont(Gdx.files.internal("font/24.fnt"));
+		font24 = new BitmapFont(Gdx.files.internal("font/24.fnt"));
 	}
 
 }
