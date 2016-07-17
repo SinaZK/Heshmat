@@ -38,7 +38,7 @@ public class GunSelectEntity
 		gunModel = new GunModel(gunSelectorTab, id);
 		gunModel.initUpgradeButtons(gunStatData);
 
-		gunBuyButton = new GunBuyButton(garageScene, this, gunModel.price);
+		gunBuyButton = new GunBuyButton(garageScene, this, gunModel.price, id);
 		this.gunSelectorTab.attachChild(gunBuyButton);
 	}
 

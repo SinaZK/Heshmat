@@ -14,6 +14,7 @@ public interface IGoogleServices
 	public void makeToastLong(String s);
 	public void Countly(String name);
 	public void disableAds();
+	public void enableAds();
 	
 	public void changeLayoutToGDX();
 	public void changeLayoutToRawAndroid();
@@ -21,5 +22,12 @@ public interface IGoogleServices
 	public void showTapsell();
 	public void tapSellGivenPurchaseFlowDone();
 	public boolean tapSellIsSthPurchased();
-	public int tapSellGetPuchasedID();
+	public int tapSellGetPurchasedID();
+
+	public void loadVDO();//not used
+	public boolean haveVDO();
+	public void playVDO();
+	public void tapsellCheckVideo();
+	public int getAward();
+	public void consumeAward();
 }

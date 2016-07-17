@@ -126,7 +126,13 @@ public abstract class BaseEnemy
 	public void hitByBullet(String bulletData)
 	{
 		int bulletID = BaseBullet.getBulletID(bulletData);
+
+//		if(gameManager.bulletFactory.bullets.get(bulletID).hitPoint <= 0)
+//			return;
+
 		damage(gameManager.bulletFactory.bullets.get(bulletID).damage);
+
+		Log.e("Tag", "HIT! hp = " + hitPoint);
 
 		if(getHIT_RAGE() > 0)
 			rage();

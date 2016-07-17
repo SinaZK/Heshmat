@@ -1,6 +1,7 @@
 package GameScene;
 
 import BaseLevel.LevelPackage;
+import Countly.CountlyStrings;
 import DataStore.SelectorStatData;
 import Enums.Enums;
 import Misc.Log;
@@ -60,6 +61,8 @@ public class StarManager
 		activity.levelStatDatas.get(levelID).setStar(0);
 
 		activity.saveAllLevelDatas(levelPackage.numberOfLevels);
+
+		activity.googleServices.Countly("U " + CountlyStrings.LevelString + " " + levelID);
 
 		return true;
 	}

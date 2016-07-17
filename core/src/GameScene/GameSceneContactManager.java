@@ -58,10 +58,10 @@ public class GameSceneContactManager
 				if(BodyStrings.isBullet(s2) && s1.equals(BodyStrings.GroundString))
 					handleBulletToGround(contact, BaseBullet.getBulletID(s2));
 
-				if(BodyStrings.isBullet(s1) && BodyStrings.isEnemy(s2))
-					handleBulletToEnemy(contact, s1, s2);
-				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
-					handleBulletToEnemy(contact, s2, s1);
+//				if(BodyStrings.isBullet(s1) && BodyStrings.isEnemy(s2))
+//					handleBulletToEnemy(contact, s1, s2);
+//				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
+//					handleBulletToEnemy(contact, s2, s1);
 
 				if(BodyStrings.isCar(s1) && BodyStrings.isEnemy(s2))
 					handleCarToEnemy(contact, s1, s2);

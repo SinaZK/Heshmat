@@ -20,7 +20,7 @@ import heshmat.MainActivity;
  */
 public class DialogManager
 {
-	MainActivity activity;
+	public MainActivity activity;
 	Stage dialogScene;
 
 	ArrayList<Dialog> dialogs = new ArrayList<Dialog>();

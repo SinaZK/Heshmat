@@ -44,7 +44,7 @@ public class MainActivity extends ApplicationAdapter
 	@Override
 	public void create () 
 	{
-//		Gdx.input.setCatchBackKey(true);
+		Gdx.input.setCatchBackKey(true);
 		//fonts are for debug
 
 		saveManager = new SaveManager(false);
@@ -66,6 +66,8 @@ public class MainActivity extends ApplicationAdapter
 		audioManager.playBgMusic();
 
 		loadFonts();
+
+		enableAds();
 	}
 
 	public long renderCT = 0;
@@ -80,6 +82,8 @@ public class MainActivity extends ApplicationAdapter
 		sceneManager.run();
 
 		runMoney();//for changing showGold
+
+		handleAward();
 	}
 
 
@@ -96,6 +100,8 @@ public class MainActivity extends ApplicationAdapter
 	public void loadSaveAtt()
 	{
 		gameStatData = saveManager.loadDataValue(DataKeyStrings.GameStatData, GameStatData.class);
+		gameStatData.numberOfAppRun++;
+
 		playerStatData = saveManager.loadDataValue(DataKeyStrings.PlayerStatData, PlayerStatData.class);
 		levelPackageStatDatas = new LevelPackageStatData[SceneManager.LVL_PACK_NUM + 1];
 
@@ -166,6 +172,12 @@ public class MainActivity extends ApplicationAdapter
 	{
 		saveCarDatas();
 		saveSelector();
+		saveGameStats();
+	}
+
+	public void saveGameStats()
+	{
+		saveManager.saveDataValue(DataKeyStrings.GameStatData, gameStatData);
 	}
 
 	public void saveAfterGameScene()
@@ -260,4 +272,64 @@ public class MainActivity extends ApplicationAdapter
 		font24 = new BitmapFont(Gdx.files.internal("font/24.fnt"));
 	}
 
+
+	public void enableAds()
+	{
+		if(gameStatData.adsDisable)
+		{
+			disableAds();
+			return;
+		}
+
+		googleServices.enableAds();
+	}
+
+	public void disableAds()
+	{
+		googleServices.disableAds();
+	}
+
+	public void checkForVDO()
+	{
+		if(gameStatData.adsDisable)
+			return;
+
+		googleServices.tapsellCheckVideo();
+	}
+
+	public boolean isHaveVDO()
+	{
+		if(gameStatData.adsDisable)
+			return false;
+
+		return googleServices.haveVDO();
+	}
+
+	public void showVDO()
+	{
+		googleServices.playVDO();
+	}
+
+	public int getAward()
+	{
+		if(gameStatData.adsDisable)
+			return -1;
+
+		return googleServices.getAward();
+	}
+
+	public void consumeAward()
+	{
+		googleServices.consumeAward();
+	}
+
+	public void handleAward()
+	{
+		if(getAward() == -1)
+			return;
+
+		addMoney(SceneManager.VideoAward, true);
+
+		consumeAward();
+	}
 }

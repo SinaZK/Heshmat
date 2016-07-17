@@ -22,8 +22,8 @@ import Scene.Garage.GarageScene;
 import Scene.LevelPackageScene;
 import Scene.LevelSelectorScene;
 import Scene.MainMenuScene;
+import Scene.PurchaseScene;
 import Scene.SplashScene;
-import Scene.WeaponScene;
 import heshmat.MainActivity;
 
 public class SceneManager
@@ -33,12 +33,12 @@ public class SceneManager
 	public static int WORLD_Y = 480;
 
 	public static int ENDLESS_STARS = 0;
+	public static int VideoAward = 5000;
 
 	public static int LVL_PACK_MAX_NUM = 2;
 	public static int LVL_MAX_NUM = 12;
 	public static int CAR_MAX_NUM = 20;
 	public static int GUN_MAX_NUM = 6;
-
 
 	public static int LVL_PACK_NUM = 2;
 	public static int CAR_NUM = 5;
@@ -71,7 +71,7 @@ public class SceneManager
 		LEVEL_PACKAGE_SELECTOR,
 		LEVEL_SELECTOR,
 		GARAGE_SCENE,
-		WEAPON_SCENE,
+		PURCHASE_SCENE,
 	}
 
 	public SCENES currentScene;
@@ -83,8 +83,7 @@ public class SceneManager
 	LevelPackageScene levelPackageScene;
 	LevelSelectorScene levelSelectorScene;
 
-	GarageScene garageScene;
-	WeaponScene weaponScene;
+	public GarageScene garageScene;
 	EndGameScene endGameScene;
 
 	public GameScene gameScene;
@@ -110,9 +109,8 @@ public class SceneManager
 //				currentBaseScene = endGameScene;
 //				break;
 
-			case WEAPON_SCENE:
-				weaponScene = new WeaponScene(this, new ExtendViewport(WORLD_X, WORLD_Y));
-				currentBaseScene = weaponScene;
+			case PURCHASE_SCENE:
+				currentBaseScene = new PurchaseScene(this, new ExtendViewport(WORLD_X, WORLD_Y));
 				break;
 
 			case GARAGE_SCENE:
@@ -164,6 +162,7 @@ public class SceneManager
 		currentBaseScene.run();
 		dialogManager.draw();
 		dialogManager.run();
+
 	}
 
 	Sprite goldSprite;
@@ -174,7 +173,6 @@ public class SceneManager
 
 	public void drawGoldSprite(Batch batch, float x, float y)
 	{
-
 		goldSprite.setPosition(x, y);
 		goldSprite.draw(batch);
 	}

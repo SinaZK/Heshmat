@@ -5,29 +5,23 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import BaseCar.CarLoader;
-import DataStore.CarStatData;
-import DataStore.DataKeyStrings;
 import Entity.Button;
 import Entity.Entity;
 import Enums.Enums;
-import Misc.Log;
 import Misc.TextureHelper;
 import Scene.BaseScene;
+import Scene.MainMenuScene;
+import Scene.PurchaseScene;
 import SceneManager.SceneManager;
 import Sorter.CarSorter;
-import Sorter.GunSlotSorter;
-import WeaponBase.BaseGun;
 
 public class GarageScene extends BaseScene
 {
@@ -73,6 +67,8 @@ public class GarageScene extends BaseScene
 		createBack();
 		addBackToMenuButton();
 		createHUD();
+
+		act.enableAds();
 	}
 
 	@Override
@@ -401,6 +397,8 @@ public class GarageScene extends BaseScene
 		});
 
 		HUD.addActor(backButton);
+
+		addPurchaseButtonToHUD();
 	}
 
 	public Sprite [] starSprites = new Sprite[6];
@@ -415,5 +413,29 @@ public class GarageScene extends BaseScene
 
 		plusUpgrade1 = TextureHelper.loadTexture(add + "add0.png", disposeTextureArray);
 		plusUpgrade2 = TextureHelper.loadTexture(add + "add1.png", disposeTextureArray);
+	}
+
+	public void addPurchaseButtonToHUD()
+	{
+		Button purchaseButton = new Button(TextureHelper.loadTexture(add + "purchase1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "purchase2.png", disposeTextureArray));
+
+		purchaseButton.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				InputProcessor inputProcessor = Gdx.input.getInputProcessor();
+				mSceneManager.setCurrentScene(SceneManager.SCENES.PURCHASE_SCENE, null);
+
+				PurchaseScene scene = (PurchaseScene) mSceneManager.currentBaseScene;
+				scene.lastScene = GarageScene.this;
+				scene.lastInput = inputProcessor;
+			}
+		});
+
+		purchaseButton.setPosition(DX + 730, DY + 348);
+
+		HUD.addActor(purchaseButton);
 	}
 }

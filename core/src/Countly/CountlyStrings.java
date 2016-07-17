@@ -8,6 +8,11 @@ public class CountlyStrings
 			"", "CDena", "CToyota", "CPeykan", "CTruck", "CArmor", "C7", "C8", "C9", "C10", "C10"
 		};
 
+	public static String [] GunSelectString =
+			{
+					"", "GColt", "GRevolver", "GUzi", "GAK-47", "GRifle", "GBazooka",
+			};
+
 
 	
 	public static String LevelString = "LEVEL ";

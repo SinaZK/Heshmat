@@ -15,6 +15,7 @@ import Countly.CountlyStrings;
 import DataStore.DataKeyStrings;
 import Entity.Button;
 import Entity.Entity;
+import Entity.VideoButton;
 import Misc.TextureHelper;
 import SceneManager.SceneManager;
 
@@ -30,6 +31,7 @@ public class MainMenuScene extends BaseScene
 	{
 		super(sceneManager.act, v);
 		mSceneManager = sceneManager;
+
 	}
 
 
@@ -63,6 +65,8 @@ public class MainMenuScene extends BaseScene
 	@Override
 	public void create()
 	{
+		act.checkForVDO();
+
 		Button levelSelectButton = new Button(TextureHelper.loadTexture(add + "next1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "next2.png", disposeTextureArray));
 		levelSelectButton.setPosition(DX + 674, DY + 184);
@@ -136,11 +140,7 @@ public class MainMenuScene extends BaseScene
 					super.draw(batch, parentAlpha);
 			}
 		};
-
-		cmBonus.setSize(65, 65);
-		cmBonus.setPosition(DX + 50 / 2, DY + 480 / 2);
-
-		attachChild(cmBonus);
+//		attachChild(cmBonus);
 
 		final Button cmButton = new Button(TextureHelper.loadTexture(add + "nazar1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "nazar2.png", disposeTextureArray))
@@ -152,14 +152,13 @@ public class MainMenuScene extends BaseScene
 					super.draw(batch, parentAlpha);
 			}
 		};
-		cmButton.setPosition(DX + 20, DY + 35);
 		cmButton.setRunnable(act, new Runnable()
 		{
 
 			@Override
 			public void run()
 			{
-//				act.googleServices.Countly(CountlyStrings.SceneCommentButton);
+				act.googleServices.Countly(CountlyStrings.SceneCommentButton);
 				mSceneManager.act.googleServices.rateGame();
 
 
@@ -177,7 +176,10 @@ public class MainMenuScene extends BaseScene
 				}, 3f);
 			}
 		});
-		cmButton.setSize(65, 65);
+
+		cmButton.setPosition(showLeaderBoardButton.getX(), DY + 230);
+		cmBonus.setPosition(DX + 20 + cmButton.getWidth() + 10, cmButton.getY() + 30);
+		cmButton.setSize(showLeaderBoardButton.getWidth(), showLeaderBoardButton.getHeight());
 
 		Button soundButton = new Button(TextureHelper.loadTexture(add + "sound1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "sound2.png", disposeTextureArray))
@@ -325,6 +327,11 @@ public class MainMenuScene extends BaseScene
 		settingButton.setPosition(DX + 1460 / 2, DY + 816 / 2);
 		settingButton.setSize(50, 50);
 
+
+		VideoButton videoButton = new VideoButton(act);
+		videoButton.setPosition(DX + 620, DY + 10);
+
+//		attachChild(videoButton);
 		if(!act.gameStatData.hasRate)
 			attachChild(cmButton);
 		attachChild(levelSelectButton);
@@ -355,6 +362,12 @@ public class MainMenuScene extends BaseScene
 //		exitDialog.run();
 //		exitDialog.draw(DX + 171, DY + 179);
 
+	}
+
+	@Override
+	public void draw()
+	{
+		super.draw();
 	}
 
 	private void setAlpha(Button b, float alpha)
