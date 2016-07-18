@@ -40,6 +40,7 @@ public class Wasp extends BaseEnemy
         gun.setClipSize(10000);
         gun.setRateOfFire(5);
         gun.setReloadTime(100000);
+        gun.setBulletHP(1);
     }
 
 	@Override
@@ -59,23 +60,21 @@ public class Wasp extends BaseEnemy
 
 
     @Override
-	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
-	{
-		super.create(shootingMode, level, attr);
+	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr) {
+        super.create(shootingMode, level, attr);
 
         float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
         float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
         float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.12 + 0.20) * SceneManager.WORLD_Y);
+        float myHeight = (float) (groundHeight + (Math.random() * 0.12 + 0.2) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
         attackingDistance = (float) (SceneManager.WORLD_X * (0.20 + Math.random() * 0.05));
 	}
 
     @Override
-    public void decide()
-    {
+    public void decide() {
         super.decide();
 
         float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *

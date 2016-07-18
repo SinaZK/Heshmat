@@ -33,7 +33,6 @@ public class Pigeon extends BaseEnemy
 
 		init(BodyStrings.EnemyFly, id, enemyFactory.PigeonEnemyAnimation);
 
-
 		loadGun();
 
 		gun.bulletTexture = enemyFactory.FlyBulletTexture;

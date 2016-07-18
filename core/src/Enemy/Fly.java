@@ -48,17 +48,16 @@ public class Fly extends BaseEnemy
         gun.setClipSize(10000);
         gun.setRateOfFire(5);
         gun.setReloadTime(100000);
+        gun.setBulletHP(1);
     }
 
     @Override
-    public void attack()
-    {
+    public void attack() {
         super.attack();
     }
 
     @Override
-    public void draw(Batch batch)
-    {
+    public void draw(Batch batch) {
         super.draw(batch);
 
     }
@@ -72,23 +71,21 @@ public class Fly extends BaseEnemy
     float attackingDistance;
 
     @Override
-    public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
-    {
+    public void create(ShootingMode shootingMode, int level, ArrayList<String> attr) {
         super.create(shootingMode, level, attr);
 
         float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
         float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.45) * SceneManager.WORLD_Y);
+        float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.5) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
         attackingDistance = (float) (SceneManager.WORLD_X * (0.3 + Math.random() * 0.1));
     }
 
     @Override
-    public void decide()
-    {
+    public void decide() {
         super.decide();
 
         float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *

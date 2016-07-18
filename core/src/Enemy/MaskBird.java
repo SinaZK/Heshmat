@@ -41,6 +41,7 @@ public class MaskBird extends BaseEnemy
         gun.setClipSize(10000);
         gun.setRateOfFire(5);
         gun.setReloadTime(100000);
+        gun.setBulletHP(1);
 	}
 
 	@Override
@@ -59,9 +60,8 @@ public class MaskBird extends BaseEnemy
     float attackingDistance;
 
 	@Override
-	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
-	{
-		super.create(shootingMode, level, attr);
+	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr) {
+        super.create(shootingMode, level, attr);
 
         float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
@@ -74,8 +74,7 @@ public class MaskBird extends BaseEnemy
 	}
 
     @Override
-    public void decide()
-    {
+    public void decide() {
         super.decide();
 
         float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *

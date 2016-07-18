@@ -14,6 +14,7 @@ import SceneManager.SceneManager;
  * Created by sinazk on 5/6/16.
  * Hi 1:19
  */
+
 public class BossBird extends BaseEnemy
 {
 	public BossBird(GameManager gameManager, int id)
@@ -27,10 +28,15 @@ public class BossBird extends BaseEnemy
 		init(BodyStrings.EnemyFly, id, enemyFactory.BossBirdEnemyAnimation);
 	}
 
-	@Override
+    @Override
+    public void run() {
+        super.run();
+    }
+
+    @Override
 	public void attack()
 	{
-
+        super.attack();
 	}
 
 	@Override
@@ -42,7 +48,7 @@ public class BossBird extends BaseEnemy
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
         float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.2 + 0.5) * SceneManager.WORLD_Y);
+        float myHeight = (float) (groundHeight + (Math.random() * 0.2 + 1.2) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
 	}

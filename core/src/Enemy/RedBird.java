@@ -31,7 +31,7 @@ public class RedBird extends BaseEnemy
 
         loadGun();
 
-        gun.bulletTexture = enemyFactory.RedBirdBulletTexture;
+        gun.bulletTexture = enemyFactory.FlyBulletTexture;
         gun.bulletSize = new Vector2(15, 15);
         gun.setBulletSpeed(5);
 
@@ -42,13 +42,12 @@ public class RedBird extends BaseEnemy
         gun.setClipSize(10000);
         gun.setRateOfFire(5);
         gun.setReloadTime(100000);
+        gun.setBulletHP(1);
     }
 
     @Override
     public void attack() {
         super.attack();
-
-//        Log.e("Tag", "red bird attacking");
     }
 
     float attackingDistance;
@@ -62,7 +61,7 @@ public class RedBird extends BaseEnemy
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
         float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.55) * SceneManager.WORLD_Y);
+        float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.6) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
         attackingDistance = (float) (SceneManager.WORLD_X * (0.3 + Math.random() * 0.1));
@@ -82,5 +81,4 @@ public class RedBird extends BaseEnemy
             setCurrentState(StateEnum.ATTACK);
         }
     }
-
 }

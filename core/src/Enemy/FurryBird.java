@@ -50,7 +50,7 @@ public class FurryBird extends BaseEnemy
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
         float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.1 + 1.1) * SceneManager.WORLD_Y);
+        float myHeight = (float) (groundHeight + (Math.random() * 0.1 + 1) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
     }

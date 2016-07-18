@@ -15,6 +15,7 @@ import SceneManager.SceneManager;
  * Created by sinazk on 5/6/16.
  * Hi 1:19
  */
+
 public class Bat extends BaseEnemy
 {
 	public Bat(GameManager gameManager, int id)
