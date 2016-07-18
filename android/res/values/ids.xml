@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">770610797312</string>
+    <string name="package_name">com.czak.heshmat</string>
+    <string name="achievement_wave_5">CgkIgLbu37YWEAIQAQ</string>
+    <string name="achievement_wave_10">CgkIgLbu37YWEAIQAw</string>
+    <string name="achievement_wave_20">CgkIgLbu37YWEAIQBA</string>
+    <string name="achievement_wave_50">CgkIgLbu37YWEAIQBQ</string>
+    <string name="achievement_wave_80">CgkIgLbu37YWEAIQBg</string>
+    <string name="leaderboard_wave">CgkIgLbu37YWEAIQCA</string>
+</resources>

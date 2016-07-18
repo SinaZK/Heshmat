@@ -91,15 +91,9 @@ public class MainMenuScene extends BaseScene
 			@Override
 			public void run()
 			{
-//				act.googleServices.showTapsell();
 
-				if(act.googleServices.isSignedIn())
-				{
+				act.showWaveLeaderBoard();
 
-//					act.googleServices.Countly(CountlyStrings.GoogleLeaderBoardMain);
-					mSceneManager.act.googleServices.showScores();
-				} else
-					act.googleServices.signIn();
 			}
 		});
 		showLeaderBoardButton.setSize(50, 50);

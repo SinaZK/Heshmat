@@ -59,7 +59,6 @@ public class MainActivity extends ApplicationAdapter
 
 		sceneManager = new SceneManager(this, purchaseHelper);
 		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
-//		sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
 
 		createShowGold();
 
@@ -331,5 +330,25 @@ public class MainActivity extends ApplicationAdapter
 		addMoney(SceneManager.VideoAward, true);
 
 		consumeAward();
+	}
+
+	public void signIn()
+	{
+		googleServices.signIn();
+	}
+
+	public void signOut()
+	{
+		googleServices.signOut();
+	}
+
+	public void showWaveLeaderBoard()
+	{
+		googleServices.showWaveScores();
+	}
+
+	public void submitWave(int wave)
+	{
+		googleServices.submitScore(wave);
 	}
 }

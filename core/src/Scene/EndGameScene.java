@@ -242,7 +242,9 @@ public class EndGameScene extends BaseScene
 			starManager.completeNormalLevel(star);
 		}
 
-		Log.e("Tag", "set");
+
+		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
+			act.submitWave((int)act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
 	}
 
 	public void restartGameScene()

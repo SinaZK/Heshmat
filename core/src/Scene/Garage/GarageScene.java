@@ -297,6 +297,8 @@ public class GarageScene extends BaseScene
 
 	Texture gunTabTexture1, gunTabTexture2;
 	Texture carTabTexture1, carTabTexture2;
+
+	Button gunSelectButton, carSelectButton;
 	@Override
 	public void createHUD()
 	{
@@ -307,19 +309,10 @@ public class GarageScene extends BaseScene
 		carTabTexture1 = TextureHelper.loadTexture(add + "carselect1.png", disposeTextureArray);
 		carTabTexture2 = TextureHelper.loadTexture(add + "carselect2.png", disposeTextureArray);
 
-		Button gunSelectButton = new Button(gunTabTexture1, gunTabTexture2);
+		gunSelectButton = new Button(gunTabTexture1, gunTabTexture2);
 		gunSelectButton.setPosition(DX + 20, DY + 213);
 
-		gunSelectButton.setRunnable(act, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				selectTab(CurrentTab.GUN_SELECT);
-			}
-		});
-
-		Button carSelectButton = new Button(carTabTexture1, carTabTexture2);
+		carSelectButton = new Button(carTabTexture1, carTabTexture2);
 		carSelectButton.setPosition(DX + 20, DY + 290);
 
 		carSelectButton.setRunnable(act, new Runnable()
@@ -327,7 +320,20 @@ public class GarageScene extends BaseScene
 			@Override
 			public void run()
 			{
+				gunSelectButton.isClicked = false;
+				carSelectButton.isClicked = true;
 				selectTab(CurrentTab.CAR_SELECT);
+			}
+		});
+
+		gunSelectButton.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				gunSelectButton.isClicked = true;
+				carSelectButton.isClicked = false;
+				selectTab(CurrentTab.GUN_SELECT);
 			}
 		});
 
