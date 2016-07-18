@@ -132,27 +132,27 @@ public class MainActivity extends ApplicationAdapter
 
 	public void saveCarDatas()
 	{
-		Log.e("MainActivity.java", "saveCarDatas");
+//		Log.e("MainActivity.java", "saveCarDatas");
 		for(int i = 1;i <= SceneManager.CAR_NUM;i++)
 			saveManager.saveDataValue(DataKeyStrings.CarStatData[i], carStatDatas[i]);
 	}
 
 	public void saveSetting()
 	{
-		Log.e("MainActivity.java", "saveSetting");
+//		Log.e("MainActivity.java", "saveSetting");
 		saveManager.saveDataValue(DataKeyStrings.SettingStatData, settingStatData);
 	}
 
 	public void saveGunDatas()
 	{
-		Log.e("MainActivity.java", "saveGunDatas");
+//		Log.e("MainActivity.java", "saveGunDatas");
 		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
 			saveManager.saveDataValue(DataKeyStrings.GunStatData[i], gunStatDatas[i]);
 	}
 
 	public void saveAllLevelDatas(int numberOfLevels)
 	{
-		Log.e("MainActivity.java", "saving All levelDatas");
+//		Log.e("MainActivity.java", "saving All levelDatas");
 		saveManager.saveDataValue(DataKeyStrings.LVLPackStatData[selectorStatData.selectedLevelPack], levelPackageStatDatas[selectorStatData.selectedLevelPack]);
 
 		for(int i = 1;i <= numberOfLevels;i++)
@@ -191,6 +191,7 @@ public class MainActivity extends ApplicationAdapter
 
 	public void addMoney(long money, boolean save)
 	{
+//		Log.e("MainActivity.java", "addMoney = " + money);
 		playerStatData.addMoney(money);
 
 		if(save)

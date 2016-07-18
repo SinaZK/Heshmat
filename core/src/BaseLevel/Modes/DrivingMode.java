@@ -68,6 +68,7 @@ public class DrivingMode extends LevelMode
 				car.stop();
 			else
 			{
+//				Log.e("DrivingMode.java", "isFinished = true");
 				gameManager.distanceTraveled += distance;
 				isFinished = true;
 			}

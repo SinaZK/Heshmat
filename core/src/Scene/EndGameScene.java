@@ -106,7 +106,7 @@ public class EndGameScene extends BaseScene
 			@Override
 			public void run()
 			{
-				Log.e("EndGameScene.java", "show Score");
+				act.showWaveLeaderBoard();
 			}
 		});
 

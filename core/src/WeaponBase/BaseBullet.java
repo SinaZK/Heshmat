@@ -66,6 +66,9 @@ public abstract class BaseBullet
 
 		if(CameraHelper.distance(x, y, startingPoint.x, startingPoint.y) >= shootingRange)
 			shouldRelease = true;
+
+		if(hitPoint <= 0)
+			shouldRelease = true;
 	}
 	public abstract void draw(Batch batch);
 	public abstract void hitByEnemy(String EnemyData);

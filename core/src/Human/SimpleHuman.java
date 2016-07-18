@@ -75,7 +75,7 @@ public class SimpleHuman
 		{
 			if(!isPosSet)
 			{
-				setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x + gameManager.selectedCar.driverX / rat,
+				setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x,
 						gameManager.levelManager.currentLevel.terrain.Points.getLast().y / rat + standBody.getmSprite().get(0).getHeight() / 2 / rat);
 				isPosSet = true;
 			}

@@ -43,6 +43,8 @@ public class Fly extends BaseEnemy
         gunY = 65;
         gunTeta = 235;
 
+        gun.setBulletHP(1);
+
         gun.setClipSize(10000);
         gun.setRateOfFire(5);
         gun.setReloadTime(100000);
@@ -96,11 +98,5 @@ public class Fly extends BaseEnemy
         {
             setCurrentState(StateEnum.ATTACK);
         }
-    }
-
-    @Override
-    public void release()
-    {
-        super.release();
     }
 }

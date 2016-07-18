@@ -166,12 +166,12 @@ public abstract class BaseCar
 		for (int i = 0; i < slots.size(); i++)
 			slots.get(i).run();
 
-//		if(gameManager.levelManager.currentLevel.getCurrentPart().isFinished = true &&
-//				gameManager.levelManager.currentLevel.getCurrentPart().isCameraDone == false)
-//		{
-//			onStop();
-//			return;
-//		}
+		if(gameManager.levelManager.currentLevel.getCurrentPart().isFinished == true &&
+				gameManager.levelManager.currentLevel.getCurrentPart().isCameraDone == false)
+		{
+			onStop();
+			return;
+		}
 
 //		Log.e("Tag", "Speed = " + getSpeedInMeter());
 	}
@@ -252,6 +252,9 @@ public abstract class BaseCar
 		float angle = convertAngleToDegrees();
 
 		if(angle > 30 || angle < -30)
+			return false;
+
+		if(isInAir())
 			return false;
 
 		return true;

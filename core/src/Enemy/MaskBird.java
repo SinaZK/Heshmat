@@ -30,7 +30,7 @@ public class MaskBird extends BaseEnemy
 
         loadGun();
 
-        gun.bulletTexture = enemyFactory.FlyBulletTexture;
+        gun.bulletTexture = enemyFactory.MaskBirdBulletTexture;
         gun.bulletSize = new Vector2(15, 15);
         gun.setBulletSpeed(5);
 
@@ -86,11 +86,4 @@ public class MaskBird extends BaseEnemy
             setCurrentState(StateEnum.ATTACK);
         }
     }
-
-
-    @Override
-	public void release()
-	{
-		super.release();
-	}
 }

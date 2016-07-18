@@ -50,10 +50,4 @@ public class Worm extends BaseEnemy
 
 		setPosition(originX + width + 100, originY + height - 200);
 	}
-
-	@Override
-	public void release()
-	{
-		super.release();
-	}
 }

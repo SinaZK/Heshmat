@@ -82,11 +82,6 @@ public class Bat extends BaseEnemy
 		super.move();
 	}
 
-	@Override
-	public void release()
-	{
-		super.release();
-	}
 
 	@Override
 	public void setLevel(int level)

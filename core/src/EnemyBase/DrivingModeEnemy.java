@@ -104,7 +104,7 @@ public class DrivingModeEnemy extends BaseEnemy
 		}
 		if(hitPoint < 0 || currentState >= stateCount)
 		{
-			release();
+			release(false);
 		}
 
 		for(int i = 0;i < stateCount;i++)
@@ -221,9 +221,9 @@ public class DrivingModeEnemy extends BaseEnemy
 	}
 
 	@Override
-	public void release()
+	public void release(boolean isOnRestart)
 	{
-		super.release();
+		super.release(isOnRestart);
 
 		for(int i = 0;i < stateCount;i++)
 			states.get(i).release();

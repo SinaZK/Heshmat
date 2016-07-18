@@ -119,7 +119,7 @@ public class NormalBullet extends BaseBullet
 	@Override
 	public void hitByBullet(String BulletData)
 	{
-		shouldRelease = true;
+		hitPoint -= bulletFactory.bullets.get(BaseBullet.getBulletID(BulletData)).damage;
 	}
 
 }

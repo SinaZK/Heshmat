@@ -437,6 +437,11 @@ public class BaseGun implements InputProcessor
 		return bulletHP * calculatePercent(gunStatData.damageLVL, BULLET_HP_PERCENT);
 	}
 
+	public void setBulletHP(float hp)
+	{
+		bulletHP = hp;
+	}
+
 	public float getClipSize()
 	{
 		if(gunStatData == null)

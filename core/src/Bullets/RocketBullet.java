@@ -29,7 +29,7 @@ public class RocketBullet extends NormalBullet
 	{
 		super(id, activity, rocketLauncher, GunSorter.GunType.RocketLauncher);
 
-		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 4, 16, 0.23f, gameManager.gameScene.disposeTextureArray);
+		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 12, 16, 0.23f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
 		explosionDamageLength = 150;
 	}

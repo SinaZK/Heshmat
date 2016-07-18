@@ -114,10 +114,4 @@ public class Pigeon extends BaseEnemy
 			setCurrentState(StateEnum.ATTACK);
 		}
 	}
-
-	@Override
-	public void release()
-	{
-		super.release();
-	}
 }

@@ -49,6 +49,9 @@ public class ShootingMode extends LevelMode
 
 		if(enemyDied == enemyMax)
 			isFinished = true;
+
+//		Log.e("ShootingMode.java", "enemyDied = " + enemyDied + " enemyMax = " + enemyMax);
+//		Log.e("ShootingMode.java", "enemyCount = " + enemyCount);
 	}
 
 	float ratio = PhysicsConstant.PIXEL_TO_METER;

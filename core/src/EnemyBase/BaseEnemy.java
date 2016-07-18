@@ -132,7 +132,7 @@ public abstract class BaseEnemy
 
 		damage(gameManager.bulletFactory.bullets.get(bulletID).damage);
 
-		Log.e("Tag", "HIT! hp = " + hitPoint);
+//		Log.e("Tag", "HIT! hp = " + hitPoint);
 
 		if(getHIT_RAGE() > 0)
 			rage();
@@ -163,7 +163,7 @@ public abstract class BaseEnemy
 		gun.shoot();
 	}
 
-	public void release()
+	public void release(boolean isOnRestart)
 	{
 		if(gameManager.levelManager.currentLevel.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
 		{
@@ -187,7 +187,11 @@ public abstract class BaseEnemy
 
 		if(hitPoint <= 0)
 		{
-			gameManager.activity.addMoney((long) getGOLD(), false);
+			if(!isOnRestart)
+			{
+//				Log.e("BaseEnemy.java", "addmoney");
+				gameManager.activity.addMoney((long) getGOLD(), false);
+			}
 			resetOnDeath();
 		}
 	}
@@ -238,7 +242,7 @@ public abstract class BaseEnemy
 
 		if(shouldRelease)
 		{
-			release();
+			release(false);
 			return;
 		}
 

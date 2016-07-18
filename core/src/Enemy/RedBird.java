@@ -31,7 +31,7 @@ public class RedBird extends BaseEnemy
 
         loadGun();
 
-        gun.bulletTexture = enemyFactory.FlyBulletTexture;
+        gun.bulletTexture = enemyFactory.RedBirdBulletTexture;
         gun.bulletSize = new Vector2(15, 15);
         gun.setBulletSpeed(5);
 
@@ -48,7 +48,7 @@ public class RedBird extends BaseEnemy
     public void attack() {
         super.attack();
 
-        Log.e("Tag", "red bird attacking");
+//        Log.e("Tag", "red bird attacking");
     }
 
     float attackingDistance;
@@ -83,10 +83,4 @@ public class RedBird extends BaseEnemy
         }
     }
 
-
-    @Override
-	public void release()
-	{
-		super.release();
-	}
 }

@@ -327,7 +327,8 @@ public class EnemyFactory
 	public AnimatedSpriteSheet FurryBirdEnemyAnimation, FireBirdEnemyAnimation, BatEnemyAnimation, BossBirdEnemyAnimation, WormEnemyAnimation, BombEnemyAnimation;
 	public AnimatedSpriteSheet PigeonEnemyAnimation;
 
-	public Texture FlyBulletTexture;
+	public Texture FlyBulletTexture, RedBirdBulletTexture, MaskBirdBulletTexture, FireBirdBulletTexture;
+	public Texture InvisibleBulletTexture;
 
 	public void loadAnimations()
 	{
@@ -350,6 +351,7 @@ public class EnemyFactory
 		RedBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/4/bird.png", gameScene.disposeTextureArray);
 		RedBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2190, 396, 1, 4, 8);
 		RedBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 456, 2492, 950, 1, 4, 8);
+		RedBirdBulletTexture = TextureHelper.loadTexture("gfx/enemy/4/bullet.png", gameScene.disposeTextureArray);
 
 		HattyBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/5/bird.png", gameScene.disposeTextureArray);
 		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2866, 470, 1, 4, 8);
@@ -358,6 +360,7 @@ public class EnemyFactory
 		MaskBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/6/bird.png", gameScene.disposeTextureArray);
 		MaskBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 446, 0, 2036, 288, 1, 4, 8);
 		MaskBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 370, 2456, 880, 1, 4, 8);
+		MaskBirdBulletTexture = TextureHelper.loadTexture("gfx/enemy/6/bullet.png", gameScene.disposeTextureArray);
 
 		FurryBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/7/bird.png", gameScene.disposeTextureArray);
 		FurryBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2196, 382, 1, 4, 8);
@@ -366,6 +369,7 @@ public class EnemyFactory
 		FireBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/8/bird.png", gameScene.disposeTextureArray);
 		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 250, 0, 2158, 372, 1, 4, 8);
 		FireBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 428, 2454, 920, 1, 4, 8);
+		FireBirdBulletTexture = TextureHelper.loadTexture("gfx/enemy/8/bullet.png", gameScene.disposeTextureArray);
 
 		BatEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/9/bat.png", gameScene.disposeTextureArray);
 		BatEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 164, 0, 2296, 364, 1, 4, 8);
@@ -391,6 +395,8 @@ public class EnemyFactory
 
 		PigeonEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/13/bird.png", gameScene.disposeTextureArray);
 		PigeonEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 1204, 882, 3, 3, 8);
+
+		InvisibleBulletTexture = TextureHelper.loadTexture("gfx/null.png", gameScene.disposeTextureArray);
 	}
 
 	public AnimatedSpriteSheet DrivingEnemiesSpriteSheet;
@@ -463,7 +469,7 @@ public class EnemyFactory
 		{
 			enemies.get(i).isFree = true;
 			enemies.get(i).isRunOnDeath = false;
-			enemies.get(i).release();
+			enemies.get(i).release(true);
 		}
 	}
 

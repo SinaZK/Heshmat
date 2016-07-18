@@ -54,10 +54,4 @@ public class FurryBird extends BaseEnemy
 
         setPosition(originX + width + 100, myHeight);
     }
-
-	@Override
-	public void release()
-	{
-		super.release();
-	}
 }

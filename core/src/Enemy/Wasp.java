@@ -87,10 +87,4 @@ public class Wasp extends BaseEnemy
         }
     }
 
-
-    @Override
-	public void release()
-	{
-		super.release();
-	}
 }

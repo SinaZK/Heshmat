@@ -94,10 +94,12 @@ public class AudioManager
 
 	public void playEnemyHit()
 	{
-		if(!act.settingStatData.isSoundOn)
-			return;
+		return;
 
-		enemyHit.play();
+//		if(!act.settingStatData.isSoundOn)
+//			return;
+//
+//		enemyHit.play();
 	}
 
 	public void playReload()

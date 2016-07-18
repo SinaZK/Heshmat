@@ -210,10 +210,14 @@ public class GameSceneContactManager
 
 	public void handleBulletToBulletPreSolve(Contact contact, String data1, String data2)
 	{
-		if(BaseBullet.getBulletShooter(data1).equals(BaseBullet.getBulletShooter(data2)))
+		contact.setEnabled(false);
+		if(!(BaseBullet.getBulletShooter(data1).equals(BaseBullet.getBulletShooter(data2))))
 		{
-			contact.setEnabled(false);
-			return;
+			int i1 = BaseBullet.getBulletID(data1);
+			int i2 = BaseBullet.getBulletID(data2);
+
+			bulletFactory.bullets.get(i1).hitByBullet(data1);
+			bulletFactory.bullets.get(i2).hitByBullet(data2);
 		}
 	}
 

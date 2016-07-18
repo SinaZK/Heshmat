@@ -48,6 +48,15 @@ public abstract class LevelMode
 	public void run()
 	{
 
+
+//		if(car.hitpoint <= 0)
+//		{
+//			cameraPosZoom = 3;
+//			LevelMode.this.setCamera(false);
+//			gameScene.EndTheGame(false);
+//			return;
+//		}
+
 		if(isFinished && !isCameraDone)
 		{
 			runOnEnd();
@@ -154,6 +163,8 @@ public abstract class LevelMode
 				camera.zoom -= zoomDiff;
 		}
 
+//		Log.e("LevelMode.java", "cameraZoom = " + camera.zoom + " Target : " + cameraPosZoom);
+
 //		if(isFinished)
 //			Log.e("Tag", "mode " + mode + "SECOND Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 	}
@@ -181,7 +192,7 @@ public abstract class LevelMode
 
 		if(!isEndATTRSet)
 		{
-			float TIME = 3;
+			float TIME = 1.5f;
 
 			float deltaX = (cameraPos.x - camera.position.x);
 			float deltaY = (cameraPos.y - camera.position.y);

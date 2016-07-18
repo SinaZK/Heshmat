@@ -12,6 +12,7 @@ import GameScene.GameManager;
 import GameScene.GameScene;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
+import Misc.Log;
 import SceneManager.SceneManager;
 
 /**
@@ -53,9 +54,11 @@ public class Bomb extends BaseEnemy
 			if(gameManager.levelManager.currentLevel.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
 			{
 				shootingMode = (ShootingMode)gameManager.levelManager.currentLevel.getCurrentPart();
-				shootingMode.enemyMax++;
+				Log.e("Bomb.java", "enemyMax = " + shootingMode.enemyMax);
 			}
 		}
+
+		isKillCount = false;
 
 		gameManager.enemyInitCount++;
 
@@ -65,18 +68,6 @@ public class Bomb extends BaseEnemy
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
 		mainBody.getmBody().setLinearVelocity(0, -1);
-	}
-
-	@Override
-	public void move()
-	{
-
-	}
-
-	@Override
-	public void release()
-	{
-		super.release();
 	}
 
 	Timer t = new Timer();
@@ -93,7 +84,7 @@ public class Bomb extends BaseEnemy
 			@Override
 			public void run()
 			{
-				release();
+				release(false);
 				gameManager.selectedCar.damage(getDamage());
 			}
 		}, animatedSpriteSheet.getAnimation(EnemyFactory.ENEMY_ANIMATION_EXPLODE_STRING).animDuration);
