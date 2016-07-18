@@ -40,7 +40,7 @@ public class CameraHelper
 	public static void chaseCamera(OrthographicCamera cam, Actor cameraBitch)
 	{
 		float x = cam.position.x;
-		float y = cam.position.y;
+		float y = cam.position.y - 70;
 		
 		float toX = cameraBitch.getX() + cameraBitch.getWidth() / 2;
 		float toY = cameraBitch.getY() + cameraBitch.getHeight() / 2;

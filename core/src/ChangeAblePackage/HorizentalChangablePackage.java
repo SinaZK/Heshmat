@@ -13,7 +13,7 @@ import Misc.CameraHelper;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.moveTo;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.parallel;
 
-public class HorizentalChangablePackage extends Actor 
+public class HorizentalChangablePackage extends Actor
 {
 	//0Base
 	Stage mScene;
@@ -101,6 +101,7 @@ public class HorizentalChangablePackage extends Actor
 		g.setOrigin(g.getWidth() / 2, g.getHeight() / 2);
 		entity.add(g);
 		g.setPosition(getXOfI(entity.size() - 1) - groupWidth / 2, getY());
+		g.setSize(groupWidth, groupHeight);
 	}
 
 	public void setCurrent(int i)

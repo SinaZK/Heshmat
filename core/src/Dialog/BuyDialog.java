@@ -1,13 +1,14 @@
 package Dialog;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import DataStore.PlayerStatData;
 import Entity.Button;
-import Misc.Log;
 import Misc.TextureHelper;
+import Scene.PurchaseScene;
 import SceneManager.SceneManager;
-import heshmat.MainActivity;
 
 /**
  * Created by sinazk on 6/14/16.
@@ -41,6 +42,25 @@ public class BuyDialog extends Dialog
 				TextureHelper.loadTexture(add + "canok2.png", dialogManager.disposalTexture));
 		cantOkButton = new Button(TextureHelper.loadTexture(add + "cantok1.png", dialogManager.disposalTexture),
 				TextureHelper.loadTexture(add + "cantok2.png", dialogManager.disposalTexture));
+
+		cantOkButton.setRunnable(dialogManager.activity, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				dialogManager.popQ();
+				InputProcessor inputProcessor = Gdx.input.getInputProcessor();
+				dialogManager.activity.sceneManager.setCurrentScene(SceneManager.SCENES.PURCHASE_SCENE, null);
+
+				PurchaseScene scene = (PurchaseScene) dialogManager.activity.sceneManager.currentBaseScene;
+				scene.lastScene = dialogManager.activity.sceneManager.garageScene;
+				scene.lastInput = inputProcessor;
+				scene.prevScene = SceneManager.SCENES.GARAGE_SCENE;
+
+				isFinished = true;
+				isBought = false;
+			}
+		});
 
 		canOkButton.setRunnable(dialogManager.activity, new Runnable()
 		{

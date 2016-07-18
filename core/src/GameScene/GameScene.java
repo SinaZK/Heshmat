@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseCar.SizakCarModel;
 import BaseLevel.EndlessLevel;
+import Countly.CountlyStrings;
 import Entity.AnimatedSprite;
 import Entity.Button;
 import HUD.DrivingHUD;
@@ -32,6 +33,7 @@ import PhysicsFactory.PhysicsConstant;
 import Scene.BaseScene;
 import Scene.EndGameScene;
 import SceneManager.SceneManager;
+import Sorter.CarSorter;
 
 public class GameScene extends BaseScene
 {
@@ -109,6 +111,8 @@ public class GameScene extends BaseScene
 
 		createHUD();
 		setInput();
+
+		sendCountly();
 	}
 
 	@Override
@@ -116,6 +120,14 @@ public class GameScene extends BaseScene
 	{
 		draw();
 		update();
+
+		if(gameStat == GAME_STAT.PLAY)
+			act.disableAds();
+		else
+		{
+			if(gameStat != GAME_STAT.END_GAME)
+				act.enableAds();
+		}
 	}
 
 	public void pause(boolean withPauseDialog)
@@ -148,6 +160,7 @@ public class GameScene extends BaseScene
 		gameStat = GAME_STAT.PLAY;
 		gameManager.restart();
 
+		sendCountly();
 	}
 
 	public void EndTheGame(boolean isLevelFinished)
@@ -390,6 +403,12 @@ public class GameScene extends BaseScene
 
 		font16.setColor(0, 0, 0, 1);
 		font16.draw(batch, "/ "+ intMax+ ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
+	}
+
+	public void sendCountly()
+	{
+		act.googleServices.Countly("P " + CountlyStrings.LevelString + " " + act.selectorStatData.selectedLevel);
+		act.googleServices.Countly("P " + CountlyStrings.CarSelectString[CarSorter.carPos[act.selectorStatData.selectedCar]]);
 	}
 
 }//class

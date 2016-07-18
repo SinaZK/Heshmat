@@ -2,6 +2,7 @@ package Entity.BuyButtons;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import Countly.CountlyStrings;
 import DataStore.GunStatData;
 import Dialog.DialogManager;
 import Entity.Button;
@@ -9,6 +10,7 @@ import Enums.Enums;
 import Misc.Log;
 import Scene.Garage.GarageScene;
 import Scene.Garage.GunSelectEntity;
+import Sorter.GunSorter;
 
 
 /**
@@ -24,9 +26,11 @@ public class GunBuyButton extends Button
 	GunStatData gunStatData;
 	long price;
 
+	int gunID;
+
 	boolean isWaitingForBuy;
 
-	public GunBuyButton(final GarageScene garageScene, GunSelectEntity gunSelectEntity, final long price)
+	public GunBuyButton(final GarageScene garageScene, GunSelectEntity gunSelectEntity, final long price, int gunID)
 	{
 		super(garageScene.BuyButtonTexture1, garageScene.BuyButtonTexture2);
 
@@ -35,6 +39,7 @@ public class GunBuyButton extends Button
 		this.gunStatData = gunSelectEntity.gunStatData;
 		this.dialogManager = this.garageScene.mSceneManager.dialogManager;
 		this.price = price;
+		this.gunID = gunID;
 
 		setRunnable(garageScene.act, new Runnable()
 		{
@@ -76,6 +81,7 @@ public class GunBuyButton extends Button
 
 		if(dialogManager.buyDialog.isBought)
 		{
+			garageScene.act.googleServices.Countly("BUY " + CountlyStrings.GunSelectString[GunSorter.gunPos[gunID]]);
 			gunStatData.lockStat = Enums.LOCKSTAT.UNLOCK;
 			garageScene.act.saveGunDatas();
 			dialogManager.popQ();

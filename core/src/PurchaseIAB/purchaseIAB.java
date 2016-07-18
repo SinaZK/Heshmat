@@ -12,7 +12,7 @@ public class purchaseIAB
 		
 		public void givenPurchaseFlowDone();
 		public boolean isSthPurchased();
-		public int getPuchasedID();
+		public int getPurchasedID();
 		public ArrayList<Integer> getPrices();
 		public boolean isReadyForPurchase();
 	}

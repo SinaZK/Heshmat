@@ -33,7 +33,7 @@ public class CarSelectEntity
 		sizakCarModel.loadFromCarFile(garageScene, "gfx/car/" + CarSorter.carPos[carID] + "/car.car", garageScene.disposeTextureArray);
 		sizakCarModel.initUpgradeButtons(carStatData);
 
-		carBuyButton = new CarBuyButton(garageScene, this, sizakCarModel.price);
+		carBuyButton = new CarBuyButton(garageScene, this, sizakCarModel.price, id);
 		carSelectorTab.attachChild(carBuyButton);
 	}
 

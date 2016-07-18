@@ -2,13 +2,14 @@ package Entity.BuyButtons;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import Countly.CountlyStrings;
 import DataStore.CarStatData;
 import Dialog.DialogManager;
 import Entity.Button;
 import Enums.Enums;
-import Misc.Log;
 import Scene.Garage.CarSelectEntity;
 import Scene.Garage.GarageScene;
+import Sorter.CarSorter;
 
 
 /**
@@ -24,9 +25,11 @@ public class CarBuyButton extends Button
 	CarStatData carStatData;
 	long price;
 
+	int carID;
+
 	boolean isWaitingForBuy;
 
-	public CarBuyButton(final GarageScene garageScene, CarSelectEntity carSelectEntity, final long price)
+	public CarBuyButton(final GarageScene garageScene, CarSelectEntity carSelectEntity, final long price, int carID)
 	{
 		super(garageScene.BuyButtonTexture1, garageScene.BuyButtonTexture2);
 
@@ -35,6 +38,7 @@ public class CarBuyButton extends Button
 		this.carStatData = carSelectEntity.carStatData;
 		this.dialogManager = this.garageScene.mSceneManager.dialogManager;
 		this.price = price;
+		this.carID = carID;
 
 		setRunnable(garageScene.act, new Runnable()
 		{
@@ -77,6 +81,7 @@ public class CarBuyButton extends Button
 
 		if(dialogManager.buyDialog.isBought)
 		{
+			garageScene.act.googleServices.Countly(CountlyStrings.CarSelectString[CarSorter.carPos[carID]]);
 			carStatData.lockStat = Enums.LOCKSTAT.UNLOCK;
 			garageScene.act.saveCarDatas();
 			dialogManager.popQ();

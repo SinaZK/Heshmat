@@ -9,6 +9,7 @@ import BaseCar.SizakCarModel;
 import BaseLevel.Modes.DrivingMode;
 import Entity.Button;
 import Entity.Entity;
+import Entity.VideoButton;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import GameScene.StarManager;
@@ -123,6 +124,10 @@ public class EndGameScene extends BaseScene
 		nextLevelButton.setPosition(DX + 650, DY + 20);
 
 
+		VideoButton videoButton = new VideoButton(act);
+		videoButton.setPosition(DX + 50, DY + 20);
+
+		attachChild(videoButton);
 
 		attachChild(nextLevelButton);
 		attachChild(showScoreButton);
@@ -199,6 +204,8 @@ public class EndGameScene extends BaseScene
 			gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount, 460, 190);
 
 		getBatch().end();
+
+		act.disableAds();
 	}
 
 	public float calculateDist()
@@ -216,6 +223,8 @@ public class EndGameScene extends BaseScene
 
 	public void set(boolean isLevelFinished)
 	{
+		act.checkForVDO();
+
 		star = 0;
 		gameSceneInput = Gdx.input.getInputProcessor();
 
@@ -232,6 +241,8 @@ public class EndGameScene extends BaseScene
 		{
 			starManager.completeNormalLevel(star);
 		}
+
+		Log.e("Tag", "set");
 	}
 
 	public void restartGameScene()
