@@ -42,6 +42,10 @@ public class Fly extends BaseEnemy
         gunX = 50;
         gunY = 65;
         gunTeta = 235;
+
+        gun.setClipSize(10000);
+        gun.setRateOfFire(5);
+        gun.setReloadTime(100000);
     }
 
     @Override

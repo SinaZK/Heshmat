@@ -424,9 +424,9 @@ public class BaseGun implements InputProcessor
 
 	public float getRateOfFire()
 	{
-		if(gunStatData == null)
+//		if(gunStatData == null)
 			return rateOfFire;
-		return rateOfFire * calculatePercent(gunStatData.fireRateLVL, FIRE_RATE_PERCENT);
+//		return rateOfFire * calculatePercent(gunStatData.fireRateLVL, FIRE_RATE_PERCENT);
 	}
 
 	public float getBulletHP()

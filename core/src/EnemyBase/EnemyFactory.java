@@ -103,9 +103,12 @@ public class EnemyFactory
 
 	public boolean haveEnemy(BaseEnemy.EnemyType enemyType)
 	{
-		if(level != null)
-			if(level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
-				shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+		if(level != null) {
+            if (level.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
+                shootingMode = (ShootingMode) level.getCurrentPart(); //necessary
+        }
+        else
+        Log.e("enemyfactory", "level is null");
 
 		for (int i = 0; i < enemies.size(); i++)
 			if(enemies.get(i).enemyType == enemyType && enemies.get(i).isFree)

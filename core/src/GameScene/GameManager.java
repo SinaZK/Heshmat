@@ -52,17 +52,17 @@ public class GameManager
 		selectedCar.setFirstPos(200 / PhysicsConstant.PIXEL_TO_METER, 300 / PhysicsConstant.PIXEL_TO_METER);
 		selectedCar.setFromCarModel(gameScene.carModel);
 
-		levelManager = new LevelManager(this);
+
+        levelManager = new LevelManager(this);
+        if(activity.selectorStatData.selectedLevel == -1)//endless
+        {
+            levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/endless/", LevelManager.LevelType.ENDLESS);
+        }
+        else
+            levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);
 
 		gunManager.create();
 		enemyFactory.create();
-
-		if(activity.selectorStatData.selectedLevel == -1)//endless
-		{
-			levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/endless/", LevelManager.LevelType.ENDLESS);
-		}
-		else
-			levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);
 
 		shooterHuman = new SimpleHuman(this);
 		shooterHuman.create(37, 169);

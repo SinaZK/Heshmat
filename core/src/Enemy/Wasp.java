@@ -36,6 +36,10 @@ public class Wasp extends BaseEnemy
         gunX = 50;
         gunY = 65;
         gunTeta = 235;
+
+        gun.setClipSize(10000);
+        gun.setRateOfFire(5);
+        gun.setReloadTime(100000);
     }
 
 	@Override
@@ -66,7 +70,7 @@ public class Wasp extends BaseEnemy
         float myHeight = (float) (groundHeight + (Math.random() * 0.12 + 0.20) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
-        attackingDistance = (float) (SceneManager.WORLD_X * (0.1 + Math.random() * 0.1));
+        attackingDistance = (float) (SceneManager.WORLD_X * (0.20 + Math.random() * 0.05));
 	}
 
     @Override

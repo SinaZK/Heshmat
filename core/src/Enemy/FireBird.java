@@ -1,5 +1,7 @@
 package Enemy;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
@@ -25,6 +27,20 @@ public class FireBird extends BaseEnemy
 		load("gfx/enemy/8/");
 
 		init(BodyStrings.EnemyFly, id, enemyFactory.FireBirdEnemyAnimation);
+
+        loadGun();
+
+        gun.bulletTexture = enemyFactory.FlyBulletTexture;
+        gun.bulletSize = new Vector2(15, 15);
+        gun.setBulletSpeed(5);
+
+        gunX = 50;
+        gunY = 65;
+        gunTeta = 235;
+
+        gun.setClipSize(10000);
+        gun.setRateOfFire(5);
+        gun.setReloadTime(100000);
 	}
 
 	@Override
@@ -40,6 +56,8 @@ public class FireBird extends BaseEnemy
 
 	}
 
+    float attackingDistance;
+
 	@Override
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
@@ -52,9 +70,25 @@ public class FireBird extends BaseEnemy
         float myHeight = (float) (groundHeight + (Math.random() * 0.25 + 0.5) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
+        attackingDistance = (float) (SceneManager.WORLD_X * (0.3 + Math.random() * 0.1));
 	}
 
-	@Override
+    @Override
+    public void decide()
+    {
+        super.decide();
+
+        float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *
+                PhysicsConstant.PIXEL_TO_METER;
+
+        if(x - carX < attackingDistance && currentState != StateEnum.ATTACK)
+        {
+            setCurrentState(StateEnum.ATTACK);
+        }
+    }
+
+
+    @Override
 	public void release()
 	{
 		super.release();
