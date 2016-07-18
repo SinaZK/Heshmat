@@ -327,6 +327,7 @@ public class BaseGun implements InputProcessor
 		}
 	}
 
+	public boolean haveReloadSound = true;
 	public void reload()
 	{
 		if(isReloading)
@@ -338,7 +339,8 @@ public class BaseGun implements InputProcessor
 		isReloading = true;
 		reloadCounter = 0;
 
-		act.audioManager.playReload();
+		if(haveReloadSound)
+			act.audioManager.playReload();
 	}
 
 	public void slotGunInitOnAttachCar()

@@ -47,6 +47,7 @@ public class Pigeon extends BaseEnemy
 		gun.setRateOfFire(1);
 		gun.setReloadTime(100000);
 		gunTeta = -90;
+		gun.haveReloadSound = false;
 	}
 
 	float attackingDistance;
@@ -57,6 +58,7 @@ public class Pigeon extends BaseEnemy
 	{
 		super.attack();
 
+		Log.e("Pigeon.java", "Shooting and sound is " + gun.shootingSound);
 		setCurrentState(StateEnum.MOVE);
 		isGoingOut = true;
 	}

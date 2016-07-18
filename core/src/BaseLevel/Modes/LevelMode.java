@@ -49,13 +49,10 @@ public abstract class LevelMode
 	{
 
 
-//		if(car.hitpoint <= 0)
-//		{
-//			cameraPosZoom = 3;
-//			LevelMode.this.setCamera(false);
-//			gameScene.EndTheGame(false);
-//			return;
-//		}
+		if(car.hitpoint <= 0)
+		{
+			isFinished = true;
+		}
 
 		if(isFinished && !isCameraDone)
 		{
@@ -186,13 +183,15 @@ public abstract class LevelMode
 		}
 
 		nextPart.setCamera(false);
-		cameraPos.x = nextPart.cameraPos.x;
-		cameraPos.y = nextPart.cameraPos.y;
-		cameraPosZoom = nextPart.cameraPosZoom;
 
 		if(!isEndATTRSet)
 		{
 			float TIME = 1.5f;
+
+
+			cameraPos.x = nextPart.cameraPos.x;
+			cameraPos.y = nextPart.cameraPos.y;
+			cameraPosZoom = nextPart.cameraPosZoom;
 
 			float deltaX = (cameraPos.x - camera.position.x);
 			float deltaY = (cameraPos.y - camera.position.y);
@@ -204,11 +203,31 @@ public abstract class LevelMode
 
 //			Log.e("Tag", "sX = " + cameraSpeedX + " sY = " + cameraSpeedY);
 
+
+			if(car.hitpoint <= 0)
+			{
+				cameraPos.x = camera.position.x;
+				cameraPos.y = camera.position.y;
+
+				cameraSpeedX = 1000;
+				cameraSpeedY = 1000;
+				cameraPosZoom = 3;
+				cameraZoomSpeed = 0.01f;
+			}
+
 			isEndATTRSet = true;
 		}
 
 		if(Math.abs(cameraPos.x - camera.position.x) < 1 && Math.abs(cameraPos.y - camera.position.y) < 1)
-			isCameraDone = true;
+		{
+			if(car.hitpoint <= 0)
+			{
+				if(Math.abs(camera.zoom - cameraPosZoom) < 0.01f)
+					isCameraDone = true;
+			}
+			else
+				isCameraDone = true;
+		}
 
 		car.onStop();
 	}

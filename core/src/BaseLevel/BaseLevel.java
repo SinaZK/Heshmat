@@ -64,6 +64,10 @@ public class BaseLevel
 
 		if(levelParts.get(currentPart).isFinished && levelParts.get(currentPart).isCameraDone)
 		{
+			if(gameManager.selectedCar.hitpoint <= 0)
+			{
+				gameScene.EndTheGame(false);
+			}
 			currentPart++;
 			if(currentPart < levelParts.size())
 				levelParts.get(currentPart).start();

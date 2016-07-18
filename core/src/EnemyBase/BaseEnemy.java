@@ -102,6 +102,8 @@ public abstract class BaseEnemy
 		gun.ammo = 100;
 		gun.setBulletDamage(getDamage());
 		gun.setShooter(BodyStrings.Shooter_ENEMY);
+		gun.shootingSound = null;
+		gun.haveReloadSound = false;
 	}
 
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
