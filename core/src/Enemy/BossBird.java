@@ -7,6 +7,7 @@ import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 
@@ -33,10 +34,24 @@ public class BossBird extends BaseEnemy
         super.run();
     }
 
+	float enemyCounter = 0;
+	float wormRate = 3;
+
     @Override
 	public void attack()
 	{
-        super.attack();
+		enemyCounter += gameManager.gameScene.getDeltaTime();
+
+//		Log.e("Tag", "enemyCounter" + enemyCounter);
+
+		if(enemyCounter >= wormRate)
+		{
+			enemyCounter = 0;
+
+			Worm worm = enemyFactory.getWorm(level, null);
+			worm.setPosition(x, y);
+//			Log.e("INIT new Worm", "DAMAGE = " + worm.DAMAGE);
+		}
 	}
 
 	@Override
@@ -48,9 +63,35 @@ public class BossBird extends BaseEnemy
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
         float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
-        float myHeight = (float) (groundHeight + (Math.random() * 0.2 + 1.2) * SceneManager.WORLD_Y);
+        float myHeight = (float) (groundHeight + (Math.random() * 0.2 + 1.2) * SceneManager.WORLD_Y) - 20;
 
         setPosition(originX + width + 100, myHeight);
+
+		float zoom = gameManager.gameScene.camera.zoom;
+		attackingDistance = (float) (SceneManager.WORLD_X * zoom * (0.7 + Math.random() * 0.1));
+
+		enemyCounter = wormRate;
+	}
+
+	float attackingDistance;
+	@Override
+	public void decide()
+	{
+		super.decide();
+
+		float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *
+				PhysicsConstant.PIXEL_TO_METER;
+
+		if(x - carX < attackingDistance && currentState != StateEnum.ATTACK)
+		{
+			setCurrentState(StateEnum.ATTACK);
+		}
+	}
+
+	@Override
+	public void loadGun()
+	{
+		super.loadGun();
 	}
 }
 

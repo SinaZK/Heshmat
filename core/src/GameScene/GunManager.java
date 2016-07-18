@@ -46,6 +46,8 @@ public class GunManager
 	{
 		initGuns();
 		initReloadTextures();
+
+		selectedGunNumber = MAX_GUNS - 1;
 	}
 
 	private void initReloadTextures()
@@ -154,6 +156,8 @@ public class GunManager
 
 	public void restart()
 	{
+		selectedGunNumber = MAX_GUNS - 1;
+
 		for(int i = 0;i < guns.size();i++)
 			guns.get(i).reset();
 	}

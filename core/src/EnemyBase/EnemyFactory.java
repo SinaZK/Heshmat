@@ -376,17 +376,19 @@ public class EnemyFactory
 		BatEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 438, 2454, 932, 1, 4, 8);
 
 		BossBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/10/boss.png", gameScene.disposeTextureArray);
-		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 732, 0, 2493, 366, 1, 3, 8);
-		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACKBLOW_STRING, 807, 432, 2535, 807, 1, 3, 8);
-		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACKFIRE_STRING, 801, 879, 2550, 1242, 1, 3, 8);
-		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_LOWHEALTH_STRING, 735, 1300, 2481, 1782, 1, 3, 8);
-		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 264, 1911, 2700, 2367, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 720, 0, 2523, 384, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACK_STRING, 669, 411, 2556, 846, 1, 3, 8);
+
+//		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACKFIRE_STRING, 801, 879, 2550, 1242, 1, 3, 8);
+//		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_LOWHEALTH_STRING, 735, 1300, 2481, 1782, 1, 3, 8);
+		BossBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 106, 1842, 2260, 2368, 1, 4, 8);
 
 		WormEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/11/worm.png", gameScene.disposeTextureArray);
 		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_FALL_STRING, 0, 0, 327, 232, 1, 1, 8);
 		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 27, 807, 1449, 1095, 1, 4, 8);
 		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_WAKEUP_STRING, 27, 807, 1449, 1095, 1, 4, 8);
-		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 1308, 2496, 1671, 1, 6, 8);
+		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 89, 1209, 2691, 1575, 1, 6, 8);
+//		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 89, 1209, 528, 1569, 1, 1, 8);
 
 		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 14);

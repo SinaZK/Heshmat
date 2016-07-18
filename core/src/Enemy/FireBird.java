@@ -31,7 +31,7 @@ public class FireBird extends BaseEnemy
         loadGun();
 
         gun.bulletTexture = enemyFactory.FireBirdBulletTexture;
-        gun.bulletSize = new Vector2(15, 15);
+        gun.bulletSize = new Vector2(30, 30);
         gun.setBulletSpeed(5);
 
         gunX = 50;
@@ -47,7 +47,7 @@ public class FireBird extends BaseEnemy
 	@Override
 	public void attack()
 	{
-
+        super.attack();
 	}
 
 	@Override

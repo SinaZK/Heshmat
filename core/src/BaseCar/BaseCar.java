@@ -17,6 +17,7 @@ import GameScene.GameScene;
 import GameScene.GameSceneInput;
 import HUD.DrivingHUD;
 import Misc.BodyStrings;
+import Misc.Log;
 import Physics.SizakBody;
 import PhysicsFactory.PhysicsConstant;
 import WeaponBase.BaseBullet;
@@ -399,7 +400,7 @@ public abstract class BaseCar
 	public void damage(float damage)
 	{
 		hitpoint -= damage;
-//		Log.e("BaseCar.java", "Hit damage = " + damage);
+//		Log.e("BaseCar.java", "Hit damage = " + damage + " hp = " + hitpoint);
 	}
 
 	public float getXInPixel()

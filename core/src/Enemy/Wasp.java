@@ -29,7 +29,7 @@ public class Wasp extends BaseEnemy
 		init(BodyStrings.EnemyFly, id, enemyFactory.WaspEnemyAnimation);
         loadGun();
 
-        gun.bulletTexture = enemyFactory.FlyBulletTexture;
+        gun.bulletTexture = enemyFactory.InvisibleBulletTexture;
         gun.bulletSize = new Vector2(15, 15);
         gun.setBulletSpeed(5);
 

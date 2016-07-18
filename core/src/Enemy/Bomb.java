@@ -56,7 +56,7 @@ public class Bomb extends BaseEnemy
 			if(gameManager.levelManager.currentLevel.getCurrentPart().mode == GameScene.LevelModeEnum.Shooting)
 			{
 				shootingMode = (ShootingMode)gameManager.levelManager.currentLevel.getCurrentPart();
-				Log.e("Bomb.java", "enemyMax = " + shootingMode.enemyMax);
+//				Log.e("Bomb.java", "enemyMax = " + shootingMode.enemyMax);
 			}
 		}
 

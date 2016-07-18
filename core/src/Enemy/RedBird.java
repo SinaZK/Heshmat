@@ -31,8 +31,8 @@ public class RedBird extends BaseEnemy
 
         loadGun();
 
-        gun.bulletTexture = enemyFactory.FlyBulletTexture;
-        gun.bulletSize = new Vector2(15, 15);
+        gun.bulletTexture = enemyFactory.RedBirdBulletTexture;
+        gun.bulletSize = new Vector2(30, 30);
         gun.setBulletSpeed(5);
 
         gunX = 50;

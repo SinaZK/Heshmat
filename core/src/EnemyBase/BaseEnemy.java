@@ -60,12 +60,12 @@ public abstract class BaseEnemy
 
 	public static float GOLD_SHOW_TIME = 2;
 	public static float RAGE_PERCENT = 20;
-	public static float LEVEL_UPGRADE_PERCENT = 10;
+	public static float LEVEL_UPGRADE_PERCENT = 15;
 	public static float GOLD_PERCENT = 15;
 
 	public int level;
 	public float fullImageWidth, fullImageHeight;
-	private float BASE_SPEED, MAX_HP, DAMAGE, FIRE_RATE, weakspeedcoef, HIT_STUN = 0, HIT_RAGE = 0, GOLD = 0;
+	public float BASE_SPEED, MAX_HP, DAMAGE, FIRE_RATE, weakspeedcoef, HIT_STUN = 0, HIT_RAGE = 0, GOLD = 0;
 	public float speed;
 	public float hitPoint;
 	public boolean isKillCount = true;//in DrivingMode Enemies its false
@@ -483,6 +483,7 @@ public abstract class BaseEnemy
 
 	public float getDamage()
 	{
+//		Log.e("BaseEnemy", "DAMAGE = " + DAMAGE + " LEVELMUL = " + levelMul);
 		return DAMAGE * levelMul;
 	}
 
