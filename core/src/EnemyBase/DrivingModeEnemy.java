@@ -176,7 +176,7 @@ public class DrivingModeEnemy extends BaseEnemy
 		float y1 = gameManager.levelManager.currentLevel.terrain.Points.get(pieceID).y;
 		float y2 = gameManager.levelManager.currentLevel.terrain.Points.get(pieceID - 1).y;
 		float Y = Math.max(y1, y2) + states.get(currentState).height / 2;
-		setPosition(x, Y);
+		setPosition(x, Y - 20);
 
 		isAttachedToGround = true;
 

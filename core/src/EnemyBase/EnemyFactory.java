@@ -344,9 +344,9 @@ public class EnemyFactory
 
 
 		WaspEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/3/wasp.png", gameScene.disposeTextureArray);
-		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 354, 117, 2826, 408, 1, 5, 8);
+		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 318, 93, 2850, 456, 1, 5, 8);
 		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_ATTACK_STRING, 339, 597, 2889, 1017, 1, 5, 8);
-		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 360, 1173, 2994, 1695, 1, 5, 8);
+		WaspEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 114, 1146, 3162, 1734, 1, 5, 9);
 
 		RedBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/4/bird.png", gameScene.disposeTextureArray);
 		RedBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2190, 396, 1, 4, 8);
@@ -354,7 +354,7 @@ public class EnemyFactory
 		RedBirdBulletTexture = TextureHelper.loadTexture("gfx/enemy/4/bullet.png", gameScene.disposeTextureArray);
 
 		HattyBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/5/bird.png", gameScene.disposeTextureArray);
-		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 2866, 470, 1, 4, 8);
+		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 0, 0, 3200, 500, 1, 4, 8);
 		HattyBirdEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 590, 2608, 1078, 1, 4, 8);
 
 		MaskBirdEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/6/bird.png", gameScene.disposeTextureArray);
@@ -389,7 +389,7 @@ public class EnemyFactory
 		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 0, 1308, 2496, 1671, 1, 6, 8);
 
 		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
-		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 8);
+		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 14);
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 0, 300, 1270, 520, 1, 5, 15);
 		BombEnemyAnimation.getAnimation(ENEMY_ANIMATION_EXPLODE_STRING).flipAnimation();
 

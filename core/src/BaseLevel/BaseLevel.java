@@ -67,6 +67,7 @@ public class BaseLevel
 			if(gameManager.selectedCar.hitpoint <= 0)
 			{
 				gameScene.EndTheGame(false);
+				return;
 			}
 			currentPart++;
 			if(currentPart < levelParts.size())

@@ -170,7 +170,7 @@ public class GunManager
 		return guns.get(i).selectSprite;
 	}
 
-	private int getPrevID()
+	public int getPrevID()
 	{
 		int i = selectedGunNumber - 1;
 		if(i < 0)
@@ -179,13 +179,18 @@ public class GunManager
 		return i;
 	}
 
-	private int getNextID()
+	public int getNextID()
 	{
 		int i = selectedGunNumber + 1;
 		if(i >= MAX_GUNS)
 			i = 0;
 
 		return i;
+	}
+
+	public int getID()
+	{
+		return selectedGunNumber;
 	}
 
 }

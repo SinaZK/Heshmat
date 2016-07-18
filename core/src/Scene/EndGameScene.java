@@ -225,6 +225,9 @@ public class EndGameScene extends BaseScene
 	{
 		act.checkForVDO();
 
+		gameScene.gameManager.selectedCar.stopSound();
+		act.audioManager.playBgMusic();
+
 		star = 0;
 		gameSceneInput = Gdx.input.getInputProcessor();
 

@@ -118,6 +118,11 @@ public abstract class BaseCar
 		}
 	}
 
+	public void stopSound()
+	{
+		carSound.stop();
+	}
+
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
 		if(carSound != null)
@@ -446,5 +451,15 @@ public abstract class BaseCar
 	public float calculatePercent(int level, float addingPercent)
 	{
 		return (float) Math.pow((100f + addingPercent) / 100f, level);
+	}
+
+	public void pause()
+	{
+		carSound.pause();
+	}
+
+	public void resume()
+	{
+//		carSound.pause(carSoundID);
 	}
 }

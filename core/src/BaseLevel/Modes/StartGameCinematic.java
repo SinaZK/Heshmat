@@ -26,6 +26,13 @@ public class StartGameCinematic extends CinematicMode
 	@Override
 	public void run()
 	{
+		if(isReset)
+		{
+			isFinished = true;
+			isCameraDone = true;
+			return;
+		}
+
 		super.run();
 	}
 
@@ -41,10 +48,13 @@ public class StartGameCinematic extends CinematicMode
 		currentState = 0;
 	}
 
+	boolean isReset = false;
 	@Override
 	public void reset()
 	{
 		super.reset();
+
+		isReset = true;
 
 		isFinished = true;
 		isCameraDone = true;
@@ -67,7 +77,8 @@ public class StartGameCinematic extends CinematicMode
 		float cX = carX;
 		float cY = carY;
 
-		float [] times = {5, 5, 18, 5};
+//		float [] times = {5, 5, 18, 5};
+		float [] times = {1, 1, 1, 1};
 
 		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 1.2f / 60f / times[0]).setTime(times[0]);
 		states.add(firstState);

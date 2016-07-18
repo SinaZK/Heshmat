@@ -128,6 +128,7 @@ public class GameManager
 		gunManager.pause();
 		enemyFactory.pause();
 		bulletFactory.pause();
+		selectedCar.pause();
 	}
 
 	public void restart()
@@ -138,6 +139,7 @@ public class GameManager
 		selectedCar.reset();
 		levelManager.restart();
 		driverHuman.reset();
+		selectedCar.resume();
 
 		enemyKilledCount = 0;
 		goldCollect = 0;

@@ -37,8 +37,8 @@ public class HUD extends Stage
 		if(gameScene.gameManager.levelManager.currentLevel.getCurrentPart().isFinished)
 			return;
 		super.draw();
-		getBatch().begin();
-		gameScene.font16.draw(getBatch(), "" + Gdx.graphics.getFramesPerSecond(), 10, 30);
-		getBatch().end();
+//		getBatch().begin();
+//		gameScene.font16.draw(getBatch(), "" + Gdx.graphics.getFramesPerSecond(), 10, 30);
+//		getBatch().end();
 	}
 }

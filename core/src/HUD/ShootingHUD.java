@@ -1,6 +1,7 @@
 package HUD;
 
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
@@ -28,11 +29,20 @@ public class ShootingHUD extends HUD
 		DX = gameScene.DX;
 		DY = gameScene.DY;
 
-		float y = 270;
-		float x = 0;
+		float y = 20;
+		float x = 30;
+
+		final float alpha = 0.6f;
 
 		prevGunButton = new Button(gameScene.nextGunButtonTexture,
-				gameScene.nextGunButtonTexture);
+				gameScene.nextGunButtonTexture)
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				super.draw(batch, alpha);
+			}
+		};
 		prevGunButton.setRunnable(gameScene.act, new Runnable()
 		{
 			@Override
@@ -41,13 +51,20 @@ public class ShootingHUD extends HUD
 				ShootingHUD.this.gameScene.gameManager.gunManager.prevGun();
 			}
 		});
-		prevGunButton.setPosition(DX + x + 10, DY + y);
+		prevGunButton.setPosition(DX + x, DY + y + 4);
 		addActor(prevGunButton);
 
 
 
 		reloadButton = new Button(gameScene.selectedGunButtonTexture,
-				gameScene.selectedGunButtonTexture);
+				gameScene.selectedGunButtonTexture)
+		{
+				@Override
+				public void draw(Batch batch, float parentAlpha)
+				{
+					super.draw(batch, alpha);
+				}
+		};
 		reloadButton.setRunnable(gameScene.act, new Runnable()
 		{
 			@Override
@@ -56,14 +73,21 @@ public class ShootingHUD extends HUD
 				ShootingHUD.this.gameScene.gameManager.gunManager.getSelectedGun().reload();
 			}
 		});
-		reloadButton.setPosition(DX + x + 80, DY + y);
+		reloadButton.setPosition(DX + x + 70, DY + y);
 		addActor(reloadButton);
 
 
 
 
 		nextGunButton = new Button(gameScene.nextGunButtonTexture,
-				gameScene.nextGunButtonTexture);
+				gameScene.nextGunButtonTexture)
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				super.draw(batch, alpha);
+			}
+		};
 		nextGunButton.setRunnable(gameScene.act, new Runnable()
 		{
 			@Override
@@ -72,7 +96,7 @@ public class ShootingHUD extends HUD
 				ShootingHUD.this.gameScene.gameManager.gunManager.nextGun();
 			}
 		});
-		nextGunButton.setPosition(DX + x + 165, DY + y);
+		nextGunButton.setPosition(DX + x + 150, DY + y + 4);
 		addActor(nextGunButton);
 
 		initSwipeInput();
@@ -99,6 +123,10 @@ public class ShootingHUD extends HUD
 
 		getBatch().begin();
 
+		int nextID = gameScene.gameManager.gunManager.getNextID();
+		int prevID = gameScene.gameManager.gunManager.getPrevID();
+		int id = gameScene.gameManager.gunManager.getID();
+
 		nextSprite = gameScene.gameManager.gunManager.getNextGunSelectSprite();
 		selectSprite = gameScene.gameManager.gunManager.getSelectedGun().selectSprite;
 		prevSprite = gameScene.gameManager.gunManager.getPrevGunSelectSprite();
@@ -107,24 +135,28 @@ public class ShootingHUD extends HUD
 		{
 			nextSprite.setSize(nextGunButton.getWidth(), nextGunButton.getHeight());
 			nextSprite.setPosition(nextGunButton.getX(), nextGunButton.getY());
-			nextSprite.draw(getBatch());
+
+			if(id != nextID)
+				nextSprite.draw(getBatch());
 		}
 
 		if(prevSprite != null)
 		{
 			prevSprite.setSize(prevGunButton.getWidth(), prevGunButton.getHeight());
 			prevSprite.setPosition(prevGunButton.getX(), prevGunButton.getY());
-			prevSprite.draw(getBatch());
+
+			if(id != prevID)
+				prevSprite.draw(getBatch());
 		}
 
 		selectSprite.setSize(reloadButton.getWidth(), reloadButton.getHeight());
 		selectSprite.setPosition(reloadButton.getX(), reloadButton.getY());
 		selectSprite.draw(getBatch());
 
-		gameScene.font16.setColor(0, 0, 0, 1);
-		gameScene.font16.draw(getBatch(), ""+ (int)gameScene.gameManager.gunManager.getSelectedGun().ammo + "/" +
+		gameScene.font12.setColor(1, 1, 1, 1);
+		gameScene.font12.draw(getBatch(), ""+ (int)gameScene.gameManager.gunManager.getSelectedGun().ammo + "/" +
 				(int)gameScene.gameManager.gunManager.getSelectedGun().getClipSize()
-				, selectSprite.getX() + selectSprite.getWidth() / 2 - 20, selectSprite.getY() - 10);
+				, selectSprite.getX() + selectSprite.getWidth() / 2 - 15, selectSprite.getY() + 14);
 
 		getBatch().end();
 	}
@@ -138,10 +170,10 @@ public class ShootingHUD extends HUD
 			@Override
 			public void fling(InputEvent event, float velocityX, float velocityY, int button)
 			{
-				if(velocityY < -swipeVX)
+				if(velocityX < -swipeVX)
 					gameScene.gameManager.gunManager.nextGun();
 
-				if(velocityY > swipeVX)
+				if(velocityX > swipeVX)
 					gameScene.gameManager.gunManager.prevGun();
 			}
 		};

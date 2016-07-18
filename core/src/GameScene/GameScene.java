@@ -177,6 +177,8 @@ public class GameScene extends BaseScene
 		dispose();
 	}
 
+	public BitmapFont font10 = act.font10;
+	public BitmapFont font12 = act.font12;
 	public BitmapFont font14 = act.font14;
 	public BitmapFont font16 = act.font16;
 	public BitmapFont font18 = act.font18;

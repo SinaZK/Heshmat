@@ -30,6 +30,8 @@ public class Bomb extends BaseEnemy
 		load("gfx/enemy/12/");
 
 		init(BodyStrings.DrivingEnemy, id, enemyFactory.BombEnemyAnimation);
+
+		speed = 0;
 	}
 
 	@Override
@@ -67,7 +69,14 @@ public class Bomb extends BaseEnemy
 		float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 		float height = SceneManager.WORLD_Y * gameManager.gameScene.camera.zoom;
 
-		mainBody.getmBody().setLinearVelocity(0, -1);
+		mainBody.getmBody().setGravityScale(1);
+
+//		mainBody.getmBody().setLinearVelocity(0, -1);
+	}
+
+	@Override
+	public void move()
+	{
 	}
 
 	Timer t = new Timer();
@@ -88,5 +97,17 @@ public class Bomb extends BaseEnemy
 				gameManager.selectedCar.damage(getDamage());
 			}
 		}, animatedSpriteSheet.getAnimation(EnemyFactory.ENEMY_ANIMATION_EXPLODE_STRING).animDuration);
+	}
+
+	@Override
+	public void hitBy(Contact contact)
+	{
+		String s1 = (String)contact.getFixtureA().getBody().getUserData();
+		String s2 = (String)contact.getFixtureB().getBody().getUserData();
+
+		if(BodyStrings.isEnemy(s1) && BodyStrings.isEnemy(s2))
+			contact.setEnabled(false);
+		
+		super.hitBy(contact);
 	}
 }
