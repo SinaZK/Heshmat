@@ -79,6 +79,7 @@ public class Bomb extends BaseEnemy
 	{
 	}
 
+
 	Timer t = new Timer();
 	@Override
 	public void hitByCar(Contact contact, String carData)
