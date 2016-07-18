@@ -80,7 +80,8 @@ public class DrivingMode extends LevelMode
 
 		if(getCurrentPos() > distCounter && getCurrentPos() + distBeforeEnd < distance)
 		{
-			distCounter += objDist;
+//			distCounter += objDist;
+            distCounter += Math.abs(random.nextInt()) % (objDist / 2) + objDist / 2;
 
 			if(queries.size() == 0)
 				return;
@@ -117,7 +118,7 @@ public class DrivingMode extends LevelMode
 		cameraSpeedY = 100;
 		cameraZoomSpeed = 0.005f;
 
-		distCounter = objDist;
+		distCounter = objDist / 2;
 
 		super.start();
 

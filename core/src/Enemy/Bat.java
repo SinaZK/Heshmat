@@ -53,6 +53,7 @@ public class Bat extends BaseEnemy
 
 		Bomb b = enemyFactory.getBomb(level, null);
 		b.setPosition(myX, y);
+        b.shootingMode = shootingMode;
 	}
 
 	@Override

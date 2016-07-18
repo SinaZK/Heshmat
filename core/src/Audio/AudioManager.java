@@ -38,7 +38,7 @@ public class AudioManager
 		buyItemSound = Gdx.audio.newSound(Gdx.files.internal("sfx/purchase.ogg"));
 		crashSound = Gdx.audio.newSound(Gdx.files.internal("sfx/crash.ogg"));
 		enemyHit = Gdx.audio.newSound(Gdx.files.internal("sfx/enemyhit.ogg"));
-		reloadSound = Gdx.audio.newSound(Gdx.files.internal("sfx/reload.ogg"));
+		reloadSound = Gdx.audio.newSound(Gdx.files.internal("sfx/reload.mp3"));
 
 		allSounds.add(buttonClickSound);
 		allSounds.add(buyItemSound);

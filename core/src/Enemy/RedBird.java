@@ -1,5 +1,7 @@
 package Enemy;
 
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
@@ -26,22 +28,32 @@ public class RedBird extends BaseEnemy
 		load("gfx/enemy/4/");
 
 		init(BodyStrings.EnemyFly, id, enemyFactory.RedBirdEnemyAnimation);
-	}
 
-	@Override
-	public void attack()
-	{
+        loadGun();
 
-	}
+        gun.bulletTexture = enemyFactory.FlyBulletTexture;
+        gun.bulletSize = new Vector2(15, 15);
+        gun.setBulletSpeed(5);
 
-	@Override
-	public void run()
-	{
-		super.run();
+        gunX = 50;
+        gunY = 65;
+        gunTeta = 235;
 
-	}
+        gun.setClipSize(10000);
+        gun.setRateOfFire(5);
+        gun.setReloadTime(100000);
+    }
 
-	@Override
+    @Override
+    public void attack() {
+        super.attack();
+
+        Log.e("Tag", "red bird attacking");
+    }
+
+    float attackingDistance;
+
+    @Override
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
 		super.create(shootingMode, level, attr);
@@ -53,8 +65,24 @@ public class RedBird extends BaseEnemy
         float myHeight = (float) (groundHeight + (Math.random() * 0.15 + 0.55) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);
+        attackingDistance = (float) (SceneManager.WORLD_X * (0.3 + Math.random() * 0.1));
 
 	}
+
+    @Override
+    public void decide()
+    {
+        super.decide();
+
+        float carX = gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x *
+                PhysicsConstant.PIXEL_TO_METER;
+
+        if(x - carX < attackingDistance && currentState != StateEnum.ATTACK)
+        {
+            setCurrentState(StateEnum.ATTACK);
+        }
+    }
+
 
     @Override
 	public void release()

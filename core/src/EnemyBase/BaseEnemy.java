@@ -458,7 +458,7 @@ public abstract class BaseEnemy
 		HIT_STUN = fileLoader.getFloat(5, 1);
 		HIT_RAGE = fileLoader.getFloat(6, 1);
 		weakspeedcoef = fileLoader.getFloat(7, 1);
-		GOLD = fileLoader.getFloat(8, 1);
+		GOLD = fileLoader.getFloat(8, 1) * (float)2.5;
 
 		infoSprite = enemyFactory.getInfoSprite(enemyType);
 
