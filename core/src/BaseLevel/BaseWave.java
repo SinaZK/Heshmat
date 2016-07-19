@@ -94,10 +94,10 @@ public class BaseWave
 
 		isReleased = true;
 
-		if(shouldInfoCardShown)
+//		if(shouldInfoCardShown)
 		{
-			gameManager.activity.sceneManager.dialogManager.addInfoCardDialog(gameManager.gameScene,
-					gameManager.enemyFactory.getInfoSprite(EnemyFactory.StringToEnemy(enemyType)));
+//			gameManager.activity.sceneManager.dialogManager.addInfoCardDialog(gameManager.gameScene,
+//					gameManager.enemyFactory.getInfoSprite(EnemyFactory.StringToEnemy(enemyType)));
 		}
 	}
 

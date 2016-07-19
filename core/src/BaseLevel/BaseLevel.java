@@ -94,8 +94,10 @@ public class BaseLevel
 
 	public void loadTerrain(String add)
 	{
-		terrainUpTexture   = TextureHelper.loadTexture(add + "up.png", gameScene.disposeTextureArray);
-		terrainDownTexture = TextureHelper.loadTexture(add + "rep.jpg", gameScene.disposeTextureArray);
+		String path = "gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/";
+		terrainUpTexture   = TextureHelper.loadTexture(path + "up.png", gameScene.disposeTextureArray);
+		terrainDownTexture = TextureHelper.loadTexture(path + "rep.jpg", gameScene.disposeTextureArray);
+
 		terrainDownTexture.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		terrain = new Terrain(act, add);
 		terrain.loadResources(terrainUpTexture, terrainDownTexture);

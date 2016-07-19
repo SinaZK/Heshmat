@@ -195,4 +195,12 @@ public class DrivingMode extends LevelMode
 
 		super.setCameraOnReset();
 	}
+
+	@Override
+	public void resume()
+	{
+		super.resume();
+
+		gameManager.activity.audioManager.playDrivingMusic();
+	}
 }

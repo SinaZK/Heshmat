@@ -63,7 +63,7 @@ public class EnemyFactory
 //		else Log.e("EnemyFactory.java", "Not NULL");
 
 		loadAnimations();
-		loadInfoCars();
+//		loadInfoCards();
 		loadDrivingEnemyAssets();
 	}
 
@@ -412,15 +412,15 @@ public class EnemyFactory
 		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_STOP_SIGN, 921, 32, 1134, 268, 1, 2, NOT_ANIMATION);
 	}
 
-	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];
+//	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];
 
-	public void loadInfoCars()
+	public void loadInfoCards()
 	{
-		String path = "gfx/enemy/";
-		ArrayList<Texture> dp = gameScene.disposeTextureArray;
-
-		for (int i = 1; i <= SceneManager.ENEMY_NUM; i++)
-			infoCards[i] = new Sprite(TextureHelper.loadTexture(path + i + "/infocard.png", dp));
+//		String path = "gfx/enemy/";
+//		ArrayList<Texture> dp = gameScene.disposeTextureArray;
+//
+//		for (int i = 1; i <= SceneManager.ENEMY_NUM; i++)
+//			infoCards[i] = new Sprite(TextureHelper.loadTexture(path + i + "/infocard.png", dp));
 	}
 
 	//for Spirtes and animations
@@ -491,13 +491,13 @@ public class EnemyFactory
 		return -1;
 	}
 
-	public Sprite getInfoSprite(BaseEnemy.EnemyType enemyType)
-	{
-		if(getEnemyID(enemyType) == -1)
-			return null;
-
-		return infoCards[getEnemyID(enemyType)];
-	}
+//	public Sprite getInfoSprite(BaseEnemy.EnemyType enemyType)
+//	{
+//		if(getEnemyID(enemyType) == -1)
+//			return null;
+//
+//		return infoCards[getEnemyID(enemyType)];
+//	}
 
 	public static BaseEnemy.EnemyType StringToEnemy(String type)
 	{

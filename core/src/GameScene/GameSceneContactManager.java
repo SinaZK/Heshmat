@@ -243,8 +243,8 @@ public class GameSceneContactManager
 		int i1 = BaseBullet.getBulletID(data1);
 		int i2 = BaseBullet.getBulletID(data2);
 
-		bulletFactory.bullets.get(i1).hitByBullet(data2);
-		bulletFactory.bullets.get(i2).hitByBullet(data1);
+//		bulletFactory.bullets.get(i1).hitByBullet(data2);
+//		bulletFactory.bullets.get(i2).hitByBullet(data1);
 	}
 
 	public void handleBulletToGround(Contact contact, int bulletID)

@@ -467,7 +467,7 @@ public abstract class BaseEnemy
 		weakspeedcoef = fileLoader.getFloat(7, 1);
 		GOLD = fileLoader.getFloat(8, 1);
 
-		infoSprite = enemyFactory.getInfoSprite(enemyType);
+//		infoSprite = enemyFactory.getInfoSprite(enemyType);
 
 		return fileLoader;
 	}

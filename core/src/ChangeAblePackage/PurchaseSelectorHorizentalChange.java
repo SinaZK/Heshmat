@@ -29,7 +29,7 @@ public class PurchaseSelectorHorizentalChange extends HorizentalChangablePackage
 	//This are just for showing to user on purchase scene, the actuale value is in [] coins on purchaseScene.java
 	public String [] coins = 
 		{
-			"6,000", "15,000", "25,000", "45,000", "80,000", "130,000", "180,000", "250,000", "450,000", "900,000,", "2,500,000"
+			"6,000", "15,000", "25,000", "45,000", "80,000", "130,000", "180,000", "250,000", "450,000", "900,000", "2,500,000"
 		};
 	
 	public String [] Prices = 

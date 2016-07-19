@@ -452,6 +452,12 @@ public class BaseGun implements InputProcessor
 		if(gunStatData == null)
 			return clipSize;
 
+		float calcF = calculatePercent(gunStatData.clipSizeLVL, CLIP_SIZE_PERCENT);
+		int calcI = (int)calcF;
+
+		if( (int)(clipSize * calcF) < clipSize + gunStatData.clipSizeLVL)
+			return clipSize + gunStatData.clipSizeLVL;
+
 		return clipSize * calculatePercent(gunStatData.clipSizeLVL, CLIP_SIZE_PERCENT);
 	}
 

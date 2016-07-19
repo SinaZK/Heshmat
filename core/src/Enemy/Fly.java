@@ -46,7 +46,7 @@ public class Fly extends BaseEnemy
         gun.setBulletHP(1);
 
         gun.setClipSize(10000);
-        gun.setRateOfFire(5);
+        gun.setRateOfFire(1);
         gun.setReloadTime(100000);
         gun.setBulletHP(1);
     }
