@@ -9,7 +9,6 @@ import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
-import Misc.Log;
 
 /**
  * Created by sinazk on 5/22/16.
@@ -179,6 +178,13 @@ public abstract class LevelMode
 		if(nextPart == null)
 		{
 			isCameraDone = true;
+			return;
+		}
+
+		if(nextPart.mode == GameScene.LevelModeEnum.Cinematic)
+		{
+			isCameraDone = true;
+			isFinished = true;
 			return;
 		}
 

@@ -77,8 +77,8 @@ public class StartGameCinematic extends CinematicMode
 		float cX = carX;
 		float cY = carY;
 
-//		float [] times = {5, 5, 18, 5};
-		float [] times = {1, 1, 1, 1};
+		float [] times = {5, 5, 18, 5};
+//		float [] times = {1, 1, 1, 1};
 
 		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 1.2f / 60f / times[0]).setTime(times[0]);
 		states.add(firstState);

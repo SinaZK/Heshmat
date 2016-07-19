@@ -29,22 +29,22 @@ public class PurchaseSelectorHorizentalChange extends HorizentalChangablePackage
 	//This are just for showing to user on purchase scene, the actuale value is in [] coins on purchaseScene.java
 	public String [] coins = 
 		{
-			"100,000", "225,000", "600,000", "910,000", "1,400,000", "1,800,000", "2,400,000", "3,400,000", "4,500,000", "5,700,000"
+			"6,000", "15,000", "25,000", "45,000", "80,000", "130,000", "180,000", "250,000", "450,000", "900,000,", "2,500,000"
 		};
 	
 	public String [] Prices = 
 		{
-			"1000", "2000", "5000", "7000", "10000", "12000", "15000", "20000", "25000", "30000"
+			"1000", "2000", "3000", "5000", "7000", "10,000", "12,000", "15,000", "20,000", "30,000", "50,000"
 		};
 	
 	public String [] Discounts = 
 		{
-			"0", "10", "20", "30", "40", "50", "60", "70", "80", "90"
+			"0", "20", "28", "33", "47", "53", "60", "64", "73", "80", "88"
 		};
 
 	public String [] SpritePrefix =
 			{
-					"1", "1", "1", "1", "2", "2", "2", "2", "3", "3",
+					"1", "1", "1", "1", "2", "2", "2", "2", "3", "3", "3"
 			};
 
 	public ArrayList<PurchaseButton> buttons = new ArrayList<PurchaseButton>();

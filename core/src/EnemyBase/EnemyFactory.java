@@ -27,6 +27,7 @@ import Enemy.HattyBird;
 import Enemy.MaskBird;
 import Enemy.Mosquito;
 import Enemy.Pigeon;
+import Enemy.PigeonLast;
 import Enemy.RedBird;
 import Enemy.Wasp;
 import Enemy.Worm;
@@ -126,18 +127,6 @@ public class EnemyFactory
 					enemies.get(i).damage(damage);
 			}
 	}
-
-//	public Pigeon getPigeon(ArrayList<String> attr)
-//	{
-//		if(haveEnemy(BaseEnemy.EnemyType.Pigeon))
-//			return (Pigeon) getEnemyByType(BaseEnemy.EnemyType.Pigeon, attr);
-//
-//		Pigeon pigeon = new Pigeon(gameManager, enemies.size());
-//		pigeon.create(shootingMode, attr);
-//		enemies.add(pigeon);
-//
-//		return  pigeon;
-//	}
 
 	public Bat getBat(int level, ArrayList<String> attr)
 	{
@@ -272,6 +261,7 @@ public class EnemyFactory
 	public static String WORM = "WORM";
 	public static String BOMB = "BOMB";
 	public static String PIGEON = "PIGEON";
+	public static String PIGEON_LAST = "PIGEON_LAST";
 
 	public static String STREET_LIGHT   = "STREET_LIGHT";
 	public static String SMALL_LIGHT    = "SMALL_LIGHT";
@@ -537,6 +527,8 @@ public class EnemyFactory
 			return BaseEnemy.EnemyType.WORM;
 		if(type.equals(PIGEON))
 			return BaseEnemy.EnemyType.PIGEON;
+		if(type.equals(PIGEON_LAST))
+			return BaseEnemy.EnemyType.PIGEON_LAST;
 
 		if(type.equals(TRAFFIC_LIGHT))
 			return BaseEnemy.EnemyType.TrafficLight;
@@ -593,6 +585,10 @@ public class EnemyFactory
 
 			case PIGEON:
 				retEnemy = new Pigeon(gameManager, enemies.size());
+				break;
+
+			case PIGEON_LAST:
+				retEnemy = new PigeonLast(gameManager, enemies.size());
 				break;
 
 		}

@@ -1,14 +1,16 @@
 package BaseLevel.Modes;
 
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
 import BaseLevel.Modes.CinematicState.CinematicState;
-import Enemy.Fly;
 import Enemy.Pigeon;
-import EnemyBase.BaseEnemy;
+import Entity.Logo;
 import GameScene.LevelManager;
-import Misc.CameraHelper;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
+import SceneManager.SceneManager;
 
 /**
  * Created by sinazk on 5/22/16.
@@ -21,12 +23,38 @@ public class EndGameCinematic extends CinematicMode
 	public EndGameCinematic(LevelManager levelManager)
 	{
 		super(levelManager);
+
+		stage = new Stage(new ExtendViewport(SceneManager.WORLD_X, SceneManager.WORLD_Y));
 	}
 
+	boolean runTheLogo = false;
 	@Override
 	public void run()
 	{
 		super.run();
+
+		if(runTheLogo)
+			logoRun();
+	}
+
+	public void logoRun()
+	{
+		if(logo != null)
+		{
+			logo.run();
+			gameScene.HUD.getBatch().begin();
+			logo.draw(gameScene.HUD.getBatch());
+			gameScene.HUD.getBatch().end();
+
+			stage.draw();
+		}
+		else
+		{
+			logo = gameScene.logo;
+
+//			if(logo.currentAlpha >= 0.9f)
+				logo.create();
+		}
 	}
 
 	@Override
@@ -34,11 +62,15 @@ public class EndGameCinematic extends CinematicMode
 	{
 		super.start();
 
+		runTheLogo = false;
 		time = fullTime;
 		cameraSpeedX = 2;
 		cameraSpeedY = 1;
 
 		currentState = 0;
+
+		cameraPos.x = camera.position.x;
+		cameraPos.y = camera.position.y;
 	}
 
 	@Override
@@ -46,9 +78,11 @@ public class EndGameCinematic extends CinematicMode
 	{
 		super.reset();
 
+		runTheLogo = false;
 		isFinished = true;
 		isCameraDone = true;
 	}
+
 
 	@Override
 	public void setCamera(boolean isSuperCallNeeded)
@@ -56,6 +90,7 @@ public class EndGameCinematic extends CinematicMode
 		super.setCamera(true);
 	}
 
+	Logo logo;
 	@Override
 	public void loadStates()
 	{
@@ -67,31 +102,22 @@ public class EndGameCinematic extends CinematicMode
 		float cX = carX;
 		float cY = carY;
 
-		float [] times = {5, 5, 18, 5};
+		float [] times = {5, 5};
 
 		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 1.2f / 60f / times[0]).setTime(times[0]);
 		states.add(firstState);
 
-		cX += times[1] * 60 * 3;
-		CinematicState state = new CinematicState(this).init(cX, cY, zoom).setSpeed(3, 0, 0).setTime(times[1]);
-		states.add(state);
-
-		state = new CinematicState(this).init(cX, cY, zoom).setSpeed(3, 0, 0).setTime(times[2]);
-		states.add(state);
+		CinematicState state = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 0).setTime(times[1]);
 		state.runnable = new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				enemy = (Pigeon)gameManager.enemyFactory.getDrivingEnemy(BaseEnemy.EnemyType.PIGEON, 25, null);
-				enemy.setPosition(CameraHelper.getXMax(camera) - 100, CameraHelper.getYMax(camera) - 300);
+				runTheLogo = true;
+				gameManager.selectedCar.isAutoPilot = true;
 			}
 		};
-
-		CinematicState lastState = new CinematicState(this).init(cX, cY, levelManager.currentLevel.terrain.cameraZoom).
-				setSpeed(0, 0, 1.2f / 60f / times[3]).setTime(times[3]);
-		states.add(lastState);
-
+		states.add(state);
 
 		camera.position.x = carX;
 		camera.position.y = carY;
@@ -105,4 +131,9 @@ public class EndGameCinematic extends CinematicMode
 		enemy.isFree = true;
 	}
 
+	@Override
+	public void setCameraOnReset()
+	{
+		super.setCameraOnReset();
+	}
 }

@@ -271,13 +271,18 @@ public class BaseGun implements InputProcessor
 	Random r = new Random();
 	public void shoot()
 	{
+//		Log.e("BaseGun.java", "Shoot1 : " + ammo);
 		if(isShootingEnabled == false || isReloading)
 			return;
+
+//		Log.e("BaseGun.java", "Shoot2 : " + ammo);
 
 		if((int)ammo <= 0)
 			reload();
 		else
 		{
+
+//			Log.e("BaseGun.java", "Shoot3 : " + ammo);
 			float angle = image.getRotation();//degrees
 
 			if(r.nextBoolean())//mosbatManfi
@@ -292,8 +297,6 @@ public class BaseGun implements InputProcessor
 			if(shootingSound != null)
 				act.audioManager.playSound(shootingSound);
 		}
-
-//		Log.e("BaseGun.java", "Shoot : " + ammo);
 	};
 
 	public void run()

@@ -47,7 +47,7 @@ public class MainActivity extends ApplicationAdapter
 		Gdx.input.setCatchBackKey(true);
 		//fonts are for debug
 
-		saveManager = new SaveManager(false);
+		saveManager = new SaveManager(true);
 		loadSaveAtt();
 
 		audioManager = new AudioManager(this);

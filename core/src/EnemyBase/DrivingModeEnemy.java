@@ -97,6 +97,7 @@ public class DrivingModeEnemy extends BaseEnemy
 	@Override
 	public void run()
 	{
+//		Log.e("DME.java", "Gold = " + getGOLD() + " raw = " + GOLD);
 		if(mainBody != null)
 		{
 			x = mainBody.getmBody().getWorldCenter().x * PhysicsConstant.PIXEL_TO_METER;

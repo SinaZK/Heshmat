@@ -27,7 +27,7 @@ public class Pigeon extends BaseEnemy
 	{
 		super(gameManager, id);
 
-		enemyType = EnemyType.WORM;
+		enemyType = EnemyType.PIGEON;
 
 		load("gfx/enemy/13/");
 
@@ -57,7 +57,7 @@ public class Pigeon extends BaseEnemy
 	{
 		super.attack();
 
-		Log.e("Pigeon.java", "Shooting and sound is " + gun.shootingSound);
+//		Log.e("Pigeon.java", "Shooting and sound is " + gun.shootingSound);
 		setCurrentState(StateEnum.MOVE);
 		isGoingOut = true;
 	}

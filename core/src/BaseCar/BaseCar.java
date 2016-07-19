@@ -124,8 +124,14 @@ public abstract class BaseCar
 		carSound.stop();
 	}
 
+	public boolean isAutoPilot = false;
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
+		if(isAutoPilot)
+		{
+			gas(0.6f);
+			return;
+		}
 		if(carSound != null)
 			act.audioManager.playCarSound(carSound, carSoundID, getSpeedInMeter(), 20);
 
@@ -342,6 +348,7 @@ public abstract class BaseCar
 
 	public void reset()
 	{
+		isAutoPilot = false;
 		groundContact = GROUND_MAX;
 
 		contactManagerWheelCollisionCount = 0;

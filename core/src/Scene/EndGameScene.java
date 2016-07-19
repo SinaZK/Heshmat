@@ -100,7 +100,20 @@ public class EndGameScene extends BaseScene
 
 
 		Button showScoreButton = new Button(TextureHelper.loadTexture(add+"leader1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"leader2.png", disposeTextureArray));
+				TextureHelper.loadTexture(add+"leader2.png", disposeTextureArray))
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
+				{
+					super.draw(batch, parentAlpha);
+					setVisible(true);
+				}
+				else
+					setVisible(false);
+			}
+		};
 		showScoreButton.setRunnable(act, new Runnable() {
 
 			@Override
@@ -118,8 +131,8 @@ public class EndGameScene extends BaseScene
 		coinEnt.setPosition(DX + 200, DY + 220);
 		killEnt.setPosition(DX + 200, DY + 160);
 
-		backToMenuButton.setPosition(DX + 241, DY + 20);
-		showScoreButton.setPosition(DX + 370, DY + 20);
+		showScoreButton.setPosition(DX + 241, DY + 20);
+		backToMenuButton.setPosition(DX + 370, DY + 20);
 		restartButton.setPosition(DX + 498, DY + 20);
 		nextLevelButton.setPosition(DX + 650, DY + 20);
 
@@ -128,9 +141,8 @@ public class EndGameScene extends BaseScene
 		videoButton.setPosition(DX + 50, DY + 20);
 
 		attachChild(videoButton);
-
-		attachChild(nextLevelButton);
 		attachChild(showScoreButton);
+		attachChild(nextLevelButton);
 		attachChild(backToMenuButton);
 		attachChild(restartButton);
 		attachChild(killEnt);
@@ -247,7 +259,9 @@ public class EndGameScene extends BaseScene
 
 
 		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
-			act.submitWave((int)act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
+		{
+			act.submitWave((int) act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
+		}
 	}
 
 	public void restartGameScene()

@@ -23,6 +23,7 @@ import BaseLevel.EndlessLevel;
 import Countly.CountlyStrings;
 import Entity.AnimatedSprite;
 import Entity.Button;
+import Entity.Logo;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
 import Misc.BodyStrings;
@@ -73,6 +74,7 @@ public class GameScene extends BaseScene
 
 	String add = "gfx/scene/game/";
 
+	public Logo logo;
 	@Override
 	public void loadResources()
 	{
@@ -102,6 +104,9 @@ public class GameScene extends BaseScene
 
 		endGameScene = new EndGameScene(this);
 		endGameScene.loadResources();
+
+		logo = new Logo(this);
+		logo.load();
 	}
 
 	@Override

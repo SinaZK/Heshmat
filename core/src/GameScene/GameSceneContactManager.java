@@ -58,6 +58,18 @@ public class GameSceneContactManager
 				if(BodyStrings.isBullet(s2) && s1.equals(BodyStrings.GroundString))
 					handleBulletToGround(contact, BaseBullet.getBulletID(s2));
 
+				if(BodyStrings.isEnemy(s1))
+				{
+					int id = BaseEnemy.getEnemyID(s1);
+					enemyFactory.enemies.get(id).hitBy(contact);
+				}
+
+				if(BodyStrings.isEnemy(s2))
+				{
+					int id = BaseEnemy.getEnemyID(s2);
+					enemyFactory.enemies.get(id).hitBy(contact);
+				}
+
 //				if(BodyStrings.isBullet(s1) && BodyStrings.isEnemy(s2))
 //					handleBulletToEnemy(contact, s1, s2);
 //				if(BodyStrings.isBullet(s2) && BodyStrings.isEnemy(s1))
@@ -216,8 +228,8 @@ public class GameSceneContactManager
 			int i1 = BaseBullet.getBulletID(data1);
 			int i2 = BaseBullet.getBulletID(data2);
 
-			bulletFactory.bullets.get(i1).hitByBullet(data1);
-			bulletFactory.bullets.get(i2).hitByBullet(data2);
+//			bulletFactory.bullets.get(i1).hitByBullet(data1);
+//			bulletFactory.bullets.get(i2).hitByBullet(data2);
 		}
 	}
 

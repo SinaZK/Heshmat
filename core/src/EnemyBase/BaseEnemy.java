@@ -11,8 +11,10 @@ import java.util.ArrayList;
 
 import BaseLevel.Modes.ShootingMode;
 import Enemy.EnemyState.GreenTree;
+import Enemy.EnemyState.StopSign;
 import Enemy.EnemyState.StreetLight;
 import Enemy.EnemyState.TrafficLight;
+import Enemy.EnemyState.WaterBox;
 import Enemy.EnemyState.YellowTree;
 import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
@@ -20,7 +22,6 @@ import GameScene.GameScene;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.FileLoader;
-import Misc.Log;
 import Physics.CzakBody;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
@@ -43,7 +44,7 @@ public abstract class BaseEnemy
 	{
 		MOSQUITO, FLY, WASP, RED_BIRD, HATTY_BIRD, MASK_BIRD, FURRY_BIRD, FIRE_BIRD, BAT, BOSS_BIRD, WORM, BOMB,
 
-		PIGEON,
+		PIGEON, PIGEON_LAST,
 
 		//DrivingMode Enemies
 		StreetLight, SmallLight, TrafficLight, GreenTree, YellowTree, WaterBox, StopSign
@@ -464,7 +465,7 @@ public abstract class BaseEnemy
 		HIT_STUN = fileLoader.getFloat(5, 1);
 		HIT_RAGE = fileLoader.getFloat(6, 1);
 		weakspeedcoef = fileLoader.getFloat(7, 1);
-		GOLD = fileLoader.getFloat(8, 1) * (float)2.5;
+		GOLD = fileLoader.getFloat(8, 1);
 
 		infoSprite = enemyFactory.getInfoSprite(enemyType);
 
