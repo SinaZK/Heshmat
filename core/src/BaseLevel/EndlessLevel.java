@@ -49,7 +49,7 @@ public class EndlessLevel extends BaseLevel
 	@Override
 	public void start()
 	{
-		addDrivingMode(2000, 100);
+        addDrivingMode((int)(drivingDistance + drivingStep * currentWave), 100);
 		addShootingMode(2, 5);
 
 		super.start();
@@ -132,7 +132,7 @@ public class EndlessLevel extends BaseLevel
 
 			if(currentPart % 2 == 1)
 			{
-				addDrivingMode(1000, 100);
+				addDrivingMode((int)(drivingDistance + drivingStep * currentWave), 100);
 				addShootingMode(2, 5);
 			}
 
@@ -174,7 +174,7 @@ public class EndlessLevel extends BaseLevel
 			if(currentWave + 1 >= startLevels.get(i))
 			{
 				addWave(shootingMode, enemyStrings.get(i), 1 + currentWave / 5, 4 + currentWave / 20, 0.7f, currentTime);
-				currentTime += 8 + currentWave / 30.0;
+				currentTime += 4 + currentWave / 30.0;
 			}
 		}
 

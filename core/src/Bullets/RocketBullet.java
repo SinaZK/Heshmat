@@ -31,7 +31,7 @@ public class RocketBullet extends NormalBullet
 
 		explosionSprite = new AnimatedSprite("gfx/explosion.png", 1, 12, 16, 0.23f, gameManager.gameScene.disposeTextureArray);
 		explosionSprite.isDisabled = true;
-		explosionDamageLength = 150;
+		explosionDamageLength = 220;
 	}
 
 

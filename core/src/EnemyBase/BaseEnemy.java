@@ -62,7 +62,7 @@ public abstract class BaseEnemy
 	public static float GOLD_SHOW_TIME = 2;
 	public static float RAGE_PERCENT = 20;
 	public static float LEVEL_UPGRADE_PERCENT = 15;
-	public static float GOLD_PERCENT = 15;
+	public static float GOLD_PERCENT = 16;
 
 	public int level;
 	public float fullImageWidth, fullImageHeight;

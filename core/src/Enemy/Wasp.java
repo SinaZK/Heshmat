@@ -38,7 +38,7 @@ public class Wasp extends BaseEnemy
         gunTeta = 235;
 
         gun.setClipSize(10000);
-        gun.setRateOfFire(5);
+        gun.setRateOfFire(1);
         gun.setReloadTime(100000);
         gun.setBulletHP(1);
     }
