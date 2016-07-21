@@ -11,6 +11,8 @@ import heshmat.MainActivity;
 
 public class AudioManager 
 {
+	public static  boolean IS_MUTE = false;
+
 	MainActivity act;
 	public AudioManager(MainActivity a) 
 	{
@@ -34,6 +36,9 @@ public class AudioManager
 
 	public void loadSound()
 	{
+		if(IS_MUTE)
+			return;
+
 		buttonClickSound = Gdx.audio.newSound(Gdx.files.internal("sfx/click.ogg"));
 		buyItemSound = Gdx.audio.newSound(Gdx.files.internal("sfx/purchase.ogg"));
 		crashSound = Gdx.audio.newSound(Gdx.files.internal("sfx/crash.ogg"));
@@ -49,6 +54,9 @@ public class AudioManager
 
 	public void loadMusic()
 	{
+		if(IS_MUTE)
+			return;
+
 		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/bg.ogg"));
 		drivingMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/driving.ogg"));
 		drivingMusic.setVolume(0.1f);
@@ -62,6 +70,9 @@ public class AudioManager
 
 	public void playCinematicMusic()
 	{
+		if(IS_MUTE)
+			return;
+
 		bgMusic.stop();
 		drivingMusic.stop();
 		shootingMusic.stop();
@@ -70,6 +81,9 @@ public class AudioManager
 
 	public void playBgMusic()
 	{
+		if(IS_MUTE)
+			return;
+
 		bgMusic.play();
 		drivingMusic.stop();
 		shootingMusic.stop();
@@ -78,6 +92,9 @@ public class AudioManager
 
 	public void playDrivingMusic()
 	{
+		if(IS_MUTE)
+			return;
+
 		bgMusic.stop();
 		drivingMusic.play();
 		shootingMusic.stop();
@@ -86,6 +103,9 @@ public class AudioManager
 
 	public void playShootingMusic()
 	{
+		if(IS_MUTE)
+			return;
+
 		bgMusic.stop();
 		drivingMusic.stop();
 		shootingMusic.play();
@@ -94,6 +114,9 @@ public class AudioManager
 
 	public void playEnemyHit()
 	{
+		if(IS_MUTE)
+			return;
+
 		return;
 
 //		if(!act.settingStatData.isSoundOn)
@@ -104,6 +127,9 @@ public class AudioManager
 
 	public void playReload()
 	{
+		if(IS_MUTE)
+			return;
+
 		if(!act.settingStatData.isSoundOn)
 			return;
 
@@ -112,6 +138,9 @@ public class AudioManager
 
 	public void playClick()
 	{
+		if(IS_MUTE)
+			return;
+
 		if(!act.settingStatData.isSoundOn)
 			return;
 
@@ -120,6 +149,9 @@ public class AudioManager
 
 	public void playPurchase()
 	{
+		if(IS_MUTE)
+			return;
+
 		if(!act.settingStatData.isSoundOn)
 			return;
 
@@ -128,6 +160,9 @@ public class AudioManager
 
 	public void playCrash()
 	{
+		if(IS_MUTE)
+			return;
+
 		if(!act.settingStatData.isSoundOn)
 			return;
 
@@ -136,6 +171,9 @@ public class AudioManager
 	
 	public void playCarSound(Sound CarSound, long soundID, float speed, float maxSpeed)
 	{
+		if(IS_MUTE)
+			return;
+
 		if(!act.settingStatData.isSoundOn)
 			return;
 

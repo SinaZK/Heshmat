@@ -52,7 +52,7 @@ public class StarManager
 
 	public boolean unlockLevel(int levelID)
 	{
-		if(levelID + 1 > levelPackage.numberOfLevels)
+		if(levelID > levelPackage.numberOfLevels)
 			return  false;
 		if(activity.levelStatDatas.get(levelID).lockStat == Enums.LOCKSTAT.UNLOCK)
 			return false;

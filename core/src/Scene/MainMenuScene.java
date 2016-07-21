@@ -3,6 +3,7 @@ package Scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Timer;
@@ -38,8 +39,6 @@ public class MainMenuScene extends BaseScene
 	boolean isUploaded = false;
 	boolean isSettingRunning = false, isSetting = false;
 
-	static int rateBonus = 25000;
-
 	public float DX;
 	public float DY;
 	String add = "gfx/scene/main/";
@@ -62,13 +61,23 @@ public class MainMenuScene extends BaseScene
 		attachChild(back);
 	}
 
+	Button levelSelectButton, showLeaderBoardButton, soundButton, musicButton, settingButton;
+
 	@Override
 	public void create()
 	{
 		act.checkForVDO();
 
-		Button levelSelectButton = new Button(TextureHelper.loadTexture(add + "next1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "next2.png", disposeTextureArray));
+		levelSelectButton = new Button(TextureHelper.loadTexture(add + "next1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "next2.png", disposeTextureArray))
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				TEXT2+= Gdx.graphics.getDeltaTime();
+				super.draw(batch, parentAlpha);
+			}
+		};
 		levelSelectButton.setPosition(DX + 674, DY + 184);
 		levelSelectButton.setRunnable(act, new Runnable()
 		{
@@ -82,7 +91,7 @@ public class MainMenuScene extends BaseScene
 		});
 		levelSelectButton.setSize(155 / 2, 324 / 2);
 
-		Button showLeaderBoardButton = new Button(TextureHelper.loadTexture(add + "leader1.png", disposeTextureArray),
+		showLeaderBoardButton = new Button(TextureHelper.loadTexture(add + "leader1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "leader2.png", disposeTextureArray));
 		showLeaderBoardButton.setPosition(DX + 50 / 2, DY + 595 / 2);
 		showLeaderBoardButton.setRunnable(act, new Runnable()
@@ -96,56 +105,9 @@ public class MainMenuScene extends BaseScene
 
 			}
 		});
-		showLeaderBoardButton.setSize(50, 50);
-
-//		final Button signInButton = new Button(TextureHelper.loadTexture(add+"sign1.png", disposeTextureArray),
-//				TextureHelper.loadTexture(add+"sign2.png", disposeTextureArray))
-//		{
-//			@Override
-//			public void draw(Batch batch, float parentAlpha) 
-//			{
-//				isClicked = mSceneManager.act.googleServices.isSignedIn();
-//				if(isClicked)
-//				{
-//					act.googleServices.Countly(CountlyStrings.GoogleSignIn);
-//				}
-//				super.draw(batch, parentAlpha);
-//			}
-//		};
-//		signInButton.setPosition(DX + 35, DY + 375);
-//		signInButton.setRunnable(act, new Runnable() {
-//
-//			@Override
-//			public void run() 
-//			{
-//				if(isInfo)
-//					return;
-//				mSceneManager.act.googleServices.signIn();
-//			}
-//		});
-//		signInButton.setSize(65, 65);
-
-		final Entity cmBonus = new Entity(TextureHelper.loadTexture(add + "gift.png", disposeTextureArray))
-		{
-			@Override
-			public void draw(Batch batch, float parentAlpha)
-			{
-				if(!act.gameStatData.hasRate)
-					super.draw(batch, parentAlpha);
-			}
-		};
-//		attachChild(cmBonus);
 
 		final Button cmButton = new Button(TextureHelper.loadTexture(add + "nazar1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "nazar2.png", disposeTextureArray))
-		{
-			@Override
-			public void draw(Batch batch, float parentAlpha)
-			{
-				if(!act.gameStatData.hasRate)
-					super.draw(batch, parentAlpha);
-			}
-		};
+				TextureHelper.loadTexture(add + "nazar2.png", disposeTextureArray));
 		cmButton.setRunnable(act, new Runnable()
 		{
 
@@ -155,27 +117,25 @@ public class MainMenuScene extends BaseScene
 				act.googleServices.Countly(CountlyStrings.SceneCommentButton);
 				mSceneManager.act.googleServices.rateGame();
 
-
-				Timer.schedule(new Task()
-				{
-
-					@Override
-					public void run()
+				if(!act.gameStatData.hasRate)
+					Timer.schedule(new Task()
 					{
-						act.gameStatData.hasRate = true;
-						act.saveManager.saveDataValue(DataKeyStrings.GameStatData, act.gameStatData);
-						act.googleServices.makeToastShorts("ممنون که نظر دادی");
-						act.addMoney(rateBonus, true);
-					}
-				}, 3f);
+
+						@Override
+						public void run()
+						{
+							act.gameStatData.hasRate = true;
+							act.saveManager.saveDataValue(DataKeyStrings.GameStatData, act.gameStatData);
+							act.googleServices.makeToastShorts("ممنون که نظر دادی");
+						}
+					}, 3f);
 			}
 		});
 
 		cmButton.setPosition(showLeaderBoardButton.getX(), DY + 230);
-		cmBonus.setPosition(DX + 20 + cmButton.getWidth() + 10, cmButton.getY() + 30);
 		cmButton.setSize(showLeaderBoardButton.getWidth(), showLeaderBoardButton.getHeight());
 
-		Button soundButton = new Button(TextureHelper.loadTexture(add + "sound1.png", disposeTextureArray),
+		soundButton = new Button(TextureHelper.loadTexture(add + "sound1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "sound2.png", disposeTextureArray))
 		{
 			@Override
@@ -212,7 +172,7 @@ public class MainMenuScene extends BaseScene
 			}
 		});
 
-		Button musicButton = new Button(TextureHelper.loadTexture(add + "music1.png", disposeTextureArray),
+		musicButton = new Button(TextureHelper.loadTexture(add + "music1.png", disposeTextureArray),
 				TextureHelper.loadTexture(add + "music2.png", disposeTextureArray))
 		{
 			@Override
@@ -259,8 +219,16 @@ public class MainMenuScene extends BaseScene
 		attachChild(soundButton);
 
 
-		final Button settingButton = new Button(TextureHelper.loadTexture(add + "sett1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "sett2.png", disposeTextureArray));
+		settingButton = new Button(TextureHelper.loadTexture(add + "sett1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "sett2.png", disposeTextureArray))
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				TEXT1+= Gdx.graphics.getDeltaTime();
+				super.draw(batch, parentAlpha);
+			}
+		};
 		settingButton.setRunnable(act, new Runnable()
 		{
 			@Override
@@ -321,20 +289,25 @@ public class MainMenuScene extends BaseScene
 		settingButton.setPosition(DX + 1460 / 2, DY + 816 / 2);
 		settingButton.setSize(50, 50);
 
+		cmButton.setSize(60, 60);
+		showLeaderBoardButton.setSize(60, 60);
+
 
 		VideoButton videoButton = new VideoButton(act);
 		videoButton.setPosition(DX + 620, DY + 10);
 
-//		attachChild(videoButton);
-		if(!act.gameStatData.hasRate)
-			attachChild(cmButton);
+		attachChild(videoButton);
+		attachChild(cmButton);
 		attachChild(levelSelectButton);
-		attachChild(showLeaderBoardButton);
+//		attachChild(showLeaderBoardButton);
 		attachChild(settingButton);
 
 		input.addProcessor(this);
 		Gdx.input.setInputProcessor(input);
 	}
+
+	float TEXT1 = 0, TEXT2 = 0;
+
 
 	InputMultiplexer input = new InputMultiplexer();
 
@@ -351,10 +324,12 @@ public class MainMenuScene extends BaseScene
 		for (int i = 0; i < getActors().size; i++)
 			getActors().items[i].setVisible(true);
 		act(Gdx.graphics.getDeltaTime());
+
 		draw();
 
-//		exitDialog.run();
-//		exitDialog.draw(DX + 171, DY + 179);
+
+//		act.googleServices.makeToastShorts("RUN" + DX + " " + DY + " POS = " + DX + 1460 / 2 + " , " +  DY + 816 / 2 );
+
 
 	}
 
@@ -362,6 +337,16 @@ public class MainMenuScene extends BaseScene
 	public void draw()
 	{
 		super.draw();
+
+//		getBatch().begin();
+//		act.font22.setColor(Color.WHITE);
+//		act.font22.draw(getBatch(), "fps= " + Gdx.graphics.getFramesPerSecond(),
+//				DX + 10, DY + 30);
+//		act.font22.draw(getBatch(), "TEXT1 = " + TEXT1,
+//				DX + 200, DY + 30);
+//		act.font22.draw(getBatch(), "TEXT2 = " + TEXT2,
+//				DX + 400, DY + 30);
+//		getBatch().end();
 	}
 
 	private void setAlpha(Button b, float alpha)

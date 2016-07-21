@@ -1,5 +1,6 @@
 package Entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import Misc.Log;
@@ -18,6 +19,7 @@ public class VideoButton extends Button
 				TextureHelper.loadTexture("gfx/scene/v2.png", activity1.sceneManager.currentBaseScene.disposeTextureArray));
 
 		this.act = activity1;
+		counter = 0;
 
 		setRunnable(act, new Runnable()
 		{
@@ -29,6 +31,8 @@ public class VideoButton extends Button
 		});
 	}
 
+	public static float REQUEST_TIME = 5f;
+	float counter = 0;
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
@@ -39,7 +43,13 @@ public class VideoButton extends Button
 			return;
 		}
 
-		act.checkForVDO();
+		counter += Gdx.graphics.getDeltaTime();
+		if(counter >= REQUEST_TIME)
+		{
+			counter = 0;
+
+			act.checkForVDO();
+		}
 
 		setVisible(true);
 		super.draw(batch, 1);

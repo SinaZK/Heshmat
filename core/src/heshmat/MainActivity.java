@@ -48,9 +48,11 @@ public class MainActivity extends ApplicationAdapter
 		//fonts are for debug
 
 		saveManager = new SaveManager(true);
+
 		loadSaveAtt();
 
 		audioManager = new AudioManager(this);
+
 		audioManager.load();
 
 		gameStatData.numberOfAppRun++;
@@ -58,7 +60,8 @@ public class MainActivity extends ApplicationAdapter
 		starManager = new StarManager(this);
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.MAIN_MENU, null);
+
+		sceneManager.setCurrentScene(SceneManager.SCENES.SPLASH, null);
 
 		createShowGold();
 
@@ -73,7 +76,7 @@ public class MainActivity extends ApplicationAdapter
 	@Override
 	public void render () 
 	{
-		Gdx.gl.glClearColor(0.2f, 0.4f, 0.8f, 1);
+		Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		renderCT++;
@@ -281,7 +284,7 @@ public class MainActivity extends ApplicationAdapter
 			return;
 		}
 
-		googleServices.enableAds();
+//		googleServices.enableAds();
 	}
 
 	public void disableAds()
@@ -325,7 +328,7 @@ public class MainActivity extends ApplicationAdapter
 
 	public void handleAward()
 	{
-		if(getAward() == -1)
+		if(getAward() == -1 || getAward() == 0)
 			return;
 
 		addMoney(SceneManager.VideoAward, true);

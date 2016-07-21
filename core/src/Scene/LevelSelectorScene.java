@@ -7,6 +7,7 @@ import DataStore.LevelStatData;
 import Entity.Button;
 import Entity.Entity;
 import Entity.LevelEntity;
+import Enums.Enums;
 import Misc.TextureHelper;
 import SceneManager.SceneManager;
 
@@ -19,7 +20,6 @@ public class LevelSelectorScene extends BaseScene
 		super(sceneManager.act, v);
 		mSceneManager = sceneManager;
 	}
-
 
 	public float DX;
 	public float DY;
@@ -40,6 +40,8 @@ public class LevelSelectorScene extends BaseScene
 		levelPackage.load("gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/level.pckg");
 
 		act.loadLevelData(levelPackage, act.selectorStatData.selectedLevelPack);
+
+		act.levelStatDatas.get(11).lockStat = Enums.LOCKSTAT.UNLOCK;
 
 
 		int paddingX = 10;

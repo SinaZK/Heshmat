@@ -154,7 +154,7 @@ public class DriverHuman
 			body.disposeBodies(gameManager.gameScene.world);
 
 		loadBody();
-		body.bodies.get(0).addSprite(bodySprite);
+//		body.bodies.get(0).addSprite(bodySprite);
 		body.bodies.get(1).addSprite(headSprite);
 
 		resetCT = car.staticCount + 2;

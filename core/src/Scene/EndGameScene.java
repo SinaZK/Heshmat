@@ -141,8 +141,9 @@ public class EndGameScene extends BaseScene
 		videoButton.setPosition(DX + 50, DY + 20);
 
 		attachChild(videoButton);
-		attachChild(showScoreButton);
-		attachChild(nextLevelButton);
+//		attachChild(showScoreButton);
+		if(gameScene.gameManager.levelManager.levelType != LevelManager.LevelType.ENDLESS)
+			attachChild(nextLevelButton);
 		attachChild(backToMenuButton);
 		attachChild(restartButton);
 		attachChild(killEnt);
@@ -277,6 +278,9 @@ public class EndGameScene extends BaseScene
 
 	public int countStars()
 	{
+		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
+			return 0;
+
 		int star = 1;
 		float hpPercent = gameScene.gameManager.selectedCar.hitpoint / gameScene.gameManager.selectedCar.getMaxHitPoint() * 100;
 

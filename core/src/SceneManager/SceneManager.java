@@ -1,5 +1,6 @@
 package SceneManager;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -32,7 +33,7 @@ public class SceneManager
 	public static int WORLD_X = 800;
 	public static int WORLD_Y = 480;
 
-	public static int ENDLESS_STARS = 15;
+	public static int ENDLESS_STARS = 12;
 	public static int VideoAward = 1000;
 
 	public static int LVL_PACK_MAX_NUM = 2;
@@ -162,6 +163,12 @@ public class SceneManager
 		currentBaseScene.run();
 		dialogManager.draw();
 		dialogManager.run();
+
+//		currentBaseScene.getBatch().begin();
+//		act.font22.setColor(Color.WHITE);
+//		act.font22.draw(currentBaseScene.getBatch(), "fps= " + Gdx.graphics.getFramesPerSecond(),
+//				currentBaseScene.DX + 10, currentBaseScene.DY + 30);
+//		currentBaseScene.getBatch().end();
 
 	}
 

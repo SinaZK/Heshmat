@@ -110,6 +110,9 @@ public abstract class BaseCar
 	long carSoundID;
 	public void loadCarSound(String path)
 	{
+		if(act.audioManager.IS_MUTE)
+			return;
+
 		carSound = Gdx.audio.newSound(Gdx.files.internal(path));
 
 		if(act.settingStatData.isSoundOn)

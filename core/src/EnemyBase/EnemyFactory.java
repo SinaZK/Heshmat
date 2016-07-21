@@ -381,7 +381,7 @@ public class EnemyFactory
 //		WormEnemyAnimation.addAnimation(ENEMY_ANIMATION_DIE_STRING, 89, 1209, 528, 1569, 1, 1, 8);
 
 		BombEnemyAnimation = new AnimatedSpriteSheet("gfx/enemy/12/bomb.png", gameScene.disposeTextureArray);
-		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 14);
+		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_MOVE_STRING, 34, 4, 1266, 274, 1, 7, 7);
 		BombEnemyAnimation.addAnimation(ENEMY_ANIMATION_EXPLODE_STRING, 0, 300, 1270, 520, 1, 5, 15);
 		BombEnemyAnimation.getAnimation(ENEMY_ANIMATION_EXPLODE_STRING).flipAnimation();
 

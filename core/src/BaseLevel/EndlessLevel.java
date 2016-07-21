@@ -100,7 +100,7 @@ public class EndlessLevel extends BaseLevel
 				{
 					gameScene.font22.setColor(0, 0, 0, 1);
 					gameScene.font22.draw(batch, ""+ (currentWave),
-							getX() + getWidth() / 2, getY() + getHeight() / 2);
+							getX() + getWidth() / 2 - 9, getY() + getHeight() / 2);
 				}
 			}
 		};
@@ -128,6 +128,12 @@ public class EndlessLevel extends BaseLevel
 				levelParts.get(currentPart).start();
 
 				levelParts.get(currentPart).modeSplashImage.time = -1;//do not Draw it!!!
+			}
+
+			if(gameManager.selectedCar.hitpoint <= 0)
+			{
+				finishTheLevel();
+				return;
 			}
 
 			if(currentPart % 2 == 1)
