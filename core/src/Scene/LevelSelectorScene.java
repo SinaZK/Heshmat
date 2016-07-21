@@ -41,9 +41,6 @@ public class LevelSelectorScene extends BaseScene
 
 		act.loadLevelData(levelPackage, act.selectorStatData.selectedLevelPack);
 
-		act.levelStatDatas.get(11).lockStat = Enums.LOCKSTAT.UNLOCK;
-
-
 		int paddingX = 10;
 		int paddingY = 15;
 		float startX = 241;
