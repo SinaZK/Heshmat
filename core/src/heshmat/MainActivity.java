@@ -21,7 +21,7 @@ import DataStore.SelectorStatData;
 import DataStore.SettingStatData;
 import GameScene.StarManager;
 import GoogleServices.IGoogleServices;
-import Misc.Log;
+import NativeMusic.INativeMultimediaInterface;
 import PurchaseIAB.purchaseIAB;
 import SceneManager.SceneManager;
 
@@ -34,11 +34,13 @@ public class MainActivity extends ApplicationAdapter
 
 	public IGoogleServices googleServices;
 	public purchaseIAB.IABInterface purchaseHelper;
+	public INativeMultimediaInterface nativeMultimediaInterface;
 
-	public MainActivity(IGoogleServices googleServices, purchaseIAB.IABInterface mHelper)
+	public MainActivity(IGoogleServices googleServices, purchaseIAB.IABInterface mHelper, INativeMultimediaInterface nativeMultimediaInterface)
 	{
 		purchaseHelper = mHelper;
 		this.googleServices = googleServices;
+		this.nativeMultimediaInterface = nativeMultimediaInterface;
 	}
 	
 	@Override
@@ -310,7 +312,14 @@ public class MainActivity extends ApplicationAdapter
 
 	public void showVDO()
 	{
-		googleServices.playVDO();
+		try
+		{
+			googleServices.playVDO();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public int getAward()
@@ -354,5 +363,24 @@ public class MainActivity extends ApplicationAdapter
 	public void submitWave(int wave)
 	{
 		googleServices.submitScore(wave);
+	}
+
+	@Override
+	public void pause()
+	{
+		nativeMultimediaInterface.onPause();
+
+		if(sceneManager.currentScene == SceneManager.SCENES.GAME_SCENE)
+			sceneManager.gameScene.pause(true);
+
+		super.pause();
+	}
+
+	@Override
+	public void resume()
+	{
+		super.resume();
+
+		nativeMultimediaInterface.onResume();
 	}
 }

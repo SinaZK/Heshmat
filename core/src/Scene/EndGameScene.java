@@ -2,6 +2,7 @@ package Scene;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
@@ -206,6 +207,8 @@ public class EndGameScene extends BaseScene
 
 		getBatch().begin();
 		act.sceneManager.drawGoldSprite(getBatch());
+
+		gameScene.font22.setColor(Color.WHITE);
 
 		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.NORMAL)
 			gameScene.font22.draw(getBatch(), "" + (int) calculateDist(), 460, 310);

@@ -1,5 +1,6 @@
 package EnemyBase;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -222,6 +223,7 @@ public abstract class BaseEnemy
 	{
 		if(isRunOnDeath)
 		{
+			gameManager.gameScene.font22.setColor(Color.WHITE);
 			gameManager.gameScene.font22.draw(batch, "+" + (long)getGOLD(), x, y);
 		}
 	}

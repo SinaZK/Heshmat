@@ -1,5 +1,6 @@
 package Entity.BuyButtons;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import Countly.CountlyStrings;
@@ -58,6 +59,7 @@ public class GunBuyButton extends Button
 		if(gunStatData.lockStat == Enums.LOCKSTAT.LOCK)
 		{
 			super.draw(batch, parentAlpha);
+			garageScene.act.font22.setColor(Color.WHITE);
 			garageScene.act.font22.draw(batch, "" + price, getX() + 50, getY() + 35);
 		}
 		else

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import Misc.Log;
 import Scene.PurchaseScene;
 
 public class PurchaseButton extends Button 
@@ -34,10 +35,14 @@ public class PurchaseButton extends Button
 		else
 			super.draw(batch, parentAlpha);
 
+		Color c = mScene.act.font22.getColor();
+
 		mScene.act.font22.setColor(Color.BLACK);
-		mScene.act.font22.draw(batch, "" + coin , getX() + 22, getY() + 100);
+		mScene.act.font22.draw(batch, "" + coin, getX() + 22, getY() + 100);
 		mScene.act.font22.draw(batch, "" + price, getX() + 22, getY() + 70);
 		mScene.act.font22.draw(batch, "" + discount , getX() + 50, getY() + 44);
+
+		mScene.act.font22.setColor(c);
 	}
 
 }

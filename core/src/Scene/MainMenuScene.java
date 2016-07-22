@@ -205,7 +205,11 @@ public class MainMenuScene extends BaseScene
 				act.settingStatData.isMusicOn = !act.settingStatData.isMusicOn;
 				act.saveSetting();
 
-				act.audioManager.setVolume();
+				if(act.settingStatData.isMusicOn)
+					act.nativeMultimediaInterface.playBGMusic();
+				else
+					act.nativeMultimediaInterface.onStop();
+
 			}
 		});
 
@@ -296,7 +300,7 @@ public class MainMenuScene extends BaseScene
 		VideoButton videoButton = new VideoButton(act);
 		videoButton.setPosition(DX + 620, DY + 10);
 
-		attachChild(videoButton);
+//		attachChild(videoButton);
 		attachChild(cmButton);
 		attachChild(levelSelectButton);
 //		attachChild(showLeaderBoardButton);

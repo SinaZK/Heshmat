@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import java.util.ArrayList;
 
 import Misc.Log;
+import NativeMusic.INativeMultimediaInterface;
 import heshmat.MainActivity;
 
 public class AudioManager 
@@ -14,24 +15,21 @@ public class AudioManager
 	public static  boolean IS_MUTE = false;
 
 	MainActivity act;
+	INativeMultimediaInterface nativeMultimediaInterface;
 	public AudioManager(MainActivity a) 
 	{
 		act = a;
+		nativeMultimediaInterface = a.nativeMultimediaInterface;
 	}
 	
 	public Sound buttonClickSound, buyItemSound;
 	public Sound crashSound, enemyHit, reloadSound;
-	public Music bgMusic, drivingMusic, shootingMusic, cinematicMusic;
-	
+
 	ArrayList<Sound> allSounds = new ArrayList<Sound>();
-	ArrayList<Music> allMusics = new ArrayList<Music>();
 
 	public void load()
 	{
 		loadSound();
-		loadMusic();
-
-		setVolume();
 	}
 
 	public void loadSound()
@@ -52,31 +50,15 @@ public class AudioManager
 		allSounds.add(reloadSound);
 	}
 
-	public void loadMusic()
-	{
-		if(IS_MUTE)
-			return;
-
-		bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/bg.ogg"));
-		drivingMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/driving.ogg"));
-		drivingMusic.setVolume(0.1f);
-		shootingMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/shooting.ogg"));
-		cinematicMusic = Gdx.audio.newMusic(Gdx.files.internal("sfx/music/cinematic.ogg"));
-
-		allMusics.add(bgMusic);
-		allMusics.add(drivingMusic);
-		allMusics.add(shootingMusic);
-	}
-
 	public void playCinematicMusic()
 	{
 		if(IS_MUTE)
 			return;
 
-		bgMusic.stop();
-		drivingMusic.stop();
-		shootingMusic.stop();
-		cinematicMusic.play();
+		if(!act.settingStatData.isMusicOn)
+			return;
+
+		nativeMultimediaInterface.playCinematicMusic();
 	}
 
 	public void playBgMusic()
@@ -84,10 +66,10 @@ public class AudioManager
 		if(IS_MUTE)
 			return;
 
-		bgMusic.play();
-		drivingMusic.stop();
-		shootingMusic.stop();
-		cinematicMusic.stop();
+		if(!act.settingStatData.isMusicOn)
+			return;
+
+		nativeMultimediaInterface.playBGMusic();
 	}
 
 	public void playDrivingMusic()
@@ -95,10 +77,10 @@ public class AudioManager
 		if(IS_MUTE)
 			return;
 
-		bgMusic.stop();
-		drivingMusic.play();
-		shootingMusic.stop();
-		cinematicMusic.stop();
+		if(!act.settingStatData.isMusicOn)
+			return;
+
+		nativeMultimediaInterface.playDrivingModeMusic();
 	}
 
 	public void playShootingMusic()
@@ -106,10 +88,10 @@ public class AudioManager
 		if(IS_MUTE)
 			return;
 
-		bgMusic.stop();
-		drivingMusic.stop();
-		shootingMusic.play();
-		cinematicMusic.stop();
+		if(!act.settingStatData.isMusicOn)
+			return;
+
+		nativeMultimediaInterface.playShootingModeMusic();
 	}
 
 	public void playEnemyHit()
@@ -189,15 +171,6 @@ public class AudioManager
 		playBgMusic();
 	}
 
-	public void setVolume()
-	{
-		for(int i = 0;i < allMusics.size();i++)
-			if(act.settingStatData.isMusicOn)
-				allMusics.get(i).setVolume(1);
-			else
-				allMusics.get(i).setVolume(0);
-	}
-
 	public void playSound(Sound sound)
 	{
 		if(act.settingStatData.isSoundOn)
@@ -208,8 +181,5 @@ public class AudioManager
 	{
 		for(int i = 0;i < allSounds.size();i++)
 			allSounds.get(i).dispose();
-
-		for(int i = 0;i < allMusics.size();i++)
-			allMusics.get(i).dispose();
 	}
 }
