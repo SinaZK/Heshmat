@@ -40,6 +40,7 @@ public class NivadPurchase implements BillingProcessor.IBillingHandler, purchase
 	@Override
 	public void onProductPurchased(String s, TransactionDetails transactionDetails)
 	{
+		act.Countly("Nivad DONE : " + SKU_STRINGS_BAZAAR[purchaseID]);
 		isSTHPurchased = true;
 		nivadBilling.consumePurchase(SKU_STRINGS_BAZAAR[purchaseID]);
 	}
@@ -50,6 +51,7 @@ public class NivadPurchase implements BillingProcessor.IBillingHandler, purchase
 		isPurchasing = true;
 		purchaseID = id;
 
+		act.Countly("Nivad Try : " + SKU_STRINGS_BAZAAR[purchaseID]);
 		nivadBilling.purchase(act, SKU_STRINGS_BAZAAR[id]);
 	}
 
