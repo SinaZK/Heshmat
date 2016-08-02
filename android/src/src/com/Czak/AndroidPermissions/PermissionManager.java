@@ -76,12 +76,12 @@ public class PermissionManager
 						&& grantResults[0] == PackageManager.PERMISSION_GRANTED)
 				{
 
-					act.makeToastShorts("GRANTED");
+//					act.makeToastShorts("GRANTED");
 					// permission was granted, yay! Do the
 				}
 				else
 				{
-					act.makeToastShorts("DENIED");
+//					act.makeToastShorts("DENIED");
 					// permission denied, boo! Disable the
 					// functionality that depends on this permission.
 				}

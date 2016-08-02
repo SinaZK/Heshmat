@@ -18,7 +18,7 @@ public class NivadPurchase implements BillingProcessor.IBillingHandler, purchase
 {
 	String base64EncodedPublicKeyBazaar = "MIHNMA0GCSqGSIb3DQEBAQUAA4G7ADCBtwKBrwDDE4EbspPoDvv0deuSZdr6hTx8MVGS6UjktOtXD4mvBpOmHpIroV67o5UG2iCbT0SGhq3b/5owMu5GgGs3W2tTXEXRQq+pkiO2VajHKhWHRnDN1t+SDQ4SvZ0Q7ET72iHm1HzvDzUz8JAYodlYbe+ZN5CIlHUJROjbMWnXyQjap0ePZlfYghOPOk/PgYLyFI7sPjaEnLRPOoOja1KTP2t062WLf9LnOymy/2+jc80CAwEAAQ==";
 
-	public static final String [] SKU_STRINGS_BAZAAR = {"coin1", "coin2", "coin3", "coin4", "coin5", "coin6", "coin7", "coin8", "coin9", "coin10"};
+	public static final String [] SKU_STRINGS_BAZAAR = {"coin1", "coin2", "coin3", "coin4", "coin5", "coin6", "coin7", "coin8", "coin9", "coin10", "coin11"};
 
 	AndroidLauncher act;
 	public BillingProcessor nivadBilling;
