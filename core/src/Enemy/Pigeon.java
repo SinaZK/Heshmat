@@ -98,7 +98,9 @@ public class Pigeon extends BaseEnemy
 
 //		attackingDistance = (float) (SceneManager.WORLD_X * (0.3 + Math.random() * 0.1));
 
-		attackingDistance = gameManager.selectedCar.body.bodies.get(0).getWidth() / 2 - 10;
+//		attackingDistance = gameManager.selectedCar.body.bodies.get(0).getWidth() / 2 - 10;
+
+		attackingDistance = 10;
 	}
 
 	@Override

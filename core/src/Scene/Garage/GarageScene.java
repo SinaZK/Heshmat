@@ -310,10 +310,10 @@ public class GarageScene extends BaseScene
 		carTabTexture2 = TextureHelper.loadTexture(add + "carselect2.png", disposeTextureArray);
 
 		gunSelectButton = new Button(gunTabTexture1, gunTabTexture2);
-		gunSelectButton.setPosition(DX + 20, DY + 213);
+		gunSelectButton.setPosition(DX + 15, DY + 254);
 
 		carSelectButton = new Button(carTabTexture1, carTabTexture2);
-		carSelectButton.setPosition(DX + 20, DY + 290);
+		carSelectButton.setPosition(DX + 15, DY + 330);
 
 		carSelectButton.setRunnable(act, new Runnable()
 		{

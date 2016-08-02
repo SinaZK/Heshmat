@@ -54,7 +54,7 @@ public class PurchaseSelectorHorizentalChange extends HorizentalChangablePackage
 		SWIPE_TIME = 0.1f;
 
 
-		for(int i = 0;i < 10;i++)
+		for(int i = 0;i < 11;i++)
 		{
 			Group g1 = createPurchase(i, coins[i], Prices[i], Discounts[i], SpritePrefix[i] + ".png");
 			addItem(g1);

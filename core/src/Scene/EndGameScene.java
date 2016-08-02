@@ -14,7 +14,6 @@ import Entity.VideoButton;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import GameScene.StarManager;
-import Misc.Log;
 import Misc.TextureHelper;
 import SceneManager.SceneManager;
 
@@ -53,8 +52,8 @@ public class EndGameScene extends BaseScene
 
 		createBack();
 
-		restartButton = new Button(TextureHelper.loadTexture(add+"restart1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"restart2.png", disposeTextureArray));
+		restartButton = new Button(TextureHelper.loadTexture(add + "restart1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "restart2.png", disposeTextureArray));
 		restartButton.setRunnable(act, new Runnable()
 		{
 
@@ -66,8 +65,8 @@ public class EndGameScene extends BaseScene
 		});
 
 
-		nextLevelButton = new Button(TextureHelper.loadTexture(add+"next1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"next2.png", disposeTextureArray))
+		nextLevelButton = new Button(TextureHelper.loadTexture(add + "next1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "next2.png", disposeTextureArray))
 		{
 			@Override
 			public void draw(Batch batch, float parentAlpha)
@@ -79,7 +78,8 @@ public class EndGameScene extends BaseScene
 				super.draw(batch, parentAlpha);
 			}
 		};
-		nextLevelButton.setRunnable(act, new Runnable() {
+		nextLevelButton.setRunnable(act, new Runnable()
+		{
 
 			@Override
 			public void run()
@@ -88,9 +88,10 @@ public class EndGameScene extends BaseScene
 			}
 		});
 
-		backToMenuButton = new Button(TextureHelper.loadTexture(add+"back1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"back2.png", disposeTextureArray));
-		backToMenuButton.setRunnable(act, new Runnable() {
+		backToMenuButton = new Button(TextureHelper.loadTexture(add + "back1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "back2.png", disposeTextureArray));
+		backToMenuButton.setRunnable(act, new Runnable()
+		{
 
 			@Override
 			public void run()
@@ -100,8 +101,8 @@ public class EndGameScene extends BaseScene
 		});
 
 
-		Button showScoreButton = new Button(TextureHelper.loadTexture(add+"leader1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add+"leader2.png", disposeTextureArray))
+		Button showScoreButton = new Button(TextureHelper.loadTexture(add + "leader1.png", disposeTextureArray),
+				TextureHelper.loadTexture(add + "leader2.png", disposeTextureArray))
 		{
 			@Override
 			public void draw(Batch batch, float parentAlpha)
@@ -110,12 +111,12 @@ public class EndGameScene extends BaseScene
 				{
 					super.draw(batch, parentAlpha);
 					setVisible(true);
-				}
-				else
+				} else
 					setVisible(false);
 			}
 		};
-		showScoreButton.setRunnable(act, new Runnable() {
+		showScoreButton.setRunnable(act, new Runnable()
+		{
 
 			@Override
 			public void run()
@@ -125,8 +126,8 @@ public class EndGameScene extends BaseScene
 		});
 
 		final Entity distEnt = new Entity(TextureHelper.loadTexture(add + "dist.png", disposeTextureArray));
-		final Entity coinEnt = new Entity(TextureHelper.loadTexture(add+"coin.png", disposeTextureArray));
-		final Entity killEnt = new Entity(TextureHelper.loadTexture(add+"kill.png", disposeTextureArray));
+		final Entity coinEnt = new Entity(TextureHelper.loadTexture(add + "coin.png", disposeTextureArray));
+		final Entity killEnt = new Entity(TextureHelper.loadTexture(add + "kill.png", disposeTextureArray));
 
 		distEnt.setPosition(DX + 200, DY + 280);
 		coinEnt.setPosition(DX + 200, DY + 220);
@@ -143,6 +144,10 @@ public class EndGameScene extends BaseScene
 
 		attachChild(videoButton);
 //		attachChild(showScoreButton);
+
+		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
+			attachChild(showScoreButton);
+
 		if(gameScene.gameManager.levelManager.levelType != LevelManager.LevelType.ENDLESS)
 			attachChild(nextLevelButton);
 		attachChild(backToMenuButton);
@@ -152,7 +157,7 @@ public class EndGameScene extends BaseScene
 			attachChild(distEnt);
 		attachChild(coinEnt);
 
-		for(int i = 0;i <= 3;i++)
+		for (int i = 0; i <= 3; i++)
 		{
 			final int II = i;
 			Entity starEnt = new Entity(TextureHelper.loadTexture(add + "star" + i + ".png", disposeTextureArray))
@@ -177,7 +182,6 @@ public class EndGameScene extends BaseScene
 	}
 
 
-
 	private void goToNextLevel()
 	{
 		SizakCarModel carModel = gameScene.carModel;
@@ -195,7 +199,7 @@ public class EndGameScene extends BaseScene
 	}
 
 	@Override
-	public void run() 
+	public void run()
 	{
 		super.run();
 	}
@@ -215,7 +219,7 @@ public class EndGameScene extends BaseScene
 		gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.goldCollect, 460, 250);
 
 		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.NORMAL)
-			gameScene.font22.draw(getBatch(), ""+ gameScene.gameManager.enemyKilledCount + " / " + gameScene.gameManager.enemyInitCount, 460, 190);
+			gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount + " / " + gameScene.gameManager.enemyInitCount, 460, 190);
 		else
 			gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount, 460, 190);
 
@@ -232,7 +236,7 @@ public class EndGameScene extends BaseScene
 		if(gameScene.gameManager.levelManager.currentLevel.getCurrentPart().mode != GameScene.LevelModeEnum.Driving)
 			return 0;
 
-		DrivingMode mode = (DrivingMode)gameScene.gameManager.levelManager.currentLevel.getCurrentPart();
+		DrivingMode mode = (DrivingMode) gameScene.gameManager.levelManager.currentLevel.getCurrentPart();
 
 		return gameScene.gameManager.distanceTraveled + mode.getCurrentPos();
 	}

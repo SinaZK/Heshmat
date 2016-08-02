@@ -156,11 +156,11 @@ public class GunModel
 
 	public void initUpgradeButtons(GunStatData gunStatData)
 	{
-		float startX = gunSelectorTab.DX + 115;
+		float startX = gunSelectorTab.DX + 135;
 		float startY = gunSelectorTab.DY + 25;
 		float width = 188;
 		float height = 50;
-		float padding = 10;
+		float padding = 20;
 
 		for(int i = 0;i < upgradeButtons.size();i++)
 		{

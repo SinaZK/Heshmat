@@ -123,4 +123,12 @@ public class LevelManager
 	{
 		NORMAL, ENDLESS,
 	}
+
+	public int getEndlessCurrentWave()
+	{
+		if(levelType != LevelType.ENDLESS)
+			return -1;
+
+		return ((EndlessLevel)currentLevel).currentWave;
+	}
 }

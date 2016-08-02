@@ -50,11 +50,9 @@ public class MainActivity extends ApplicationAdapter
 		//fonts are for debug
 
 		saveManager = new SaveManager(true);
-
 		loadSaveAtt();
 
 		audioManager = new AudioManager(this);
-
 		audioManager.load();
 
 		gameStatData.numberOfAppRun++;
@@ -62,15 +60,11 @@ public class MainActivity extends ApplicationAdapter
 		starManager = new StarManager(this);
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-
 		sceneManager.setCurrentScene(SceneManager.SCENES.SPLASH, null);
 
 		createShowGold();
-
 		audioManager.playBgMusic();
-
 		loadFonts();
-
 		enableAds();
 	}
 

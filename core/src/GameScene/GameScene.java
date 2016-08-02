@@ -26,7 +26,6 @@ import Entity.Button;
 import Entity.Logo;
 import HUD.DrivingHUD;
 import HUD.ShootingHUD;
-import Misc.BodyStrings;
 import Misc.CameraHelper;
 import Misc.Log;
 import Misc.TextureHelper;
@@ -75,6 +74,7 @@ public class GameScene extends BaseScene
 	String add = "gfx/scene/game/";
 
 	public Logo logo;
+
 	@Override
 	public void loadResources()
 	{
@@ -107,6 +107,8 @@ public class GameScene extends BaseScene
 
 		logo = new Logo(this);
 		logo.load();
+
+		loadPopRestartButton();
 	}
 
 	@Override
@@ -260,8 +262,7 @@ public class GameScene extends BaseScene
 
 			shapeRenderer.end();
 
-		}
-		else
+		} else
 		{
 			HUD.getBatch().begin();
 			mSceneManager.drawGoldSprite(HUD.getBatch());
@@ -270,7 +271,7 @@ public class GameScene extends BaseScene
 
 			if(gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
 			{
-				EndlessLevel level = (EndlessLevel)gameManager.levelManager.currentLevel;
+				EndlessLevel level = (EndlessLevel) gameManager.levelManager.currentLevel;
 				level.waveModeSplashImage.draw(HUD.getBatch());
 			}
 			HUD.getBatch().end();
@@ -296,7 +297,6 @@ public class GameScene extends BaseScene
 	{
 		Shooting, Driving, Finish, Cinematic
 	}
-
 
 
 	public float getDeltaTime()
@@ -354,6 +354,7 @@ public class GameScene extends BaseScene
 
 	public Texture nullTexture;
 	public Texture selectedGunButtonTexture, nextGunButtonTexture;
+
 	private void loadUI()
 	{
 		carHPTexture1 = loadTexture(add + "hp1.png");
@@ -377,7 +378,7 @@ public class GameScene extends BaseScene
 		if(percent < 0)
 			w = 0;
 
-		TextureRegion t = new TextureRegion(carHPTexture2, (int)w, carHPTexture2.getHeight());
+		TextureRegion t = new TextureRegion(carHPTexture2, (int) w, carHPTexture2.getHeight());
 		Sprite sprite = new Sprite(t);
 
 		carHP1Sprite.setSize(60, 60);
@@ -392,7 +393,7 @@ public class GameScene extends BaseScene
 
 	public void drawDist(Batch batch, float dist, float maxDist)
 	{
-		int intMax = (int)maxDist;
+		int intMax = (int) maxDist;
 
 		if(dist > maxDist)
 			dist = intMax;
@@ -406,16 +407,52 @@ public class GameScene extends BaseScene
 		font16.draw(batch, "( " + (int) dist, distanceSprite.getX() + 45, distanceSprite.getY() + 28);
 
 		float fontSize = 12;
-		float tW = SceneManager.getDigitNum((int)dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();
+		float tW = SceneManager.getDigitNum((int) dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();
 
 		font16.setColor(0, 0, 0, 1);
-		font16.draw(batch, "/ "+ intMax+ ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
+		font16.draw(batch, "/ " + intMax + ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
 	}
 
 	public void sendCountly()
 	{
 		act.googleServices.Countly("P " + CountlyStrings.LevelString + " " + act.selectorStatData.selectedLevel);
 		act.googleServices.Countly("P " + CountlyStrings.CarSelectString[CarSorter.carPos[act.selectorStatData.selectedCar]]);
+	}
+
+
+	public Button popRestartButton;
+	public boolean shouldPopRestartButtonDraw = false;
+
+	public void loadPopRestartButton()
+	{
+		popRestartButton = new Button(mSceneManager.dialogManager.pauseMenuDialog.RestartButtonTexture1,
+				mSceneManager.dialogManager.pauseMenuDialog.RestartButtonTexture2)
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+//				Log.e("Tag", "Draw");
+				if(shouldPopRestartButtonDraw && gameStat == GAME_STAT.PLAY)
+					super.draw(batch, parentAlpha);
+			}
+
+		};
+
+		popRestartButton.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				if(!shouldPopRestartButtonDraw)
+					return;
+				GameScene.this.restart();
+			}
+		});
+
+		popRestartButton.setPosition(DX + (SceneManager.WORLD_X - popRestartButton.getWidth()) / 2,
+				DY + (SceneManager.WORLD_Y - popRestartButton.getHeight()) / 2);
+
+		HUD.addActor(popRestartButton);
 	}
 
 }//class

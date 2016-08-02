@@ -12,25 +12,25 @@ public class DesktopNativeMultimedia implements INativeMultimediaInterface
 	@Override
 	public void playCinematicMusic()
 	{
-		Log.e("DesktopMedia", "playing cinematic Music");
+//		Log.e("DesktopMedia", "playing cinematic Music");
 	}
 
 	@Override
 	public void playBGMusic()
 	{
-		Log.e("DesktopMedia", "playing BG Music");
+//		Log.e("DesktopMedia", "playing BG Music");
 	}
 
 	@Override
 	public void playShootingModeMusic()
 	{
-		Log.e("DesktopMedia", "playing ShootingMode Music");
+//		Log.e("DesktopMedia", "playing ShootingMode Music");
 	}
 
 	@Override
 	public void playDrivingModeMusic()
 	{
-		Log.e("DesktopMedia", "playing DrivingMode Music");
+//		Log.e("DesktopMedia", "playing DrivingMode Music");
 	}
 
 	@Override

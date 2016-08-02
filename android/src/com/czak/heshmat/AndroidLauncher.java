@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.GameHelper;
 
 import GoogleServices.IGoogleServices;
 import Misc.Log;
@@ -22,6 +24,7 @@ import ir.adad.client.Adad;
 import ir.tapsell.tapsellvideosdk.developer.CheckCtaAvailabilityResponseHandler;
 import ir.tapsell.tapsellvideosdk.developer.DeveloperInterface;
 import src.com.Czak.Android.MarketStrings.MarketStrings;
+import src.com.Czak.AndroidPermissions.PermissionManager;
 import src.com.Czak.NativeMultimedia.NativeMultimedia;
 import src.com.Czak.Security.Security;
 import src.com.NivadBilling.NivadPurchase;
@@ -31,7 +34,6 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 
 	public static MarketStrings.Market market = MarketStrings.Market.CafeBazaar;
 	private final static int REQUEST_CODE_UNUSED = 9002;
-//	PurchaseHelperAndroid purchase;
 	public Security security;
 
 	NivadPurchase nivadPurchase;
@@ -40,6 +42,9 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 
 	RelativeLayout layout;
 	NativeMultimedia nativeMultimedia;
+	PermissionManager permissionManager;
+
+	GameHelper gameHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -48,19 +53,22 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 
 		Cavaio.sharedInstance().init(this, "http://my.cavaio.com", "fe4c1a01e03e3cbb5ff22b79b936ddbe8162b6ac");
 
-//		purchase = new PurchaseHelperAndroid(this);
-
 		nativeMultimedia = new NativeMultimedia(this);
-
 
 		nivadPurchase = new NivadPurchase();
 		nivadPurchase.onCreate(this);
 
+
 		initAdad();
 		initTapsellVideo();
-//		initGameHelper();
+		initGameHelper();
+
+		permissionManager = new PermissionManager(this);
+		permissionManager.checkPermission();
+
 
 //			purchase.init();
+// 			purchase = new PurchaseHelperAndroid(this);
 	}
 
 	public void initAdad()
@@ -94,14 +102,14 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 		Gdx.app.log("MainActivity Android", "Try to login");
 		try
 		{
-//			runOnUiThread(new Runnable()
-//			{
-//				@Override
-//				public void run()
-//				{
-//					gameHelper.beginUserInitiatedSignIn();
-//				}
-//			});
+			runOnUiThread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					gameHelper.beginUserInitiatedSignIn();
+				}
+			});
 		} catch (Exception e)
 		{
 			Gdx.app.log("MainActivity Android", "Log in failed: " + e.getMessage() + ".");
@@ -114,14 +122,14 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 	{
 		try
 		{
-//			runOnUiThread(new Runnable()
-//			{
-//				@Override
-//				public void run()
-//				{
-//					gameHelper.signOut();
-//				}
-//			});
+			runOnUiThread(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					gameHelper.signOut();
+				}
+			});
 		} catch (Exception e)
 		{
 			Gdx.app.log("MainActivity", "Log out failed: " + e.getMessage() + ".");
@@ -131,25 +139,24 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 	@Override
 	public void submitScore(int wave)
 	{
-//		if (isSignedIn() == true)
-//		{
-//			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
-//					getString(R.string.leaderboard_wave), wave);
-//		}
+		if(isSignedIn() == true)
+		{
+			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+					getString(R.string.leaderboard_wave), wave);
+		}
 	}
 
 	@Override
 	public void showWaveScores()
 	{
-//		if (isSignedIn() == true)
-//		{
-//			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
-//					getString(R.string.leaderboard_wave)), requestCode);
-//		}
-//		else
-//		{
-//			signIn();
-//		}
+		if(isSignedIn() == true)
+		{
+			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
+					getString(R.string.leaderboard_wave)), requestCode);
+		} else
+		{
+			signIn();
+		}
 
 	}
 
@@ -195,8 +202,7 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 	@Override
 	public boolean isSignedIn()
 	{
-		return false;
-//		return gameHelper.isSignedIn();
+		return gameHelper.isSignedIn();
 	}
 
 	@Override
@@ -311,16 +317,14 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 			DeveloperInterface.getInstance(getContext())
 					.showNewVideo(this,
 							DeveloperInterface.TAPSELL_DIRECT_ADD_REQUEST_CODE,
-							-2,
-//						DeveloperInterface.DEFAULT_MIN_AWARD,
+						DeveloperInterface.DEFAULT_MIN_AWARD,
 							DeveloperInterface.VideoPlay_TYPE_NON_SKIPPABLE);
 
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-			isTapsellHaveVDO = false;
+		isTapsellHaveVDO = false;
 	}
 
 	@Override
@@ -353,8 +357,7 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 									isTapsellHaveVDO = true;
 								}
 							});
-		}
-		catch (Exception e)
+		} catch (Exception e)
 		{
 //			makeToastLong(e.toString());
 		}
@@ -374,12 +377,12 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if (nivadPurchase.nivadBilling.handleActivityResult(requestCode, resultCode, data))
+		if(nivadPurchase.nivadBilling.handleActivityResult(requestCode, resultCode, data))
 			return;
 
 		super.onActivityResult(requestCode, resultCode, data);
 
-//		gameHelper.onActivityResult(requestCode, resultCode, data);
+		gameHelper.onActivityResult(requestCode, resultCode, data);
 
 //		if(purchase.mHelper != null)
 //			purchase.mHelper.handleActivityResult(requestCode, resultCode, data);
@@ -388,22 +391,10 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 		{
 			if(requestCode == DeveloperInterface.TAPSELL_DIRECT_ADD_REQUEST_CODE)
 			{
-
-//				Log.e("Tapsell", "DirectConnect: " + data.hasExtra(DeveloperInterface.TAPSELL_DIRECT_CONNECTED_RESPONSE));
-//				Log.e("Tapsell", "Award: " + data.getIntExtra(DeveloperInterface.TAPSELL_DIRECT_CONNECTED_RESPONSE, -1));
-//				Log.e("Tapsell", "Have = " + data.hasExtra(DeveloperInterface.TAPSELL_DIRECT_AVAILABLE_RESPONSE));
-
 				if(data.hasExtra(DeveloperInterface.TAPSELL_DIRECT_AVAILABLE_RESPONSE))
-				{
 					isTapsellHaveVDO = true;
-				}
 
 				videoAward = data.getIntExtra(DeveloperInterface.TAPSELL_DIRECT_AWARD_RESPONSE, -1);
-
-//				if(data.hasExtra(DeveloperInterface.TAPSELL_DIRECT_AWARD_RESPONSE))
-//				{
-//					videoAward = 1;
-//				}
 			}
 		} catch (Exception e)
 		{
@@ -430,8 +421,8 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 
 		Cavaio.sharedInstance().onStart();
 
-//		gameHelper.setMaxAutoSignInAttempts(0);
-//		gameHelper.onStart(this);
+		gameHelper.setMaxAutoSignInAttempts(1);
+		gameHelper.onStart(this);
 	}
 
 	@Override
@@ -440,29 +431,38 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 		super.onStop();
 
 		Cavaio.sharedInstance().onStop();
-//		gameHelper.onStop();
+		gameHelper.onStop();
 	}
 
 	public void initGameHelper()
 	{
-//		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
-//		gameHelper.enableDebugLog(false);
+		gameHelper = new GameHelper(this, GameHelper.CLIENT_GAMES);
+		gameHelper.enableDebugLog(false);
 
-//		GameHelper.GameHelperListener gameHelperListener = new GameHelper.GameHelperListener()
-//		{
-//			@Override
-//			public void onSignInFailed()
-//			{
-//				Log.e("Tag", "Login Failed");
-//			}
-//
-//			@Override
-//			public void onSignInSucceeded()
-//			{
-//				Log.e("Tag", "Login Succeed");
-//			}
-//		};
+		GameHelper.GameHelperListener gameHelperListener = new GameHelper.GameHelperListener()
+		{
+			@Override
+			public void onSignInFailed()
+			{
+				Log.e("Tag", "Login Failed");
+			}
 
-//		gameHelper.setup(gameHelperListener);
+			@Override
+			public void onSignInSucceeded()
+			{
+				Log.e("Tag", "Login Succeed");
+			}
+		};
+
+		gameHelper.setup(gameHelperListener);
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+	{
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+		if(permissionManager != null)
+			permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 }

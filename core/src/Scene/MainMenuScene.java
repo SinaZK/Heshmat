@@ -303,7 +303,7 @@ public class MainMenuScene extends BaseScene
 //		attachChild(videoButton);
 		attachChild(cmButton);
 		attachChild(levelSelectButton);
-//		attachChild(showLeaderBoardButton);
+		attachChild(showLeaderBoardButton);
 		attachChild(settingButton);
 
 		input.addProcessor(this);

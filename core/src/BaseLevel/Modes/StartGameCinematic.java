@@ -73,14 +73,14 @@ public class StartGameCinematic extends CinematicMode
 		float carY = firstCarY * PhysicsConstant.PIXEL_TO_METER;
 
 		float firstZoom = levelManager.currentLevel.terrain.cameraZoom;
-		float zoom = firstZoom + 1.2f;
+		float zoom = firstZoom + 0.7f;
 		float cX = carX;
 		float cY = carY;
 
-		float [] times = {5, 5, 18, 5};
+		float [] times = {4, 5, 18, 5};
 //		float [] times = {1, 1, 1, 1};
 
-		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, 1.2f / 60f / times[0]).setTime(times[0]);
+		CinematicState firstState = new CinematicState(this).init(cX, cY, zoom).setSpeed(0, 0, (zoom - firstZoom + 0.1f) / 60f / times[0]).setTime(times[0]);
 		states.add(firstState);
 
 		cX += times[1] * 60 * 3;
@@ -100,12 +100,12 @@ public class StartGameCinematic extends CinematicMode
 		};
 
 		CinematicState lastState = new CinematicState(this).init(cX, cY, levelManager.currentLevel.terrain.cameraZoom).
-				setSpeed(0, 0, 1.2f / 60f / times[3]).setTime(times[3]);
+				setSpeed(0, 0, (zoom - firstZoom + 0.1f) / 60f / times[3]).setTime(times[3]);
 		states.add(lastState);
 
 
 		camera.position.x = carX;
-		camera.position.y = carY;
+		camera.position.y = carY + 200;
 	}
 
 	@Override

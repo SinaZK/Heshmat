@@ -2,12 +2,10 @@ package BaseLevel.Modes;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 import Enemy.EnemyState.StopSign;
 import EnemyBase.BaseEnemy;
-import EnemyBase.DrivingModeEnemy;
 import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
@@ -78,7 +76,6 @@ public class DrivingMode extends LevelMode
 		levelManager.gameScene.drawDist(levelManager.gameScene.drivingModeHUD.getBatch(), getCurrentPos(), distance);
 		levelManager.gameScene.drivingModeHUD.getBatch().end();
 
-
 		if(getCurrentPos() > distCounter && getCurrentPos() + distBeforeEnd < distance)
 		{
 //			distCounter += objDist;
@@ -98,15 +95,22 @@ public class DrivingMode extends LevelMode
 			if(CameraHelper.getXMax(camera) + 100 > firstXinPixel + distance)
 			{
 				isEndSignInit = true;
-				StopSign stopSign = (StopSign)levelManager.gameManager.enemyFactory.getDrivingEnemy(BaseEnemy.EnemyType.StopSign,
-						(int)(levelManager.act.selectorStatData.selectedLevel * 1.5f), null);
 
-//				Log.e("drivingMode", "Stop Sign At : " + levelManager.currentLevel.currentPart);
+				int level = (int)(levelManager.act.selectorStatData.selectedLevel * 1.5f);
+				if(levelManager.levelType == LevelManager.LevelType.ENDLESS)
+					level = (int)(levelManager.getEndlessCurrentWave() * (1.5f));
+
+				StopSign stopSign = (StopSign)levelManager.gameManager.enemyFactory.getDrivingEnemy(BaseEnemy.EnemyType.StopSign,
+						level, null);
+
+//				Log.e("drivingMode", "Stop Sign HP : " + stopSign.hitPoint);
 
 				float x = firstXinPixel + distance;
 				stopSign.attachToGround(x);
 			}
 		}
+
+		handlePopRestartButton();
 
 	}
 
@@ -202,5 +206,24 @@ public class DrivingMode extends LevelMode
 		super.resume();
 
 		gameManager.activity.audioManager.playDrivingMusic();
+	}
+
+
+	public void handlePopRestartButton()
+	{
+		if(isFinished || gameScene.gameStat == GameScene.GAME_STAT.PAUSE)
+		{
+			gameScene.shouldPopRestartButtonDraw = false;
+			return;
+		}
+
+		float angle = Math.abs(car.convertAngleToDegrees());
+
+//		Log.e("DrivingMode.java", "angle = " + (int)Math.abs(angle - 180f) + " OnAir = " + car.isInAir());
+
+		if ( Math.abs(angle - 180f) < 30 && !car.isInAir())
+			gameScene.shouldPopRestartButtonDraw = true;
+		else
+			gameScene.shouldPopRestartButtonDraw = false;
 	}
 }

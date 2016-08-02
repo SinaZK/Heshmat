@@ -168,6 +168,8 @@ public class SizakCarModel extends SizakBodyModel
 		}
 	}
 
+	float dX = 30, dY = 0;
+
 	public void drawOnGarageScene(Batch batch)
 	{
 		if(carSelectEntity.carStatData.lockStat == Enums.LOCKSTAT.UNLOCK)
@@ -180,7 +182,7 @@ public class SizakCarModel extends SizakBodyModel
 	@Override
 	public void setPosition(float x, float y)
 	{
-		carShowSprite.setPosition(x, y);
+		carShowSprite.setPosition(x + dX, y);
 		float xx = sprites.get(0).getX();
 		float yy = sprites.get(0).getY();
 
@@ -193,17 +195,17 @@ public class SizakCarModel extends SizakBodyModel
 			float w = slots.get(i).width;
 			float h = slots.get(i).height;
 
-			slots.get(i).set(x1 - xx + x, y1 - yy + y, w, h);
+			slots.get(i).set(x1 - xx + x + dX, y1 - yy + y, w, h);
 		}
 	}
 
 	public void initUpgradeButtons(CarStatData carStatData)
 	{
 		float startX = garageScene.DX + 115;
-		float startY = garageScene.DY + 25;
+		float startY = garageScene.DY + 15;
 		float width = 188;
 		float height = 50;
-		float padding = 10;
+		float padding = 20;
 
 		for(int i = 0;i < upgradeButtons.size();i++)
 		{

@@ -489,8 +489,18 @@ public class Terrain
 		float x;
 		float y = (SceneManager.WORLD_Y - BGSprite.getHeight()) / 2;
 
-		x = -gameManager.selectedCar.getXInPixel() / 100;
+		float BGRatio = 50;
 
+		//a = qv + r
+
+		float a = gameManager.selectedCar.getXInPixel() / BGRatio;
+
+		float q = (BGSprite.getWidth());
+		int v = (int) (a / q);
+
+		float r = a - q * v;
+
+		x = -r - 150;
 
 		Batch batch = bgSpriteBatch.getBatch();
 		BGSprite.setSize(BGSprite.getWidth(), SceneManager.WORLD_Y);
@@ -498,8 +508,6 @@ public class Terrain
 		BGSprite.setPosition(x, y);
 		BGSprite.draw(batch);
 		BGSprite.setPosition(x + BGSprite.getWidth() - 1, y);
-		BGSprite.draw(batch);
-		BGSprite.setPosition(x + BGSprite.getWidth() * 2 - 2, y);
 		BGSprite.draw(batch);
 		batch.end();
 

@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import Entity.Button;
+import Enums.Enums;
 import Misc.Log;
 import Misc.TextureHelper;
 import Scene.BaseScene;
@@ -58,9 +59,7 @@ public class GunSelectorTab extends BaseScene
 		for(int i = 1;i <= SceneManager.GUN_NUM;i++)
 		{
 			gunSelectEntities[i] = new GunSelectEntity(this, act.gunStatDatas[GunSorter.gunPos[i]], i);
-			gunSelectEntities[i].setPosition(i * GUN_SHOW_WIDTH + (i - 1) * GUN_SHOW_PADDING, 100);
-
-			gunSelectEntities[i].setPosition(i * GUN_SHOW_WIDTH + (i - 1) * GUN_SHOW_PADDING, 100);
+			gunSelectEntities[i].setPosition(i * GUN_SHOW_WIDTH + (i - 1) * GUN_SHOW_PADDING + 7, 100);
 		}
 
 		inputMultiplexer.addProcessor(this);
@@ -74,7 +73,7 @@ public class GunSelectorTab extends BaseScene
 	{
 		super.create();
 
-		selectedGun = act.selectorStatData.selectedGun;
+		selectedGun = getLastUnlockedGun();
 		if(gunSelectEntities[selectedGun] == null)
 		{
 			Log.e("GunSelectorTab.java", "NULL selected = " + selectedGun);
@@ -179,5 +178,14 @@ public class GunSelectorTab extends BaseScene
 		HUD.addActor(prevCarButton);
 
 		gunBackSprite = new Sprite(TextureHelper.loadTexture(add + "guntab/gunback.png", disposeTextureArray));
+	}
+
+	public int getLastUnlockedGun()
+	{
+		for(int i = SceneManager.GUN_MAX_NUM;i >= 1;i--)
+			if(act.gunStatDatas[i].lockStat == Enums.LOCKSTAT.UNLOCK)
+				return i;
+
+		return 1;
 	}
 }
