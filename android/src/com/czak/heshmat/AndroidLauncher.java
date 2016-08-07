@@ -159,7 +159,6 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 		}
 
 	}
-
 	@Override
 	public void rateGame()
 	{
