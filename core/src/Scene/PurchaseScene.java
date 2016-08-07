@@ -168,7 +168,7 @@ public class PurchaseScene extends BaseScene
 
 	int[] coins = //age khasti taghir bedi purchaseSelectorHorzientalam coins[] ro taghir bede
 			{
-					6000, 15000, 25000, 45000, 80 * 1000, 130 * 1000, 180 * 1000, 250 * 000, 450 * 000, 900 * 000, 2500 * 1000
+					6000, 15000, 25000, 45000, 80 * 1000, 130 * 1000, 180 * 1000, 250 * 1000, 450 * 1000, 900 * 1000, 2500 * 1000
 			};
 
 	public void doPurchase(int id)
