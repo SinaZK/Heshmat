@@ -74,6 +74,8 @@ public class LevelLoader
 
 					drivingModePart.distance = Float.valueOf(BodyStrings.getPartOf(read, 1));
 
+//                    Log.e("LevelLoader.java", "driving, distance = " + drivingModePart.distance);
+
 					read = dis.readLine();
 					drivingModePart.fullTime = Float.valueOf(BodyStrings.getPartOf(read, 1));
 

@@ -7,7 +7,6 @@ import DataStore.LevelStatData;
 import Entity.Button;
 import Entity.Entity;
 import Entity.LevelEntity;
-import Enums.Enums;
 import Misc.TextureHelper;
 import SceneManager.SceneManager;
 
@@ -145,32 +144,62 @@ public class LevelSelectorScene extends BaseScene
 
     public void loadLeaderBoardLevelButtons(float width, float height)
     {
-        Button endLess = new Button(TextureHelper.loadTexture("gfx/scene/level/endless1.png", disposeTextureArray),
-                TextureHelper.loadTexture("gfx/scene/level/endless2.png", disposeTextureArray));
+        Button lineButton = new Button(TextureHelper.loadTexture("gfx/scene/level/line1.png", disposeTextureArray),
+                TextureHelper.loadTexture("gfx/scene/level/line2.png", disposeTextureArray));
 
-        endLess.setSize(width, height);
-        endLess.setPosition(650, 196);
+        lineButton.setSize(width, height);
+        lineButton.setPosition(DX + 650, DY + 196 + 100);
 
-        endLess.setRunnable(act, new Runnable()
+        lineButton.setRunnable(act, new Runnable()
         {
             @Override
             public void run()
             {
-                if(act.starManager.getStarNum() < SceneManager.ENDLESS_STARS)
+                if(act.starManager.getStarNum() < SceneManager.LINE_STARS)
                 {
-                    String second = " " + (SceneManager.ENDLESS_STARS - act.starManager.getStarNum())+" ";
+                    String second = " " + (SceneManager.LINE_STARS - act.starManager.getStarNum())+" ";
                     String third = "تا ستاره دیگه نیاز داری";
                     String mark = "!!!";
                     act.googleServices.makeToastLong(second + third + mark);
                     return;
                 }
 
-                act.selectorStatData.selectedLevel = -1;
+                act.selectorStatData.selectedLevel = LINE_INT;
+                act.sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+                LevelSelectorScene.this.dispose();
+            }
+        });
+        attachChild(lineButton);
+
+        Button LoopButton = new Button(TextureHelper.loadTexture("gfx/scene/level/loop1.png", disposeTextureArray),
+                TextureHelper.loadTexture("gfx/scene/level/loop2.png", disposeTextureArray));
+
+        LoopButton.setSize(width, height);
+        LoopButton.setPosition(DX + 650, DY + 196);
+
+        LoopButton.setRunnable(act, new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(act.starManager.getStarNum() < SceneManager.LOOP_STARS)
+                {
+                    String second = " " + (SceneManager.LOOP_STARS - act.starManager.getStarNum())+" ";
+                    String third = "تا ستاره دیگه نیاز داری";
+                    String mark = "!!!";
+                    act.googleServices.makeToastLong(second + third + mark);
+                    return;
+                }
+
+                act.selectorStatData.selectedLevel = LOOP_INT;
                 act.sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
                 LevelSelectorScene.this.dispose();
             }
         });
 
-        attachChild(endLess);
+        attachChild(LoopButton);
     }
+
+    public static final int LOOP_INT = -1;
+    public static final int LINE_INT = -2;
 }

@@ -33,7 +33,8 @@ public class SceneManager
 	public static int WORLD_X = 800;
 	public static int WORLD_Y = 480;
 
-	public static int ENDLESS_STARS = 0;
+    public static int LINE_STARS = 0;
+	public static int LOOP_STARS = 0;
 	public static int VideoAward = 500;
 
 	public static int LVL_PACK_MAX_NUM = 2;
@@ -85,7 +86,6 @@ public class SceneManager
 	LevelSelectorScene levelSelectorScene;
 
 	public GarageScene garageScene;
-	EndGameScene endGameScene;
 
 	public GameScene gameScene;
 

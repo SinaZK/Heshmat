@@ -10,10 +10,10 @@ import SceneManager.SceneManager;
 
 /**
  * Created by sinazk on 8/10/2016.
- * 07:19
+ * 09:27
  */
-public class LoopEndGameScene extends EndGameScene {
-    public LoopEndGameScene(GameScene gameScene) {
+public class LineEndGameScene extends EndGameScene {
+    public LineEndGameScene(GameScene gameScene) {
         super(gameScene);
     }
 

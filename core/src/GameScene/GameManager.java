@@ -9,7 +9,9 @@ import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
 import Human.DriverHuman;
 import Human.SimpleHuman;
+import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
+import Scene.LevelSelectorScene;
 import Sorter.CarSorter;
 import WeaponBase.BulletFactory;
 import heshmat.MainActivity;
@@ -51,12 +53,22 @@ public class GameManager
 
 
         levelManager = new LevelManager(this);
-        if(activity.selectorStatData.selectedLevel == -1)//endless
+
+        switch (activity.selectorStatData.selectedLevel)
         {
-            levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/endless/", LevelManager.LevelType.LOOP);
+            case LevelSelectorScene.LINE_INT:
+                levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack
+                        + "/line/", LevelManager.LevelType.LINE);
+                break;
+            case LevelSelectorScene.LOOP_INT:
+                levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack
+                        + "/loop/", LevelManager.LevelType.LOOP);
+                break;
+
+            default:
+                levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack
+                        + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);
         }
-        else
-            levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);
 
 		gunManager.create();
 		enemyFactory.create();

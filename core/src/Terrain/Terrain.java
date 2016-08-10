@@ -204,8 +204,6 @@ public class Terrain
 		wallBody.setTransform(wX / rat + WALL_WIDTH / 2 / rat, wY / rat + WALL_HEIGHT / 2 / rat, 0);
 	}
 
-	Random utilRand = new Random(727);
-
 	public void run()
 	{
 		moveBackWall();

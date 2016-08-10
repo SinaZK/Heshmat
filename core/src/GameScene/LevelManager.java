@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
-import BaseLevel.BaseLevel;
-import BaseLevel.LoopLevel;
+import BaseLevel.*;
 import Misc.Log;
 import Misc.TextureHelper;
 import Scene.EndGameScene;
@@ -47,12 +46,19 @@ public class LevelManager
 			currentLevel = new BaseLevel(gameManager);
 			currentLevel.load(add);
 		}
-		else if(levelType == LevelType.LOOP)
+
+        if(levelType == LevelType.LOOP)
 		{
 			LoopLevel lvl = new LoopLevel(gameManager, act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
 			lvl.load(add);
 			currentLevel = lvl;
 		}
+
+        if(levelType == LevelType.LINE)
+        {
+            currentLevel = new LineLevel(gameManager);
+            currentLevel.load(add);
+        }
 
 		currentLevel.start();
 	}

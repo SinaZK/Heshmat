@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseCar.SizakCarModel;
 import BaseLevel.LoopLevel;
+import BaseLevel.Modes.DrivingMode;
 import Countly.CountlyStrings;
 import Entity.AnimatedSprite;
 import Entity.Button;
@@ -403,13 +404,20 @@ public class GameScene extends BaseScene
 		distanceSprite.setPosition(DX + 28, DY + 360);
 		distanceSprite.draw(batch);
 
-		font16.draw(batch, "( " + (int) dist, distanceSprite.getX() + 45, distanceSprite.getY() + 28);
+        if(maxDist != DrivingMode.INF_DIST) {
+            font16.draw(batch, "( " + (int) dist, distanceSprite.getX() + 45, distanceSprite.getY() + 28);
 
-		float fontSize = 12;
-		float tW = SceneManager.getDigitNum((int) dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();
+            float fontSize = 12;
+            float tW = SceneManager.getDigitNum((int) dist + 1) * fontSize;// + (SceneManager.getDigitNum((int)dist) - 1) * font16.getSpaceWidth();
 
-		font16.setColor(0, 0, 0, 1);
-		font16.draw(batch, "/ " + intMax + ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
+            font16.setColor(0, 0, 0, 1);
+            font16.draw(batch, "/ " + intMax + ")", distanceSprite.getX() + 55 + tW, distanceSprite.getY() + 28);
+        }
+        else {
+            font16.setColor(0, 0, 0, 1);
+            font16.draw(batch, "( " + (int) dist + " )", distanceSprite.getX() + 45, distanceSprite.getY() + 28);
+        }
+
 	}
 
 	public void sendCountly()

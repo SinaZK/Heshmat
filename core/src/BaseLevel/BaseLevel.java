@@ -43,9 +43,10 @@ public class BaseLevel
 
 	public void load(String add)
 	{
-		loadTerrain(add);
+        loadTerrain(add);
+        terrain.BGSprite = new Sprite(TextureHelper.loadTexture("gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/back.png", gameScene.disposeTextureArray));
 
-		terrain.BGSprite = new Sprite(TextureHelper.loadTexture("gfx/lvl/pack" + act.selectorStatData.selectedLevelPack + "/back.png", gameScene.disposeTextureArray));
+        terrain.level = this;
 
 		LevelLoader.loadLVLFile(this, gameManager, add, gameScene.world, gameScene.disposeTextureArray);
 	}
