@@ -13,6 +13,7 @@ import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.Log;
 import Misc.TextureHelper;
+import Scene.EndGameScene;
 import Terrain.Terrain;
 import heshmat.MainActivity;
 
@@ -156,4 +157,9 @@ public class BaseLevel
 	{
 
 	}
+
+    public EndGameScene createEndGameScene()
+    {
+        return new EndGameScene(gameScene);
+    }
 }

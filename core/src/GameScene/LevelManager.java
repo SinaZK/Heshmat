@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 
 import BaseLevel.BaseLevel;
-import BaseLevel.EndlessLevel;
+import BaseLevel.LoopLevel;
 import Misc.Log;
 import Misc.TextureHelper;
+import Scene.EndGameScene;
 import heshmat.MainActivity;
 
 
@@ -18,6 +19,7 @@ import heshmat.MainActivity;
 
 public class LevelManager
 {
+
 	public MainActivity act;
 	public GameScene gameScene;
 	public GameManager gameManager;
@@ -45,15 +47,20 @@ public class LevelManager
 			currentLevel = new BaseLevel(gameManager);
 			currentLevel.load(add);
 		}
-		else if(levelType == LevelType.ENDLESS)
+		else if(levelType == LevelType.LOOP)
 		{
-			EndlessLevel lvl = new EndlessLevel(gameManager, act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
+			LoopLevel lvl = new LoopLevel(gameManager, act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
 			lvl.load(add);
 			currentLevel = lvl;
 		}
 
 		currentLevel.start();
 	}
+
+    public EndGameScene CreateEndGameScene()
+    {
+        return currentLevel.createEndGameScene();
+    }
 
 	public void drawOnBatch(Batch batch)
 	{
@@ -121,14 +128,14 @@ public class LevelManager
 
 	public enum LevelType
 	{
-		NORMAL, ENDLESS,
+		NORMAL, LINE, LOOP
 	}
 
-	public int getEndlessCurrentWave()
+	public int getLoopCurrentWave()
 	{
-		if(levelType != LevelType.ENDLESS)
+		if(levelType != LevelType.LOOP)
 			return -1;
 
-		return ((EndlessLevel)currentLevel).currentWave;
+		return ((LoopLevel)currentLevel).currentWave;
 	}
 }

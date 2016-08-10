@@ -3,15 +3,12 @@ package GameScene;
 
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
-import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Vector2;
 
 import BaseCar.BaseCar;
 import EnemyBase.EnemyFactory;
 import Entity.HPBarSprite;
 import Human.DriverHuman;
 import Human.SimpleHuman;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import Sorter.CarSorter;
 import WeaponBase.BulletFactory;
@@ -56,7 +53,7 @@ public class GameManager
         levelManager = new LevelManager(this);
         if(activity.selectorStatData.selectedLevel == -1)//endless
         {
-            levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/endless/", LevelManager.LevelType.ENDLESS);
+            levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/endless/", LevelManager.LevelType.LOOP);
         }
         else
             levelManager.create("gfx/lvl/pack" + activity.selectorStatData.selectedLevelPack + "/" + activity.selectorStatData.selectedLevel + "/", LevelManager.LevelType.NORMAL);

@@ -60,7 +60,7 @@ public class MainActivity extends ApplicationAdapter
 		starManager = new StarManager(this);
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.SPLASH, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_PACKAGE_SELECTOR, null);
 
 		createShowGold();
 		audioManager.playBgMusic();
@@ -349,15 +349,17 @@ public class MainActivity extends ApplicationAdapter
 		googleServices.signOut();
 	}
 
-	public void showWaveLeaderBoard()
-	{
-		googleServices.showWaveScores();
-	}
 
-	public void submitWave(int wave)
+    public void showAllLeaderBoards(){googleServices.showAllLeaderBoards();}
+
+    public void showLoopLeaderBoard(){googleServices.showLoopScore();}
+    public void showLineLeaderBoard(){googleServices.showLineScore();}
+
+	public void submitLoopScore(int wave)
 	{
-		googleServices.submitScore(wave);
+		googleServices.submitLoopScore(wave);
 	}
+    public void submitLineScore(int score){googleServices.submitLineScore(score);}
 
 	@Override
 	public void pause()
@@ -377,6 +379,4 @@ public class MainActivity extends ApplicationAdapter
 
 		nativeMultimediaInterface.onResume();
 	}
-
-	//Testing github on windows
 }

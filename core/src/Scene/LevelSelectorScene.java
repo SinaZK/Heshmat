@@ -68,33 +68,7 @@ public class LevelSelectorScene extends BaseScene
 			levelEntity.attachToScene(this);
 		}
 
-		Button endLess = new Button(TextureHelper.loadTexture("gfx/scene/level/endless1.png", disposeTextureArray),
-				TextureHelper.loadTexture("gfx/scene/level/endless2.png", disposeTextureArray));
-
-		endLess.setSize(width, height);
-		endLess.setPosition(650, 196);
-
-		endLess.setRunnable(act, new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				if(act.starManager.getStarNum() < act.sceneManager.ENDLESS_STARS)
-				{
-					String second = " " + (act.sceneManager.ENDLESS_STARS - act.starManager.getStarNum())+" ";
-					String third = "تا ستاره دیگه نیاز داری";
-					String mark = "!!!";
-					act.googleServices.makeToastLong(second + third + mark);
-					return;
-				}
-
-				act.selectorStatData.selectedLevel = -1;
-				act.sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
-				LevelSelectorScene.this.dispose();
-			}
-		});
-
-		attachChild(endLess);
+		loadLeaderBoardLevelButtons(width, height);
 	}
 
 	@Override
@@ -168,4 +142,35 @@ public class LevelSelectorScene extends BaseScene
 
 		attachChild(back);
 	}
+
+    public void loadLeaderBoardLevelButtons(float width, float height)
+    {
+        Button endLess = new Button(TextureHelper.loadTexture("gfx/scene/level/endless1.png", disposeTextureArray),
+                TextureHelper.loadTexture("gfx/scene/level/endless2.png", disposeTextureArray));
+
+        endLess.setSize(width, height);
+        endLess.setPosition(650, 196);
+
+        endLess.setRunnable(act, new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                if(act.starManager.getStarNum() < SceneManager.ENDLESS_STARS)
+                {
+                    String second = " " + (SceneManager.ENDLESS_STARS - act.starManager.getStarNum())+" ";
+                    String third = "تا ستاره دیگه نیاز داری";
+                    String mark = "!!!";
+                    act.googleServices.makeToastLong(second + third + mark);
+                    return;
+                }
+
+                act.selectorStatData.selectedLevel = -1;
+                act.sceneManager.setCurrentScene(SceneManager.SCENES.GARAGE_SCENE, null);
+                LevelSelectorScene.this.dispose();
+            }
+        });
+
+        attachChild(endLess);
+    }
 }

@@ -7,7 +7,6 @@ import Entity.Entity;
 import Misc.Log;
 import Misc.TextureHelper;
 import SceneManager.SceneManager;
-import sun.net.www.content.image.png;
 
 public class LevelPackageScene extends BaseScene
 {

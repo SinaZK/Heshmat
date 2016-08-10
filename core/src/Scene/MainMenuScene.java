@@ -3,7 +3,6 @@ package Scene;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Timer;
@@ -36,7 +35,6 @@ public class MainMenuScene extends BaseScene
 	}
 
 
-	boolean isUploaded = false;
 	boolean isSettingRunning = false, isSetting = false;
 
 	public float DX;
@@ -101,7 +99,7 @@ public class MainMenuScene extends BaseScene
 			public void run()
 			{
 
-				act.showWaveLeaderBoard();
+				act.showAllLeaderBoards();
 
 			}
 		});

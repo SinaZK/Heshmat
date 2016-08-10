@@ -19,7 +19,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseCar.SizakCarModel;
-import BaseLevel.EndlessLevel;
+import BaseLevel.LoopLevel;
 import Countly.CountlyStrings;
 import Entity.AnimatedSprite;
 import Entity.Button;
@@ -66,7 +66,6 @@ public class GameScene extends BaseScene
 	public GameManager gameManager;
 	public DrivingHUD drivingModeHUD;
 	public ShootingHUD shootingModeHUD;
-	AnimatedSprite animatedSprite;
 
 	public EndGameScene endGameScene;
 
@@ -102,7 +101,7 @@ public class GameScene extends BaseScene
 		GSCM = new GameSceneContactManager(act, this);
 		world.setContactListener(GSCM.makeContact());
 
-		endGameScene = new EndGameScene(this);
+		endGameScene = gameManager.levelManager.CreateEndGameScene();
 		endGameScene.loadResources();
 
 		logo = new Logo(this);
@@ -175,7 +174,7 @@ public class GameScene extends BaseScene
 		pause(false);
 		gameStat = GAME_STAT.END_GAME;
 
-		endGameScene.set(isLevelFinished);
+		endGameScene.start(isLevelFinished);
 	}
 
 	public void goToGarageScene()
@@ -269,9 +268,9 @@ public class GameScene extends BaseScene
 			drawCarHP(HUD.getBatch());
 //			font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
 
-			if(gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
+			if(gameManager.levelManager.levelType == LevelManager.LevelType.LOOP)
 			{
-				EndlessLevel level = (EndlessLevel) gameManager.levelManager.currentLevel;
+				LoopLevel level = (LoopLevel) gameManager.levelManager.currentLevel;
 				level.waveModeSplashImage.draw(HUD.getBatch());
 			}
 			HUD.getBatch().end();

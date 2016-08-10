@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 import Misc.Log;
 import Misc.TextureHelper;
+import SceneManager.SceneManager;
 import heshmat.MainActivity;
 
 /**
@@ -53,5 +54,11 @@ public class VideoButton extends Button
 
 		setVisible(true);
 		super.draw(batch, 1);
+
+		if(isVisible())
+		{
+			act.font16.setColor(0.7f, 0.7f, 0.1f, 1f);
+			act.font16.draw(batch, "+" + SceneManager.VideoAward, getX() + getHeight() + 5, getY() + 50);
+		}
 	}
 }

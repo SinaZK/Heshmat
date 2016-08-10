@@ -20,6 +20,8 @@ import GameScene.LevelManager;
 import Misc.FileLoader;
 import Misc.Log;
 import Misc.TextureHelper;
+import Scene.EndGameScene;
+import Scene.EndGameScenes.LoopEndGameScene;
 import Terrain.Terrain;
 import heshmat.MainActivity;
 
@@ -27,7 +29,7 @@ import heshmat.MainActivity;
  * Created by sinazk on 5/14/16.
  * 17:27
  */
-public class EndlessLevel extends BaseLevel
+public class LoopLevel extends BaseLevel
 {
 
 	float drivingDistance, drivingStep;
@@ -39,7 +41,7 @@ public class EndlessLevel extends BaseLevel
 
 	public int currentWave = 1;
 
-	public EndlessLevel(GameManager gameManager, long currentWave)
+	public LoopLevel(GameManager gameManager, long currentWave)
 	{
 		super(gameManager);
 
@@ -212,4 +214,9 @@ public class EndlessLevel extends BaseLevel
 		levelParts.add(levelMode);
 	}
 
+    @Override
+    public EndGameScene createEndGameScene()
+    {
+        return new LoopEndGameScene(gameScene);
+    }
 }

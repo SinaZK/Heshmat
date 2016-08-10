@@ -19,9 +19,9 @@ import SceneManager.SceneManager;
 
 public class EndGameScene extends BaseScene
 {
-	GameScene gameScene;
-	SceneManager sceneManager;
-	StarManager starManager;
+	public GameScene gameScene;
+	public SceneManager sceneManager;
+	public StarManager starManager;
 
 	public EndGameScene(GameScene gameScene)
 	{
@@ -34,11 +34,11 @@ public class EndGameScene extends BaseScene
 
 	public float DX;
 	public float DY;
-	String add = "gfx/scene/endgame/";
-	InputProcessor gameSceneInput;
+	public String add = "gfx/scene/endgame/";
+	public InputProcessor gameSceneInput;
 
-	Button restartButton;
-	Button backToMenuButton;
+	public Button restartButton;
+	public Button backToMenuButton;
 	Button nextLevelButton;
 
 	boolean isLevelFinished;
@@ -101,30 +101,6 @@ public class EndGameScene extends BaseScene
 		});
 
 
-		Button showScoreButton = new Button(TextureHelper.loadTexture(add + "leader1.png", disposeTextureArray),
-				TextureHelper.loadTexture(add + "leader2.png", disposeTextureArray))
-		{
-			@Override
-			public void draw(Batch batch, float parentAlpha)
-			{
-				if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
-				{
-					super.draw(batch, parentAlpha);
-					setVisible(true);
-				} else
-					setVisible(false);
-			}
-		};
-		showScoreButton.setRunnable(act, new Runnable()
-		{
-
-			@Override
-			public void run()
-			{
-				act.showWaveLeaderBoard();
-			}
-		});
-
 		final Entity distEnt = new Entity(TextureHelper.loadTexture(add + "dist.png", disposeTextureArray));
 		final Entity coinEnt = new Entity(TextureHelper.loadTexture(add + "coin.png", disposeTextureArray));
 		final Entity killEnt = new Entity(TextureHelper.loadTexture(add + "kill.png", disposeTextureArray));
@@ -133,7 +109,6 @@ public class EndGameScene extends BaseScene
 		coinEnt.setPosition(DX + 200, DY + 220);
 		killEnt.setPosition(DX + 200, DY + 160);
 
-		showScoreButton.setPosition(DX + 241, DY + 20);
 		backToMenuButton.setPosition(DX + 370, DY + 20);
 		restartButton.setPosition(DX + 498, DY + 20);
 		nextLevelButton.setPosition(DX + 650, DY + 20);
@@ -143,18 +118,13 @@ public class EndGameScene extends BaseScene
 		videoButton.setPosition(DX + 50, DY + 20);
 
 		attachChild(videoButton);
-//		attachChild(showScoreButton);
 
-		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
-			attachChild(showScoreButton);
+        attachChild(nextLevelButton);
 
-		if(gameScene.gameManager.levelManager.levelType != LevelManager.LevelType.ENDLESS)
-			attachChild(nextLevelButton);
 		attachChild(backToMenuButton);
 		attachChild(restartButton);
 		attachChild(killEnt);
-		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.NORMAL)
-			attachChild(distEnt);
+        attachChild(distEnt);
 		attachChild(coinEnt);
 
 		for (int i = 0; i <= 3; i++)
@@ -165,9 +135,6 @@ public class EndGameScene extends BaseScene
 				@Override
 				public void draw(Batch batch, float parentAlpha)
 				{
-					if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
-						return;
-
 					if(star == II)
 						super.draw(batch, parentAlpha);
 				}
@@ -212,21 +179,20 @@ public class EndGameScene extends BaseScene
 		getBatch().begin();
 		act.sceneManager.drawGoldSprite(getBatch());
 
-		gameScene.font22.setColor(Color.WHITE);
-
-		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.NORMAL)
-			gameScene.font22.draw(getBatch(), "" + (int) calculateDist(), 460, 310);
-		gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.goldCollect, 460, 250);
-
-		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.NORMAL)
-			gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount + " / " + gameScene.gameManager.enemyInitCount, 460, 190);
-		else
-			gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount, 460, 190);
+        gameScene.font22.setColor(Color.WHITE);
+		drawTexts();
 
 		getBatch().end();
 
 		act.disableAds();
 	}
+
+    public void drawTexts()
+    {
+        gameScene.font22.draw(getBatch(), "" + (int) calculateDist(), 460, 310);
+        gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.goldCollect, 460, 250);//gold
+        gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount + " / " + gameScene.gameManager.enemyInitCount, 460, 190);
+    }
 
 	public float calculateDist()
 	{
@@ -241,7 +207,7 @@ public class EndGameScene extends BaseScene
 		return gameScene.gameManager.distanceTraveled + mode.getCurrentPos();
 	}
 
-	public void set(boolean isLevelFinished)
+	public void start(boolean isLevelFinished)
 	{
 		act.checkForVDO();
 
@@ -265,11 +231,6 @@ public class EndGameScene extends BaseScene
 			starManager.completeNormalLevel(star);
 		}
 
-
-		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
-		{
-			act.submitWave((int) act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
-		}
 	}
 
 	public void restartGameScene()
@@ -285,9 +246,6 @@ public class EndGameScene extends BaseScene
 
 	public int countStars()
 	{
-		if(gameScene.gameManager.levelManager.levelType == LevelManager.LevelType.ENDLESS)
-			return 0;
-
 		int star = 1;
 		float hpPercent = gameScene.gameManager.selectedCar.hitpoint / gameScene.gameManager.selectedCar.getMaxHitPoint() * 100;
 

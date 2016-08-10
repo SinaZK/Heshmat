@@ -10,7 +10,6 @@ import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 
 /**
@@ -97,8 +96,8 @@ public class DrivingMode extends LevelMode
 				isEndSignInit = true;
 
 				int level = (int)(levelManager.act.selectorStatData.selectedLevel * 1.5f);
-				if(levelManager.levelType == LevelManager.LevelType.ENDLESS)
-					level = (int)(levelManager.getEndlessCurrentWave() * (1.5f));
+				if(levelManager.levelType == LevelManager.LevelType.LOOP)
+					level = (int)(levelManager.getLoopCurrentWave() * (1.5f));
 
 				StopSign stopSign = (StopSign)levelManager.gameManager.enemyFactory.getDrivingEnemy(BaseEnemy.EnemyType.StopSign,
 						level, null);
