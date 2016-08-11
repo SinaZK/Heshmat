@@ -7,7 +7,6 @@ import EnemyBase.BaseEnemy;
 import GameScene.GameManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import SceneManager.SceneManager;
 
@@ -66,7 +65,7 @@ public class Bat extends BaseEnemy
         float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
         float width = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
-        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
+        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.points.getLast().y;
         float myHeight = (float) (groundHeight + (Math.random() * 0.1 + 1.1) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);

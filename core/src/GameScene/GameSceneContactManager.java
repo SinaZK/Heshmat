@@ -285,7 +285,8 @@ public class GameSceneContactManager
 		if(BodyStrings.isDrivingEnemy(enemyData))
 		{
 			enemyFactory.enemies.get(enemyID).hitByCar(contact, carData);
-			gameManager.selectedCar.hitByDrivingEnemy(contact);
+            if(enemyFactory.enemies.get(enemyID).DAMAGE != -1)
+			    gameManager.selectedCar.hitByDrivingEnemy(contact);
 		}
 
 		contact.setEnabled(false);

@@ -172,6 +172,7 @@ public class GameScene extends BaseScene
 
 	public void EndTheGame(boolean isLevelFinished)
 	{
+//        Log.e("GameScene.java", "EndTheGame startingEndGameScene");
 		pause(false);
 		gameStat = GAME_STAT.END_GAME;
 

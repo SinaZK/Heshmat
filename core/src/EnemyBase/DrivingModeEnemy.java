@@ -2,10 +2,8 @@ package EnemyBase;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.WorldManifold;
 
 import java.util.ArrayList;
 
@@ -15,7 +13,6 @@ import Entity.AnimatedSpriteSheet;
 import Entity.SizakAnimation;
 import GameScene.GameManager;
 import GameScene.GameSceneContactManager;
-import Misc.BodyStrings;
 import Misc.FileLoader;
 import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
@@ -160,8 +157,8 @@ public class DrivingModeEnemy extends BaseEnemy
 	public void setPosition(float x)
 	{
 		int pieceID = gameManager.levelManager.currentLevel.terrain.getIndexOfX(x);
-		float y1 = gameManager.levelManager.currentLevel.terrain.Points.get(pieceID).y;
-		float y2 = gameManager.levelManager.currentLevel.terrain.Points.get(pieceID - 1).y;
+		float y1 = gameManager.levelManager.currentLevel.terrain.points.get(pieceID).y;
+		float y2 = gameManager.levelManager.currentLevel.terrain.points.get(pieceID - 1).y;
 		float Y = Math.max(y1, y2) + states.get(currentState).height / 2;
 		setPosition(x, Y);
 	}
@@ -173,9 +170,9 @@ public class DrivingModeEnemy extends BaseEnemy
 
 		int pieceID = gameManager.levelManager.currentLevel.terrain.getIndexOfX(x);
 		if(pieceID == -1)
-			pieceID = gameManager.levelManager.currentLevel.terrain.Points.size() - 1;
-		float y1 = gameManager.levelManager.currentLevel.terrain.Points.get(pieceID).y;
-		float y2 = gameManager.levelManager.currentLevel.terrain.Points.get(pieceID - 1).y;
+			pieceID = gameManager.levelManager.currentLevel.terrain.points.size() - 1;
+		float y1 = gameManager.levelManager.currentLevel.terrain.points.get(pieceID).y;
+		float y2 = gameManager.levelManager.currentLevel.terrain.points.get(pieceID - 1).y;
 		float Y = Math.max(y1, y2) + states.get(currentState).height / 2;
 		setPosition(x, Y - 20);
 
@@ -229,5 +226,11 @@ public class DrivingModeEnemy extends BaseEnemy
 		for(int i = 0;i < stateCount;i++)
 			states.get(i).release();
 	}
+
+    public void setBodyType(BodyDef.BodyType bodyType)
+    {
+        for(int i = 0;i < states.size();i++)
+            states.get(i).setBodyType(bodyType);
+    }
 
 }

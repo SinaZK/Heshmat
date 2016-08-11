@@ -32,6 +32,7 @@ public class BaseLevel
 
 	public Terrain terrain;
 	Texture terrainUpTexture, terrainDownTexture;
+    public float carIntenseMult = 1;//always one, lineLevel -> 3
 
 	public BaseLevel(GameManager gameManager)
 	{

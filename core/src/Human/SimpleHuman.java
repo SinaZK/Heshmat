@@ -62,7 +62,7 @@ public class SimpleHuman
 		standBody.setUserData(BodyStrings.HUMAN_STRING + " " + "Simple");
 		setActive(false);
 
-		groundHeight = gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
+		groundHeight = gameManager.levelManager.currentLevel.terrain.points.getLast().y;
 	}
 
 	float rat = PhysicsConstant.PIXEL_TO_METER;
@@ -76,7 +76,7 @@ public class SimpleHuman
 			if(!isPosSet)
 			{
 				setWorldPosition(gameManager.selectedCar.body.bodies.get(0).getmBody().getWorldCenter().x,
-						gameManager.levelManager.currentLevel.terrain.Points.getLast().y / rat + standBody.getmSprite().get(0).getHeight() / 2 / rat);
+						gameManager.levelManager.currentLevel.terrain.points.getLast().y / rat + standBody.getmSprite().get(0).getHeight() / 2 / rat);
 				isPosSet = true;
 			}
 		}

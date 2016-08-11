@@ -9,232 +9,244 @@ import Entity.LevelEntities.ModeSplashImage;
 import GameScene.GameManager;
 import GameScene.GameScene;
 import GameScene.LevelManager;
+import Misc.Log;
 
 /**
  * Created by sinazk on 5/22/16.
  * -
  */
-public abstract class LevelMode
-{
-	public GameScene gameScene;
-	public GameManager gameManager;
-	public LevelManager levelManager;
-	public boolean isFinished;
-	public float firstCarX, firstCarY;
-	public BaseCar car;
-	public GameScene.LevelModeEnum mode;
-	public ModeSplashImage modeSplashImage;
+public abstract class LevelMode {
+    public GameScene gameScene;
+    public GameManager gameManager;
+    public LevelManager levelManager;
+    public boolean isFinished;
+    public float firstCarX, firstCarY;
+    public BaseCar car;
+    public GameScene.LevelModeEnum mode;
+    public ModeSplashImage modeSplashImage;
 
-	public OrthographicCamera camera;
-	public Vector2 cameraPos = new Vector2();
-	public float cameraPosZoom;
-	public float cameraSpeedX = 10, cameraSpeedY = 10, cameraZoomSpeed = 1;
-	public boolean isCameraDone = false;
+    public OrthographicCamera camera;
+    public Vector2 cameraPos = new Vector2();
+    public float cameraPosZoom;
+    public float cameraSpeedX = 10, cameraSpeedY = 10, cameraZoomSpeed = 1;
+    public boolean isCameraDone = false;
 
-	public LevelMode(LevelManager levelManager)
-	{
-		this.levelManager = levelManager;
-		gameManager = levelManager.gameManager;
-		gameScene = levelManager.gameScene;
-		car = levelManager.gameManager.selectedCar;
-		camera = levelManager.gameScene.camera;
-		if(levelManager.currentLevel == null)
-			camera.zoom = 1;
-		else
-			camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
-	}
+    public LevelMode(LevelManager levelManager) {
+        this.levelManager = levelManager;
+        gameManager = levelManager.gameManager;
+        gameScene = levelManager.gameScene;
+        car = levelManager.gameManager.selectedCar;
+        camera = levelManager.gameScene.camera;
+        if (levelManager.currentLevel == null)
+            camera.zoom = 1;
+        else
+            camera.zoom = levelManager.currentLevel.terrain.cameraZoom;
+    }
 
-	public void run()
-	{
+    public void run() {
 
 
-		if(car.hitpoint <= 0)
-		{
-			isFinished = true;
-		}
+        if (car.hitpoint <= 0) {
+            isFinished = true;
+//            Log.e("LevelMode.java", "ISfinished ro man true kardam");
+        }
 
-		if(isFinished && !isCameraDone)
-		{
-			runOnEnd();
-		}
+        if (isFinished && !isCameraDone) {
+            runOnEnd();
+        }
 
-//		Log.e("Tag", "isFinished = " + isFinished + " isCameraDOne = " + isCameraDone);
+//		Log.e("LevelMode.java", "isFinished = " + isFinished + " isCameraDOne = " + isCameraDone);
 
-		if(cameraSetCT > 0)
-			cameraSetCT--;
-		else
-			setCamera(true);
+        if (cameraSetCT > 0)
+            cameraSetCT--;
+        else
+            setCamera(true);
 
-		if(modeSplashImage != null)
-		{
-			levelManager.gameScene.HUD.getBatch().begin();
-			modeSplashImage.draw(levelManager.gameScene.HUD.getBatch());
-			levelManager.gameScene.HUD.getBatch().end();
-		}
-		int a = 10;
-	}
+        if (modeSplashImage != null) {
+            levelManager.gameScene.HUD.getBatch().begin();
+            modeSplashImage.draw(levelManager.gameScene.HUD.getBatch());
+            levelManager.gameScene.HUD.getBatch().end();
+        }
+        int a = 10;
+    }
 
-	int cameraSetCT;
+    int cameraSetCT;
 
-	public void start()
-	{
-		levelManager.levelModeEnum = mode;
-		gameScene.setInput();
-		firstCarX = car.body.bodies.get(0).getmBody().getWorldCenter().x;
-		firstCarY = car.body.bodies.get(0).getmBody().getWorldCenter().y;
+    public void start() {
+        levelManager.levelModeEnum = mode;
+        gameScene.setInput();
+        firstCarX = car.body.bodies.get(0).getmBody().getWorldCenter().x;
+        firstCarY = car.body.bodies.get(0).getmBody().getWorldCenter().y;
 
-		cameraSetCT = 2;
-		cameraPos.x = camera.position.x;
-		cameraPos.y = camera.position.y;
-		cameraPosZoom = camera.zoom;
+        cameraSetCT = 2;
+        cameraPos.x = camera.position.x;
+        cameraPos.y = camera.position.y;
+        cameraPosZoom = camera.zoom;
 
-		isFinished = false;
-	}
+        isFinished = false;
+    }
 
-	boolean isEndATTRSet = false;
-	public void reset()
-	{
-		isCameraDone = false;
-		isFinished = false;
-		isEndATTRSet = false;
-		setCameraOnReset();
-	}
+    boolean isEndATTRSet = false;
 
-	public void onFinished(){}
+    public void reset() {
+        isCameraDone = false;
+        isFinished = false;
+        isEndATTRSet = false;
+        setCameraOnReset();
+    }
 
-	public void pause(){}
+    public void onFinished() {
+    }
 
-	public void resume(){}
+    public void pause() {
+    }
 
-	public void setCamera(boolean isSuperCallNeeded)
-	{
-		float camX = camera.position.x;
-		float camY = camera.position.y;
+    public void resume() {
+    }
+
+    public void setCamera(boolean isSuperCallNeeded) {
+        float camX = camera.position.x;
+        float camY = camera.position.y;
 
 //		if(isFinished)
 //			Log.e("Tag", "mode = " + mode + " FIRST Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
 
-		float diffX = cameraPos.x - camX;
-		float diffY = cameraPos.y - camY;
+        float diffX = cameraPos.x - camX;
+        float diffY = cameraPos.y - camY;
 
-		if(diffX > 0)
-			if(diffX > cameraSpeedX)
-				camX += cameraSpeedX;
-			else
-				camX += diffX;
-		if(diffX < 0)
-			if(Math.abs(diffX) > cameraSpeedX)
-				camX -= cameraSpeedX;
-			else
-				camX += diffX;
+        if (diffX > 0)
+            if (diffX > cameraSpeedX)
+                camX += cameraSpeedX;
+            else
+                camX += diffX;
+        if (diffX < 0)
+            if (Math.abs(diffX) > cameraSpeedX)
+                camX -= cameraSpeedX;
+            else
+                camX += diffX;
 
-		if(diffY > 0)
-			if(diffY > cameraSpeedY)
-				camY += cameraSpeedY;
-			else
-				camY += diffY;
-		if(diffY < 0)
-			if(Math.abs(diffY) > cameraSpeedY)
-				camY -= cameraSpeedY;
-			else
-				camY += diffY;
+        if (diffY > 0)
+            if (diffY > cameraSpeedY)
+                camY += cameraSpeedY;
+            else
+                camY += diffY;
+        if (diffY < 0)
+            if (Math.abs(diffY) > cameraSpeedY)
+                camY -= cameraSpeedY;
+            else
+                camY += diffY;
 
-		camera.position.set(camX, camY, 0);
+        camera.position.set(camX, camY, 0);
 
-		//ZOOM
-		float zoomDiff = cameraPosZoom - camera.zoom;
-		if(cameraPosZoom > camera.zoom)
-		{
-			if(zoomDiff > cameraZoomSpeed)
-				camera.zoom += cameraZoomSpeed;
-			else
-				camera.zoom += zoomDiff;
-		}
-		else
-		{
-			zoomDiff = Math.abs(zoomDiff);
-			if(zoomDiff > cameraZoomSpeed)
-				camera.zoom -= cameraZoomSpeed;
-			else
-				camera.zoom -= zoomDiff;
-		}
+        //ZOOM
+        float zoomDiff = cameraPosZoom - camera.zoom;
+        if (cameraPosZoom > camera.zoom) {
+            if (zoomDiff > cameraZoomSpeed)
+                camera.zoom += cameraZoomSpeed;
+            else
+                camera.zoom += zoomDiff;
+        } else {
+            zoomDiff = Math.abs(zoomDiff);
+            if (zoomDiff > cameraZoomSpeed)
+                camera.zoom -= cameraZoomSpeed;
+            else
+                camera.zoom -= zoomDiff;
+        }
 
 //		Log.e("LevelMode.java", "cameraZoom = " + camera.zoom + " Target : " + cameraPosZoom);
 
 //		if(isFinished)
 //			Log.e("Tag", "mode " + mode + "SECOND Speed = " + cameraSpeedX + " " + cameraSpeedY + " CAMY = " + camera.position.y);
-	}
+    }
 
-	public void setCameraOnReset()
-	{
-		cameraPos.x = camera.position.x;
-		cameraPos.y = camera.position.y;
-		cameraPosZoom = camera.zoom;
-	}
+    public void setCameraOnReset() {
+        cameraPos.x = camera.position.x;
+        cameraPos.y = camera.position.y;
+        cameraPosZoom = camera.zoom;
+    }
 
-	public void runOnEnd()//isFinished == true & isCameraDone == False
-	{
-		LevelMode nextPart = levelManager.currentLevel.getNextPart();
-		if(nextPart == null)
-		{
-			isCameraDone = true;
-			return;
-		}
+    public void runOnEnd()//isFinished == true & isCameraDone == False
+    {
+        LevelMode nextPart = levelManager.currentLevel.getNextPart();
 
-		if(nextPart.mode == GameScene.LevelModeEnum.Cinematic)
-		{
-			isCameraDone = true;
-			isFinished = true;
-			return;
-		}
+        if (levelManager.levelType == LevelManager.LevelType.LINE) {
+            if (car.hitpoint <= 0) {
+                cameraPos.x = camera.position.x;
+                cameraPos.y = camera.position.y;
 
-		nextPart.setCamera(false);
+                cameraSpeedX = 1000;
+                cameraSpeedY = 1000;
+                cameraPosZoom = 3;
+                cameraZoomSpeed = 0.01f;
+            }
 
-		if(!isEndATTRSet)
-		{
-			float TIME = 1.5f;
+            if (Math.abs(cameraPos.x - camera.position.x) < 1 && Math.abs(cameraPos.y - camera.position.y) < 1) {
+                if (car.hitpoint <= 0) {
+                    if (Math.abs(camera.zoom - cameraPosZoom) < 0.01f)
+                        isCameraDone = true;
+                } else
+                    isCameraDone = true;
+            }
+
+            car.onStop();
+
+            return;
+        }
+
+        if (nextPart == null) {
+            isCameraDone = true;
+            return;
+        }
+
+        if (nextPart.mode == GameScene.LevelModeEnum.Cinematic) {
+            isCameraDone = true;
+            isFinished = true;
+            return;
+        }
+
+        nextPart.setCamera(false);
+
+        if (!isEndATTRSet) {
+            float TIME = 1.5f;
 
 
-			cameraPos.x = nextPart.cameraPos.x;
-			cameraPos.y = nextPart.cameraPos.y;
-			cameraPosZoom = nextPart.cameraPosZoom;
+            cameraPos.x = nextPart.cameraPos.x;
+            cameraPos.y = nextPart.cameraPos.y;
+            cameraPosZoom = nextPart.cameraPosZoom;
 
-			float deltaX = (cameraPos.x - camera.position.x);
-			float deltaY = (cameraPos.y - camera.position.y);
+            float deltaX = (cameraPos.x - camera.position.x);
+            float deltaY = (cameraPos.y - camera.position.y);
 //			Log.e("Tag", "Deltas = " + deltaX + " y = " + deltaY);
 
-			cameraSpeedX = Math.abs(cameraPos.x - camera.position.x) / TIME / 60f;
-			cameraSpeedY = Math.abs(cameraPos.y - camera.position.y) / TIME / 60f;
-			cameraZoomSpeed = Math.abs(camera.zoom - cameraPosZoom) / TIME / 60f;
+            cameraSpeedX = Math.abs(cameraPos.x - camera.position.x) / TIME / 60f;
+            cameraSpeedY = Math.abs(cameraPos.y - camera.position.y) / TIME / 60f;
+            cameraZoomSpeed = Math.abs(camera.zoom - cameraPosZoom) / TIME / 60f;
 
 //			Log.e("Tag", "sX = " + cameraSpeedX + " sY = " + cameraSpeedY);
 
 
-			if(car.hitpoint <= 0)
-			{
-				cameraPos.x = camera.position.x;
-				cameraPos.y = camera.position.y;
+            if (car.hitpoint <= 0) {
+                cameraPos.x = camera.position.x;
+                cameraPos.y = camera.position.y;
 
-				cameraSpeedX = 1000;
-				cameraSpeedY = 1000;
-				cameraPosZoom = 3;
-				cameraZoomSpeed = 0.01f;
-			}
+                cameraSpeedX = 1000;
+                cameraSpeedY = 1000;
+                cameraPosZoom = 3;
+                cameraZoomSpeed = 0.01f;
+                Log.e("LevelMode.java", "Doing Some Camera Zooming");
+            }
 
-			isEndATTRSet = true;
-		}
+            isEndATTRSet = true;
+        }
 
-		if(Math.abs(cameraPos.x - camera.position.x) < 1 && Math.abs(cameraPos.y - camera.position.y) < 1)
-		{
-			if(car.hitpoint <= 0)
-			{
-				if(Math.abs(camera.zoom - cameraPosZoom) < 0.01f)
-					isCameraDone = true;
-			}
-			else
-				isCameraDone = true;
-		}
+        if (Math.abs(cameraPos.x - camera.position.x) < 1 && Math.abs(cameraPos.y - camera.position.y) < 1) {
+            if (car.hitpoint <= 0) {
+                if (Math.abs(camera.zoom - cameraPosZoom) < 0.01f)
+                    isCameraDone = true;
+            } else
+                isCameraDone = true;
+        }
 
-		car.onStop();
-	}
+        car.onStop();
+    }
 }

@@ -13,6 +13,7 @@ import BaseLevel.Modes.ShootingMode;
 import Enemy.Bat;
 import Enemy.Bomb;
 import Enemy.BossBird;
+import Enemy.EnemyState.Coin;
 import Enemy.EnemyState.GreenTree;
 import Enemy.EnemyState.SmallStreetLight;
 import Enemy.EnemyState.StopSign;
@@ -270,6 +271,7 @@ public class EnemyFactory
 	public static String TRAFFIC_LIGHT  = "TRAFFIC_LIGHT";
 	public static String WATER_BOX      = "WATER_BOX";
 	public static String STOP_SIGN      = "STOP_SIGN";
+    public static String COIN      = "COIN";
 
 
 	public BaseEnemy getEnemy(String type, int level, ArrayList<String> attr)
@@ -410,6 +412,8 @@ public class EnemyFactory
 		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_YELLOW_TREE, 255, 333, 532, 535, 1, 2, NOT_ANIMATION);
 
 		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_STOP_SIGN, 921, 32, 1134, 268, 1, 2, NOT_ANIMATION);
+
+        DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_COIN, 533, 68, 583, 176, 2, 1, NOT_ANIMATION);
 	}
 
 //	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];
@@ -441,6 +445,7 @@ public class EnemyFactory
 	public static String ENEMY_DRIVING_TRAFFIC_LIGHT = "traffic light";
 	public static String ENEMY_DRIVING_WATER_BOX     = "water box";
 	public static String ENEMY_DRIVING_STOP_SIGN   = "stop sign";
+    public static String ENEMY_DRIVING_COIN   = "coin";
 
 	public static int NOT_ANIMATION = -1;
 	//for Spirtes and animations
@@ -544,6 +549,8 @@ public class EnemyFactory
 			return BaseEnemy.EnemyType.WaterBox;
 		if(type.equals(STOP_SIGN))
 			return BaseEnemy.EnemyType.StopSign;
+        if(type.equals(COIN))
+            return BaseEnemy.EnemyType.Coin;
 
 		return null;
 	}
@@ -582,6 +589,9 @@ public class EnemyFactory
 			case StopSign:
 				retEnemy = new StopSign(gameManager, enemies.size());
 				break;
+            case Coin:
+                retEnemy = new Coin(gameManager, enemies.size());
+                break;
 
 			case PIGEON:
 				retEnemy = new Pigeon(gameManager, enemies.size());

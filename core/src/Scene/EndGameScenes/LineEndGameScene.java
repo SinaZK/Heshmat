@@ -53,15 +53,15 @@ public class LineEndGameScene extends EndGameScene {
         showScoreButton.setRunnable(act, new Runnable() {
             @Override
             public void run() {
-                act.showLoopLeaderBoard();
+                act.showLineLeaderBoard();
             }
         });
 
-        final Entity waveEnt = new Entity(TextureHelper.loadTexture(add + "wave.png", disposeTextureArray));
+        final Entity distEnt = new Entity(TextureHelper.loadTexture(add + "dist.png", disposeTextureArray));
         final Entity coinEnt = new Entity(TextureHelper.loadTexture(add + "coin.png", disposeTextureArray));
         final Entity killEnt = new Entity(TextureHelper.loadTexture(add + "kill.png", disposeTextureArray));
 
-        waveEnt.setPosition(DX + 200, DY + 280);
+        distEnt.setPosition(DX + 200, DY + 280);
         coinEnt.setPosition(DX + 200, DY + 220);
         killEnt.setPosition(DX + 200, DY + 160);
 
@@ -73,7 +73,7 @@ public class LineEndGameScene extends EndGameScene {
         VideoButton videoButton = new VideoButton(act);
         videoButton.setPosition(DX + 50, DY + 20);
 
-        attachChild(waveEnt);
+        attachChild(distEnt);
         attachChild(videoButton);
         attachChild(showScoreButton);
 
@@ -98,7 +98,7 @@ public class LineEndGameScene extends EndGameScene {
     public void start(boolean isLevelFinished) {
         super.start(isLevelFinished);
 
-        act.submitLoopScore((int) act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave());
+        act.submitLineScore((int) calculateDist());
     }
 
     @Override
@@ -109,7 +109,7 @@ public class LineEndGameScene extends EndGameScene {
 
     @Override
     public void drawTexts() {
-        gameScene.font22.draw(getBatch(), "" + (int) act.levelPackageStatDatas[act.selectorStatData.selectedLevelPack].getEndlessStartingWave(), 460, 310);
+        gameScene.font22.draw(getBatch(), "" + (int) calculateDist(), 460, 310);
         gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.goldCollect, 460, 250);//gold
         gameScene.font22.draw(getBatch(), "" + gameScene.gameManager.enemyKilledCount, 460, 190);
     }

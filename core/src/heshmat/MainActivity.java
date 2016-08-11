@@ -19,8 +19,10 @@ import DataStore.PlayerStatData;
 import DataStore.SaveManager;
 import DataStore.SelectorStatData;
 import DataStore.SettingStatData;
+import GameScene.GameScene;
 import GameScene.StarManager;
 import GoogleServices.IGoogleServices;
+import Misc.Log;
 import NativeMusic.INativeMultimediaInterface;
 import PurchaseIAB.purchaseIAB;
 import SceneManager.SceneManager;
@@ -80,6 +82,8 @@ public class MainActivity extends ApplicationAdapter
 		sceneManager.run();
 
 		runMoney();//for changing showGold
+
+//        Log.e("MainActivity.java", "currentScene = " + sceneManager.currentScene);
 
 		handleAward();
 	}
@@ -366,8 +370,10 @@ public class MainActivity extends ApplicationAdapter
 	{
 		nativeMultimediaInterface.onPause();
 
-		if(sceneManager.currentScene == SceneManager.SCENES.GAME_SCENE)
-			sceneManager.gameScene.pause(true);
+		if(sceneManager.currentScene == SceneManager.SCENES.GAME_SCENE) {
+            if(sceneManager.gameScene.gameStat == GameScene.GAME_STAT.PLAY)
+                sceneManager.gameScene.pause(true);
+        }
 
 		super.pause();
 	}

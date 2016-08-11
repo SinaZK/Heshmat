@@ -11,57 +11,56 @@ import EnemyBase.DrivingModeEnemy;
 import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
-import Misc.Log;
 import Terrain.Terrain;
 
 /**
  * Created by sinazk on 7/4/16.
  * 06:54
  */
-public class WaterBox extends DrivingModeEnemy
+public class Coin extends DrivingModeEnemy
 {
-	public WaterBox(GameManager gameManager, int id)
+	public Coin(GameManager gameManager, int id)
 	{
 		super(gameManager, id);
 
-		enemyType = EnemyType.WaterBox;
+		enemyType = EnemyType.StreetLight;
 
-		load("gfx/enemy/driving/water_box/");
-		initFromAnimation(BodyStrings.DrivingEnemy, id, gameManager.enemyFactory.DrivingEnemiesSpriteSheet.getAnimation(EnemyFactory.ENEMY_DRIVING_WATER_BOX));
+		load("gfx/enemy/driving/coin/");
+		initFromAnimation(BodyStrings.DrivingEnemy, id, gameManager.enemyFactory.DrivingEnemiesSpriteSheet.getAnimation(EnemyFactory.ENEMY_DRIVING_COIN));
 	}
 
 	@Override
 	public void create(ShootingMode shootingMode, int level, ArrayList<String> attr)
 	{
 		super.create(shootingMode, level, attr);
-
+        toY = -1;
 	}
 
 	@Override
 	public void draw(Batch batch)
 	{
-		super.draw(batch);
+        if(currentState >= stateCount)
+            currentState = stateCount - 1;
+        states.get(currentState).drawWithoutHpBar(batch);
 	}
 
+    float toY;
 	@Override
 	public void run()
 	{
 		super.run();
 
         Terrain terrain = gameManager.levelManager.currentLevel.terrain;
-        if(terrain.getXof(x) == -1)
-            setBodyType(BodyDef.BodyType.StaticBody);
-        else
-            setBodyType(BodyDef.BodyType.DynamicBody);
+        if(terrain.getXof(x) == -1){}
+        else {
+            if(toY == -1) {
+                setPosition(x, y + terrain.points.get(terrain.getXof(x)).y + 50);
+                toY = 1;
+            }
+        }
 
 		if(currentState == 1)
 			isAttachedToGround = false;
-	}
-
-    @Override
-	public void attachToGround(float x)
-	{
-		setPosition(x);
 	}
 
 	@Override
@@ -69,5 +68,4 @@ public class WaterBox extends DrivingModeEnemy
 	{
 		super.hitByCar(contact, carData);
 	}
-
 }

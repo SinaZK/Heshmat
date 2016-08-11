@@ -56,6 +56,18 @@ public class EnemyState
 		gameManager.gameScene.font14.draw(batch, "" + parent.level, hpBarX, hpBarY);
 	}
 
+    public void drawWithoutHpBar(Batch batch)
+    {
+        if(isDestroyed)
+            return;
+
+        if(body != null)
+        {
+            body.getmSprite().get(0).setSize(width, height);
+            body.draw(batch);
+        }
+    }
+
 	public void run()
 	{
 		if(isDestroyed)
@@ -89,7 +101,6 @@ public class EnemyState
 			sprite);
 		body.setUserData(BodyStrings.ENEMY_STRING + " " + userData + " " + id);
 	}
-
 
 	public void setPosition(float x, float y)
 	{
@@ -125,6 +136,11 @@ public class EnemyState
 		isAttachedToGround = true;
 	}
 
+    public void setBodyType(BodyDef.BodyType bodyType)
+    {
+        body.getmBody().setType(bodyType);
+    }
+
 	public void detachFromGround()
 	{
 		if(!isAttachedToGround)
@@ -135,4 +151,6 @@ public class EnemyState
 		isAttachedToGround = false;
 		body.getmBody().setType(BodyDef.BodyType.DynamicBody);
 	}
+
+
 }

@@ -403,7 +403,7 @@ public abstract class BaseCar
 	{
 		float intence = gameScene.GSCM.getContactIntense(contact);
 
-		damage(intence);
+		damage(intence * gameManager.levelManager.currentLevel.carIntenseMult);
 //		Log.e("DrivingModeEn
 	}
 

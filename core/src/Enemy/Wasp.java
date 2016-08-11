@@ -66,7 +66,7 @@ public class Wasp extends BaseEnemy
         float originX = CameraHelper.getXMin(gameManager.gameScene.camera);
         float width  = SceneManager.WORLD_X * gameManager.gameScene.camera.zoom;
 
-        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.Points.getLast().y;
+        float groundHeight = enemyFactory.gameManager.levelManager.currentLevel.terrain.points.getLast().y;
         float myHeight = (float) (groundHeight + (Math.random() * 0.12 + 0.2) * SceneManager.WORLD_Y);
 
         setPosition(originX + width + 100, myHeight);

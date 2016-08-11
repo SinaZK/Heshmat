@@ -25,7 +25,6 @@ import GameScene.GameScene;
 import GameScene.LevelManager;
 import Misc.BodyStrings;
 import Misc.CameraHelper;
-import Misc.Log;
 import PhysicsFactory.PhysicsConstant;
 import PhysicsFactory.PhysicsFactory;
 import SceneManager.SceneManager;
@@ -44,6 +43,8 @@ public class Terrain
 	OrthographicCamera mCamera;
 	World mPhysicsWorld;
 
+    public TerrainControler terrainControler;
+
 	String address;
 
 	public static float rat = PhysicsConstant.PIXEL_TO_METER;
@@ -52,8 +53,8 @@ public class Terrain
 
 	public int removeSize = 300;
 
-	public LinkedList<Vector2> Points;
-	public LinkedList<TerrainPiece> Pieces;
+	public LinkedList<Vector2> points;
+	public LinkedList<TerrainPiece> pieces;
 
 	public Texture repeatingTextureRegion;
 	public Texture upTextureRegion;
@@ -90,9 +91,9 @@ public class Terrain
 
 	public int getXof(float x)
 	{
-		for (int i = 0; i < Points.size(); i++)
+		for (int i = 0; i < points.size(); i++)
 		{
-			if(Points.get(i).x >= x)
+			if(points.get(i).x >= x)
 				return i;
 		}
 
@@ -110,8 +111,8 @@ public class Terrain
 		mPhysicsWorld = gameScene.world;
 		address = add;
 
-		Points = new LinkedList<Vector2>();
-		Pieces = new LinkedList<TerrainPiece>();
+		points = new LinkedList<Vector2>();
+		pieces = new LinkedList<TerrainPiece>();
 
 		terrainLoader = new TerrainLoader(add + "map.terrain", true);
 
@@ -148,21 +149,22 @@ public class Terrain
 		wallBody = PhysicsFactory.createBoxBody(mPhysicsWorld, -100, 0, WALL_WIDTH, WALL_HEIGHT, BodyDef.BodyType.StaticBody);
 		wallBody.setUserData(BodyStrings.GroundString);
 
+        terrainControler = new TerrainControler(this);
 	}//Create
 
 	public void drawFirstLayer()//asli
 	{
-		for (int i = 0; i < Pieces.size(); i++)
+		for (int i = 0; i < pieces.size(); i++)
 		{
-			Pieces.get(i).drawFirst();
+			pieces.get(i).drawFirst();
 		}
 	}
 
 	public void drawSecondLayer()//grass
 	{
-		for (int i = 0; i < Pieces.size(); i++)
+		for (int i = 0; i < pieces.size(); i++)
 		{
-			Pieces.get(i).drawSecond();
+			pieces.get(i).drawSecond();
 		}
 	}
 
@@ -199,48 +201,27 @@ public class Terrain
 	public void moveBackWall()
 	{
 		int pieceID = 5;
-		float wX = Points.get(pieceID).x;
-		float wY = Points.get(pieceID).y;
+		float wX = points.get(pieceID).x;
+		float wY = points.get(pieceID).y;
 		wallBody.setTransform(wX / rat + WALL_WIDTH / 2 / rat, wY / rat + WALL_HEIGHT / 2 / rat, 0);
 	}
 
 	public void run()
 	{
-		moveBackWall();
-//		Log.e("Terrain.java", "STAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAART");
-//		Log.e("Terrain.java", "SIZE = " + Pieces.size() + " : ");
-//		Log.e("Terrain.java", "first = " + Points.get(0));
-//		Log.e("Terrain.java", " Last = " + Points.getLast());
-//		Log.e("Terrain.java", "END");
-//		Log.e("Terrain.java", "");
 		float lastVisible = CameraHelper.getXMax(mCamera, mCamera.zoom * 1.5f);
 
-		while (lastVisible >= Points.getLast().x)
+		while (lastVisible >= points.getLast().x)
 		{
-			if(gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving)
-			{
-				if(!handleTheLastPartOfDrivingMode())
-				{
-					Vector2 prevPoint = Points.get(Points.size() - 2);
-					Vector2 lastPoint = Points.getLast();
-					float slope = prevPoint.angle(lastPoint);
-
-					float height = getHeight((int) ((int) lastPoint.x / xSize + 1));
-					Points.add(new Vector2(lastPoint.x + xSize, height));
-
-					addLastPiece();
-				}
-			}
-			else
-			{
-				Vector2 lastPoint = Points.getLast();
-				Points.add(new Vector2(lastPoint.x + xSize, lastPoint.y));
-				addLastPiece();
-			}
+            if(terrainControler.wantHandle())
+                terrainControler.run();
+            else
+                traditionalTerrainMaking();
 		}
 
-		while (Points.size() > removeSize)
+		while (points.size() > removeSize)
 			removeFirstPiece();
+
+        moveBackWall();
 	}
 
 	public static float sightArea = 500;
@@ -248,10 +229,10 @@ public class Terrain
 	{
 		DrivingMode drivingMode = (DrivingMode) level.getCurrentPart();
 
-		Vector2 lastPoint = Points.getLast();
+		Vector2 lastPoint = points.getLast();
 		if(lastPoint.x + sightArea > drivingMode.getEndDistance())
 		{
-			Points.add(new Vector2(lastPoint.x + xSize, lastPoint.y));
+			points.add(new Vector2(lastPoint.x + xSize, lastPoint.y));
 			addLastPiece();
 
 			return true;
@@ -260,49 +241,76 @@ public class Terrain
 		return false;
 	}
 
+    public void traditionalTerrainMaking()
+    {
+        if (gameManager.levelManager.levelModeEnum == GameScene.LevelModeEnum.Driving) {
+            if (!handleTheLastPartOfDrivingMode()) {
+                makeLastPoint();
+                addLastPiece();
+            }
+        } else {
+            makeLastPointWithSameHeight();
+            addLastPiece();
+        }
+    }
+
 	public void addFirstPiece()
 	{
-		float x1 = Points.get(0).x;
-		float y1 = Points.get(0).y;
+		float x1 = points.get(0).x;
+		float y1 = points.get(0).y;
 
-		float x2 = Points.get(1).x;
-		float y2 = Points.get(1).y;
+		float x2 = points.get(1).x;
+		float y2 = points.get(1).y;
 
-		Pieces.addFirst(new TerrainPiece(act, this, mPhysicsWorld));
-		Pieces.getFirst().create(x1, y1, x2, y2);
+		pieces.addFirst(new TerrainPiece(act, this, mPhysicsWorld));
+		pieces.getFirst().create(x1, y1, x2, y2);
 	}
 
 	public void removeFirstPiece()
 	{
-		Points.removeFirst();
-		Pieces.getFirst().dispose(true);
-		Pieces.removeFirst();
+		points.removeFirst();
+		pieces.getFirst().dispose(true);
+		pieces.removeFirst();
 	}
+
+    public void makeLastPointWithSameHeight()
+    {
+        Vector2 lastPoint = points.getLast();
+        points.add(new Vector2(lastPoint.x + xSize, lastPoint.y));
+    }
+
+    public void makeLastPoint()
+    {
+        Vector2 lastPoint = points.getLast();
+
+        float height = getHeight((int) ((int) lastPoint.x / xSize + 1));
+        points.add(new Vector2(lastPoint.x + xSize, height));
+    }
 
 	public int ct = 0;
 
 	public void addLastPiece()
 	{
-		int sz = Points.size();
+		int sz = points.size();
 
-		float x1 = Points.get(sz - 2).x;
-		float y1 = Points.get(sz - 2).y;
+		float x1 = points.get(sz - 2).x;
+		float y1 = points.get(sz - 2).y;
 
-		float x2 = Points.get(sz - 1).x;
-		float y2 = Points.get(sz - 1).y;
+		float x2 = points.get(sz - 1).x;
+		float y2 = points.get(sz - 1).y;
 
 		if(x2 - x1 != xSize)
 			return;
 
-		Pieces.addLast(new TerrainPiece(act, this, mPhysicsWorld));
-		Pieces.getLast().create(x1, y1, x2, y2);
+		pieces.addLast(new TerrainPiece(act, this, mPhysicsWorld));
+		pieces.getLast().create(x1, y1, x2, y2);
 	}
 
 	public void removeLastPiece()
 	{
-		Points.removeLast();
-		Pieces.getLast().dispose(true);
-		Pieces.removeLast();
+		points.removeLast();
+		pieces.getLast().dispose(true);
+		pieces.removeLast();
 	}
 
 	void createFirstTerrain()
@@ -314,14 +322,14 @@ public class Terrain
 		for (int i = 0; i < 2; i++)
 		{
 			firstX += xSize;
-			Points.addLast(new Vector2(firstX, getHeight(0)));
+			points.addLast(new Vector2(firstX, getHeight(0)));
 
 		}
 
 		for (int i = 0; i < firstNum; i++)
 		{
 			firstX += xSize;
-			Points.addLast(new Vector2(firstX, getHeight(0)));
+			points.addLast(new Vector2(firstX, getHeight(0)));
 			addLastPiece();
 		}
 	}
@@ -453,9 +461,9 @@ public class Terrain
 
 	public int getIndexOfX(float x)
 	{
-		for(int i = 0;i < Points.size() - 1;i++)
+		for(int i = 0; i < points.size() - 1; i++)
 		{
-			if(x >= Points.get(i).x && x <= Points.get(i + 1).x)
+			if(x >= points.get(i).x && x <= points.get(i + 1).x)
 				return i;
 		}
 
@@ -471,11 +479,11 @@ public class Terrain
 
 	public void restart()
 	{
-		for (int i = 0; i < Pieces.size(); i++)
-			Pieces.get(i).dispose(true);
+		for (int i = 0; i < pieces.size(); i++)
+			pieces.get(i).dispose(true);
 
-		Pieces.clear();
-		Points.clear();
+		pieces.clear();
+		points.clear();
 
 		createFirstTerrain();
 	}

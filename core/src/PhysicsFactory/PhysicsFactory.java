@@ -177,7 +177,7 @@ public class PhysicsFactory
 	
 	public static Body createBoxBody(final World world, float x, float y, float w, float h, BodyType bodyType)
 	{
-		return createBoxBody(world, x, y, w, h, bodyType, createFixtureDef(0.1f, 0.3f, 1));
+		return createBoxBody(world, x, y, w, h, bodyType, createFixtureDef(0.01f, 0.3f, 1));
 	}
 	
 	public static Body createBoxBody(final World world, float x, float y, float w, float h, BodyType bodyType, float density, float elasticy,
