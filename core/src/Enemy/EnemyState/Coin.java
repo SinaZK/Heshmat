@@ -11,6 +11,7 @@ import EnemyBase.DrivingModeEnemy;
 import EnemyBase.EnemyFactory;
 import GameScene.GameManager;
 import Misc.BodyStrings;
+import Misc.Log;
 import Terrain.Terrain;
 
 /**
@@ -39,12 +40,27 @@ public class Coin extends DrivingModeEnemy
 	@Override
 	public void draw(Batch batch)
 	{
+		float tmpY = y;
+
+		y = y + dY;
+
+		if(toY != -1)
+			setPosition(x, y);
+
         if(currentState >= stateCount)
             currentState = stateCount - 1;
         states.get(currentState).drawWithoutHpBar(batch);
+
+
+		y = tmpY;
 	}
 
     float toY;
+
+	float dY = 0;
+	float dYSpeed = 0.1f;
+	float topY = 1;
+	float bottomY = -1;
 	@Override
 	public void run()
 	{
@@ -54,13 +70,27 @@ public class Coin extends DrivingModeEnemy
         if(terrain.getXof(x) == -1){}
         else {
             if(toY == -1) {
-                setPosition(x, y + terrain.points.get(terrain.getXof(x)).y + 50);
+                setPosition(x, y + terrain.points.get(terrain.getXof(x)).y + 60);
                 toY = 1;
             }
         }
 
 		if(currentState == 1)
 			isAttachedToGround = false;
+
+		moveCoinAnimation();
+	}
+
+	private void moveCoinAnimation()
+	{
+//		Log.e("Coin.java", "dY = " + dY);
+		dY += dYSpeed;
+
+		if(dY >= topY)
+			dYSpeed = -Math.abs(dYSpeed);
+
+		if(dY <= bottomY)
+			dYSpeed = Math.abs(dYSpeed);
 	}
 
 	@Override

@@ -34,7 +34,7 @@ public class SceneManager
 	public static int WORLD_Y = 480;
 
     public static int LINE_STARS = 0;
-	public static int LOOP_STARS = 0;
+	public static int LOOP_STARS = 12;
 	public static int VideoAward = 500;
 
 	public static int LVL_PACK_MAX_NUM = 2;

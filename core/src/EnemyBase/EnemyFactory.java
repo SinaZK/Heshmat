@@ -413,7 +413,7 @@ public class EnemyFactory
 
 		DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_STOP_SIGN, 921, 32, 1134, 268, 1, 2, NOT_ANIMATION);
 
-        DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_COIN, 533, 68, 583, 176, 2, 1, NOT_ANIMATION);
+        DrivingEnemiesSpriteSheet.addAnimation(ENEMY_DRIVING_COIN, 534, 67, 585, 165, 2, 1, NOT_ANIMATION);
 	}
 
 //	public Sprite[] infoCards = new Sprite[SceneManager.ENEMY_NUM + 1];

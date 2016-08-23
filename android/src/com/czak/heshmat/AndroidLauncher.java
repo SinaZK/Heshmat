@@ -137,29 +137,6 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 	}
 
 	@Override
-	public void submitScore(int wave)
-	{
-		if(isSignedIn() == true)
-		{
-			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
-					getString(R.string.leaderboard_wave), wave);
-		}
-	}
-
-	@Override
-	public void showWaveScores()
-	{
-		if(isSignedIn() == true)
-		{
-			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
-					getString(R.string.leaderboard_wave)), requestCode);
-		} else
-		{
-			signIn();
-		}
-
-	}
-	@Override
 	public void rateGame()
 	{
 		String str = "";
@@ -193,10 +170,6 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 		}
 	}
 
-	@Override
-	public void showTerrainScore(int terrainID)
-	{
-	}
 
 	@Override
 	public boolean isSignedIn()
@@ -205,9 +178,62 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 	}
 
 	@Override
-	public boolean isHaveLuckyPatcher()
+	public void showAllLeaderBoards()
 	{
-		return false;
+		if(isSignedIn() == true)
+		{
+			startActivityForResult(Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient()), requestCode);
+		} else
+		{
+			signIn();
+		}
+	}
+
+	@Override
+	public void submitLoopScore(int wave)
+	{
+		if(isSignedIn() == true)
+		{
+			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+					getString(R.string.leaderboard_wave), wave);
+		}
+	}
+
+	@Override
+	public void showLoopScore()
+	{
+		if(isSignedIn() == true)
+		{
+			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
+					getString(R.string.leaderboard_wave)), requestCode);
+		} else
+		{
+			signIn();
+		}
+
+	}
+
+	@Override
+	public void submitLineScore(int distance)
+	{
+		if(isSignedIn() == true)
+		{
+			Games.Leaderboards.submitScore(gameHelper.getApiClient(),
+					getString(R.string.leaderboard_line), distance);
+		}
+	}
+
+	@Override
+	public void showLineScore()
+	{
+		if(isSignedIn() == true)
+		{
+			startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(),
+					getString(R.string.leaderboard_line)), requestCode);
+		} else
+		{
+			signIn();
+		}
 	}
 
 	@Override
@@ -253,51 +279,11 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 
 	}
 
-	@Override
-	public void enableAds()
-	{
-		Adad.enableBannerAds();
-	}
-
-	@Override
-	public void changeLayoutToGDX()
-	{
-//		 sTODO Auto-generated method stub
-	}
-
-	@Override
-	public void changeLayoutToRawAndroid()
-	{
-		// sTODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void showTapsell()
-	{
-		// sTODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void tapSellGivenPurchaseFlowDone()
-	{
-		// sTODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean tapSellIsSthPurchased()
-	{
-		// sTODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int tapSellGetPurchasedID()
-	{
-		return 0;
-	}
+//	@Override
+//	public void enableAds()
+//	{
+//		Adad.enableBannerAds();
+//	}
 
 	boolean isTapsellHaveVDO = false;
 
@@ -316,7 +302,7 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 			DeveloperInterface.getInstance(getContext())
 					.showNewVideo(this,
 							DeveloperInterface.TAPSELL_DIRECT_ADD_REQUEST_CODE,
-						DeveloperInterface.DEFAULT_MIN_AWARD,
+							DeveloperInterface.DEFAULT_MIN_AWARD,
 							DeveloperInterface.VideoPlay_TYPE_NON_SKIPPABLE);
 
 		} catch (Exception e)
@@ -324,11 +310,6 @@ public class AndroidLauncher extends AndroidApplication implements IGoogleServic
 			e.printStackTrace();
 		}
 		isTapsellHaveVDO = false;
-	}
-
-	@Override
-	public void loadVDO()
-	{
 	}
 
 	public void initTapsellVideo()

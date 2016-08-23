@@ -12,4 +12,5 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="achievement_wave_50">CgkIgLbu37YWEAIQBQ</string>
     <string name="achievement_wave_80">CgkIgLbu37YWEAIQBg</string>
     <string name="leaderboard_wave">CgkIgLbu37YWEAIQCA</string>
+    <string name="leaderboard_line">CgkIgLbu37YWEAIQCw</string>
 </resources>

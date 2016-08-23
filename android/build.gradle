@@ -1,6 +1,6 @@
 android {
     buildToolsVersion "23.0.2"
-    compileSdkVersion 22
+    compileSdkVersion 23
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -130,7 +130,7 @@ dependencies {
     compile files('libs/adad-client-3.1.jar')
     compile files('libs/nivad-billing-library-0.1.2.jar')
 
-//    compile 'com.google.android.gms:play-services-games:8.4.0'
+    compile 'com.google.android.gms:play-services-games:8.4.0'
     // 8.4 is the latest as of now, keep it updated
-//    compile project(':BaseGameUtils')
+    compile project(':BaseGameUtils')
 }

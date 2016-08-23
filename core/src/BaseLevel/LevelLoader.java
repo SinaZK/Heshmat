@@ -87,6 +87,9 @@ public class LevelLoader
 						while (true)
 						{
 							read = dis.readLine();
+
+//							Log.e("LevelLoader.java", "Read = " + read);
+
 							if(read.equals(EOF))
 								break;
 
