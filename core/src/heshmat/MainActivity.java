@@ -62,7 +62,7 @@ public class MainActivity extends ApplicationAdapter
 		starManager = new StarManager(this);
 
 		sceneManager = new SceneManager(this, purchaseHelper);
-		sceneManager.setCurrentScene(SceneManager.SCENES.SPLASH, null);
+		sceneManager.setCurrentScene(SceneManager.SCENES.LEVEL_PACKAGE_SELECTOR, null);
 
 		createShowGold();
 		audioManager.playBgMusic();

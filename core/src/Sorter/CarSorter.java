@@ -10,6 +10,7 @@ import BaseCar.CarLoader;
 import Cars.ArmorCar;
 import Cars.DenaCar;
 import Cars.PeykanOffroad;
+import Cars.Tank.Tank;
 import Cars.Toyota;
 import Cars.Train;
 import Cars.Truck;
@@ -34,6 +35,10 @@ public class CarSorter
 					3,//  Peykan
 					4,//  Truck
 					5,//  Armor Car
+
+					6,//  TaxiVan
+					7,//  MiniBus
+					8,//  Tank
 
 
 			};
@@ -89,6 +94,13 @@ public class CarSorter
 				carA.load("gfx/car/5/car.car", gameManager, world, disposeTextureArray);
 				carA.loadCarSound("sfx/car/5.ogg");
 				retCar = carA;
+				break;
+
+			case 8:
+				Tank tank = new Tank(gameManager, carStatData);
+				tank.load("gfx/car/8/car.car", gameManager, world, disposeTextureArray);
+				tank.loadCarSound("sfx/car/5.ogg");
+				retCar = tank;
 				break;
 		}
 

@@ -185,6 +185,11 @@ public class CzakBody
 		mBody.setUserData(s);
 	}
 
+	public Object getUserData()
+	{
+		return mBody.getUserData();
+	}
+
 	public Body getmBody() {
 		return mBody;
 	}

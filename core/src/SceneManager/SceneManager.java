@@ -43,7 +43,7 @@ public class SceneManager
 	public static int GUN_MAX_NUM = 6;
 
 	public static int LVL_PACK_NUM = 2;
-	public static int CAR_NUM = 5;
+	public static int CAR_NUM = 8;
 	public static int GUN_SLOT_NUM = 1;
 	public static int GUN_NUM = 6;
 	public static int ENEMY_NUM = 12;

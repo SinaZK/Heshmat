@@ -43,6 +43,7 @@ public class SizakBodyLoader
 	public static String BodyTypeStaticString = "static";
 	public static String CircleBody = "circle";
 	public static String PolygonBody = "polygon";
+	public static String BoxBody = "box";
 	public static String JointTagString = "joint";
 	public static String WeldJointString = "weld";
 	public static String WheelJointString = "wheel";
@@ -89,6 +90,13 @@ public class SizakBodyLoader
 					if(BodyStrings.getPartOf(read, 3).equals(CircleBody))
 					{
 						newBody = createCzakCircleBody(newBody, world, BodyDef.BodyType.DynamicBody, fixtureDef, dis, imgAdd, disposableArray);
+						newBody.setUserData(newBody.bodyName);
+						retBody.addBody(newBody);
+					}
+
+					if(BodyStrings.getPartOf(read, 3).equals(BoxBody))
+					{
+						newBody = createCzakBoxBody(newBody, world, BodyDef.BodyType.DynamicBody, fixtureDef, dis, imgAdd, disposableArray);
 						newBody.setUserData(newBody.bodyName);
 						retBody.addBody(newBody);
 					}
@@ -222,6 +230,31 @@ public class SizakBodyLoader
 			newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
 
 		newBody.resizeImages(radius * 2, radius * 2);
+
+		return newBody;
+	}
+
+	public static CzakBody createCzakBoxBody(CzakBody newBody, World world, BodyDef.BodyType bodyType, FixtureDef fixtureDef,
+												BufferedReader dis, String imgAdd, ArrayList<Texture> disposableArray) throws  IOException
+	{
+		String input = dis.readLine();
+		float cX = Float.valueOf(BodyStrings.getPartOf(input, 0));
+		float cY = Float.valueOf(BodyStrings.getPartOf(input, 1));
+		input = dis.readLine();
+
+
+		float width = Float.valueOf(BodyStrings.getPartOf(input, 0));
+		float height = Float.valueOf(BodyStrings.getPartOf(input, 1));
+		float teta = Float.valueOf(BodyStrings.getPartOf(input, 2));
+
+		Body boxBody = PhysicsFactory.createBoxBody(world, cX, cY, width, height, teta, bodyType, fixtureDef, PhysicsConstant.PIXEL_TO_METER);
+//		Body circleBody = PhysicsFactory.createCircleBody(world, cX, cY, radius, bodyType, fixtureDef);
+
+		newBody.setBody(boxBody);
+		if(!imgAdd.equals("NULL"))
+			newBody.addSprite(new Sprite(TextureHelper.loadTexture(imgAdd, disposableArray)));
+
+		newBody.resizeImages(width, height);
 
 		return newBody;
 	}

@@ -58,6 +58,8 @@ public class NormalCar extends BaseCar
 	{
 		for (int i = 0; i < wheelNum; i++)
 		{
+			if(wheelJoints[i] == null)
+				continue;
 			if(isWheelDrive[i])
 			{
 				wheelJoints[i].enableMotor(true);
@@ -73,6 +75,9 @@ public class NormalCar extends BaseCar
 	{
 		for (int i = 0; i < wheelNum; i++)
 		{
+			if(wheelJoints[i] == null)
+				continue;
+
 			wheelJoints[i].enableMotor(true);
 			wheelJoints[i].setMotorSpeed(0);
 			wheelJoints[i].setMaxMotorTorque(20);
@@ -86,7 +91,8 @@ public class NormalCar extends BaseCar
 	{
 		for (int i = 0; i < wheelNum; i++)
 			if(isWheelDrive[i])
-				wheelJoints[i].enableMotor(false);
+				if(wheelJoints[i] != null)
+					wheelJoints[i].enableMotor(false);
 	}
 
 	@Override

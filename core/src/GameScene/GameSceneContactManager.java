@@ -125,6 +125,14 @@ public class GameSceneContactManager
 				String s1 = (String)contact.getFixtureA().getBody().getUserData();
 				String s2 = (String)contact.getFixtureB().getBody().getUserData();
 
+				if(BodyStrings.isCar(s1) && BodyStrings.isCar(s2))
+					contact.setEnabled(false);
+
+				if(BodyStrings.isCar(s1) && BodyStrings.isGround(s2))
+					gameManager.selectedCar.hitByGroundPreSolve(contact, contact.getFixtureA(), contact.getFixtureB(), s1);
+				if(BodyStrings.isCar(s2) && BodyStrings.isGround(s1))
+					gameManager.selectedCar.hitByGroundPreSolve(contact, contact.getFixtureB(), contact.getFixtureA(), s2);
+
 				if(BodyStrings.isEnemy(s1) && BodyStrings.isEnemy(s2))
 				{
 					if(BodyStrings.isShootingEnemy(s1) && BodyStrings.isShootingEnemy(s2))

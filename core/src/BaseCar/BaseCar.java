@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
 
 import java.util.ArrayList;
@@ -308,7 +309,7 @@ public abstract class BaseCar
 		carSound.dispose();
 	}
 
-	boolean isLabeled = false;
+	public boolean isLabeled = false;
 
 	public void label()
 	{
@@ -370,6 +371,8 @@ public abstract class BaseCar
 		if(isEnd)
 			contactManagerWheelCollisionCount--;
 	}
+
+	public void hitByGroundPreSolve(Contact contact, Fixture groundFixture, Fixture carFixture, String carFixtureString){}
 
 	public float airCounter = 0;
 	float AirLimitTime = 0.1f;
