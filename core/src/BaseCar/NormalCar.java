@@ -181,6 +181,10 @@ public class NormalCar extends BaseCar
 
 		{
 			int i = wheelNum - 1;
+
+			if(i < 0)
+				return;
+
 			wheelJoints[i].enableMotor(true);
 			wheelJoints[i].setMaxMotorTorque(5);
 			wheelJoints[i].setMotorSpeed(0);

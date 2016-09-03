@@ -26,7 +26,7 @@ public class DesktopLauncher {
 //		config.width = 960;
 //		config.height = 540;
 		
-//		config.width = 1600;config.height = 900;
+		config.width = 1600;config.height = 900;
 		
 //		config.width = 320;
 //		config.height = 240;

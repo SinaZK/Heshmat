@@ -45,7 +45,7 @@ public class LineLevel extends BaseLevel {
         super.start();
 
         carIntenseMult = 3;
-        random = new Random(300);
+        random = new Random();
 
         objectManager = new ObjectManager(gameManager.gameScene, gameManager.gameScene.world, terrain);
         terrainControler = terrain.terrainControler;
@@ -218,6 +218,6 @@ public class LineLevel extends BaseLevel {
         coinInitNum = CoinMinRowSize;
 
         objectManager.restart();
-        random = new Random(300);
+        random = new Random();
     }
 }

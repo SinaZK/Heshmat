@@ -38,7 +38,7 @@ import Sorter.CarSorter;
 
 public class GameScene extends BaseScene
 {
-	public static boolean isDebugRender = true;
+	public static boolean isDebugRender = false;
 	public static boolean isUsefulDebugLog = true;
 
 	public SceneManager mSceneManager;

@@ -250,7 +250,7 @@ public abstract class BaseCar
 		return getSpeedInMeter() * PhysicsConstant.PIXEL_TO_METER;
 	}
 
-	boolean shouldStop;
+	public boolean shouldStop;
 
 	public void stop()
 	{
