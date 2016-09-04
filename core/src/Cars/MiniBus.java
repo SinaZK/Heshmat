@@ -2,6 +2,7 @@ package Cars;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 
@@ -10,6 +11,7 @@ import BaseCar.NormalCar;
 import DataStore.CarStatData;
 import Entity.AnimatedSpriteSheet;
 import GameScene.GameManager;
+import Misc.Log;
 import Misc.TextureHelper;
 import Physics.CzakBody;
 
@@ -25,6 +27,7 @@ public class MiniBus extends NormalCar
 		super(gm, carStatData);
 	}
 
+	boolean isReset = false;
 	Sprite layerSprite;
 	@Override
 	public void create()
@@ -39,9 +42,14 @@ public class MiniBus extends NormalCar
 
 
 		createPassengers();
-		createAttachedParts();
 
 		super.create();
+
+		partSheet = new AnimatedSpriteSheet("gfx/car/7/misc.png", gameScene.disposeTextureArray);
+
+		partSheet.addAnimation("door", 156, 5, 266, 220, 1, 1, -1);
+		partSheet.addAnimation("light", 295, 7, 312, 94, 2, 1, -1);
+		createAttachedParts();
 	}
 
 	@Override
@@ -59,15 +67,10 @@ public class MiniBus extends NormalCar
 			attachParts.get(i).draw(batch);
 	}
 
-	AnimatedSpriteSheet partSheet;
+	AnimatedSpriteSheet partSheet, partSheet2;
 	AttachPart doorPart, lightPart;
 	public void createAttachedParts()
 	{
-		partSheet = new AnimatedSpriteSheet("gfx/car/7/misc.png", gameScene.disposeTextureArray);
-
-		partSheet.addAnimation("door", 156, 5, 266, 220, 1, 1, -1);
-		partSheet.addAnimation("light", 295, 7, 312, 94, 2, 1, -1);
-
 		lightPart = new AttachPart(this);
 		lightPart.create(340, -83, 17, 43, 0, true);
 		lightPart.addSprite(partSheet.getAnimation("light").sprites[0], true);
@@ -79,16 +82,23 @@ public class MiniBus extends NormalCar
 		doorPart = new AttachPart(this);
 		doorPart.create(70, -23, 113, 218, 0, true);
 		doorPart.addSprite(partSheet.getAnimation("door").sprites[0], true);
-		doorPart.setPercent(5, 30);
+		doorPart.setPercent(5, 40);
 		attachParts.add(doorPart);
 	}
 
 	@Override
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
+		if(body.getBodyByName("mainBody").getmBody().getType() == BodyDef.BodyType.DynamicBody)
+			if(isReset)
+			{
+				isReset = false;
+
+				clearAttachParts();
+				createAttachedParts();
+			}
 
 		super.run(isGas, isBrake, rate);
-
 	}
 
 	@Override
@@ -96,10 +106,7 @@ public class MiniBus extends NormalCar
 	{
 		super.reset();
 
-		for(int i = 0;i < attachParts.size();i++)
-			attachParts.get(i).reset();
-
-
+		isReset = true;
 	}
 
 	@Override
@@ -116,8 +123,6 @@ public class MiniBus extends NormalCar
 			CzakBody mainBody = body.getBodyByName("pmb" + i);
 			body.addBodyWithWeld(mainBody, "mainBody", gameScene.world);
 			setLimitForJoint("pr" + i, -10, 20, false);
-
-			
 		}
 
 	}

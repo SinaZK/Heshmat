@@ -190,4 +190,12 @@ public class NormalCar extends BaseCar
 			wheelJoints[i].setMotorSpeed(0);
 		}
 	}
+
+	public void clearAttachParts()
+	{
+
+		for(int i = 0;i < attachParts.size();i++)
+			gameScene.world.destroyBody(attachParts.get(i).body.getmBody());
+		attachParts.clear();
+	}
 }

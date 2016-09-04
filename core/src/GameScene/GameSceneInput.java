@@ -34,6 +34,14 @@ public class GameSceneInput implements InputProcessor
 			if(doAbleKeys.get(i) == keycode)
 				isKeypressed.set(i, true);
 
+		if(keycode == Input.Keys.T)
+		{
+			if(mScene.gameManager.selectedCar != null)
+			{
+				mScene.gameManager.selectedCar.damage(500);
+			}
+		}
+
 		return false;
 	}
 

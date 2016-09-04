@@ -39,6 +39,8 @@ public class Tank extends NormalCar
 		super(gm, carStatData);
 	}
 
+	boolean isReset = false;
+
 	Sprite testSprite;
 	float chainWidth = 23;
 	float offset = 0;
@@ -125,6 +127,12 @@ public class Tank extends NormalCar
 	{
 		super.create();
 
+		partSheet = new AnimatedSpriteSheet("gfx/car/8/misc.png", gameScene.disposeTextureArray);
+		partSheet.addAnimation("gunSprite", 0, 27, 349, 98, 2, 1, -1);
+		partSheet.addAnimation("part1", 407, 176, 524, 249, 1, 3, -1);
+		partSheet.addAnimation("part2", 475, 5, 553, 75, 1, 3, -1);
+		partSheet.addAnimation("part3", 398, 0, 458, 78, 1, 3, -1);
+		partSheet.addAnimation("part4", 410, 104, 526, 161, 1, 3, -1);
 		addParts();
 		chainSpriteTexture = TextureHelper.loadTexture("gfx/car/8/chain.png", gameScene.disposeTextureArray);
 
@@ -162,12 +170,8 @@ public class Tank extends NormalCar
 
 	public void addParts()
 	{
-		partSheet = new AnimatedSpriteSheet("gfx/car/8/misc.png", gameScene.disposeTextureArray);
-
-		partSheet.addAnimation("gunSprite", 0, 27, 349, 98, 2, 1, -1);
 		body.getBodyByName("gunBody").addSprite(partSheet.getAnimation("gunSprite").sprites[0]);
 
-		partSheet.addAnimation("part1", 407, 176, 524, 249, 1, 3, -1);
 		part1 = new AttachPart(this);
 		part1.create(-320, 35, 38, 77, 0, true);
 		part1.addSprite(partSheet.getAnimation("part1").sprites[0], true);
@@ -175,7 +179,7 @@ public class Tank extends NormalCar
 		part1.setPercent(30, 10);
 		attachParts.add(part1);
 
-		partSheet.addAnimation("part2", 475, 5, 553, 75, 1, 3, -1);
+
 		part2 = new AttachPart(this);
 		part2.create(-230, 158, 26, 73, 0, true);
 		part2.addSprite(partSheet.getAnimation("part2").sprites[0], true);
@@ -183,7 +187,6 @@ public class Tank extends NormalCar
 		part2.setPercent(50, 30);
 		attachParts.add(part2);
 
-		partSheet.addAnimation("part3", 398, 0, 458, 78, 1, 3, -1);
 		part3 = new AttachPart(this);
 		part3.create(-208, 170, 20, 78, 0, true);
 		part3.addSprite(partSheet.getAnimation("part3").sprites[0], true);
@@ -191,7 +194,6 @@ public class Tank extends NormalCar
 		part3.setPercent(80, 50);
 		attachParts.add(part3);
 
-		partSheet.addAnimation("part4", 410, 104, 526, 161, 1, 3, -1);
 		part4 = new AttachPart(this);
 		part4.create(361, 1, 38, 58, 0, true);
 		part4.addSprite(partSheet.getAnimation("part4").sprites[0], true);
@@ -452,8 +454,7 @@ public class Tank extends NormalCar
 	{
 		super.reset();
 
-		for (int i = 0; i < attachParts.size(); i++)
-			attachParts.get(i).reset();
+		isReset = true;
 	}
 
 	@Override
@@ -493,7 +494,16 @@ public class Tank extends NormalCar
 	@Override
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
-//		Log.e("Tank.java", "Speed = " + getSpeedInMeter());
+		if(body.getBodyByName("mainBody").getmBody().getType() == BodyDef.BodyType.DynamicBody)
+			if(isReset)
+			{
+				isReset = false;
+
+				clearAttachParts();
+				addParts();
+			}
+
+
 		super.run(isGas, isBrake, rate);
 	}
 }

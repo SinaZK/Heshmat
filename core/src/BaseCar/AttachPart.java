@@ -18,7 +18,7 @@ import PhysicsFactory.PhysicsFactory;
 public class AttachPart
 {
 	NormalCar car;
-	CzakBody body;
+	public CzakBody body;
 
 	float dX, dY;
 	boolean isAttachedAtFirst;

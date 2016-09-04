@@ -2,6 +2,7 @@ package Cars;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 
 import BaseCar.AttachPart;
@@ -23,6 +24,7 @@ public class VanTaxi extends NormalCar
 		super(gm, carStatData);
 	}
 
+	boolean isReset = false;
 	Sprite layerSprite;
 	@Override
 	public void create()
@@ -35,6 +37,10 @@ public class VanTaxi extends NormalCar
 		body.bodies.get(0).addSprite(layerSprite);
 		body.bodies.get(0).addSprite(tmp);
 
+
+		partSheet = new AnimatedSpriteSheet("gfx/car/6/misc.png", gameScene.disposeTextureArray);
+		partSheet.addAnimation("light", 226, 16, 319, 64, 1, 2, -1);
+		partSheet.addAnimation("door", 23, 11, 173, 207, 1, 1, -1);
 		createAttachedParts();
 
 		super.create();
@@ -59,11 +65,6 @@ public class VanTaxi extends NormalCar
 	AttachPart doorPart, lightPart;
 	public void createAttachedParts()
 	{
-		partSheet = new AnimatedSpriteSheet("gfx/car/6/misc.png", gameScene.disposeTextureArray);
-
-		partSheet.addAnimation("light", 226, 16, 319, 64, 1, 2, -1);
-		partSheet.addAnimation("door", 23, 11, 173, 207, 1, 1, -1);
-
 		lightPart = new AttachPart(this);
 		lightPart.create(285, -18, 43, 49, 0, true);
 		lightPart.addSprite(partSheet.getAnimation("light").sprites[0], true);
@@ -83,6 +84,15 @@ public class VanTaxi extends NormalCar
 	public void run(boolean isGas, boolean isBrake, float rate)
 	{
 
+		if(body.getBodyByName("mainBody").getmBody().getType() == BodyDef.BodyType.DynamicBody)
+			if(isReset)
+			{
+				isReset = false;
+
+				clearAttachParts();
+				createAttachedParts();
+			}
+
 		super.run(isGas, isBrake, rate);
 
 	}
@@ -92,10 +102,7 @@ public class VanTaxi extends NormalCar
 	{
 		super.reset();
 
-		for(int i = 0;i < attachParts.size();i++)
-			attachParts.get(i).reset();
-
-
+		isReset = true;
 	}
 
 	@Override

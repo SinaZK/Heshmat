@@ -168,7 +168,7 @@ public class SizakCarModel extends SizakBodyModel
 		}
 	}
 
-	float dX = 30, dY = 0;
+	public float dX = 30, dY = 0;
 
 	public void drawOnGarageScene(Batch batch)
 	{

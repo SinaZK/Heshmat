@@ -40,7 +40,7 @@ public class CarSelectEntity
 	public void setPosition(float x, float y)
 	{
 		sizakCarModel.setPosition(x, y);
-		carBuyButton.setPosition(x + (sizakCarModel.carShowSprite.getWidth() - carBuyButton.getWidth()) / 2, y - 20 - carBuyButton.getHeight());
+		carBuyButton.setPosition(x + sizakCarModel.dX + (sizakCarModel.carShowSprite.getWidth() - carBuyButton.getWidth()) / 2, y - 20 - carBuyButton.getHeight());
 	}
 
 	public void run()
