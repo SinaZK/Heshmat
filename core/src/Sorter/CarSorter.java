@@ -9,11 +9,13 @@ import BaseCar.BaseCar;
 import BaseCar.CarLoader;
 import Cars.ArmorCar;
 import Cars.DenaCar;
+import Cars.MiniBus;
 import Cars.PeykanOffroad;
 import Cars.Tank.Tank;
 import Cars.Toyota;
 import Cars.Train;
 import Cars.Truck;
+import Cars.VanTaxi;
 import DataStore.CarStatData;
 import GameScene.GameManager;
 import Misc.Log;
@@ -32,12 +34,11 @@ public class CarSorter
 
 					1,//  Dena
 					2,//  Toyota
+					6,//  TaxiVan
 					3,//  Peykan
+					7,//  MiniBus
 					4,//  Truck
 					5,//  Armor Car
-
-					6,//  TaxiVan
-					7,//  MiniBus
 					8,//  Tank
 
 
@@ -94,6 +95,20 @@ public class CarSorter
 				carA.load("gfx/car/5/car.car", gameManager, world, disposeTextureArray);
 				carA.loadCarSound("sfx/car/5.ogg");
 				retCar = carA;
+				break;
+
+			case 6:
+				VanTaxi van = new VanTaxi(gameManager, carStatData);
+				van.load("gfx/car/6/car.car", gameManager, world, disposeTextureArray);
+				van.loadCarSound("sfx/car/5.ogg");
+				retCar = van;
+				break;
+
+			case 7:
+				MiniBus miniBus = new MiniBus(gameManager, carStatData);
+				miniBus.load("gfx/car/7/car.car", gameManager, world, disposeTextureArray);
+				miniBus.loadCarSound("sfx/car/5.ogg");
+				retCar = miniBus;
 				break;
 
 			case 8:

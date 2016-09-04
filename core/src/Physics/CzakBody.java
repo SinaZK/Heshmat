@@ -119,6 +119,8 @@ public class CzakBody
 
 	public void draw(Batch batch, int i)
 	{
+		if(i >= mSprite.size())
+			return;
 		batch.setColor(mSprite.get(i).getColor());
 		mSprite.get(i).setPosition( 
 				mBody.getPosition().x * PhysicsConstant.PIXEL_TO_METER - mSprite.get(i).getWidth() / 2,

@@ -390,6 +390,18 @@ public class GameScene extends BaseScene
 
 		sprite.draw(batch);
 		carHP1Sprite.draw(batch);
+
+		float x = carHP1Sprite.getX();
+		float y = carHP1Sprite.getY();
+
+		long digitNum = SceneManager.getDigitNum((long)gameManager.selectedCar.hitpoint);
+
+		float dX = digitNum * 4;
+
+		if(gameManager.selectedCar.hitpoint >= 0)
+			font10.draw(batch, "" + (int)gameManager.selectedCar.hitpoint, x + 35 - dX, y + 40);
+		else
+			font10.draw(batch, "0", x + 30, y + 40);
 	}
 
 	public void drawDist(Batch batch, float dist, float maxDist)

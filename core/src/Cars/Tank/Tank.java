@@ -51,39 +51,8 @@ public class Tank extends NormalCar
 	{
 		texturePoints.clear();
 
-		//DownChains
-		for(int i = 1;i <= 8;i++)
-		{
-			CzakBody czakBody = body.getBodyByName("downChain" + i);
-
-			float degAngle = (float)Math.toDegrees(czakBody.getmBody().getAngle());
-			Vector2 pos = czakBody.getmBody().getWorldCenter();
-			pos.scl(rat, rat);
-
-			Vector2 leftDown = new Vector2(pos.x - downChainSize[i].x / 2, pos.y - downChainSize[i].y / 2);
-			leftDown = CameraHelper.rotatePoint(pos.x, pos.y, degAngle, leftDown);
-
-			Vector2 rightDown = new Vector2(pos.x + downChainSize[i].x / 2, pos.y - downChainSize[i].y / 2);
-			rightDown = CameraHelper.rotatePoint(pos.x, pos.y, degAngle, rightDown);
-
-			texturePoints.add(leftDown);
-			if(i == 10)
-				texturePoints.add(rightDown);
-		}
-		//DownChains
-
-		//Right Circles
-		for(int i = 1; i <= 3;i++)
-		{
-			Vector2 v = body.getBodyByName("rc" + i).getmBody().getWorldCenter();
-			v.scl(rat, rat);
-
-			texturePoints.add(v);
-		}
-		//Right Circles
-
 		//UpChains
-		for(int i = 0;i <= 0;i++)
+		for (int i = 0; i <= 0; i++)
 		{
 			CzakBody czakBody = body.getBodyByName("upChain");
 
@@ -102,7 +71,7 @@ public class Tank extends NormalCar
 		}
 
 		//left Circles
-		for(int i = 2; i >= 1;i--)
+		for (int i = 2; i >= 1; i--)
 		{
 			Vector2 v = body.getBodyByName("lc" + i).getmBody().getWorldCenter();
 			v.scl(rat, rat);
@@ -110,6 +79,37 @@ public class Tank extends NormalCar
 			texturePoints.add(v);
 		}
 		//left Circles
+
+		//DownChains
+		for (int i = 1; i <= 8; i++)
+		{
+			CzakBody czakBody = body.getBodyByName("downChain" + i);
+
+			float degAngle = (float) Math.toDegrees(czakBody.getmBody().getAngle());
+			Vector2 pos = czakBody.getmBody().getWorldCenter();
+			pos.scl(rat, rat);
+
+			Vector2 leftDown = new Vector2(pos.x - downChainSize[i].x / 2, pos.y - downChainSize[i].y / 2);
+			leftDown = CameraHelper.rotatePoint(pos.x, pos.y, degAngle, leftDown);
+
+			Vector2 rightDown = new Vector2(pos.x + downChainSize[i].x / 2, pos.y - downChainSize[i].y / 2);
+			rightDown = CameraHelper.rotatePoint(pos.x, pos.y, degAngle, rightDown);
+
+			texturePoints.add(leftDown);
+			if(i == 10)
+				texturePoints.add(rightDown);
+		}
+		//DownChains
+
+		//Right Circles
+		for (int i = 1; i <= 3; i++)
+		{
+			Vector2 v = body.getBodyByName("rc" + i).getmBody().getWorldCenter();
+			v.scl(rat, rat);
+
+			texturePoints.add(v);
+		}
+		//Right Circles
 
 		textureActualPoints.clear();
 		textureActualPoints = TextureMath.getNormalizedPointsBySize(texturePoints, chainWidth, offset);
@@ -119,6 +119,7 @@ public class Tank extends NormalCar
 //	static float downChainWidth =
 
 	boolean isRestart = false;
+
 	@Override
 	public void create()
 	{
@@ -135,17 +136,17 @@ public class Tank extends NormalCar
 
 		setLimitForJoint("leftRevolute", -10, 10, true);
 		setLimitForJoint("rightRevolute", -10, 10, true);
-		setLimitForJoint("gunRevolute", -15, 0, false);
+		setLimitForJoint("gunRevolute", -5, 0, false);
 
 
-		for(int i = 1;i <= 2;i++)
+		for (int i = 1; i <= 2; i++)
 			setLimitForJoint("lr" + i, -10, 10, true);
-		for(int i = 1;i <= 3;i++)
+		for (int i = 1; i <= 3; i++)
 			setLimitForJoint("rrc" + i, -10, 10, true);
 
 		offset = 0;
 
-		for(int i = 0;i < body.bodies.size();i++)
+		for (int i = 0; i < body.bodies.size(); i++)
 		{
 			body.bodies.get(i).getmBody().setBullet(true);
 			body.bodies.get(i).getmBody().setSleepingAllowed(false);
@@ -158,6 +159,7 @@ public class Tank extends NormalCar
 	}
 
 	AttachPart part1, part2, part3, part4;
+
 	public void addParts()
 	{
 		partSheet = new AnimatedSpriteSheet("gfx/car/8/misc.png", gameScene.disposeTextureArray);
@@ -206,22 +208,23 @@ public class Tank extends NormalCar
 	{
 		body.flushSprites();
 
-		for(int i = 0;i < attachParts.size();i++)
+		for (int i = 0; i < attachParts.size(); i++)
 			attachParts.get(i).draw(batch);
 
 		offset += tankChainSpeed;
 
-		for(int i = 1;i <= 5;i+=1)
+		for (int i = 1; i <= 6; i += 1)
 			drawWheel(batch, i, 30, 20);
-		drawWheelAtCircleBody(batch, "wheel6", 25, 15, 30);
+//		drawWheelAtCircleBody(batch, "wheel6", 25, 15, 30);
 		drawWheelAtCircleBody(batch, "leftWheel", 20, 0, 0);
 		drawWheelAtCircleBody(batch, "rightWheel", 20, 0, 0);
 
-		drawActualTexturePoints(batch);
 
 //		drawTexturePoints(batch);
 
+		if(Math.abs(getSpeedInPixel()) > 1)
 		calcTexturePoints();
+		drawActualTexturePoints(batch);
 
 		ct++;
 		if(ct > 5000)
@@ -231,7 +234,7 @@ public class Tank extends NormalCar
 		}
 
 		body.getBodyByName("gunBody").draw(batch);
-		for(int i = 0;i < body.bodies.size();i++)//wheels
+		for (int i = 0; i < body.bodies.size(); i++)//wheels
 		{
 			if(body.bodies.get(i).bodyName.equals("gunBody"))
 				continue;
@@ -271,7 +274,7 @@ public class Tank extends NormalCar
 
 	public void drawTexturePoints(Batch batch)
 	{
-		for(int i = 0;i < textureActualPoints.size(); i++)
+		for (int i = 0; i < textureActualPoints.size(); i++)
 		{
 			testSprite.setPosition(textureActualPoints.get(i).x, textureActualPoints.get(i).y);
 			testSprite.setSize(15, 15);
@@ -285,11 +288,11 @@ public class Tank extends NormalCar
 
 	public void drawActualTexturePoints(Batch batch)
 	{
-		for(int i = 0;i < textureActualPoints.size() - 1;i++)
+		for (int i = 0; i < textureActualPoints.size() - 1; i++)
 		{
 			Vector2 p0 = textureActualPoints.get(i);
 			Vector2 p1 = textureActualPoints.get(i + 1);
-			float angle = (float)Math.atan2(p1.y - p0.y, p1.x - p0.x);
+			float angle = (float) Math.atan2(p1.y - p0.y, p1.x - p0.x);
 
 			testSprite.setOrigin(0, 0);
 			testSprite.setRotation((float) Math.toDegrees(angle));
@@ -303,7 +306,7 @@ public class Tank extends NormalCar
 
 		Vector2 p0 = textureActualPoints.get(textureActualPoints.size() - 1);
 		Vector2 p1 = textureActualPoints.get(0);
-		float angle = (float)Math.atan2(p1.y - p0.y, p1.x - p0.x);
+		float angle = (float) Math.atan2(p1.y - p0.y, p1.x - p0.x);
 
 		testSprite.setOrigin(0, 0);
 		testSprite.setRotation((float) Math.toDegrees(angle));
@@ -316,7 +319,8 @@ public class Tank extends NormalCar
 	Texture chainSpriteTexture;
 	Sprite wheelSprite;
 
-	static float MAX_CHAIN_SPEED = 20;
+	static float MAX_CHAIN_SPEED = 30;
+	static float CHAIN_SPEED_STEP = 4;
 	float tankChainSpeed = 0;
 	static float minAngle = (float) Math.toRadians(-135);
 	static float maxAngle = (float) Math.toRadians(135);
@@ -368,7 +372,8 @@ public class Tank extends NormalCar
 	{
 		if(shouldStop)
 			return;
-		tankChainSpeed = MAX_CHAIN_SPEED;
+		tankChainSpeed = (MAX_CHAIN_SPEED + carStatData.engineLVL * CHAIN_SPEED_STEP) * rate;
+
 
 //		Log.e("Tank.java", "GAS = " + tankChainSpeed);
 	}
@@ -376,7 +381,7 @@ public class Tank extends NormalCar
 	@Override
 	public void brake(float rate)
 	{
-		tankChainSpeed = -MAX_CHAIN_SPEED;
+		tankChainSpeed = -(MAX_CHAIN_SPEED + carStatData.engineLVL * CHAIN_SPEED_STEP) * rate;
 
 //		Log.e("Tank.java", "BRAKE = " + tankChainSpeed);
 	}
@@ -410,7 +415,7 @@ public class Tank extends NormalCar
 		revoluteJoint1.setMotorSpeed(0);
 	}
 
-	Vector2 [] downChainSize =
+	Vector2[] downChainSize =
 			{
 					null,
 					new Vector2(104, 18),//1
@@ -424,7 +429,7 @@ public class Tank extends NormalCar
 
 			};
 
-	Vector2 [] upChainSize =
+	Vector2[] upChainSize =
 			{
 					new Vector2(586, 18),//0
 			};
@@ -447,7 +452,7 @@ public class Tank extends NormalCar
 	{
 		super.reset();
 
-		for(int i = 0;i < attachParts.size();i++)
+		for (int i = 0; i < attachParts.size(); i++)
 			attachParts.get(i).reset();
 	}
 
@@ -457,8 +462,7 @@ public class Tank extends NormalCar
 		if(getSpeedInPixel() < 0 || getSpeedInPixel() < 0.1f)
 		{
 			return;
-		}
-		else
+		} else
 		{
 			body.bodies.get(0).getmBody().applyForceToCenter(-10, 0, true);
 //			body.bodies.get(0).setType(BodyDef.BodyType.StaticBody);

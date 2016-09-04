@@ -68,6 +68,7 @@ public class MainActivity extends ApplicationAdapter
 		audioManager.playBgMusic();
 		loadFonts();
 		enableAds();
+
 	}
 
 	public long renderCT = 0;
