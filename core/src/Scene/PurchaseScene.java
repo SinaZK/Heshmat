@@ -98,10 +98,13 @@ public class PurchaseScene extends BaseScene
 
 	public void exit()
 	{
+		font24.setColor(1, 1, 1, 1);
+		act.font22.setColor(1, 1, 1, 1);
 		dispose();
 
 		mSceneManager.currentScene = prevScene;
 		mSceneManager.currentBaseScene = lastScene;
+
 		Gdx.input.setInputProcessor(lastInput);
 	}
 
@@ -205,7 +208,7 @@ public class PurchaseScene extends BaseScene
 		super.draw();
 
 		HUD.getBatch().begin();
-		mSceneManager.drawGoldSprite(HUD.getBatch());
+		mSceneManager.drawGoldSprite(HUD.getBatch(), false);
 		HUD.getBatch().end();
 	}
 

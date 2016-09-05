@@ -1,6 +1,7 @@
 package SceneManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -13,6 +14,7 @@ import BaseCar.CarLoader;
 import BaseCar.SizakCarModel;
 import Cars.DenaCar;
 import Dialog.DialogManager;
+import Entity.Button;
 import GameScene.GameScene;
 import Misc.Log;
 import Misc.TextureHelper;
@@ -172,19 +174,38 @@ public class SceneManager
 
 	}
 
+	public Button goldShowButton;
 	Sprite goldSprite;
 	public void createAndLoadGoldBar()
 	{
-		goldSprite = new Sprite(TextureHelper.loadTexture("gfx/goldbar.png", disposableTextures));
+		Texture t = TextureHelper.loadTexture("gfx/goldbar.png", disposableTextures);
+		Texture t2 = TextureHelper.loadTexture("gfx/goldbutton.png", disposableTextures);
+		goldShowButton = new Button(t2, t2)
+		{
+			@Override
+			public void draw(Batch batch, float parentAlpha)
+			{
+				if(isClicked)
+					super.draw(batch, 0.5f);
+				else
+					super.draw(batch, 1f);
+			}
+		};
+
+
+
+		goldSprite = new Sprite(t);
 	}
 
 	public void drawGoldSprite(Batch batch, float x, float y)
 	{
 		goldSprite.setPosition(x, y);
 		goldSprite.draw(batch);
+
+		goldShowButton.setPosition(goldSprite.getX(), goldSprite.getY());
 	}
 
-	public void drawGoldSprite(Batch batch)
+	public void drawGoldSprite(Batch batch, boolean isButton)
 	{
 		float DX = currentBaseScene.DX;
 		float DY = currentBaseScene.DY;
@@ -193,7 +214,11 @@ public class SceneManager
 		float y = DY + 420;
 
 		goldSprite.setPosition(x, y);
-		goldSprite.draw(batch);
+
+		if(!isButton)
+			goldSprite.draw(batch);
+		else
+			goldShowButton.setPosition(goldSprite.getX(), goldSprite.getY());
 
 		float coinSize = 20;
 		float fontSize = 22;

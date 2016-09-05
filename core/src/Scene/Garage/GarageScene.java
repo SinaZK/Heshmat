@@ -75,6 +75,21 @@ public class GarageScene extends BaseScene
 	public void create()
 	{
 		selectTab(CurrentTab.CAR_SELECT);
+
+		checkOnRateDialog();
+	}
+
+	public void checkOnRateDialog()
+	{
+		if(act.gameStatData.hasRateDialog)
+			return;
+
+		if(act.gameStatData.numberOfAppRun > 1)
+			if(act.gameStatData.numberOfThisTimePlayed > 0)
+			{
+				act.gameStatData.hasRateDialog = true;
+				mSceneManager.dialogManager.addRateDialog(DX, DY);
+			}
 	}
 
 	@Override
@@ -121,7 +136,7 @@ public class GarageScene extends BaseScene
 
 		HUD.draw();
 		HUD.getBatch().begin();
-		mSceneManager.drawGoldSprite(HUD.getBatch());
+		mSceneManager.drawGoldSprite(HUD.getBatch(), true);
 		HUD.getBatch().end();
 	}
 
@@ -358,6 +373,21 @@ public class GarageScene extends BaseScene
 		HUD.addActor(gunSelectButton);
 		HUD.addActor(carSelectButton);
 		HUD.addActor(startGameButton);
+		HUD.addActor(mSceneManager.goldShowButton);
+
+		mSceneManager.goldShowButton.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				InputProcessor inputProcessor = Gdx.input.getInputProcessor();
+				mSceneManager.setCurrentScene(SceneManager.SCENES.PURCHASE_SCENE, null);
+
+				PurchaseScene scene = (PurchaseScene) mSceneManager.currentBaseScene;
+				scene.lastScene = GarageScene.this;
+				scene.lastInput = inputProcessor;
+			}
+		});
 	}
 
 	public void createBack()

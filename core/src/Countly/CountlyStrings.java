@@ -5,7 +5,7 @@ public class CountlyStrings
 	public static String ScenePurchaseString = "ScenePurchase";
 	public static String [] CarSelectString =
 		{
-			"", "CDena", "CToyota", "CPeykan", "CTruck", "CArmor", "C7", "C8", "C9", "C10", "C10"
+			"", "CDena", "CToyota", "CPeykan", "CTruck", "CArmor", "CVanTaxi", "CMiniBus", "CTank", "C9", "C10"
 		};
 
 	public static String [] GunSelectString =
@@ -36,4 +36,7 @@ public class CountlyStrings
 	
 	public static String TrialBazaarButtonClicked = "TrialBazaarButtonClicked";
 	public static String TrialBazaarDialogueShowed = "TrialBazaarDialogueShowed";
+
+	public static String EventRateDialogCancel = "EVENT_COMMENT_CANCEL";
+	public static String EventRateDialogCRate  = "EVENT_COMMENT_RATE";
 }

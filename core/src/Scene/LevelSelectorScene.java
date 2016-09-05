@@ -1,5 +1,7 @@
 package Scene;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import BaseLevel.LevelPackage;
@@ -8,6 +10,7 @@ import Entity.Button;
 import Entity.Entity;
 import Entity.LevelEntity;
 import Misc.TextureHelper;
+import Scene.Garage.GarageScene;
 import SceneManager.SceneManager;
 
 public class LevelSelectorScene extends BaseScene
@@ -76,6 +79,21 @@ public class LevelSelectorScene extends BaseScene
 		super.create();
 
 		addBackToMenuButton();
+		attachChild(mSceneManager.goldShowButton);
+
+		mSceneManager.goldShowButton.setRunnable(act, new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				InputProcessor inputProcessor = Gdx.input.getInputProcessor();
+				mSceneManager.setCurrentScene(SceneManager.SCENES.PURCHASE_SCENE, null);
+
+				PurchaseScene scene = (PurchaseScene) mSceneManager.currentBaseScene;
+				scene.lastScene = LevelSelectorScene.this;
+				scene.lastInput = inputProcessor;
+			}
+		});
 	}
 
 	@Override
@@ -127,7 +145,7 @@ public class LevelSelectorScene extends BaseScene
 		super.draw();
 
 		getBatch().begin();
-		mSceneManager.drawGoldSprite(getBatch());
+		mSceneManager.drawGoldSprite(getBatch(), true);
 		getBatch().end();
 	}
 

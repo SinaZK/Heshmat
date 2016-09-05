@@ -38,7 +38,7 @@ import Sorter.CarSorter;
 
 public class GameScene extends BaseScene
 {
-	public static boolean isDebugRender = true;
+	public static boolean isDebugRender = false;
 	public static boolean isUsefulDebugLog = true;
 
 	public SceneManager mSceneManager;
@@ -266,7 +266,7 @@ public class GameScene extends BaseScene
 		} else
 		{
 			HUD.getBatch().begin();
-			mSceneManager.drawGoldSprite(HUD.getBatch());
+			mSceneManager.drawGoldSprite(HUD.getBatch(), false);
 			drawCarHP(HUD.getBatch());
 //			font22.draw(HUD.getBatch(), "gold = " + act.getShowGold(), 10, 460);
 

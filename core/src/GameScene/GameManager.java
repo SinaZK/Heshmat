@@ -79,6 +79,8 @@ public class GameManager
 		driverHuman = new DriverHuman(this);
 
 		enemyKilledCount = 0;
+
+		activity.gameStatData.numberOfThisTimePlayed++;
 	}
 
 	public void run()
@@ -153,6 +155,8 @@ public class GameManager
 		enemyKilledCount = 0;
 		goldCollect = 0;
 		distanceTraveled = 0;
+
+		activity.gameStatData.numberOfThisTimePlayed++;
 	}
 
 	public void resume()

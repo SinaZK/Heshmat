@@ -177,7 +177,7 @@ public class EndGameScene extends BaseScene
 		super.draw();
 
 		getBatch().begin();
-		act.sceneManager.drawGoldSprite(getBatch());
+		act.sceneManager.drawGoldSprite(getBatch(), false);
 
         gameScene.font22.setColor(Color.WHITE);
 		drawTexts();

@@ -103,6 +103,7 @@ public class MainActivity extends ApplicationAdapter
 	{
 		gameStatData = saveManager.loadDataValue(DataKeyStrings.GameStatData, GameStatData.class);
 		gameStatData.numberOfAppRun++;
+		gameStatData.numberOfThisTimePlayed = 0;
 
 		playerStatData = saveManager.loadDataValue(DataKeyStrings.PlayerStatData, PlayerStatData.class);
 		levelPackageStatDatas = new LevelPackageStatData[SceneManager.LVL_PACK_NUM + 1];

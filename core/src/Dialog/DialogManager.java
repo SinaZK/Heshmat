@@ -68,6 +68,16 @@ public class DialogManager
 		Gdx.input.setInputProcessor(gunSlotSelectorDialog.scene);
 	}
 
+	public void addRateDialog(float DX, float DY)
+	{
+		rateDialog.create(DX, DY);
+		rateDialog.setIsActive(true);
+		dialogs.add(rateDialog);
+		rateDialog.inputProcessorCPY = Gdx.input.getInputProcessor();
+
+		Gdx.input.setInputProcessor(rateDialog.scene);
+	}
+
 	public void addBuyDialog(float DX, float DY, long price)
 	{
 		buyDialog.create(DX, DY, price);
@@ -107,6 +117,7 @@ public class DialogManager
 	}
 
 	GunSlotSelectorDialog gunSlotSelectorDialog;
+	public RateDialog rateDialog;
 	public BuyDialog buyDialog;
 	public PauseMenuDialog pauseMenuDialog;
 	public InfoCarDialog infoCarDialog;
@@ -114,6 +125,7 @@ public class DialogManager
 	{
 		gunSlotSelectorDialog = new GunSlotSelectorDialog(this);
 		buyDialog = new BuyDialog(this);
+		rateDialog = new RateDialog(this);
 	}
 
 	public void loadGameSceneDialogs(GameScene gameScene)
@@ -136,13 +148,15 @@ public class DialogManager
 
 	Texture backGroundTexture;
 
-	public Texture canBuybackTexture, cantBuyBackTexture;
+	public Texture canBuybackTexture, cantBuyBackTexture, rateBackTexture;
 	private void loadTextures()
 	{
 		backGroundTexture = TextureHelper.loadTexture("gfx/null.png", disposalTexture);
 
 		canBuybackTexture = TextureHelper.loadTexture(add + "/buy/can.png", disposalTexture);
 		cantBuyBackTexture = TextureHelper.loadTexture(add + "/buy/cant.png", disposalTexture);
+
+		rateBackTexture = TextureHelper.loadTexture(add + "/rate/back.png", disposalTexture);
 	}
 
 	public void dispose()
