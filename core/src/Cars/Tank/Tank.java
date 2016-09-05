@@ -224,8 +224,8 @@ public class Tank extends NormalCar
 
 //		drawTexturePoints(batch);
 
-		if(Math.abs(getSpeedInPixel()) > 1)
-		calcTexturePoints();
+		if(Math.abs(getSpeedInPixel()) > 1 || isReset)
+			calcTexturePoints();
 		drawActualTexturePoints(batch);
 
 		ct++;
